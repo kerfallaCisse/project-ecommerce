@@ -8,11 +8,9 @@ stages:
 build:
   stage: build
   script:
-    - cd auth-service
     - mvn clean package -DskipTests
 
 test:
   stage: test
   script:
-    - cd auth-service
     - mvn test
