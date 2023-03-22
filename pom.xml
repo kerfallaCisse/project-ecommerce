@@ -129,7 +129,8 @@
       </build>
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
-      </properties>
+     	<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+	</properties>
     </profile>
   </profiles>
 </project>
