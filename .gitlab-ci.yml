@@ -23,10 +23,14 @@ build:
   stage: build
   script:
     - mvn clean package -DskipTests
+  only:
+    - main
 
 test:
   stage: test
   script:
     - mvn test
+  only:
+    - main
 
 
