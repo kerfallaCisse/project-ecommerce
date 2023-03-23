@@ -1,3 +1,9 @@
+image: maven:3.8.3-jdk-11
+
+stages:
+  - build
+  - test
+
 sonarqube-check:
   image: maven:3.6.3-jdk-11
   variables:
@@ -12,4 +18,15 @@ sonarqube-check:
   allow_failure: true
   only:
     - main
+    
+build:
+  stage: build
+  script:
+    - mvn clean package -DskipTests
+
+test:
+  stage: test
+  script:
+    - mvn test
+
 
