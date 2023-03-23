@@ -8,7 +8,8 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - mvn verify sonar:sonar -Dsonar.projectKey=pinfo-2023_pinfo-2_project-ecommerce_AYcQO7UpybJt29KA6EIQ
+    - mvn verify sonar:sonar -Dsonar.projectKey=pinfo-2023_pinfo-2_project-ecommerce_AYcQYb2vybJt29KA6EIf
   allow_failure: true
   only:
     - main
+
