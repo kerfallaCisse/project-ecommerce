@@ -14,7 +14,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - mvn verify sonar:sonar -X -Dsonar.projectKey=pinfo-2023_pinfo-2_project-ecommerce_AYcQYb2vybJt29KA6EIf -Dsonar.login=sqp_c6dd5e2d0a4b9b36a16cea3401b487659bfa8d90
+    - mvn verify sonar:sonar -Dsonar.projectKey=pinfo-2023_pinfo-2_project-ecommerce_AYcQYb2vybJt29KA6EIf -Dsonar.login=sqp_c6dd5e2d0a4b9b36a16cea3401b487659bfa8d90
   allow_failure: true
   only:
     - main
