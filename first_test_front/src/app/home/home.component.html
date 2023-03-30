@@ -1,0 +1,47 @@
+<app-search></app-search>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+<style>
+body {
+    font-family: 'Aclonica';font-size: 22px;
+}
+</style>
+</head>
+<body>
+<ul>
+    <li *ngFor="let food of foods">
+        <a routerLink="/food/{{food.id}}">
+            <img src="{{food.imageUrl}}" alt="">
+            <div class="content">
+                <div class="name">
+                {{food.name}}
+                </div>
+                <span class="favorite {{food.favorite?'':'not'}}">
+                    ♥
+                </span>
+            </div>
+            <div class="stars">
+            <ngb-rating [max]="5" [(rate)]="food.stars" [readonly]="false"></ngb-rating>
+        </div>
+                
+                <div class="product-item-footer">
+                    <div class="origins">
+                        <span *ngFor ="let origin of food.origins">
+                            {{origin}}
+                        </span>
+                    </div>
+                </div>
+                        <div class="price">
+                            <span>
+                                {{food.price | currency}}
+                            </span>
+                            
+                        
+                
+                    
+                
+            </div>
+        </a>
+    </li>
+</ul>
+</body>
