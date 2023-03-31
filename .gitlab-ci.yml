@@ -14,7 +14,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - mvn verify sonar:sonar -Dsonar.projectKey=pinfo-2023_pinfo-2_project-ecommerce_AYcUGiVRTWQVM0I0FdGF
+    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3
   allow_failure: true
   only:
     - main
