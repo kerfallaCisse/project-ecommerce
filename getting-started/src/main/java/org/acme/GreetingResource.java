@@ -43,12 +43,15 @@ public class GreetingResource {
     public String hello() throws SQLException {
         String result = "";
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT quantity FROM total");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM total");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = "Actual quantity is : " + resultSet.getInt(1);
             }
         }
+        catch(Exception e) {
+            System.out.println("Error");
+          }
         String formHtml = "<form method=\"post\" action=\"/hello\">" +
                           "<label for=\"quantity\">New quantity:</label>" +
                           "<input type=\"number\" id=\"quantity\" name=\"quantity\">" +
