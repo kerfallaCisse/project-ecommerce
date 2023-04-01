@@ -83,7 +83,6 @@ deploy-images:
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
     - mvn package 
-    - quarkus.container-image.registry=registry.gitlab.com/your-username/your-project
     - mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -s settings.xml
  #   - mvn package -Dmaven.test.skip=true -Dquarkus.container-image.push=true -Dquarkus.container-image.build=true -Dquarkus.container-image.registry=registry.gitlab.unige.ch  -Dquarkus.container-image.username="${DOCKER_USER}" -Dquarkus.container-image.password="${DOCKER_PASSWORD}"
 
