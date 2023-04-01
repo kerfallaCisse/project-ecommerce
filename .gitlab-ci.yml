@@ -85,7 +85,7 @@ deploy-images:
     - pwd
     - cat /usr/share/maven/conf/settings.xml
     - find / -name ".m2"
-    - ./mvnw package
+    - mvn package 
 
 
 
