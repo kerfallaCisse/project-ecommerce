@@ -24,6 +24,7 @@ build:
   stage: build
   script:
     - pwd
+    - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
   only:
     - main
 
