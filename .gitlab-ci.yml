@@ -53,7 +53,7 @@
 variables:
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
   # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
-  MAVEN_OPTS: "-Dmaven.conf=/builds/pinfo-2023/pinfo-2/project-ecommerce/.m2/repository"
+  MAVEN_OPTS: "-Dmaven.repo.local=/builds/pinfo-2023/pinfo-2/project-ecommerce/.m2/repository"
 
 stages:
 #  - sonarqube
