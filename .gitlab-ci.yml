@@ -48,6 +48,7 @@ docker-setup:
     - pwd
     - docker --version
     - ls -al
+    - sudo service docker status
     - docker build -f src/main/docker/Dockerfile.jvm .
   dependencies:
     - build
