@@ -29,7 +29,7 @@ build:
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
     - pwd
-    - mvn package
+    - ./mvnw package
     - docker build -f src/main/docker/Dockerfile.jvm -t registry.gitlab.unige.ch/pinfo-2023/pinfo-2 project-ecommerce/getting-started .
   only:
     - main
