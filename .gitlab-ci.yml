@@ -31,7 +31,8 @@ build:
     - java -version
     - cd getting-started
     - pwd
-    - mvn package
+    - ./mvnw package
+    - ls -al
   only:
     - main
 
