@@ -27,7 +27,10 @@ build:
     - pwd
     - docker --version
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-    - docker build -f getting-started/src/main/docker/Dockerfile.jvm -t registry.gitlab.unige.ch/pinfo-2023/pinfo-2 project-ecommerce/getting-started .
+    - cd getting-started
+    - pwd
+    - mvn package
+    - docker build -f src/main/docker/Dockerfile.jvm -t registry.gitlab.unige.ch/pinfo-2023/pinfo-2 project-ecommerce/getting-started .
   only:
     - main
 
