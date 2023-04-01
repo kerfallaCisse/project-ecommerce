@@ -28,10 +28,10 @@ sonarqube-check:
 
 build:
   stage: build
+  image: docker:20.10.17
   script:
     - pwd
     - java -version
-    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
     - pwd
