@@ -59,7 +59,7 @@ deploy-images:
   script:
     - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-    - ./mvnw package -Dmaven.test.skip=true -Dquarkus.container-image.build=true
+    - ./mvnw package -Dmaven.test.skip=true
 
 
 
