@@ -24,7 +24,7 @@ sonarqube-check:
 setup:
   stage: setup
   image: maven:3.8.3-jdk-17
-  before_script:
+  script:
     - apt-get update
     - apt-get install -y openjdk-17-jdk
     - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
