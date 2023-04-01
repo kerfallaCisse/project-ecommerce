@@ -54,12 +54,11 @@ stages:
 
 image: maven:3.8.4-openjdk-17-slim
 
-
 deploy-images:
   stage: deploy
+  image: docker:latest
   script:
-    #  Docker installation and login 
-    - apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
 
 
 
