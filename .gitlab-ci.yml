@@ -52,7 +52,7 @@ stages:
 #  dependencies:
 #    - build
 
-deploy-images:jdk17:
+deploy-images:
   stage: deploy
   script:
 #In order to push the images, we need to first do a real docker login. Hence we need to install docker. This defeats the purpose of using jlib to build docker images and needs to be investigated and solved.        
