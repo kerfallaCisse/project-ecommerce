@@ -1,7 +1,6 @@
 stages:
 #  - sonarqube
-  - mvn-build
-  - docker
+  - deploy
 
 
 
@@ -23,35 +22,46 @@ stages:
 #    - main
 
 
-build:
-  stage: mvn-build
-  image: maven:3.8.4-openjdk-17-slim
-  script:
-    - pwd
-    - java -version
-    - cd getting-started
-    - pwd
-    - mvn package
-    - ls -al
-  artifacts:
-    paths:
-      - target
-  only:
-    - main
+#build:
+#  stage: mvn-build
+#  image: maven:3.8.4-openjdk-17-slim
+#  script:
+#    - pwd
+#    - java -version
+#    - cd getting-started
+#    - pwd
+#    - mvn package
+#    - ls -al
+#  artifacts:
+#    paths:
+#      - target
+#  only:
+#    - main
 
-docker-setup:
-  stage: docker
-  image: docker:20.10.17
+#docker-setup:
+#  stage: docker
+#  image: docker:20.10.17
+#  script:
+#    - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
+#    - cd getting-started
+#    - pwd
+#    - docker --version
+#    - ls -al
+#    - service docker status
+#    - docker build -f src/main/docker/Dockerfile.jvm .
+#  dependencies:
+#    - build
+
+deploy-images:jdk17:
+  stage: deploy
   script:
+#In order to push the images, we need to first do a real docker login. Hence we need to install docker. This defeats the purpose of using jlib to build docker images and needs to be investigated and solved.        
+    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-    - cd getting-started
-    - pwd
-    - docker --version
-    - ls -al
-    - service docker status
-    - docker build -f src/main/docker/Dockerfile.jvm .
-  dependencies:
-    - build
+#End of docker extra step
+    - cd getting-started/
+    - ./mvnw package -Dquarkus.container-image.build=true
+
 
 
 
