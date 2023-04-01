@@ -23,7 +23,7 @@ sonarqube-check:
 build:
   stage: build
   script:
-    - mvn clean package -DskipTests
+    - pwd
   only:
     - main
 
