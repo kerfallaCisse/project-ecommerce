@@ -26,7 +26,7 @@ sonarqube-check:
 
 
 
-build:
+build:jdk17:
   stage: build
   image: docker:20.10.17
   script:
