@@ -71,7 +71,7 @@ deploy-images:
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
     - pwd
-    - mvn help:effective-settings
+    - ./mvnw package
 
 
 
