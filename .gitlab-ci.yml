@@ -64,7 +64,7 @@ stages:
   - deploy
 
 
-image: maven:3.6.3-openjdk-17.0.4-slim
+image: maven:3.6.3-openjdk-17.0.4
 
 deploy-images:
   stage: deploy
