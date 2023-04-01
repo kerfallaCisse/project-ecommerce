@@ -33,6 +33,9 @@ build:
     - pwd
     - mvn package
     - ls -al
+  artifacts:
+    paths:
+      - target/
   only:
     - main
 
