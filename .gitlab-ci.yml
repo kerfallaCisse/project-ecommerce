@@ -59,6 +59,7 @@ deploy-images:
   image: docker:latest
   script:
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
+    - mvn package
 
 
 
