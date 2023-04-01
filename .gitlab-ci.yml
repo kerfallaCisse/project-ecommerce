@@ -35,7 +35,7 @@ build:
     - ls -al
   artifacts:
     paths:
-      - target/
+      - target
   only:
     - main
 
@@ -47,6 +47,7 @@ docker-setup:
     - cd getting-started
     - pwd
     - docker --version
+    - docker build -f src/main/docker/Dockerfile.jvm .
     - ls -al
   dependencies:
     - build
