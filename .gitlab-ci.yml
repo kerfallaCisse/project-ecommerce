@@ -1,7 +1,7 @@
-image: maven:3.8.3-jdk-11
 image: docker:20.10.17
 
 stages:
+  - setup
   - build
   - test
 
@@ -20,13 +20,22 @@ sonarqube-check:
   allow_failure: true
   only:
     - main
-    
+
+setup:
+  stage: setup
+  image: maven:3.8.3-jdk-17
+  before_script:
+    - apt-get update
+    - apt-get install -y openjdk-17-jdk
+    - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    - export PATH=$PATH:$JAVA_HOME/bin
+
+
 build:
   stage: build
   script:
     - pwd
     - java -version
-    - export JAVA_HOME=/usr/bin/java
     - docker --version
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
