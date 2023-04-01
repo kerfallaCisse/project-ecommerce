@@ -52,11 +52,13 @@ stages:
 #  dependencies:
 #    - build
 
-image: maven:3.8.4-openjdk-17-slim
+image: maven:3.6.3-openjdk-17
 
 deploy-images:
   stage: deploy
   script:
+    - mvn --version
+    - java --version
     - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
