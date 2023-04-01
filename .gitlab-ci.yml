@@ -82,7 +82,9 @@ deploy-images:
     - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
-    - mvn package -Dmaven.test.skip=true -Dquarkus.container-image.push=true -Dquarkus.container-image.build=true -Dquarkus.container-image.registry=registry.gitlab.unige.ch  -Dquarkus.container-image.username="${DOCKER_USER}" -Dquarkus.container-image.password="${DOCKER_PASSWORD}"
+    - mvn package 
+    - mvn deploy -DaltDeploymentRepository=registry::default::https://registry.gitlab.unige.ch/getting-started
+ #   - mvn package -Dmaven.test.skip=true -Dquarkus.container-image.push=true -Dquarkus.container-image.build=true -Dquarkus.container-image.registry=registry.gitlab.unige.ch  -Dquarkus.container-image.username="${DOCKER_USER}" -Dquarkus.container-image.password="${DOCKER_PASSWORD}"
 
 
 
