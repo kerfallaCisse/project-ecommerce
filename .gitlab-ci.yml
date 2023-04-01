@@ -79,10 +79,13 @@ deploy-images:
   script:
     - mvn --version
     - java --version
-    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
+    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ -o executable.sh
+    - chmod +x executable.sh
+    - sh ./executable.sh
+    - service docker start
+    - docker info 
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
-    - systemctl start docker
     - mvn package 
     - systemctl status docker
     - mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -s settings.xml
