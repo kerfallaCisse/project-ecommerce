@@ -37,7 +37,9 @@ build:
     - pwd
     - mvn package
     - docker --version
-    - docker build -f src/main/docker/Dockerfile.jvm -t registry.gitlab.unige.ch/pinfo-2023/pinfo-2 project-ecommerce/getting-started .
+    - docker buildx create --name mybuilder
+    - docker buildx use mybuilder
+    - docker buildx build --file ./src/main/docker/Dockerfile.jvm  --platform linux/amd64,linux/arm64 -t registry.gitlab.unige.ch/pinfo-2023/pinfo-2 project-ecommerce/getting-started:latest --push .
   only:
     - main
 
