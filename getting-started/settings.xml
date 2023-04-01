@@ -1,8 +1,10 @@
-<servers>
-  <server>
-    <id>registry</id>
-    <url>registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce</url>
-    <username>${DOCKER_USER}</username>
-    <password>${DOCKER_PASSWORD}</password>
-  </server>
-</servers>
+<settings>
+  <servers>
+    <server>
+      <id>registry</id>
+      <username>${DOCKER_USER}</username>
+      <password>${DOCKER_PASSWORD}</password>
+    </server>
+  </servers>
+</settings>
+
