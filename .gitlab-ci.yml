@@ -1,13 +1,10 @@
 variables:
   SAST_JAVA_VERSION : 17
 
-image: maven:3.8.4-openjdk-17-slim
-
 
 stages:
-  - setup
   - build
-  - test
+
 
 sonarqube-check:
   variables:
@@ -25,29 +22,27 @@ sonarqube-check:
     - main
 
 
-
 build:jdk17:
   stage: build
-  image: docker:20.10.17
+  image: maven:3.8.4-openjdk-17-slim
   script:
     - pwd
     - java -version
-    - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
     - pwd
     - mvn package
-    - docker --version
-    - docker buildx create --name mybuilder
-    - docker buildx use mybuilder
-    - docker buildx build --file ./src/main/docker/Dockerfile.jvm  --platform linux/amd64,linux/arm64 -t registry.gitlab.unige.ch/pinfo-2023/pinfo-2 project-ecommerce/getting-started:latest --push .
   only:
     - main
 
-test:
-  stage: test
+docker-setup:
+  image: docker:20.10.17
+  stage: build
   script:
-    - mvn test
-  only:
-    - main
+    - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
+    - cd getting-started
+    - pwd
+    - docker --version
+
+
 
 
