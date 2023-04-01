@@ -57,11 +57,7 @@ image: maven:3.8.4-openjdk-17-slim
 deploy-images:
   stage: deploy
   script:
-    - apt-get update
-    - apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-    - apt-get -y install gnupg2
-    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-    - apt-get install docker-ce
+    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - mvn package
 
