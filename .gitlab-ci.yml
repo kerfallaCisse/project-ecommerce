@@ -52,15 +52,20 @@ stages:
 #  dependencies:
 #    - build
 
+image: maven:3.8.4-openjdk-17-slim
+
+
 deploy-images:
   stage: deploy
   script:
-#In order to push the images, we need to first do a real docker login. Hence we need to install docker. This defeats the purpose of using jlib to build docker images and needs to be investigated and solved.        
-    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl && apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
+    #  Docker installation and login 
+    - apt-get update -y
+    - apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    - apt-get update -y
+    - apt-get install -y docker-ce docker-ce-cli containerd.io
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-#End of docker extra step
-    - cd getting-started/
-    - ./mvnw package -Dquarkus.container-image.build=true
 
 
 
