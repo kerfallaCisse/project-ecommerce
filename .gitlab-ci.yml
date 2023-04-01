@@ -59,6 +59,17 @@ stages:
 #  - sonarqube
   - deploy
 
+cache:
+  paths:
+    - .m2/repository
+
+
+# For merge requests do not `deploy` but only run `verify`.
+# See https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
+.verify: &verify
+  stage: test
+  script:
+    - 'mvn $MAVEN_CLI_OPTS verify'
 
 image: maven:3.6.3-openjdk-17-slim
 
