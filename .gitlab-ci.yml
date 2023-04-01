@@ -83,7 +83,7 @@ deploy-images:
     - cd getting-started
     - pwd
     - cat /usr/share/maven/conf/settings.xml
-    - find / -name .m2
+    - find / -name ".m2"
 
 
 
