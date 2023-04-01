@@ -82,7 +82,8 @@ deploy-images:
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
     - pwd
-    - find / -name settings.xml
+    - nano /usr/share/maven/conf/settings.xml
+    - find / -name .m2
 
 
 
