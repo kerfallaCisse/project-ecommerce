@@ -75,7 +75,7 @@ deploy-images:
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
     - cd getting-started
     - pwd
-    - mvn $MAVEN_CLI_OPTS deploy  -Dmaven.test.skip=true
+    - mvn $MAVEN_CLI_OPTS package  -Dmaven.test.skip=true
 
 
 
