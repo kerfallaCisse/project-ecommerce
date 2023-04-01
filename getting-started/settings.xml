@@ -1,7 +1,7 @@
 <servers>
   <server>
     <id>registry</id>
-    <url>https://registry.gitlab.unige.ch</url>
+    <url>https://registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce</url>
     <username>${DOCKER_USER}</username>
     <password>${DOCKER_PASSWORD}</password>
   </server>
