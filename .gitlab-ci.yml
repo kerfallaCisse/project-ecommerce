@@ -1,10 +1,13 @@
 stages:
+  - sonarqube
   - mvn-build
   - docker
-  - test
+
 
 
 sonarqube-check:
+  stage: sonarqube
+  image: maven:3.8.4-openjdk-17-slim
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
@@ -40,6 +43,7 @@ docker-setup:
     - cd getting-started
     - pwd
     - docker --version
+    - ls -al
 
 
 
