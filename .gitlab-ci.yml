@@ -47,8 +47,8 @@ docker-setup:
     - cd getting-started
     - pwd
     - docker --version
-    - docker build -f src/main/docker/Dockerfile.jvm .
     - ls -al
+    - docker build -f src/main/docker/Dockerfile.jvm .
   dependencies:
     - build
 
