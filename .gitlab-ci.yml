@@ -1,9 +1,6 @@
-variables:
-  SAST_JAVA_VERSION : 17
-
-
 stages:
-  - build
+  - mvn-build
+  - docker
   - test
 
 
@@ -23,8 +20,8 @@ sonarqube-check:
     - main
 
 
-build:jdk17:
-  stage: build
+build:
+  stage: mvn-build
   image: maven:3.8.4-openjdk-17-slim
   script:
     - pwd
@@ -36,7 +33,7 @@ build:jdk17:
     - main
 
 docker-setup:
-  stage: build
+  stage: docker
   image: docker:20.10.17
   script:
     - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
