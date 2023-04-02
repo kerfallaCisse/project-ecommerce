@@ -100,13 +100,14 @@ deploy-ui:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"registry.gitlab.unige.ch\":{\"auth\":\"$(printf '%s:%s' "${DOCKER_USER}" "${DOCKER_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - pwd
+    - echo "{\"auths\":{\"registry.gitlab.unige.ch\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_USER}" "${DOCKER_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
     - >-
       /kaniko/executor
-      --context "${CI_PROJECT_DIR}/gettingstarted"
-      --dockerfile "${CI_PROJECT_DIR}/web-ui/Dockerfile"
+      --context "${CI_PROJECT_DIR}/getting-started"
+      --dockerfile "${CI_PROJECT_DIR}/getting-started/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/getting-started:0.4.0-SNAPSHOT"
+
 
 
 deploy-images:
