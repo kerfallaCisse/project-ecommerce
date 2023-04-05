@@ -3,6 +3,7 @@ image: maven:3.6.3-openjdk-17-slim
 stages:
   - build
   - test
+  - image-push
   - deploy
 
 sonarqube-check:
@@ -36,7 +37,7 @@ test:
     - main
 
 
-mvn-build:
+mvn-build-stock-management:
   stage:  build
   script: 
     - cd stock-management
@@ -48,97 +49,24 @@ mvn-build:
     - denis
 
 
-
-#build:
-#  stage: mvn-build
-#  image: maven:3.8.4-openjdk-17-slim
-#  script:
-#    - pwd
-#    - java -version
-#    - cd getting-started
-#    - pwd
-#    - mvn package
-#    - ls -al
-#  artifacts:
-#    paths:
-#      - target
-#  only:
-#    - main
-
-#docker-setup:
-#  stage: docker
-#  image: docker:20.10.17
-#  script:
-#    - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-#    - cd getting-started
-#    - pwd
-#    - docker --version
-#    - ls -al
-#    - service docker status
-#    - docker build -f src/main/docker/Dockerfile.jvm .
-#  dependencies:
-#    - build
-
-#variables:
-  # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
-  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
-#  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=/builds/pinfo-2023/pinfo-2/project-ecommerce/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
- # MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-
-#stages:
-#  - sonarqube
- # - deploy
-
-#cache:
- # paths:
-  #  - .m2/repository
-
-
-# For merge requests do not `deploy` but only run `verify`.
-# See https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
-#.verify: &verify
-#  stage: test
-#  script:
-#    - 'mvn $MAVEN_CLI_OPTS verify'
-
-#image: maven:3.6.3-openjdk-17-slim
-
-
-deploy-ui:
-  stage: deploy
+container-images:
+  stage: image-push-stock-management
   image:
-    name: gcr.io/kaniko-project/executor:debug
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
   script:
-    - pwd
-    - echo "{\"auths\":{\"registry.gitlab.unige.ch\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_USER}" "${DOCKER_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - >-
-      /kaniko/executor
-      --context "${CI_PROJECT_DIR}/getting-started"
-      --dockerfile "${CI_PROJECT_DIR}/getting-started/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/getting-started:0.4.0-SNAPSHOT"
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/stock-management"
+      --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
-    - newci
+    - denis
 
 
 
-deploy-images:
-  stage: deploy
-  script:
-    - mvn --version
-    - java --version
-   # - apt-get update && apt-get install -y sudo
-  #  - sudo apt-get update 
-    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl &&  apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
-   # - sudo service docker start
-   # - docker info
-    #- docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-    #- cd getting-started
-    #- mvn package 
-   # - mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -s settings.xml
-  #  - mvn package -Dmaven.test.skip=true -Dquarkus.container-image.push=true -Dquarkus.container-image.build=true -Dquarkus.container-image.registry=registry.gitlab.unige.ch  -Dquarkus.container-image.username="${DOCKER_USER}" -Dquarkus.container-image.password="${DOCKER_PASSWORD}"
-  only:
-    - newci
 
 
 
