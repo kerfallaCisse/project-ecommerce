@@ -49,8 +49,8 @@ mvn-build-stock-management:
     - denis
 
 
-container-images:
-  stage: image-push-stock-management
+container-image-stock-management:
+  stage: image-push
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
