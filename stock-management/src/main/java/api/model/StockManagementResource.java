@@ -31,8 +31,8 @@ public class StockManagementResource {
                 .add("modelType", "SmallModel")
                 .add("id", smallModel.id)
                 .add("quantity", smallModel.quantity)
-                .add("color_pocket", smallModel.color_pocket_name)
-                .add("color_bag", smallModel.color_bag_name)
+                .add("color_pocket_name", smallModel.color_pocket_name)
+                .add("color_bag_name", smallModel.color_bag_name)
                 .build();
             jsonArrayBuilder.add(json);
         }
@@ -42,8 +42,8 @@ public class StockManagementResource {
                 .add("modelType", "LargeModel")
                 .add("id", largeModel.id)
                 .add("quantity", largeModel.quantity)
-                .add("color_pocket", largeModel.color_pocket_name)
-                .add("color_bag", largeModel.color_bag_name)
+                .add("color_pocket_name", largeModel.color_pocket_name)
+                .add("color_bag_name", largeModel.color_bag_name)
                 .build();
             jsonArrayBuilder.add(json);
         }
@@ -56,7 +56,7 @@ public class StockManagementResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public void insertModel(JsonObject model) {
+    public JsonArray insertModel(JsonObject model) {
         String modelType = model.getString("modelType");
         String colorPocket = model.getString("color_pocket_name");
         String colorBag = model.getString("color_bag_name");
@@ -98,6 +98,12 @@ public class StockManagementResource {
             // Invalid model type
             throw new IllegalArgumentException("Invalid model type: " + modelType);
         }
+        
+        // Send confirmation
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        JsonObject json = Json.createObjectBuilder().add("result", "ok").build();
+        jsonArrayBuilder.add(json);
+        return jsonArrayBuilder.build();
     }
 
 }
