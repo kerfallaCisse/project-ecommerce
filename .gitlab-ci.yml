@@ -46,7 +46,7 @@ mvn-build-stock-management:
     paths:
       - stock-management/target
   only:
-    - denis
+    - main
 
 
 container-image-stock-management:
@@ -63,7 +63,7 @@ container-image-stock-management:
       --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
-    - denis
+    - main
 
 
 
