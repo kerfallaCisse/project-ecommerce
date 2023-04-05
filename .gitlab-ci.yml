@@ -36,6 +36,16 @@ test:
     - main
 
 
+mvn-build:
+  stage:  build
+  script: 
+    - cd stock-management
+    - mvn package 
+  artifacts:
+    paths:
+      - stock-management/target
+  only:
+    - denis
 
 
 
