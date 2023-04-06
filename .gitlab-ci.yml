@@ -60,6 +60,7 @@ npm-build-web-ui:
     - cd web_ui
     - npm i
     - npm run build --prod
+    - ls
   only:
     - web-ui-test
 
