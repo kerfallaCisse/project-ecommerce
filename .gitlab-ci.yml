@@ -57,7 +57,7 @@ npm-build-web-ui:
     expire_in: 1 day
   script:
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
-    - cd web-ui
+    - cd web_ui
     - npm i
     - npm run build --prod
   only:
