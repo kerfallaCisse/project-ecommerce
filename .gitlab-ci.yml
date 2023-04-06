@@ -65,6 +65,20 @@ npm-build-web-ui:
     - web-ui-test
 
 
+container-image-web-ui:
+  stage: image-push
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/web_ui"
+      --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:latest"
+  only:
+    - web-ui-test
+
+
 container-image-stock-management:
   stage: image-push
   image:
