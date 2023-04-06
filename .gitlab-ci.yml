@@ -48,6 +48,21 @@ mvn-build-stock-management:
   only:
     - prod
 
+npm-build-web-ui:
+  stage:  build
+  image: node:16.14.2-alpine3.14
+  artifacts:
+    paths:
+    - web-ui/dist
+    expire_in: 1 day
+  script:
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+    - cd web-ui
+    - npm i
+    - npm run build --prod
+  only:
+    - web-ui-test
+
 
 container-image-stock-management:
   stage: image-push
