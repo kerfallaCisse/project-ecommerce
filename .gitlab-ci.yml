@@ -61,6 +61,8 @@ npm-build-web-ui:
     - npm i
     - npm run build --prod
     - ls
+    - cd dist
+    - ls
   only:
     - web-ui-test
 
