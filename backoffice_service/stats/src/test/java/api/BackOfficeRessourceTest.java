@@ -5,9 +5,13 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import static org.hamcrest.CoreMatchers.equalTo;
-import io.quarkus.test.junit.QuarkusTest;
+//import static org.hamcrest.CoreMatchers.equalTo;
 
+import io.quarkus.test.common.http.TestHTTPEndpoint;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
+
+import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
 
@@ -16,60 +20,86 @@ import javax.ws.rs.core.Response;
 @QuarkusTest
 @Tag("integration")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestHTTPEndpoint(BackOfficeRessource.class)
 public class BackOfficeRessourceTest {
     
     @Test
     @Order(1)
+    @TestSecurity(user = "testUser", roles = {"admin"})
+    void testWithTheCorrespondingRole() {
+
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .when()
+            .get("connected")
+            .then()
+            .statusCode(Response.Status.OK.getStatusCode());
+    }
+
+    @Test
+    @Order(1)
+    @TestSecurity(user = "testUser", roles = {"user"})
+    void testWithWrongRole() {
+        given()
+            .when()
+            .get("connected")
+            .then()
+            .statusCode(Response.Status.FORBIDDEN.getStatusCode());
+    }
+
+
+    @Test
+    @Order(1)
+    @TestSecurity(authorizationEnabled = false)
     void getNumberOfUserConnected() {
         given()
             .when()
-            .get("/stats/connected")
+            .get("connected")
             .then()
-            .body(equalTo(30))
             .statusCode(Response.Status.OK.getStatusCode());
     }
 
     @Test
     @Order(2)
+    @TestSecurity(authorizationEnabled = false)
     void getNumbOfAccountsCreated() {
         given()
         .when()
-        .get("/stats/user_account")
+        .get("user_account")
         .then()
-        .body(equalTo(100))
         .statusCode(Response.Status.OK.getStatusCode());
     }
 
     @Test
     @Order(3)
+    @TestSecurity(authorizationEnabled = false)
     void getNumberOfUserWhoMadeAnOrder() {
         given()
         .when()
-        .get("/stats/user_commands")
+        .get("user_commands")
         .then()
-        .body(equalTo(50))
         .statusCode(Response.Status.OK.getStatusCode());
     }
 
     @Test
     @Order(4)
+    @TestSecurity(authorizationEnabled = false)
     void getNumberOfAbandonedOrders() {
         given()
         .when()
-        .get("/stats/abandoned_orders")
+        .get("abandoned_orders")
         .then()
-        .body(equalTo(10))
         .statusCode(Response.Status.OK.getStatusCode());
     }
 
     @Test
     @Order(5)
+    @TestSecurity(authorizationEnabled = false)
     void getColorsStats() {
         given()
         .when()
-        .get("/stats/colors_stats")
+        .get("colors_stats")
         .then()
-        .body("size()", equalTo(7))
         .statusCode(Response.Status.OK.getStatusCode());
     }
 

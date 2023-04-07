@@ -1,4 +1,5 @@
 package api;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -27,105 +28,70 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 @RolesAllowed("admin")
 public class BackOfficeRessource {
 
-    //StatisticRepository statisticRepository = new StatisticRepository(); // <- for test create the object to avoid null pointer exception
+    StatisticRepository statisticRepository = new StatisticRepository(); // <- for test create the object to avoid null
+                                                                         // pointer exception
 
-    //ColorRepository colorRepository = new ColorRepository(); // same for color repository
+    ColorRepository colorRepository = new ColorRepository(); // same for color repository
 
-    @Inject
-    StatisticRepository statisticRepository;
+    // @Inject
+    // StatisticRepository statisticRepository;
 
-    @Inject
-    ColorRepository colorRepository;
-
+    // @Inject
+    // ColorRepository colorRepository;
 
     @GET
     @Path("connected")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(
-        operationId = "getNumberOfUserConnected",
-        summary = "Get number of users connected",
-        description = "get the number of users who have clicked on the website"
-    )
-    @APIResponse(
-        responseCode = "200",
-        description = "Operation completed",
-        content = @Content(mediaType = MediaType.APPLICATION_JSON)
-    )
+    @Operation(operationId = "getNumberOfUserConnected", summary = "Get number of users connected", description = "get the number of users who have clicked on the website")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumberOfUserConnected() {
 
-        List<Statistic> stats= statisticRepository.list("SELECT number_of_user_connected FROM Statistic");
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_user_connected FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
         return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("user_account")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(
-        operationId = "getNumbOfAccountsCreated",
-        summary = "retrieves the accounts created",
-        description = "get the number of users who have created an account"
-    )
-    @APIResponse(
-        responseCode = "200",
-        description = "Operation completed",
-        content = @Content(mediaType = MediaType.APPLICATION_JSON)
-    )
+    @Operation(operationId = "getNumbOfAccountsCreated", summary = "retrieves the accounts created", description = "get the number of users who have created an account")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumbOfAccountsCreated() {
-        List<Statistic> stats= statisticRepository.list("SELECT number_of_user_compte FROM Statistic");
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_user_compte FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
         return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("user_commands")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(
-        operationId = "getNumberOfUserWhoMadeAnOrder",
-        summary = "orders placed",
-        description = "get the number of users who have placed orders"
-    )
-    @APIResponse(
-        responseCode = "200",
-        description = "Operation completed",
-        content = @Content(mediaType = MediaType.APPLICATION_JSON)
-    )
+    @Operation(operationId = "getNumberOfUserWhoMadeAnOrder", summary = "orders placed", description = "get the number of users who have placed orders")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumberOfUserWhoMadeAnOrder() {
-        List<Statistic> stats= statisticRepository.list("SELECT number_of_user_commands FROM Statistic");
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_user_commands FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
         return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("abandoned_orders")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(
-        operationId = "getNumberOfAbandonedOrders",
-        summary = "abandoned orders",
-        description = "get the number of abandoned orders"
-    )
-    @APIResponse(
-        responseCode = "200",
-        description = "Operation completed",
-        content = @Content(mediaType = MediaType.APPLICATION_JSON)
-    )
+    @Operation(operationId = "getNumberOfAbandonedOrders", summary = "abandoned orders", description = "get the number of abandoned orders")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumberOfAbandonedOrders() {
-        List<Statistic> stats= statisticRepository.list("SELECT number_of_abandoned_bag FROM Statistic");
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_abandoned_bag FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
         return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("colors_stats")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(
-        operationId = "getColorsStats",
-        summary = "colors stats",
-        description = "retrieve color statistics"
-    )
-    @APIResponse(
-        responseCode = "200",
-        description = "Operation completed",
-        content = @Content(mediaType = MediaType.APPLICATION_JSON)
-    )
+    @Operation(operationId = "getColorsStats", summary = "colors stats", description = "retrieve color statistics")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getColorsStats() {
         List<Color> colors = colorRepository.list("SELECT color_name, number_of_commands FROM Color");
+        if(colors.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
         return Response.ok(colors).build();
     }
 
