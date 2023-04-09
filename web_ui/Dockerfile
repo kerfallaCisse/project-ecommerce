@@ -8,5 +8,5 @@ RUN cd /app && npm run build --prod
 ### STAGE 2: Run ###
 FROM nginx:alpine
 RUN ls
-COPY /dist/first_test /usr/share/nginx/html
+COPY --from=build /app/dist/first_test /usr/share/nginx/html
 EXPOSE 80
