@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN cd /app && npm install
 COPY . /app
-RUN cd /app && npm run build --prod --output-path=dist/first_test
+RUN cd /app && npm run build --prod
 ### STAGE 2: Run ###
 FROM nginx:alpine
 
