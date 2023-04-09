@@ -48,21 +48,6 @@ mvn-build-stock-management:
   only:
     - prod
 
-npm-build-web-ui:
-  stage:  build
-  image: node:16.14.2-alpine3.14
-  artifacts:
-    paths:
-      - web_ui/dist
-      - web_ui/node_modules
-  script:
-    - cd web_ui
-    - npm i
-    - npm run build --prod
-    - ls -al
-  only:
-    - web-ui-test
-
 
 container-image-web-ui:
   stage: image-push
