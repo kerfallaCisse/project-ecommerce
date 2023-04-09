@@ -53,8 +53,8 @@ npm-build-web-ui:
   image: node:16.14.2-alpine3.14
   artifacts:
     paths:
-    - web_ui/dist
-     - web_ui/node_modules
+      - /dist
+      - /node_modules
     expire_in: 1 day
   script:
     - cd web_ui
