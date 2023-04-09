@@ -54,6 +54,7 @@ npm-build-web-ui:
   artifacts:
     paths:
     - web_ui/dist
+     - web_ui/node_modules
     expire_in: 1 day
   script:
     - cd web_ui
@@ -75,7 +76,7 @@ container-image-web-ui:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}/web_ui"
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:trial"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
     - cd web_ui
     - ls
   only:
