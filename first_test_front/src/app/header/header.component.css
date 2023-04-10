@@ -1,7 +1,4 @@
 
-*{
-    font-family: 'Aclonica', sans serif;
-}
 
 
 .container{
@@ -10,9 +7,14 @@
     padding: 0;
     border-bottom: 1px solid #e72929;
 }
+a.logo{
+    font-family: 'Aclonica', sans serif;
 
+    font-size: 60px;
+}
 a{
-    font-size: 20px;
+    font-family: 'Gentium Book Basic', arial;
+    font-size: 40px;
     color: black;
 }
 
@@ -23,13 +25,14 @@ background: red;
 .container{
     margin: 1 auto;
     max-width: 2500px;
+    height: 150px;
     display: flex;
     justify-content:space-between;
 }
 
 a.logo{
     font-weight: bold;
-    padding: 1em;
+    padding: 0.3em;
 }
 
 nav ul{
@@ -37,7 +40,29 @@ nav ul{
     margin: 0;
 }
 
+.salut {
+    font-family: 'Gentium Book Basic', arial;
+    margin-top: 50px;
+  }
+
+.salut a{
+    
+    font-family: 'Gentium Book Basic', arial;
+    margin-right: 50px;
+    }
+
 nav ul li a {
     padding: 1em;
     display: inline-block;
 }
+
+li{
+    font-size: 20px;
+    color: black;
+    margin-top: 8px;
+}
+
+.my-icon {
+    font-size: 45px;
+  }
+

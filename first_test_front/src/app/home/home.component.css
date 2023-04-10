@@ -1,83 +1,183 @@
-ul{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    list-style-type: none;
-    padding: 0;
+section {
+height: 300px;
+width: 500px;
+margin-left: 50px ;
 }
 
-ul li a{
-    height: 30rem;
-    width: 30rem;
-    border : 1px solid whitesmoke;
-    border-radius: 1rem;
-    margin: 0.5;
-    display: flex;
-    flex-direction: column;
+label{
+    font-family: 'Gentium Book Basic', arial;
+    margin-top: 100px;
+    margin-left: 100px;
+    width: 950px;
+    height: 50px;
+    white-space: normal;
+    color: white;
+    font-size: 60px;
+}
+#titre {
+    font-family: 'Gentium Book Basic', arial;
+    width: 1300px;
+    margin-top: 200px;
+    font-size: 110px ;
+    margin-left: 100px;
+}
+
+.background-container {
+    background-color: rgb(230, 230, 204);
+    border-radius: 10px;
     overflow: hidden;
-    color: red;
+  }
+#premier_back{
+    background-image: url("/assets/images/prem_back.png");
+    background-size: cover;
+    background-size: 90%;
+    height: 100vh;
+    width: 205vh;
+    margin-left: 25px;
+    margin-top: 15px;
+    background-position: center ;
+    border-radius: 30px;
 }
 
-li a:hover{
-    opacity: 0.75;
+#deuxieme_back{
+    background-image: url("/assets/images/deuxieme_back2.png");
+    
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 125vh;
+    width: 205vh;
+    margin-left: 25px;
+    margin-top: 15px;
+    background-position: center ;
+    border-radius: 50px;
+    
+}
+#troisieme_back{
+    background-image: url("/assets/images/back1000.png");
+    
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 95vh;
+    width: 205vh;
+    margin-left: 25px;
+    margin-top: 15px;
+    background-position: center ;
+    border-radius: 50px;
+}
+
+button {
+    background-color: #4dcf51;
+    
+    color: white;
+    margin-top: 100px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 70px;
+    margin-left: 300px;
+    width: 500px;
+    height: 200px;
     cursor: pointer;
+    border-radius: 30px;
+  }
+button:hover{
+    opacity: 0.9;
+}
+span {
+    font-family: 'Gentium Book Basic', arial;
+  }
+
+#deuxi{
+    background-color: red;
+    margin-top: -10px;
+    color: white;
+    width: 600px;
+    height: 100px;
+    margin-left: 1350px;
+    margin-bottom: 300px;
 }
 
-ngb-rating {
-    color: #FFC107;
-    font-size: 20px;
-}
-
-.content{
-    padding: .5rem 1rem;
-    position: relative;
-}
-
-.favorite{
-    position:absolute;
-    top: .5rem;
-    right: 1rem;
-    font-size: 1.2rem;
-
-}
-
-.favorite.not{
-    color: gray;
-}
-.stars{
-    margin-bottom:.3rem;
-    margin-left: 1rem;
-}
-
-.product-item-footer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.origins{
-    flex: 9;
-    margin-left: 0.5rem;
-}
-
-.origins span{
-    border-radius: 2rem;
-    background-color: whitesmoke;
-    display: inline-block;
-    font-size: .7rem;
-    color: grey;
-    margin-right: .3rem;
-
-}
-
-.price{
+#principal{
+    font-family: 'Gentium Book Basic', arial;
+    width: 1500px;
+    font-size: 42px;
     color: black;
-    margin-top: .7rem;
-    font-size: 25px;
-    margin-left: 1rem;
+    margin-top: 150px;
+  }
+
+#secondaire{
+    /* margin-top: 10px; */
+    font-family: 'Gentium Book Basic', arial;
+    width: 2000px;
+    color: black;
+    font-size: 42px;
+    margin-top: 50px;
+}
+#titre_deux{
+    margin-top: 30px;
+    color: black;
+    width: 1300px;
+    height: 10px;
+    font-size: 120px;
+    margin-left: 600px;
+   
+}
+#deuxi:hover{
+    transition: opacity 0.2s;
+    opacity: 0.7;
+}
+.button {
+    display: inline-block;
+    background-color: #4dcf51;
+    color: white;
+    margin-top: 100px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 70px;
+    margin-left: 300px;
+    width: 500px;
+    height: 200px;
+    cursor: pointer;
+    border-radius: 30px;
+    line-height: 200px; /* centre le texte verticalement */
 }
 
-.name{
-    font-size: 23px;
+a[href^="#"] {
+    display: inline-block;
+    background-color: #4dcf51;
+    color: white;
+    margin-top: 100px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 70px;
+    margin-left: 300px;
+    width: 500px;
+    height: 200px;
+    cursor: pointer;
+    border-radius: 30px;
+    line-height: 200px; /* centre le texte verticalement */
+}
+
+
+#troisieme_titre{
+    color: black;
+    font-family: 'Gentium Book Basic', arial;
+    font-size: 100px;
+    width: 1500px;
+
+}
+
+#button_3{
+    font-family: 'Gentium Book Basic', arial;
+    text-align: center;
+    background-color: black;
+    position: absolute;
+    width: 1000px;
+    height: 90px;
+    font-size: 50px;
+    margin-top: 1050px;
+    margin-left: -900px;
+    align-items: center;
+    border: 3px solid #4dcf51;
+
+    
 }

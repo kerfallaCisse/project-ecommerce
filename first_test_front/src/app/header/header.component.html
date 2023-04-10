@@ -1,5 +1,7 @@
 <head>
 <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href="https://fr.allfont.net/allfont.css?fonts=gentium-book-basic" rel="stylesheet" type="text/css" />
 <style>
 body {
     font-family: 'Aclonica';font-size: 22px;
@@ -10,12 +12,23 @@ body {
     <div class="container">
        
         <a href="#" routerLink="/" class="logo">in<span style="color: green;">V</span>ia</a>
-      
+        <div class="salut">
+        <div id="header">
+            <a href="#" routerLink="/" >Home</a>
+            <a href="#" routerLink="/" >  Personalisation</a>
+        
+            <a href="#" routerLink="/" >  About</a>
+            <a href="#" routerLink="/" >  Help</a>
+         </div>
+    </div>
         <nav>
             <ul>
-                 <li> 
-                    <a href="#" routerLink="/cart-page">Panier</a>
-                    <a routerLink="/login">Log In</a>
+                
+                <li> 
+                    
+                    <a href="#" routerLink="/cart-page"><i class="bx bx-line-chart-down my-icon" style="color: black;"></i></a>
+                    <a href="#" routerLink="/cart-page"><i class="bx bx-cart my-icon" style="color: black;"></i></a>
+                    <a routerLink="/login"><i class="bx bx-user my-icon" style="color: black"></i></a>
             </li>
         </ul>
         </nav>
