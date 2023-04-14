@@ -20,32 +20,28 @@ sonarqube-check:
     - mvn verify sonar:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3 -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
   allow_failure: true
 
-    
-build:
-  stage: build
-  script:
-    - mvn clean package -DskipTests
-  only:
-    - main
-
-test:
-  stage: test
-  script:
-    - mvn test
-  only:
-    - main
 
 
 mvn-build-stock-management:
   stage:  build
   script: 
     - cd stock-management
-    - mvn package 
+    -  mvn clean package -DskipTests
   artifacts:
     paths:
       - stock-management/target
   only:
     - main
+    - prod
+
+test-stock-management:
+  stage: test
+  script:
+    - cd stock-management
+    - mvn test
+  only:
+    - main
+    - prod
 
 
 container-image-stock-management:
@@ -62,7 +58,86 @@ container-image-stock-management:
       --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
+    - prod
+
+
+  
+mvn-build-backoffice-service:
+  stage:  build
+  script: 
+    - cd backoffice_service/stats
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - backoffice_service/stats/target
+  only:
     - main
+    - prod
+
+test-backoffice-service:
+  stage: test
+  script:
+    - cd backoffice_service/stats
+    - mvn test
+  only:
+    - main
+    - prod
+
+
+container-image-backoffice-service:
+  stage: image-push
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/backoffice_service/stats"
+      --dockerfile "${CI_PROJECT_DIR}backoffice_service/stats/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/backoffice-service:latest"
+  only:
+    - prod
+
+
+mvn-build-stats-jwt:
+  stage:  build
+  script: 
+    - cd stats-jwt
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - stats-jwt/target
+  only:
+    - main
+    - prod
+
+test-stats-jwt:
+  stage: test
+  script:
+    - cd stats-jwt
+    - mvn test
+  only:
+    - main
+    - prod
+
+
+container-image-stats-jwt:
+  stage: image-push
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/stats-jwt"
+      --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
+  only:
+    - prod
 
 
 
