@@ -101,7 +101,7 @@ container-image-backoffice-service:
       --build-arg MYSQL_URL=${MYSQL_URL}
       --context "${CI_PROJECT_DIR}/backoffice_service/stats"
       --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/backoffice-service:latest"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
   only:
     - prod
     - main
