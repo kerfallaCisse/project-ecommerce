@@ -1,19 +1,23 @@
 package api;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.jwt.JsonWebToken;
+import api.model.Color;
+import api.model.ColorRepository;
+import api.model.Statistic;
+import api.model.StatisticRepository;
 
-import api.model.User;
-import io.quarkus.oidc.UserInfo;
-//import io.vertx.mutiny.mysqlclient.MySQLPool;
-//import io.vertx.mutiny.sqlclient.Tuple;
-//import javax.annotation.security.RolesAllowed;
+import java.util.List;
+
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 /**
  * 
@@ -21,68 +25,74 @@ import io.quarkus.oidc.UserInfo;
  */
 
 @Path("stats")
+@RolesAllowed("admin")
 public class BackOfficeRessource {
 
-    @Inject
-    UserInfo userInfo;
+    StatisticRepository statisticRepository = new StatisticRepository(); // <- for test create the object to avoid null
+                                                                         // pointer exception
 
-    @Inject
-    JsonWebToken jsonWebToken;
+    ColorRepository colorRepository = new ColorRepository(); // same for color repository
 
-    @GET
-    @Path("verif_user")
-    @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed("user")
-    public Response verifyUserRole() {
-        String user_email = userInfo.get("email").toString();
-        user_email = user_email.substring(0, user_email.length() - 1);
-        user_email = user_email.substring(1);
+    // @Inject
+    // StatisticRepository statisticRepository;
 
-        return User.find("email", user_email)
-                .singleResultOptional()
-                .map(user -> Response.status(Response.Status.OK).build())
-                .orElse(Response.status(Response.Status.NOT_FOUND).build());
-
-    }
+    // @Inject
+    // ColorRepository colorRepository;
 
     @GET
     @Path("connected")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getNumberOfUserConnected", summary = "Get number of users connected", description = "get the number of users who have clicked on the website")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumberOfUserConnected() {
 
-        return Response.status(Response.Status.OK).build();
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_user_connected FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
+        return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("user_account")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getNumbOfAccountsCreated", summary = "retrieves the accounts created", description = "get the number of users who have created an account")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumbOfAccountsCreated() {
-
-        return Response.status(Response.Status.OK).build();
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_user_compte FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
+        return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("user_commands")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getNumberOfUserWhoMadeAnOrder", summary = "orders placed", description = "get the number of users who have placed orders")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumberOfUserWhoMadeAnOrder() {
-
-        return Response.status(Response.Status.OK).build();
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_user_commands FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
+        return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("abandoned_orders")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getNumberOfAbandonedOrders", summary = "abandoned orders", description = "get the number of abandoned orders")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getNumberOfAbandonedOrders() {
-
-        return Response.status(Response.Status.OK).build();
+        List<Statistic> stats = statisticRepository.list("SELECT number_of_abandoned_bag FROM Statistic");
+        if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
+        return Response.ok(stats.get(0)).build();
     }
 
     @GET
     @Path("colors_stats")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getColorsStats", summary = "colors stats", description = "retrieve color statistics")
+    @APIResponse(responseCode = "200", description = "Operation completed", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response getColorsStats() {
-
-        return Response.status(Response.Status.OK).build();
+        List<Color> colors = colorRepository.list("SELECT color_name, number_of_commands FROM Color");
+        if(colors.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
+        return Response.ok(colors).build();
     }
 
 }
