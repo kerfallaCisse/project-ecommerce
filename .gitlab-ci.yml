@@ -22,7 +22,7 @@ sonarcloud-check:
     - mvn verify sonar:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3 -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
   allow_failure: true
   only:
-    - prod
+    - main
 
 
 
