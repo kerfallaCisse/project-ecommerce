@@ -3,6 +3,6 @@ package api.model;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
-public class GreetingResourceIT extends GreetingResourceTest {
+public class StockManagementIT extends StockManagementResourceTest {
     // Execute the same tests but in packaged mode.
 }
