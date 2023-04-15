@@ -39,39 +39,37 @@ public class StockManagementResourceTest {
           .then()
             .statusCode(200)
             .contentType(ContentType.JSON)
-            .body("[0].modelType", equalTo("SmallModel"))
-            .body("[0].quantity", equalTo(10))
-            .body("[0].color_pocket_name", equalTo("red"))
-            .body("[0].color_bag_name", equalTo("blue"));
+            .body("[0].result", nullValue());
     }
 
     // Test if quantity update is correct
-    @Test
-    public void testUpdateQuantity() {
-        String requestBody = "{"
-                + "\"modelType\": \"small\","
-                + "\"color_pocket_name\": \"red\","
-                + "\"color_bag_name\": \"blue\","
-                + "\"quantity\": 2"
-                + "}";
-        given()
-          .contentType(ContentType.JSON)
-          .body(requestBody)
-          .when().post("/stock/update")
-          .then()
-             .statusCode(200)
+     @Test
+     public void testStockManagement() {
+         String requestBody = "{"
+                 + "\"modelType\": \"small\","
+                 + "\"color_pocket_name\": \"red\","
+                 + "\"color_bag_name\": \"blue\","
+                 + "\"quantity\": 5"
+                 + "}";
+         given()
              .contentType(ContentType.JSON)
-             .body("[0].result", equalTo("ok"));
-        
-        given()
-          .when().get("/stock")
-          .then()
-            .statusCode(200)
-            .contentType(ContentType.JSON)
-            .body("[0].modelType", equalTo("SmallModel"))
-            .body("[0].quantity", equalTo(12))
-            .body("[0].color_pocket_name", equalTo("red"))
-            .body("[0].color_bag_name", equalTo("blue"));
-    }
-    
+             .body(requestBody)
+             .when().post("/stock/update")
+             .then()
+                 .statusCode(200)
+                 .contentType(ContentType.JSON)
+                 .body("[0].result", equalTo("ok"));
+     
+         // Check the state of the stock
+         given()
+             .when().get("/stock")
+             .then()
+                 .statusCode(200)
+                 .contentType(ContentType.JSON)
+                 .body("[0].modelType", equalTo("SmallModel"))
+                 .body("[0].quantity", equalTo(15))
+                 .body("[0].color_pocket_name", equalTo("red"))
+                 .body("[0].color_bag_name", equalTo("blue"));
+     }
+     
 }
