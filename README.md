@@ -1,4 +1,5 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pinfo3-2023_pinfo3&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=pinfo3-2023_pinfo3)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=invia&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=invia)
+
 
 ## Politique d'utilisation du Git
 
