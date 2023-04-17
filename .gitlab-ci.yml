@@ -24,7 +24,6 @@ main-sonarcloud-check:
   allow_failure: true
   only:
     - main
-    - prod
 
 
 mvn-build-stock-management:
