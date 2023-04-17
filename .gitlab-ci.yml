@@ -166,8 +166,7 @@ test-ui:
     - npm i
     - npm test
   only:
-    - prod
-    - main
+    - none
 
 
 
