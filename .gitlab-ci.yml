@@ -22,7 +22,6 @@ sonarcloud-check:
     - mvn verify sonar:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3 -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
   allow_failure: true
   only:
-    - main
     - prod
 
 
@@ -81,6 +80,7 @@ mvn-build-backoffice-service:
 
 test-backoffice-service:
   stage: test
+  image: maven:3.6.3-jdk-11
   script:
     - cd backoffice_service/stats
     - mvn test
