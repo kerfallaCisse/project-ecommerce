@@ -23,6 +23,7 @@ sonarcloud-check:
   allow_failure: true
   only:
     - main
+    - prod
 
 
 
@@ -63,7 +64,6 @@ container-image-stock-management:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
     - prod
-    - main
 
 
   
@@ -104,7 +104,6 @@ container-image-backoffice-service:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
   only:
     - prod
-    - main
 
 
 mvn-build-stats-jwt:
@@ -145,7 +144,6 @@ container-image-stats-jwt:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
   only:
     - prod
-    - main
 
 npm-build-ui:
   stage: build
@@ -181,7 +179,6 @@ container-image-web-ui:
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
   only:
-    - main
     - prod
 
 
