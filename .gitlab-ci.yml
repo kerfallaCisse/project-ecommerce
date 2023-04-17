@@ -146,6 +146,23 @@ container-image-stats-jwt:
     - prod
     - main
 
+container-image-web-ui:
+  stage: image-push
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/web_ui"
+      --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
+    - cd web_ui
+    - ls
+  only:
+    - main
+    - prod
+
+
 
 
 
