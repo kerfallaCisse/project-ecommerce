@@ -129,6 +129,7 @@ test-stats-jwt:
     - prod
 
 
+
 container-image-stats-jwt:
   stage: image-push
   image:
@@ -146,6 +147,30 @@ container-image-stats-jwt:
     - prod
     - main
 
+npm-build-ui:
+  stage: build
+  image: node:16.14.2-alpine3.14
+  script:
+    - cd web_ui
+    - npm i
+    - npm run build --prod
+  only:
+    - prod
+    - main
+
+test-ui:
+  stage: test
+  image: node:16.14.2-alpine3.14
+  script:
+    - cd web_ui
+    - npm i
+    - npm test
+  only:
+    - prod
+    - main
+
+
+
 container-image-web-ui:
   stage: image-push
   image:
@@ -156,8 +181,6 @@ container-image-web-ui:
       --context "${CI_PROJECT_DIR}/web_ui"
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
-    - cd web_ui
-    - ls
   only:
     - main
     - prod
