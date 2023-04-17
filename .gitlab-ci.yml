@@ -34,12 +34,15 @@ mvn-build-stock-management:
   artifacts:
     paths:
       - stock-management/target
+    expire_in: 2 hours
   only:
     - main
     - prod
 
 test-stock-management:
   stage: test
+  dependencies:
+    - mvn-build-stock-management
   script:
     - cd stock-management
     - mvn test
@@ -50,6 +53,8 @@ test-stock-management:
 
 container-image-stock-management:
   stage: image-push
+  dependencies:
+    - mvn-build-stock-management
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
@@ -74,12 +79,15 @@ mvn-build-backoffice-service:
   artifacts:
     paths:
       - backoffice_service/stats/target
+    expire_in: 2 hours
   only:
     - main
     - prod
 
 test-backoffice-service:
   stage: test
+  dependencies:
+    - mvn-build-backoffice-service
   script:
     - cd backoffice_service/stats
     - mvn test
@@ -90,6 +98,8 @@ test-backoffice-service:
 
 container-image-backoffice-service:
   stage: image-push
+  dependencies:
+    - mvn-build-backoffice-service
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
@@ -113,12 +123,15 @@ mvn-build-stats-jwt:
   artifacts:
     paths:
       - stats-jwt/target
+    expire_in: 2 hours
   only:
     - main
     - prod
 
 test-stats-jwt:
   stage: test
+  dependencies:
+    - mvn-build-stats-jwt
   script:
     - cd stats-jwt
     - mvn test
@@ -130,6 +143,8 @@ test-stats-jwt:
 
 container-image-stats-jwt:
   stage: image-push
+  dependencies:
+    - mvn-build-stats-jwt
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
