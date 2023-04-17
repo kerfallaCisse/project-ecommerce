@@ -1,38 +1,40 @@
-<head>
+<!-- Link to the boxicons stylesheet from unpkg.com -->
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <link href="https://fr.allfont.net/allfont.css?fonts=gentium-book-basic" rel="stylesheet" type="text/css" />
-<style>
-body {
-    font-family: 'Aclonica';font-size: 22px;
-}
-</style>
-</head>
-<body>
-    <div class="container">
-       
-        <a href="#" routerLink="/" class="logo">in<span style="color: green;">V</span>ia</a>
-        <div class="salut">
-        <div id="header">
-            <a href="#" routerLink="/" >Home</a>
-            <a href="#" routerLink="/" >  Personalisation</a>
-        
-            <a href="#" routerLink="/" >  About</a>
-            <a href="#" routerLink="/" >  Help</a>
-         </div>
-    </div>
-        <nav>
-            <ul>
-                
-                <li> 
-                    
-                    <a href="#" routerLink="/cart-page"><i class="bx bx-line-chart-down my-icon" style="color: black;"></i></a>
-                    <a href="#" routerLink="/cart-page"><i class="bx bx-cart my-icon" style="color: black;"></i></a>
-                    <a routerLink="/login"><i class="bx bx-user my-icon" style="color: black"></i></a>
-            </li>
-        </ul>
-        </nav>
-    </div>
-</body>
+
+<!-- Header section of the page -->
+<header>
+
+  <!-- Container div to center the content -->
+  <div class="container">
+
+    <!-- Logo for the website -->
+    <a href="#" routerLink="/" class="logo"> in<span style="color: green;">V</span>ia</a>
+
+    <!-- Navigation menu for the main pages -->
+    <nav class="central menu">
+      <ul>
+        <li><a href="# " routerLink="/"> Home </a></li>
+        <li><a href="# " routerLink="/personalisation-page"> Personalisation </a></li>
+        <li><a href="# " routerLink="/about-page"> About </a></li>
+        <li><a href="# " routerLink="/help-page"> Help </a></li>
+      </ul>
+    </nav>
+
+    <!-- Navigation menu for the secondary features -->
+    <nav class="features logos">
+      <ul>
+        <li><a href="#" routerLink="/statistics"><i class="bx bx-line-chart-down my-icon" ></i></a></li>
+        <li><a href="#" routerLink="/stock"><i class='bx bxs-package' ></i></a></li>
+        <li><a href="#" routerLink="/cart-page"><i class="bx bx-cart my-icon" ></i></a></li>
+        <li><a href="#" routerLink="/login"><i class="bx bx-user my-icon"></i></a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
 
 
