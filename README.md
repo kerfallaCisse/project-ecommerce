@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pinfo3-2023_pinfo3&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=pinfo3-2023_pinfo3)
+
 ## Politique d'utilisation du Git
 
 Lien Figma pour la démo : https://www.figma.com/file/HTl6RYN9J2JQqWY67RuyK0/InVia?node-id=0%3A1&t=vGXtljRW6ZaA6RMi-1
