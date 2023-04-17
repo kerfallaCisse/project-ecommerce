@@ -83,7 +83,7 @@ test-backoffice-service:
   image: maven:3.6.3-jdk-11
   script:
     - cd backoffice_service/stats
-    - mvn test
+    - mvn test -X
   only:
     - main
     - prod
