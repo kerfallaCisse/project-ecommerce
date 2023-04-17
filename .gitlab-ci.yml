@@ -22,7 +22,7 @@ sonarcloud-check:
     - mvn verify sonar:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3 -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
   allow_failure: true
   only:
-    - none
+    - main
 
 
 
@@ -48,7 +48,6 @@ test-stock-management:
     - mvn test
   only:
     - main
-    - prod
 
 
 container-image-stock-management:
@@ -93,7 +92,6 @@ test-backoffice-service:
     - mvn test
   only:
     - main
-    - prod
 
 
 container-image-backoffice-service:
@@ -137,7 +135,6 @@ test-stats-jwt:
     - mvn test
   only:
     - main
-    - prod
 
 
 
