@@ -23,6 +23,7 @@ sonarcloud-check:
   allow_failure: true
   only:
     - main
+    - prod
 
 
 
