@@ -156,7 +156,6 @@ npm-build-ui:
     - npm run build --prod
   only:
     - prod
-    - main
 
 test-ui:
   stage: test
@@ -181,7 +180,6 @@ container-image-web-ui:
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
   only:
-    - main
     - prod
 
 
