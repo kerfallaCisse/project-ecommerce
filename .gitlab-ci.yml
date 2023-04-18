@@ -1,12 +1,14 @@
 image: maven:3.6.3-openjdk-17-slim
 
 stages:
+  - sonarcloud-integration
   - build
   - test
   - image-push
   - deploy
 
-sonarqube-check:
+sonarcloud-check-branch:
+  stage: sonarcloud-integration
   image: maven:3.6.3-jdk-11
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -16,57 +18,33 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-#    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3
-    - mvn verify sonar:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3 -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
-  allow_failure: true
-  only:
-    - main
-    
-build:
-  stage: build
-  script:
-    - mvn clean package -DskipTests
-  only:
-    - main
-
-test:
-  stage: test
-  script:
-    - mvn test
-  only:
-    - main
+    - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
 
 mvn-build-stock-management:
   stage:  build
   script: 
     - cd stock-management
-    - mvn package 
+    -  mvn clean package -DskipTests
   artifacts:
     paths:
       - stock-management/target
+    expire_in: 2 hours
   only:
+    - main
+    - prod
     - denis
 
-
-container-image-stock-management:
-  stage: image-push
-  image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
-    entrypoint: [""]
+test-stock-management:
+  stage: test
+  dependencies:
+    - mvn-build-stock-management
   script:
-    - /kaniko/executor
-      --build-arg MYSQL_USER=${MYSQL_USER}
-      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      --build-arg MYSQL_URL=${MYSQL_URL}
-      --context "${CI_PROJECT_DIR}/stock-management"
-      --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
+    - cd stock-management
+    - mvn test
   only:
+    - main
     - denis
-
-
-
 
 
 
