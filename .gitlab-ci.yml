@@ -1,11 +1,14 @@
 image: maven:3.6.3-openjdk-17-slim
 
 stages:
+  - sonarcloud-integration
   - build
   - test
+  - image-push
   - deploy
 
-sonarqube-check:
+sonarcloud-check-branch:
+  stage: sonarcloud-integration
   image: maven:3.6.3-jdk-11
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -15,120 +18,187 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-#    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3
-    - mvn verify sonar:sonar -Dsonar.projectKey=pinfo3-2023_pinfo3 -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
-  allow_failure: true
-  only:
-    - main
-    
-build:
-  stage: build
-  script:
-    - mvn clean package -DskipTests
-  only:
-    - main
+    - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
-test:
+
+mvn-build-stock-management:
+  stage:  build
+  script: 
+    - cd stock-management
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - stock-management/target
+    expire_in: 2 hours
+  only:
+    - main
+    - prod
+    - denis
+
+test-stock-management:
   stage: test
+  dependencies:
+    - mvn-build-stock-management
   script:
+    - cd stock-management
     - mvn test
   only:
     - main
+    - denis
 
 
-
-
-
-#build:
-#  stage: mvn-build
-#  image: maven:3.8.4-openjdk-17-slim
-#  script:
-#    - pwd
-#    - java -version
-#    - cd getting-started
-#    - pwd
-#    - mvn package
-#    - ls -al
-#  artifacts:
-#    paths:
-#      - target
-#  only:
-#    - main
-
-#docker-setup:
-#  stage: docker
-#  image: docker:20.10.17
-#  script:
-#    - docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-#    - cd getting-started
-#    - pwd
-#    - docker --version
-#    - ls -al
-#    - service docker status
-#    - docker build -f src/main/docker/Dockerfile.jvm .
-#  dependencies:
-#    - build
-
-#variables:
-  # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
-  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
-#  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=/builds/pinfo-2023/pinfo-2/project-ecommerce/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
- # MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-
-#stages:
-#  - sonarqube
- # - deploy
-
-#cache:
- # paths:
-  #  - .m2/repository
-
-
-# For merge requests do not `deploy` but only run `verify`.
-# See https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
-#.verify: &verify
-#  stage: test
-#  script:
-#    - 'mvn $MAVEN_CLI_OPTS verify'
-
-#image: maven:3.6.3-openjdk-17-slim
-
-
-deploy-ui:
-  stage: deploy
+container-image-stock-management:
+  stage: image-push
+  dependencies:
+    - mvn-build-stock-management
   image:
-    name: gcr.io/kaniko-project/executor:debug
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
   script:
-    - pwd
-    - echo "{\"auths\":{\"registry.gitlab.unige.ch\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_USER}" "${DOCKER_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - >-
-      /kaniko/executor
-      --context "${CI_PROJECT_DIR}/getting-started"
-      --dockerfile "${CI_PROJECT_DIR}/getting-started/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/getting-started:0.4.0-SNAPSHOT"
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/stock-management"
+      --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
-    - newci
+    - prod
 
 
+  
+mvn-build-backoffice-service:
+  stage:  build
+  script: 
+    - cd backoffice_service/stats
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - backoffice_service/stats/target
+    expire_in: 2 hours
+  only:
+    - main
+    - prod
+    - kerfalla
 
-deploy-images:
-  stage: deploy
+test-backoffice-service:
+  stage: test
+  dependencies:
+    - mvn-build-backoffice-service
   script:
-    - mvn --version
-    - java --version
-   # - apt-get update && apt-get install -y sudo
-  #  - sudo apt-get update 
-    - apt-get update && apt-get -qy full-upgrade && apt-get install -qy curl &&  apt-get install -qy curl && curl -sSL https://get.docker.com/ | sh
-   # - sudo service docker start
-   # - docker info
-    #- docker login registry.gitlab.unige.ch --username $DOCKER_USER --password $DOCKER_PASSWORD
-    #- cd getting-started
-    #- mvn package 
-   # - mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -s settings.xml
-  #  - mvn package -Dmaven.test.skip=true -Dquarkus.container-image.push=true -Dquarkus.container-image.build=true -Dquarkus.container-image.registry=registry.gitlab.unige.ch  -Dquarkus.container-image.username="${DOCKER_USER}" -Dquarkus.container-image.password="${DOCKER_PASSWORD}"
+    - cd backoffice_service/stats
+    - mvn test
   only:
-    - newci
+    - main
+    - kerfalla
+
+
+container-image-backoffice-service:
+  stage: image-push
+  dependencies:
+    - mvn-build-backoffice-service
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/backoffice_service/stats"
+      --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
+  only:
+    - prod
+
+
+mvn-build-stats-jwt:
+  stage:  build
+  script: 
+    - cd stats-jwt
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - stats-jwt/target
+    expire_in: 2 hours
+  only:
+    - main
+    - prod
+    - kerfalla
+
+test-stats-jwt:
+  stage: test
+  dependencies:
+    - mvn-build-stats-jwt
+  script:
+    - cd stats-jwt
+    - mvn test
+  only:
+    - main
+    - kerfalla
+
+
+
+container-image-stats-jwt:
+  stage: image-push
+  dependencies:
+    - mvn-build-stats-jwt
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/stats-jwt"
+      --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
+  only:
+    - prod
+
+npm-build-ui:
+  stage: build
+  image: node:16.14.2-alpine3.14
+  script:
+    - cd web_ui
+    - npm i
+    - npm run build --prod
+  only:
+    - main
+    - prod
+
+test-ui:
+  stage: test
+  image: node:16.14.2-alpine3.14
+  script:
+    - cd web_ui
+    - npm i
+    - npm test
+  only:
+    - none
+
+
+
+container-image-web-ui:
+  stage: image-push
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/web_ui"
+      --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
+  only:
+    - prod
+
+
+
+
+
+
+
 
 
 
