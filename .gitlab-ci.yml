@@ -33,6 +33,7 @@ mvn-build-stock-management:
   only:
     - main
     - prod
+    - Denis
 
 test-stock-management:
   stage: test
@@ -43,6 +44,7 @@ test-stock-management:
     - mvn test
   only:
     - main
+    - Denis
 
 
 container-image-stock-management:
@@ -62,6 +64,7 @@ container-image-stock-management:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
     - prod
+    - Denis
 
 
   
