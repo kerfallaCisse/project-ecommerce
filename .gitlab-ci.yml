@@ -4,6 +4,7 @@ stages:
   - sonarcloud-integration
   - build
   - test
+  - prod-setup
   - image-push
   - deploy
 
@@ -188,6 +189,14 @@ container-image-web-ui:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
   only:
     - prod
+
+merge_to_prod:
+  stage: prod-setup
+  script:
+    - git merge main
+    - git push origin prod
+  only:
+  - schedules
 
 
 
