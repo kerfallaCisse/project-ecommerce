@@ -4,7 +4,6 @@ stages:
   - sonarcloud-integration
   - build
   - test
-  - prod-setup
   - image-push
   - deploy
 
@@ -33,7 +32,7 @@ mvn-build-stock-management:
     expire_in: 2 hours
   only:
     - main
-    - prod
+    - schedules
     - denis
 
 test-stock-management:
@@ -64,7 +63,7 @@ container-image-stock-management:
       --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
-    - prod
+    - schedules
 
 
   
@@ -79,7 +78,7 @@ mvn-build-backoffice-service:
     expire_in: 2 hours
   only:
     - main
-    - prod
+    - schedules
 
 test-backoffice-service:
   stage: test
@@ -108,7 +107,7 @@ container-image-backoffice-service:
       --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
   only:
-    - prod
+    - schedules
 
 
 mvn-build-stats-jwt:
@@ -122,7 +121,7 @@ mvn-build-stats-jwt:
     expire_in: 2 hours
   only:
     - main
-    - prod
+    - schedules
 
 test-stats-jwt:
   stage: test
@@ -152,7 +151,7 @@ container-image-stats-jwt:
       --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
   only:
-    - prod
+    - schedules
 
 npm-build-ui:
   stage: build
@@ -163,7 +162,7 @@ npm-build-ui:
     - npm run build --prod
   only:
     - main
-    - prod
+    - schedules
 
 test-ui:
   stage: test
@@ -188,15 +187,9 @@ container-image-web-ui:
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new"
   only:
-    - prod
+    - schedules
 
-merge_to_prod:
-  stage: prod-setup
-  script:
-    - git merge main
-    - git push origin prod
-  only:
-  - schedules
+
 
 
 
