@@ -4,6 +4,7 @@ stages:
   - sonarcloud-integration
   - build
   - test
+  - prod-setup
   - image-push
   - deploy
 
@@ -189,8 +190,13 @@ container-image-web-ui:
   only:
     - prod
 
-
-
+merge_to_prod:
+  stage: prod-setup
+  script:
+    - git merge main
+    - git push origin prod
+  only:
+  - schedules
 
 
 
