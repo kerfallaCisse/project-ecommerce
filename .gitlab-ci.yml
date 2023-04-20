@@ -1,11 +1,11 @@
 image: maven:3.6.3-openjdk-17-slim
 
 stages:
-  - deploy
   - sonarcloud-integration
   - build
   - test
   - image-push
+  - deploy
 
 sonarcloud-check-branch:
   stage: sonarcloud-integration
@@ -195,7 +195,6 @@ deployment:
   image: alpine/helm:3.2.1
   script:
     - export KUBECONFIG=${CONNECT}
-    - ls -al
     - helm upgrade --install invia ./helm-chart --namespace default
 
 
