@@ -196,6 +196,7 @@ deployment:
   image: alpine/helm:3.2.1
   script:
     - export KUBECONFIG=${CONNECT}
+    - ls -al
     - helm upgrade --install invia ./helm-chart
 
 
