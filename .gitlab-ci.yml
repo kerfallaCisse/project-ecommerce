@@ -190,22 +190,13 @@ container-image-web-ui:
     - schedules
 
 
-deploy:
-  stage: deploy
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: ['']
-  script:
-    - export KUBECONFIG=${CONNECT}
-    - kubectl get namespaces
-
 deployment:
   stage: deploy
   image: alpine/helm:3.2.1
   script:
     - export KUBECONFIG=${CONNECT}
     - ls -al
-   # - helm upgrade --install invia ./helm-chart
+    - helm upgrade --install invia ./helm-chart
 
 
 
