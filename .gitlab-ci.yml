@@ -196,7 +196,7 @@ deployment:
   script:
     - export KUBECONFIG=${CONNECT}
     - ls -al
-    - helm upgrade --install invia ./helm-chart --debug
+    - helm upgrade --install invia ./helm-chart --namespace default
 
 
 
