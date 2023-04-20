@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stock-management-deployment
-  namespace: stock-management
+  name: web-ui-deployment
+  namespace: web-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stock-management
+      app: web-ui
   template:
     metadata:
       labels:
-        app: stock-management
+        app: web-ui
     spec:
       containers:
-        - name: stock-management
-          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest
+        - name: web-ui
+          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:new
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           env:
             - name: MYSQL_USER
               valueFrom:
