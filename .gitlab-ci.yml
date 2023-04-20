@@ -195,7 +195,7 @@ deployment:
   stage: deploy
   image: alpine/helm:3.2.1
   script:
-    - export ./kubeconfig.yaml
+    - export KUBECONFIG=$PWD/kubeconfig.yaml
     - ls -al
     - helm upgrade --install invia ./helm-chart
 
