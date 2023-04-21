@@ -111,8 +111,8 @@ container-image-backoffice-service:
       --context "${CI_PROJECT_DIR}/backoffice_service/stats"
       --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
-  #only:
-  #  - schedules
+  only:
+    - schedules
 
 
 
@@ -156,8 +156,8 @@ container-image-stats-jwt:
       --context "${CI_PROJECT_DIR}/stats-jwt"
       --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
- # only:
-  #    - schedules
+  only:
+      - schedules
 
 npm-build-ui:
   stage: build
