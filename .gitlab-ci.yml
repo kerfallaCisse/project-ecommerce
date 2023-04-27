@@ -207,7 +207,6 @@ deploy:
   image: alpine/helm:3.2.1
   script:
     - export KUBECONFIG=${KUBECONFIG}
-    - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
     - schedules
