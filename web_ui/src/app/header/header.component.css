@@ -2,7 +2,8 @@
 header {
   background: white;
   padding: 0;
-  border-bottom: 1px solid green;
+  border-bottom: 0.1em solid rgb(66, 200, 66);;
+  position: sticky ;
 }
 
 /* Sets the default color of links to black. */

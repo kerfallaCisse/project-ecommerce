@@ -1,16 +1,154 @@
 
-/* fond d'écran beige */
-.background-container {
-    background-color: rgb(230, 230, 204);
-    overflow: hidden;
-  } 
+/* ------------------------ Firts section : Website Introduction -----------------------------*/
+main {
+  background-color: rgb(230, 218, 191);
+  position: sticky ;
+  min-width: 60%;
+}
 
-  /*  PREMIER BACKGROUND   */
+#introduction_section {
+  padding-top: 10%;
+  padding-bottom: 5%;
+  margin-top: 0.5%;
+  margin-left: 0.5%;
+  margin-bottom: 0.5%;
+  margin-right: 0.5%;
+  background-color: rgb(37, 37, 117);
+  border-radius: 2rem;
 
+}
+
+#introduction_title {
+  font-family: 'Gentium Book Basic';
+  margin-left: 8%;
+  font-size: 450%;
+  color: white;
+}
+
+#introduction_text {
+  font-family: 'Gentium Book Basic';
+  margin-top: 2%;
+  margin-left: 8%;
+  font-size: 250%;
+  color: white;
+}
+
+.button_read_more_container {
+  display: flex;
+  /* justify-content: left; */
+}
+
+#button_read_more {
+  background-color: rgb(66, 200, 66);;
+  font-size: 250%;
+  margin-left: 17%;
+  margin-top: 5%;
+  border-radius: 3rem;
+  padding : 1% 1% ;
+  color: white;
+  cursor: pointer;
+}
+
+.button_shop_now_container {
+  display: flex;
+  justify-content: right;
+}
+
+#button_shop_now {
+  background-color: red;
+  font-size: 250%;
+  margin-left: 35%;
+  margin-right: 15%;
+  border-radius: 3rem;
+  padding : 1% 1% ;
+  color : white;
+  cursor: pointer;
+}
+
+/* ------------------------ Second section : Invia's story -----------------------------*/
+
+
+#invia_story_section {
+  padding-top: 1%;
+  padding-bottom: 5%;
+  margin-top: 0.5%;
+  margin-left: 0.5%;
+  margin-bottom: 0.5%;
+  margin-right: 0.5%;
+  background-color: rgb(208, 202, 202);
+  border-radius: 2rem;
+}
+
+
+#invia_story_title {
+  font-family: 'Gentium Book Basic';
+  margin-top: 2%;
+  font-size: 450%;
+  color: black;
+  text-align: center;
+}
+
+#invia_story_text {
+  font-family: 'Gentium Book Basic';
+  margin-top: 5%;
+  margin-left: 3%;
+  font-size: 250%;
+  color: black;
+}
+
+
+
+/* ------------------------ Third section : Owner's story -----------------------------*/
+
+#owner_story_section {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  margin-top: 0.5%;
+  margin-left: 0.5%;
+  margin-bottom: 0.5%;
+  margin-right: 0.5%;
+  background-color: rgb(240, 120, 120);
+  border-radius: 2rem;
+}
+
+
+#owner_story_title {
+  font-family: 'Gentium Book Basic';
+  margin-top: 2%;
+  font-size: 450%;
+  color: black;
+  text-align: center;
+}
+
+#owner_story_text {
+  font-family: 'Gentium Book Basic';
+  margin-top: 5%;
+  margin-left: 3%;
+  font-size: 250%;
+  color: black;
+}
+
+.button_start_personalisation_container {
+  display: flex;
+  justify-content: center;
+}
+
+#button_start_personalisation {
+  margin-top: 5%;
+  background-color: black;
+  font-size: 250%;
+  border-radius: 3rem;
+  padding : 1% 1% ;
+  color : white;
+  cursor: pointer;
+}
+
+
+/*
   label{
     font-family: 'Gentium Book Basic', arial;
-    margin-top: 15%;
-    margin-left: 10%;
+    margin-top: 10%;
+    margin-left: 15%;
     width: 65rem;
     height: 2rem;
     white-space: normal;
@@ -33,15 +171,18 @@
     height: 100vh;
     width: 205vh;
     margin-left: 1%;
-    
+
     margin-top: 1%;
     background-position: center ;
     border-radius: 2%;
 }
 
-#button_read {
+
+
+
+/* #button_read {
     background-color: #99cf4d;
-    
+
     color: white;
     font-size: 7rem;
     margin-top: 10%;
@@ -49,36 +190,25 @@
     cursor: pointer;
     border-radius: 3rem;
 
-  }
+  } */
 
-  #button_shop{
-    background-color: red;
-    margin-left: 35%;
-    margin-top: 0%;
-    color: white;
-    
-    height: 5rem;
-    border-radius: 3rem;
+/*   ------------------------------------------------  */
 
-}
-
-/*   ------------------------------------------------  */ 
-
-/*   DEUXIEME BACKGROUND   */ 
+/*   DEUXIEME BACKGROUND   */
 
 
-#titre_deux{
+/* #titre_deux{
     margin-top: 1%;
     color: black;
     width: 1300px;
     height: 10px;
     font-size: 120px;
     margin-left: 600px;
-   
-}
-#deuxieme_back{  
+
+} */
+/* #deuxieme_back{
     background-image: url("/assets/images/deuxieme_back2.png");
-    
+
     background-size: cover;
     background-repeat: no-repeat;
     height: 125vh;
@@ -87,9 +217,8 @@
     margin-top: 1%;
     background-position: center ;
     border-radius: 2%;
-    
-}
 
+}
 
 #premier_para{
     font-family: 'Gentium Book Basic', arial;
@@ -100,23 +229,23 @@
   }
 
   #deuxi_para{
-    
+
     font-family: 'Gentium Book Basic', arial;
     width: 73%;
     color: black;
     font-size: 3rem;
     margin-top: 3%;
-}
+} */
 
 
 /* --------------------------*/
 
 /* TROISIEME BACKGROUND */
 
-
+/*
 #troisieme_back{
     background-image: url("/assets/images/back1000.png");
-    
+
     background-size: cover;
     background-repeat: no-repeat;
     height: 95vh;
@@ -139,7 +268,7 @@
     margin-top: 47%;
     margin-left: -35%;
     align-items: center;
-    border: 3px solid #4dcf51; 
+    border: 3px solid #4dcf51;
 }
 
 #troisieme_titre{
@@ -149,14 +278,14 @@
     font-size: 6rem;
     width: 50%;
 
-}
+} */
 
 
 /*  ---------------------------  */
-
+/*
 span {
     font-family: 'Gentium Book Basic', arial;
-  }
+  } */
 
 
 

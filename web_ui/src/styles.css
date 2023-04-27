@@ -1,19 +1,16 @@
 /*You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Aclonica");
 *{
-    font-family: 'poppins' ,sans-serif;
-}
-*{
+    font-family: "Alconica";
     box-sizing: border-box;
 }
 html{
-    font-size: 1rem;
+    font-size: 0.85rem;
 }
 body{
     margin: 0;
-    font-family: "Alconica", sans-serif;
-    font-size: 1rem;
+    font-family: "Alconica";
+    font-size: 0.85rem;
 }
 
 a{
