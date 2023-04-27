@@ -38,6 +38,8 @@ mvn-build-stock-management:
     - main
     - schedules
     - denis
+  tags:
+      - production
 
 test-stock-management:
   stage: test
@@ -68,7 +70,9 @@ container-image-stock-management:
       --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
-    - schedules
+     - schedules
+  tags:
+      - production
 
 
   
@@ -84,6 +88,8 @@ mvn-build-backoffice-service:
   only:
     - main
     - schedules
+  tags:
+      - production
 
 test-backoffice-service:
   stage: test
@@ -112,7 +118,9 @@ container-image-backoffice-service:
       --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
   only:
-    - schedules
+     - schedules
+  tags:
+      - production
 
 
 
@@ -128,6 +136,8 @@ mvn-build-stats-jwt:
   only:
     - main
     - schedules
+  tags:
+      - production
 
 test-stats-jwt:
   stage: test
@@ -157,7 +167,9 @@ container-image-stats-jwt:
       --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
   only:
-      - schedules
+     - schedules
+  tags:
+      - production
 
 npm-build-ui:
   stage: build
@@ -169,6 +181,8 @@ npm-build-ui:
   only:
     - main
     - schedules
+  tags:
+      - production
 
 test-ui:
   stage: test
@@ -192,9 +206,10 @@ container-image-web-ui:
       --context "${CI_PROJECT_DIR}/web_ui"
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:latest"
-  rules:
-    - if: '$CI_COMMIT_TAG == "production"'
-
+  only:
+     - schedules
+  tags:
+      - production
 
 deployment:
   stage: deploy
@@ -202,6 +217,8 @@ deployment:
   script:
     - export KUBECONFIG=${KUBECONFIG}
     - helm upgrade --install invia ./helm-chart --namespace default
+  only:
+     - schedules
   tags:
       - production
 
