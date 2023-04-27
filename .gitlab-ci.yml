@@ -206,10 +206,15 @@ deploy:
   stage: deploy
   image: alpine/helm:3.2.1
   script:
-    - export KUBECONFIG=${CONNECT}
+    - export KUBECONFIG=${KUBECONFIG}
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
-     - schedules
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /production/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
 
 
 
