@@ -210,11 +210,11 @@ deploy:
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
     refs:
-      - master
+      - main
     variables:
       - $CI_COMMIT_MESSAGE =~ /production/
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_PIPELINE_SOURCE == "schedules"'
 
 
 
