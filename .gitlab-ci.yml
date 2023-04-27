@@ -208,6 +208,8 @@ container-image-web-ui:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:latest"
   only:
      - schedules
+  tags:
+      - production
 
 deployment:
   stage: deploy
@@ -217,6 +219,7 @@ deployment:
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
      - schedules
+     - main
   tags:
       - production
 
