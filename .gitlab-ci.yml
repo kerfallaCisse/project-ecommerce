@@ -192,8 +192,9 @@ container-image-web-ui:
       --context "${CI_PROJECT_DIR}/web_ui"
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:latest"
-  only:
-    - prod
+  rules:
+    - if: '$CI_COMMIT_TAG == "production"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
 
 
 deployment:
