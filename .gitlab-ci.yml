@@ -209,7 +209,7 @@ deploy:
     - export KUBECONFIG=${KUBECONFIG}
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
-    - main
+    - schedules
 
 
 
