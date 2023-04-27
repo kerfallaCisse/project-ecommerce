@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: stats-jwt
-          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest
+          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:0.1.0-SNAPSHOT
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
