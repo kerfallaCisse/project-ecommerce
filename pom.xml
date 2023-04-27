@@ -127,10 +127,10 @@
           </plugin>
         </plugins>
       </build>
-      <properties>
-        <quarkus.package.type>native</quarkus.package.type>
-     	<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
-	</properties>
+  <properties>
+  <quarkus.package.type>native</quarkus.package.type>
+    <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+</properties>
     </profile>
   </profiles>
 </project>

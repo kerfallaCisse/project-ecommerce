@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-jwt-deployment
+  namespace: stats-jwt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stats-jwt
+  template:
+    metadata:
+      labels:
+        app: stats-jwt
+    spec:
+      containers:
+        - name: stats-jwt
+          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: password
+            - name: MYSQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: url
+      imagePullSecrets:
+        - name: my-registry-secret

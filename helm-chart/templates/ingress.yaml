@@ -1,61 +1,115 @@
-{{- if .Values.ingress.enabled -}}
-{{- $fullName := include "helm-chart.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
-{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
-  {{- end }}
-{{- end }}
-{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
-  labels:
-    {{- include "helm-chart.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+  name: web-ui-ingress
+  namespace: web-ui
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
-  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.className }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
-  {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
-            pathType: {{ .pathType }}
-            {{- end }}
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: {{ $svcPort }}
-              {{- else }}
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
-              {{- end }}
-          {{- end }}
-    {{- end }}
-{{- end }}
+  - host: pinfo3.unige.ch
+    http:
+      paths:
+      - path: "/(.*)(/|$)"
+        pathType: Prefix
+        backend:
+          service:
+            name: web-ui-service
+            port:
+              name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stock-management-ingress
+  namespace: stock-management
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - pinfo3.unige.ch
+    secretName: letsencrypt-prod
+  rules:
+  - host: pinfo3.unige.ch
+    http:
+      paths:
+      - path: "/api/(stock)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: stock-management-service
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: back-office-ingress
+  namespace: back-office
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - pinfo3.unige.ch
+    secretName: letsencrypt-prod
+  rules:
+  - host: pinfo3.unige.ch
+    http:
+      paths:
+      - path: "/api/(stats)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: back-office-service
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stats-jwt-ingress
+  namespace: stats-jwt
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - pinfo3.unige.ch
+    secretName: letsencrypt-prod
+  rules:
+  - host: pinfo3.unige.ch
+    http:
+      paths:
+      - path: "/api/(jwt)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: stats-jwt-service
+            port:
+              number: 80
