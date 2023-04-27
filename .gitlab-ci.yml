@@ -203,8 +203,9 @@ deployment:
   script:
     - export KUBECONFIG=${CONNECT}
     - helm upgrade --install invia ./helm-chart --namespace default
-  only:
-    - schedules
+  rules:
+    - if: '$CI_COMMIT_TAG == "production"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
 
 
 
