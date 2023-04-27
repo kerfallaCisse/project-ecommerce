@@ -116,6 +116,7 @@ container-image-backoffice-service:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:${VERSION}"
   only:
      - schedules
+     - main
 
 
 
@@ -163,6 +164,7 @@ container-image-stats-jwt:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:${VERSION}"
   only:
      - schedules
+     - main
 
 npm-build-ui:
   stage: build
@@ -210,6 +212,7 @@ deploy:
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
     - schedules
+    - main
 
 
 
