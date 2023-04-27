@@ -1,17 +1,10 @@
 
 /* ------------------------ Firts section : Website Introduction -----------------------------*/
-
-/* C'est quoi la diff : ?????????? */
-
-/* #home_page_container {
-  background-color: yellow;
-  position: sticky ;
-}
-
 main {
   background-color: rgb(230, 218, 191);
   position: sticky ;
-} */
+  min-width: 60%;
+}
 
 #introduction_section {
   padding-top: 10%;
@@ -22,6 +15,7 @@ main {
   margin-right: 0.5%;
   background-color: rgb(37, 37, 117);
   border-radius: 2rem;
+
 }
 
 #introduction_title {

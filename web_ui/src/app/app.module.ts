@@ -10,6 +10,7 @@ import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { PrecisionComponent } from './login/precision/precision.component';
+import { PersonalisationComponent } from './personalisation/personalisation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { PrecisionComponent } from './login/precision/precision.component';
     HomeComponent,
     SearchComponent,
     LoginComponent,
-    PrecisionComponent
+    PrecisionComponent,
+    PersonalisationComponent
   ],
   imports: [
     BrowserModule,
