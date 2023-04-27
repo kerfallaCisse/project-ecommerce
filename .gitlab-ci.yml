@@ -38,8 +38,7 @@ mvn-build-stock-management:
     - main
     - schedules
     - denis
-  tags:
-      - production
+
 
 test-stock-management:
   stage: test
@@ -71,8 +70,7 @@ container-image-stock-management:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
   only:
      - schedules
-  tags:
-      - production
+
 
 
   
@@ -88,8 +86,7 @@ mvn-build-backoffice-service:
   only:
     - main
     - schedules
-  tags:
-      - production
+
 
 test-backoffice-service:
   stage: test
@@ -119,8 +116,7 @@ container-image-backoffice-service:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
   only:
      - schedules
-  tags:
-      - production
+
 
 
 
@@ -136,8 +132,7 @@ mvn-build-stats-jwt:
   only:
     - main
     - schedules
-  tags:
-      - production
+
 
 test-stats-jwt:
   stage: test
@@ -168,8 +163,6 @@ container-image-stats-jwt:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
   only:
      - schedules
-  tags:
-      - production
 
 npm-build-ui:
   stage: build
@@ -181,8 +174,7 @@ npm-build-ui:
   only:
     - main
     - schedules
-  tags:
-      - production
+
 
 test-ui:
   stage: test
@@ -208,20 +200,21 @@ container-image-web-ui:
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:latest"
   only:
      - schedules
-  tags:
-      - production
+ 
 
-deployment:
+deploy:
   stage: deploy
   image: alpine/helm:3.2.1
   script:
-    - export KUBECONFIG=${KUBECONFIG}
+    - export KUBECONFIG=${CONNECT}
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
-     - schedules
-     - main
-  tags:
-      - production
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG == "production"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
 
 
 
