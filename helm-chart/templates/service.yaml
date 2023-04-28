@@ -34,7 +34,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 8081
+      targetPort: 8080
       protocol: TCP
   selector:
     app: back-office
@@ -48,7 +48,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 8082
+      targetPort: 8080
       protocol: TCP
   selector:
     app: stats-jwt
