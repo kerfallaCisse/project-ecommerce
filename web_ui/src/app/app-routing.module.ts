@@ -5,6 +5,8 @@ import{SacPageComponent} from './sac-page/sac-page.component';
 import { LoginComponent } from './login/login.component'
 import { PrecisionComponent } from './login/precision/precision.component'
 import { PersonalisationComponent } from './personalisation/personalisation.component';
+import { StockComponent } from './stock/stock.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 
 
@@ -18,7 +20,9 @@ const routes: Routes = [
 {path: 'login', component: LoginComponent, children: [
   {path: 'precision', component: PrecisionComponent }
 ]},
-{path :'personalisation', component: PersonalisationComponent},
+{path:'personalisation', component: PersonalisationComponent},
+{path:'stock', component: StockComponent},
+{path:'statistic', component: StatisticComponent}
 
 ];
 
