@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { PrecisionComponent } from './login/precision/precision.component';
 import { PersonalisationComponent } from './personalisation/personalisation.component';
+import { StockComponent } from './stock/stock.component';
+import { StatisticComponent } from './statistic/statistic.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,9 @@ import { PersonalisationComponent } from './personalisation/personalisation.comp
     SearchComponent,
     LoginComponent,
     PrecisionComponent,
-    PersonalisationComponent
+    PersonalisationComponent,
+    StockComponent,
+    StatisticComponent
   ],
   imports: [
     BrowserModule,
