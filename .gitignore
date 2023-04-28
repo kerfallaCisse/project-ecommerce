@@ -12,6 +12,7 @@ local.properties
 .recommenders
 
 
+.vscode
 .DS_store
 target
 
