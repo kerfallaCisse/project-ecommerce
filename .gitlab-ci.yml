@@ -72,6 +72,95 @@ container-image-stock-management:
      - schedules
 
 
+mvn-build-customization:
+  stage:  build
+  script: 
+    - cd customization 
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - customization/target
+    expire_in: 2 hours
+  only:
+    - main
+    - schedules
+
+
+test-customization:
+  stage: test
+  dependencies:
+    - mvn-build-customization 
+  script:
+    - cd customization 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - main
+
+
+container-image-customization:
+  stage: image-push
+  dependencies:
+    - mvn-build-customization 
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/customization"
+      --dockerfile "${CI_PROJECT_DIR}/customization/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/customization:${VERSION}"
+  only:
+     - schedules
+
+
+mvn-build-payment :
+  stage:  build
+  script: 
+    - cd payment-service 
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - payment-service/target
+    expire_in: 2 hours
+  only:
+    - main
+    - schedules
+
+
+test-payment:
+  stage: test
+  dependencies:
+    - mvn-build-payment
+  script:
+    - cd payment-service 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - main
+
+
+
+container-image-payment:
+  stage: image-push
+  dependencies:
+    - mvn-build-payment
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/payment-service"
+      --dockerfile "${CI_PROJECT_DIR}/payment-service/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/payment-service:${VERSION}"
+  only:
+     - schedules
 
   
 mvn-build-backoffice-service:
