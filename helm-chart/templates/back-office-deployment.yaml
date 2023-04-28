@@ -35,9 +35,9 @@ spec:
                 secretKeyRef:
                   name: my-database-secret
                   key: url
-            - name: SMALLRYE_JWT_SIGN_KEY_LOCATION
-              value: ./backoffice_service/stats/src/main/resources/privatekey.pem
-            - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
-              value: ./backoffice_service/stats/src/main/resources/publickey.pem
+            #- name: SMALLRYE_JWT_SIGN_KEY_LOCATION
+             # value: ./backoffice_service/stats/src/main/resources/privatekey.pem
+           # - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
+            #  value: ./backoffice_service/stats/src/main/resources/publickey.pem
       imagePullSecrets:
         - name: my-registry-secret
