@@ -10,6 +10,7 @@
     <module>stock-management</module>
     <module>payment-service</module>
     <module>customization</module>
+    <module>backoffice_service</module>
   </modules>
   <properties>
     <compiler-plugin.version>3.10.1</compiler-plugin.version>
