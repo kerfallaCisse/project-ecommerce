@@ -40,7 +40,7 @@ Lien utile pour le management des issues : https://docs.gitlab.com/ee/integratio
 **Important** : Lors de chaque commit référencer la issue.
 
 Exemple (avec le conventionnal commit) :
-``feat(gestion_stocks): PIEC-n°issue sur jira``
+``feat(gestion_stocks): Closes PIEC-n°issue sur jira``
 
 Nom de la branche:
 ``kerfalla-PIEC-1``

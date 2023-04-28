@@ -42,8 +42,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: back-office-service
-  namespace: back-office
+  name: stats-jwt-service
+  namespace: stats-jwt
 spec:
   type: ClusterIP
   ports:
@@ -51,4 +51,4 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app: back-office
+    app: stats-jwt

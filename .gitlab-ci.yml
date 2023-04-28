@@ -39,6 +39,7 @@ mvn-build-stock-management:
     - schedules
     - denis
 
+
 test-stock-management:
   stage: test
   dependencies:
@@ -66,10 +67,100 @@ container-image-stock-management:
       --build-arg MYSQL_URL=${MYSQL_URL}
       --context "${CI_PROJECT_DIR}/stock-management"
       --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:latest"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:${VERSION}"
   only:
+     - schedules
+
+
+mvn-build-customization:
+  stage:  build
+  script: 
+    - cd customization 
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - customization/target
+    expire_in: 2 hours
+  only:
+    - main
     - schedules
 
+
+test-customization:
+  stage: test
+  dependencies:
+    - mvn-build-customization 
+  script:
+    - cd customization 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - main
+
+
+container-image-customization:
+  stage: image-push
+  dependencies:
+    - mvn-build-customization 
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/customization"
+      --dockerfile "${CI_PROJECT_DIR}/customization/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/customization:${VERSION}"
+  only:
+     - schedules
+
+
+mvn-build-payment :
+  stage:  build
+  script: 
+    - cd payment-service 
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - payment-service/target
+    expire_in: 2 hours
+  only:
+    - main
+    - schedules
+
+
+test-payment:
+  stage: test
+  dependencies:
+    - mvn-build-payment
+  script:
+    - cd payment-service 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - main
+
+
+
+container-image-payment:
+  stage: image-push
+  dependencies:
+    - mvn-build-payment
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/payment-service"
+      --dockerfile "${CI_PROJECT_DIR}/payment-service/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/payment-service:${VERSION}"
+  only:
+     - schedules
 
   
 mvn-build-backoffice-service:
@@ -84,6 +175,7 @@ mvn-build-backoffice-service:
   only:
     - main
     - schedules
+
 
 test-backoffice-service:
   stage: test
@@ -110,9 +202,10 @@ container-image-backoffice-service:
       --build-arg MYSQL_URL=${MYSQL_URL}
       --context "${CI_PROJECT_DIR}/backoffice_service/stats"
       --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:${VERSION}"
   only:
-    - schedules
+     - schedules
+
 
 
 
@@ -128,6 +221,7 @@ mvn-build-stats-jwt:
   only:
     - main
     - schedules
+
 
 test-stats-jwt:
   stage: test
@@ -155,9 +249,9 @@ container-image-stats-jwt:
       --build-arg MYSQL_URL=${MYSQL_URL}
       --context "${CI_PROJECT_DIR}/stats-jwt"
       --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:latest"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:${VERSION}"
   only:
-      - schedules
+     - schedules
 
 npm-build-ui:
   stage: build
@@ -169,6 +263,7 @@ npm-build-ui:
   only:
     - main
     - schedules
+
 
 test-ui:
   stage: test
@@ -191,17 +286,17 @@ container-image-web-ui:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}/web_ui"
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:latest"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:${VERSION}"
   only:
-    - schedules
+     - schedules
+ 
 
-
-
-deployment:
+deploy:
   stage: deploy
   image: alpine/helm:3.2.1
   script:
-    - export KUBECONFIG=${CONNECT}
+    - export KUBECONFIG=${KUBECONFIG}
+    - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
     - schedules
