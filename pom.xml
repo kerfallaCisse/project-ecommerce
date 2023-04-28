@@ -10,7 +10,7 @@
     <module>stock-management</module>
     <module>payment-service</module>
     <module>customization</module>
-    <module>backoffice_service</module>
+    <module>backoffice_service</module> 
   </modules>
   <properties>
     <compiler-plugin.version>3.10.1</compiler-plugin.version>
@@ -36,6 +36,18 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-mysql</artifactId>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jsonb</artifactId>
