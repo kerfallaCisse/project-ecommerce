@@ -30,8 +30,6 @@ mvn-build-stock-management:
   script: 
     - cd stock-management
     -  mvn clean package -DskipTests
-    - cd ./backoffice_service/stats/src/main/resources
-    - cat privatekey.pem
   artifacts:
     paths:
       - stock-management/target
@@ -81,8 +79,6 @@ mvn-build-backoffice-service:
   script: 
     - cd backoffice_service/stats
     -  mvn clean package -DskipTests
-    - cd ./stats-jwt/src/main/resources
-    - cat publickey.pem
   artifacts:
     paths:
       - backoffice_service/stats/target
