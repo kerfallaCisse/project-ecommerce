@@ -1,5 +1,5 @@
 variables:
-  VERSION : "0.1.0-SNAPSHOT"
+  VERSION : "0.1.2-SNAPSHOT"
 
 
 image: maven:3.6.3-openjdk-17-slim
@@ -166,11 +166,11 @@ container-image-payment:
 mvn-build-backoffice-service:
   stage:  build
   script: 
-    - cd backoffice_service/stats
+    - cd backoffice_service
     -  mvn clean package -DskipTests
   artifacts:
     paths:
-      - backoffice_service/stats/target
+      - backoffice_service/target
     expire_in: 2 hours
   only:
     - main
@@ -182,7 +182,7 @@ test-backoffice-service:
   dependencies:
     - mvn-build-backoffice-service
   script:
-    - cd backoffice_service/stats
+    - cd backoffice_service
     - mvn test
   only:
     - main
@@ -200,8 +200,8 @@ container-image-backoffice-service:
       --build-arg MYSQL_USER=${MYSQL_USER}
       --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
       --build-arg MYSQL_URL=${MYSQL_URL}
-      --context "${CI_PROJECT_DIR}/backoffice_service/stats"
-      --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
+      --context "${CI_PROJECT_DIR}/backoffice_service"
+      --dockerfile "${CI_PROJECT_DIR}/backoffice_service/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:${VERSION}"
   only:
      - schedules
