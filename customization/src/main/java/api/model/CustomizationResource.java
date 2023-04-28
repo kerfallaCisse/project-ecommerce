@@ -11,6 +11,6 @@ public class CustomizationResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String customization() {
-        return "Hello from customization endpoint ";
+        return "Hello from customization endpoint";
     }
 }
