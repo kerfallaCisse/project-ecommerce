@@ -7,15 +7,14 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
-public class GreetingResourceTest {
+public class PaymentResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testPaymentEndpoint() {
         given()
-          .when().get("/hello")
+          .when().get("/payment")
           .then()
              .statusCode(200)
-             .body(is("Hello from customization endpoint"));
+             .body(is("Hello from payment endpoint"));
     }
-
 }
