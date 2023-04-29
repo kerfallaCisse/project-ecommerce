@@ -23,8 +23,6 @@ sonarcloud-check-branch:
       - .sonar/cache
   script: 
     - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
-  only:
-    - main
 
 mvn-build-stock-management:
   stage:  build
@@ -300,6 +298,7 @@ deploy:
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
+    - schedules
     - /^production$/
 
 
