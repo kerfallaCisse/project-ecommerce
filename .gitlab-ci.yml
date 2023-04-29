@@ -298,7 +298,6 @@ deploy:
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
-    - schedules
     - tags
   tags:
     - production
