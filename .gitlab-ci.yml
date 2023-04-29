@@ -298,10 +298,11 @@ deploy:
     - export KUBECONFIG=${KUBECONFIG}
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG == "production"'
-      when: always
-    - when: never
+  only:
+    - tags
+    - schedules
+  tags:
+    - production
 
 
 
