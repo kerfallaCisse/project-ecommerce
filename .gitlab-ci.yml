@@ -68,7 +68,9 @@ container-image-stock-management:
       --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
 
 
 mvn-build-customization:
@@ -113,7 +115,9 @@ container-image-customization:
       --dockerfile "${CI_PROJECT_DIR}/customization/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/customization:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
 
 
 mvn-build-payment :
@@ -159,7 +163,9 @@ container-image-payment:
       --dockerfile "${CI_PROJECT_DIR}/payment-service/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/payment-service:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
 
   
 mvn-build-backoffice-service:
@@ -203,7 +209,9 @@ container-image-backoffice-service:
       --dockerfile "${CI_PROJECT_DIR}/backoffice_service/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
 
 
 
@@ -250,7 +258,9 @@ container-image-stats-jwt:
       --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
 
 npm-build-ui:
   stage: build
@@ -287,7 +297,9 @@ container-image-web-ui:
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
  
 deploy:
   stage: deploy
@@ -299,8 +311,8 @@ deploy:
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
     variables:
-      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/  
-
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
 
 
 
