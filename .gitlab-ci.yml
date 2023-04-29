@@ -289,7 +289,6 @@ container-image-web-ui:
   only:
      - schedules
  
-
 deploy:
   stage: deploy
   image: alpine/helm:3.2.1
@@ -299,9 +298,7 @@ deploy:
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
-    - tags
-  tags:
-    - production
+    - /production/i  
 
 
 
