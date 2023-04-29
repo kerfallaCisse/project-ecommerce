@@ -55,6 +55,68 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: payment-ingress
+  namespace: payment
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - pinfo3.unige.ch
+    secretName: letsencrypt-prod
+  rules:
+  - host: pinfo3.unige.ch
+    http:
+      paths:
+      - path: "/api/(payment)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: payment-service
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: customization-ingress
+  namespace: customization
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - pinfo3.unige.ch
+    secretName: letsencrypt-prod
+  rules:
+  - host: pinfo3.unige.ch
+    http:
+      paths:
+      - path: "/api/(customization)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: customization-service
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
   name: back-office-ingress
   namespace: back-office
   annotations:
