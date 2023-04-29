@@ -298,7 +298,8 @@ deploy:
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
-    - /.*\[production\].*/ 
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/  
 
 
 
