@@ -299,6 +299,7 @@ deploy:
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
     - tags
+    - schedules
   tags:
     - production
 
