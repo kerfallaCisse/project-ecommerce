@@ -3,31 +3,52 @@ import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, AfterViewInit} from '@angular/core';
 
+
+let number = 0;
+let variable: boolean = false
 @Component({
   selector: 'app-personalisation',
   templateUrl: './personalisation.component.html',
   styleUrls: ['./personalisation.component.css']
 })
 
-export class PersonalisationComponent implements OnInit,AfterViewInit {
 
+
+export class PersonalisationComponent implements OnInit {
+ 
+ 
+  
 
 
   // Create a new instance of the scene and start rendering
-  public constructor() {}
-
-  ngAfterViewInit() {
+  
+  
+  
+  ngOnInit() {
+    
+    console.log(number)
+    if(variable === false){
+     this.funcion()
+     number += 1
+    
+    }
+  }
+ 
+  funcion(){
     console.log("Engine initiated")
-    const my3DScene = new My3DScene();
+    const my3DScene = new My3DScene
     function animate() {
 
+      
       my3DScene.render();
-
+      
     }
    animate();
+   variable = true
   }
 
-  public ngOnInit(): void {
+  public constructor() {
+    
   }
 
 }

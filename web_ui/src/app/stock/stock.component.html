@@ -2,4 +2,89 @@
   <app-header></app-header>
 </header>
 
-<p>stock works!</p>
+
+<main class="home_page_container">
+
+  <section id = "tableau">
+
+      <table class="table table-trapped"> 
+        <thead>
+          <tr>
+            <th> Model</th>
+            <th> Color Pocket</th>
+            <th> Color Bag </th>
+            <th> Quantity</th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+          <tr *ngFor="let data of tab">
+              <td> {{data.modelType}}</td>
+              <td> {{data.color_bag_name}}</td>
+              <td> {{data.color_pocket_name}}</td>
+              <td> {{data.quantity}}</td>
+          </tr>
+        </tbody> <!-- Ajout de la balise manquante -->
+
+      </table>
+
+  </section>
+
+  <section id = "formulaire">
+
+
+    <div id="adding_stock">
+
+        <select [(ngModel)]="selectedColor_pocket">
+          <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+        </select>
+
+        <select [(ngModel)]="selectedColor_bag">
+          <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+        </select>
+        
+       
+        <input type="number" (input)="onInputChange($event)">
+    
+        
+        
+        <button id="add_button" (click)="onSubmit_add() ">Add</button>
+
+    </div>
+
+    <div id="remove_stock">
+
+      <select [(ngModel)]="selectedColor_pocket">
+        <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+      </select>
+
+      <select [(ngModel)]="selectedColor_bag">
+        <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+      </select>
+      
+     
+      <input type="number" (input)="onInputChange($event)">
+  
+      
+      
+      <button id="remove_button" (click)="onSubmit_remove() ">Remove</button>
+
+  </div>
+
+   
+
+
+
+  </section>
+
+  
+</main>
+
+
+
+ 
+
+
+
+

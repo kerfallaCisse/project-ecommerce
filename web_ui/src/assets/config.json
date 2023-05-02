@@ -1,0 +1,7 @@
+[{"modelType":"SmallModel",
+"id":1,"quantity":2,
+"color_pocket_name":"blue",
+"color_bag_name":"blue"},
+{"modelType":"SmallModel","id":3,"quantity":80,"color_pocket_name":"red","color_bag_name":"blue"}
+,{"modelType":"SmallModel","id":4,"quantity":50,"color_pocket_name":"black","color_bag_name":"black"}
+,{"modelType":"LargeModel","id":2,"quantity":3,"color_pocket_name":"black","color_bag_name":"red"}]

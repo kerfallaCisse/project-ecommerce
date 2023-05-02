@@ -1,0 +1,121 @@
+body {
+    background-color: #ffffff; /* couleur de fond souhaitée */
+  }
+
+select {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #ffffff;
+    
+  }
+  
+  select option {
+    background-color: #ffffff;
+    color: #ffffff;
+  }
+
+  #adding_stock{
+    background: beige;
+    margin-top: 5%;
+    margin-left: 10%;
+    width: 70%;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #adding_stock {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin-top: 0.1%;
+    margin-left: 5%;
+    margin-bottom: 0.5%;
+    margin-right: 0.5%;
+    background-color:beige;
+    border-radius: 2rem;
+  
+  }
+
+  #add_button{
+    color: white;
+    background-color: rgb(0, 204, 0);
+    padding-left: 3%;
+    padding-right: 3%;
+    font-size: 150%;
+    border-radius: 2rem;
+    border: none;
+  }
+
+
+  #remove_stock{
+    background: beige;
+    margin-top: 30%;
+    margin-left: 10%;
+    width: 70%;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+  }
+  #remove_stock {
+    margin-top: 30%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin-top: 0.1%;
+    margin-left: 5%;
+    margin-bottom: 0.5%;
+    margin-right: 0.5%;
+    background-color:beige;
+    border-radius: 2rem;
+  
+  }
+
+  #remove_button{
+    color: white;
+    background-color: rgb(204, 0, 0);
+    padding-left: 1.1%;
+    padding-right: 1.1%;
+    font-size: 150%;
+    border-radius: 2rem;
+    border: none;
+  }
+
+
+  thead,
+tfoot {
+    background-color: #3f87a6;
+    color: #fff;
+}
+
+tbody {
+    background-color: #e4f0f5;
+}
+
+caption {
+    padding: 10px;
+    caption-side: bottom;
+}
+
+table {
+  margin-top: 3%;
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+
+td,
+th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 5px 10px;
+}
+
+td {
+    text-align: center;
+}
