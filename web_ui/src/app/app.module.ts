@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +10,14 @@ import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { PrecisionComponent } from './login/precision/precision.component';
+import { PersonalisationComponent } from './personalisation/personalisation.component';
+import { StockComponent } from './stock/stock.component';
+import { StatisticComponent } from './statistic/statistic.component';
+
+// pour connecter B2D
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpClientModule} from '@angular/common/http'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,15 +25,20 @@ import { PrecisionComponent } from './login/precision/precision.component';
     HomeComponent,
     SearchComponent,
     LoginComponent,
-    PrecisionComponent
+    PrecisionComponent,
+    PersonalisationComponent,
+    StockComponent,
+    StatisticComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
+  
 })
 export class AppModule { }

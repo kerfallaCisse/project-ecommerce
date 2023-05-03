@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-office-deployment
+  namespace: back-office
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-office
+  template:
+    metadata:
+      labels:
+        app: back-office
+    spec:
+      containers:
+        - name: back-office
+          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:0.1.2-SNAPSHOT
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: password
+            - name: MYSQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: url
+            - name: SMALLRYE_JWT_SIGN_KEY_LOCATION
+              value: /src/main/resources/privatekey.pem
+            - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
+              value: /src/main/resources/publickey.pem
+          volumeMounts:
+            - name: jwt-keys
+              mountPath: /src/main/resources
+      volumes:
+        - name: jwt-keys
+          secret:
+            secretName: jwt-keys
+      imagePullSecrets:
+        - name: my-registry-secret

@@ -11,6 +11,11 @@ local.properties
 .loadpath
 .recommenders
 
+
+.vscode
+.DS_store
+target
+
 # External tool builders
 .externalToolBuilders/
 
