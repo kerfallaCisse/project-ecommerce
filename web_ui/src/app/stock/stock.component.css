@@ -9,9 +9,9 @@ select {
     font-size: 16px;
     border: none;
     background-color: #ffffff;
-    
+
   }
-  
+
   select option {
     background-color: #ffffff;
     color: #ffffff;
@@ -39,10 +39,10 @@ select {
     background-color:rgb(255, 255, 255);
     border-radius: 2rem;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  
+
   }
 
-  
+
 
   #add_button{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -68,7 +68,7 @@ select {
     justify-content: space-between;
   }
   #remove_stock {
-   
+
     padding-top: 2%;
     padding-bottom: 2%;
     padding-left: 2%;
@@ -80,7 +80,7 @@ select {
     background-color:rgb(255, 255, 255);
     border-radius: 2rem;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  
+
   }
 
   #remove_button{
@@ -135,7 +135,7 @@ table{
   font-family: sans-serif;
   font-size: 3%;
   width: 70%;
-  
+
 
 }
 
@@ -144,10 +144,10 @@ section {
 }
 
 #indication_tableau {
-  
-  
+
+
     font-family: 'Aldrich', sans-serif;
-  
+
   margin-right: 20%;
   max-width: 300px;
   margin: 0 auto;

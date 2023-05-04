@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { NgxEchartsModule } from 'ngx-echarts';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,10 +37,13 @@ import {HttpClientModule} from '@angular/common/http'
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
-  
+
 })
 export class AppModule { }

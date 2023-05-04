@@ -1,4 +1,82 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+
+
+
 <header>
   <app-header></app-header>
 </header>
-<p>statistic works!</p>
+
+<main class="stat_page_container">
+
+  <div class = "solo_statistics">
+
+    <h4> This week </h4>
+
+    <div class = "new_users">
+      <h6> New Users </h6>
+      <h2> 486 </h2>
+      <p> -0.56% <i class='bx bx-trending-down'></i></p>
+    </div>
+
+    <div class = "visits">
+      <h6> Visits </h6>
+      <h2> 2700 </h2>
+      <p> +5.7% <i class='bx bx-trending-up' ></i></p>
+    </div>
+
+    <div class = "orders">
+      <h6> Orders </h6>
+      <h2> 67 </h2>
+      <p> +3.89% <i class='bx bx-trending-up' ></i></p>
+    </div>
+
+    <div class = "abandonned_baskets">
+      <h6> Abandonned Baskets </h6>
+      <h2> 23 </h2>
+      <p> -1.08% <i class='bx bx-trending-down' ></i></p>
+    </div>
+
+  </div>
+
+
+  <div class = "graphs_statistics">
+
+    <h4>This week </h4>
+
+    <div class="popular_colors_graph" nz-col nzSpan="12">
+      <h2> Popular Colors </h2>
+      <div id="chart1" echarts [options]="histogramOption" theme="macarons" class="demo-chart"></div>
+    </div>
+
+    <div class="visits_graph" nz-col nzSpan="12">
+      <h2> Visits </h2>
+      <div id="chart2" echarts [options]="lineChartOption" theme="macarons" class="demo-chart"></div>
+    </div>
+
+    <div class="new_users_graph" nz-col nzSpan="12">
+      <h2> New Users </h2>
+      <!-- <div id="chart3" echarts [options]="option" theme="macarons" class="demo-chart"></div> -->
+    </div>
+
+    <div class="orders_graph" nz-col nzSpan="12">
+      <h2> Orders </h2>
+      <!-- <div id="chart4" echarts [options]="option" theme="macarons" class="demo-chart"></div> -->
+    </div>
+
+  </div>
+
+
+
+  <!-- <div nz-row>
+    <div nz-col nzSpan="12">
+      <h5> id=chart1 </h5>
+      <div id="chart1" echarts [options]="option" theme="macarons" class="demo-chart"></div>
+    </div>
+    <div nz-col nzSpan="12">
+      <h5> id=chart2 </h5>
+      <div id="chart2" echarts [options]="option" theme="macarons" class="demo-chart"></div>
+    </div>
+  </div> -->
+
+</main>
