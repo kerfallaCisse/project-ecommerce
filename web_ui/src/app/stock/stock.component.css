@@ -1,9 +1,10 @@
 body {
     background-color: #ffffff; /* couleur de fond souhaitée */
+    font-family: 'Aldrich';font-size: 22px;
   }
 
 select {
-    width: 200px;
+    width: 160px;
     padding: 10px;
     font-size: 16px;
     border: none;
@@ -20,7 +21,7 @@ select {
     background: beige;
     margin-top: 5%;
     margin-left: 10%;
-    width: 70%;
+    width: 75%;
     height: 30%;
     display: flex;
     justify-content: space-between;
@@ -31,18 +32,24 @@ select {
     padding-bottom: 2%;
     padding-left: 2%;
     padding-right: 2%;
-    margin-top: 0.1%;
+    margin-top: 7%;
     margin-left: 5%;
     margin-bottom: 0.5%;
     margin-right: 0.5%;
-    background-color:beige;
+    background-color:rgb(255, 255, 255);
     border-radius: 2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   
   }
 
+  
+
   #add_button{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    font-family: 'Aldrich', sans-serif;
     color: white;
     background-color: rgb(0, 204, 0);
+    box-shadow: inset;
     padding-left: 3%;
     padding-right: 3%;
     font-size: 150%;
@@ -55,27 +62,30 @@ select {
     background: beige;
     margin-top: 30%;
     margin-left: 10%;
-    width: 70%;
+    width: 75%;
     height: 30%;
     display: flex;
     justify-content: space-between;
   }
   #remove_stock {
-    margin-top: 30%;
+   
     padding-top: 2%;
     padding-bottom: 2%;
     padding-left: 2%;
     padding-right: 2%;
-    margin-top: 0.1%;
+    margin-top: 3%;
     margin-left: 5%;
     margin-bottom: 0.5%;
     margin-right: 0.5%;
-    background-color:beige;
+    background-color:rgb(255, 255, 255);
     border-radius: 2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   
   }
 
   #remove_button{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    font-family: 'Aldrich', sans-serif;
     color: white;
     background-color: rgb(204, 0, 0);
     padding-left: 1.1%;
@@ -101,21 +111,70 @@ caption {
     caption-side: bottom;
 }
 
-table {
-  margin-top: 3%;
-    border-collapse: collapse;
-    border: 2px solid rgb(200, 200, 200);
-    letter-spacing: 1px;
-    font-family: sans-serif;
-    font-size: 0.8rem;
-}
 
-td,
+
+
 th {
+  font-family: 'Aldrich', sans-serif;
     border: 1px solid rgb(190, 190, 190);
     padding: 5px 10px;
+    font-size: 1rem;
 }
 
 td {
+    font-family: 'Aldrich', sans-serif;
     text-align: center;
+    font-size: 1rem;
 }
+
+table{
+  margin-top: -25%;
+  margin-left: 28%;
+  border-collapse: collapse;
+  border: 2px solid rgb(200, 200, 200);
+  font-family: sans-serif;
+  font-size: 3%;
+  width: 70%;
+  
+
+}
+
+section {
+  font-family: 'Aldrich', sans-serif;
+}
+
+#indication_tableau {
+  
+  
+    font-family: 'Aldrich', sans-serif;
+  
+  margin-right: 20%;
+  max-width: 300px;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10% 2%;
+}
+
+#titre_indication {
+  font-family: 'Aldrich';
+}
+
+
+
+
+
+
+#lowmessage {
+  font-family: 'Aldrich', sans-serif;
+  color: red;
+}
+
+#outmessage{
+  font-family: 'Aldrich', sans-serif;
+  color: rgb(142, 142, 0);
+}
+
+
