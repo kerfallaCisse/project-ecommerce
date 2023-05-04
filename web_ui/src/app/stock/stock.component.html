@@ -9,7 +9,7 @@
 
  <!-- Indication à gauche du tableau -->
 
-  <section id= "indication_tableau">
+  <section id= "indication_tableau" >
     <label id="titre_indication">Resume</label>
     <div id="lowmessage"></div>
     <div id="outmessage"></div>
@@ -58,11 +58,11 @@
       </select>
 
 
-      <select [(ngModel)]="selectedColor_pocket">
+      <select [(ngModel)]="selectedColor_bag ">
          <option *ngFor="let option of color" [value]="option">{{ option }}</option>
       </select>
 
-      <select [(ngModel)]="selectedColor_bag">
+      <select [(ngModel)]="selectedColor_pocket">
          <option *ngFor="let option of color" [value]="option">{{ option }}</option>
       </select>
 
@@ -76,24 +76,24 @@
 
       
       
-      <label>Modèle :</label>
+      <label></label>
       <select id="model_bag_2" [(ngModel)]="model_bag_2">
           <option *ngFor="let option of modeltype" [value]="option">{{ option }}</option>
        </select>
       
 
 
-      <label>Pocket color :  </label>
-      <select [(ngModel)]="selectedColor_pocket_2">
-        <option *ngFor="let option of color" [value]="option">{{ option }}</option>
-      </select>
-
-      <label>Bag color :</label>
+      <label></label>
       <select [(ngModel)]="selectedColor_bag_2">
         <option *ngFor="let option of color" [value]="option">{{ option }}</option>
       </select>
+
+      <label></label>
+      <select [(ngModel)]="selectedColor_pocket_2">
+        <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+      </select>
       
-      <label>Number of bag to add :</label>
+      <label></label>
       <input type="number" (input)="onInputChange($event)">
   
       

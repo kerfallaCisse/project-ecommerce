@@ -1,102 +1,24 @@
-body {
-    background-color: #ffffff; /* couleur de fond souhaitée */
-    font-family: 'Aldrich';font-size: 22px;
-  }
+/* indication à gauche du tableau */
+#indication_tableau {
+  max-width: 25%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 1%;
+  padding: 2%;
+  margin: 10% 2%;
+}
 
-select {
-    width: 160px;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    background-color: #ffffff;
-    
-  }
-  
-  select option {
-    background-color: #ffffff;
-    color: #ffffff;
-  }
+#lowmessage {
+  color: red;
+}
 
-  #adding_stock{
-    background: beige;
-    margin-top: 5%;
-    margin-left: 10%;
-    width: 75%;
-    height: 30%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  #adding_stock {
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-top: 7%;
-    margin-left: 5%;
-    margin-bottom: 0.5%;
-    margin-right: 0.5%;
-    background-color:rgb(255, 255, 255);
-    border-radius: 2rem;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  
-  }
-
-  
-
-  #add_button{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    font-family: 'Aldrich', sans-serif;
-    color: white;
-    background-color: rgb(0, 204, 0);
-    box-shadow: inset;
-    padding-left: 3%;
-    padding-right: 3%;
-    font-size: 150%;
-    border-radius: 2rem;
-    border: none;
-  }
+#outmessage{
+  color: rgb(142, 142, 0);
+} 
 
 
-  #remove_stock{
-    background: beige;
-    margin-top: 30%;
-    margin-left: 10%;
-    width: 75%;
-    height: 30%;
-    display: flex;
-    justify-content: space-between;
-  }
-  #remove_stock {
-   
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-top: 3%;
-    margin-left: 5%;
-    margin-bottom: 0.5%;
-    margin-right: 0.5%;
-    background-color:rgb(255, 255, 255);
-    border-radius: 2rem;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  
-  }
+/* Tableau*/
 
-  #remove_button{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    font-family: 'Aldrich', sans-serif;
-    color: white;
-    background-color: rgb(204, 0, 0);
-    padding-left: 1.1%;
-    padding-right: 1.1%;
-    font-size: 150%;
-    border-radius: 2rem;
-    border: none;
-  }
-
-
-  thead,
+thead,
 tfoot {
     background-color: #3f87a6;
     color: #fff;
@@ -139,42 +61,109 @@ table{
 
 }
 
-section {
-  font-family: 'Aldrich', sans-serif;
-}
 
-#indication_tableau {
+
+/* section Button adding */
+
   
+
+  #adding_stock {
+    
+    margin-top: 5%;
+    margin-left: 10%;
+    width: 75%;
   
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    
+    border-radius: 2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  
+  }
+
+  
+
+  #add_button{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     font-family: 'Aldrich', sans-serif;
+    color: white;
+    background-color: rgb(0, 204, 0);
+    box-shadow: inset;
+    padding-left: 3%;
+    padding-right: 3%;
+    font-size: 150%;
+    border-radius: 2rem;
+    border: none;
+  }
+  select {
+    width: 15%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    
+  }
   
-  margin-right: 20%;
-  max-width: 300px;
-  margin: 0 auto;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
-  padding: 20px;
-  margin: 10% 2%;
+  select option {
+    background-color: #ffffff;
+    color: #ffffff;
+  }
+
+ 
+
+
+
+
+/* section Button remove */
+   
+  #remove_stock {
+    
+    margin-top: 5%;
+    margin-left: 10%;
+    width: 75%;
+  
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    
+    padding-right: 2%;
+    
+    border-radius: 2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  
+  }
+
+  #remove_button{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    font-family: 'Aldrich', sans-serif;
+    color: white;
+    background-color: red;
+    box-shadow: inset;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    font-size: 150%;
+    border-radius: 2rem;
+    border: none;
+  }
+
+
+
+
+
+
+
+
+div, label {
+  font-family: "Aldrich", sans-serif;
 }
 
-#titre_indication {
-  font-family: 'Aldrich';
-}
 
 
 
 
-
-
-#lowmessage {
-  font-family: 'Aldrich', sans-serif;
-  color: red;
-}
-
-#outmessage{
-  font-family: 'Aldrich', sans-serif;
-  color: rgb(142, 142, 0);
-}
 
 
