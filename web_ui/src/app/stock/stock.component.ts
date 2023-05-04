@@ -17,6 +17,8 @@ quantities: number[] = []
 
 
 tab: {modelType: string,id: number,quantity: number,color_pocket_name: string,color_bag_name: string}[] = [];
+tab_real: {modelType: string,id: number,quantity: number,color_pocket_name: string,color_bag_name: string}[] = [];
+
 color: string[] = ["black","withe","yellow","blue","red","green","gray"]
 modeltype: string[] = ["SmallModel","LargeModel"]
 first = this.color[0]
@@ -37,7 +39,17 @@ ngOnInit(): void {
   this.stockService.getConfig().subscribe(data => {
       this.tab = data
       this.func_resume_stock()
+      console.log("tableau pas trié", this.tab)
+      console.log("tableau trié", this.tab.sort())
     })
+
+    this.stockService.getConfig_real().subscribe(data2 => {
+      this.tab_real = data2
+      console.log(this.tab_real)
+      this.func_resume_stock()
+      
+    })
+    
 
   }
     func_resume_stock(){
@@ -68,10 +80,13 @@ ngOnInit(): void {
     }
 
     func_for_modifiquantit(color_bag: string,color_pocket: string,quantiti: number,model: string ,add: boolean) {
-
+      
       for (var i = 0; i < this.tab.length; i++) {
+        console.log(color_bag,color_pocket,model)
+        console.log(this.tab[i])
         console.log("on rentre dans la modif")
         if (this.tab[i].color_bag_name ===  color_bag && this.tab[i].color_pocket_name === color_pocket && this.tab[i].modelType === model) {
+          console.log("TROUVER")
           if(add == true){
           this.tab[i].quantity = this.tab[i].quantity + +quantiti;
          
@@ -90,11 +105,12 @@ ngOnInit(): void {
 
     onSubmit_add() {
       this.func_for_modifiquantit(this.selectedColor_bag,this.selectedColor_pocket,this.numberr,this.model_bag,true)
-      
+      this.func_resume_stock()
     }
 
     onSubmit_remove() {
       this.func_for_modifiquantit(this.selectedColor_bag_2,this.selectedColor_pocket_2,this.numberr,this.model_bag_2,false)
+      this.func_resume_stock()
     }
     
   constructor(private stockService: StockService) {}
