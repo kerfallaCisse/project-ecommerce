@@ -313,7 +313,7 @@ deploy:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
-      - main
+      - $CI_COMMIT_BRANCH == "main"
 
 
 
