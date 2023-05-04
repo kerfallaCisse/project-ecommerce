@@ -305,14 +305,15 @@ deploy:
   stage: deploy
   image: alpine/helm:3.2.1
   script:
-    - printenv
     - export KUBECONFIG=${KUBECONFIG}
+    - printenv
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - main
 
 
 
