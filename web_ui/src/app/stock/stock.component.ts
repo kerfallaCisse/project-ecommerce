@@ -17,6 +17,8 @@ quantities: number[] = []
 
 
 tab: {modelType: string,id: number,quantity: number,color_pocket_name: string,color_bag_name: string}[] = [];
+tab_real: {modelType: string,id: number,quantity: number,color_pocket_name: string,color_bag_name: string}[] = [];
+
 color: string[] = ["black","withe","yellow","blue","red","green","gray"]
 modeltype: string[] = ["SmallModel","LargeModel"]
 first = this.color[0]
@@ -37,7 +39,17 @@ ngOnInit(): void {
   this.stockService.getConfig().subscribe(data => {
       this.tab = data
       this.func_resume_stock()
+      console.log("tableau pas trié", this.tab)
+      console.log("tableau trié", this.tab.sort())
     })
+
+    this.stockService.getConfig_real().subscribe(data2 => {
+      this.tab_real = data2
+      console.log(this.tab_real)
+      this.func_resume_stock()
+      
+    })
+    
 
   }
     func_resume_stock(){

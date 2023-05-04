@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
@@ -24,6 +24,7 @@ export class StockService {
   
 
   configUrl = 'assets/config.json';
+  configUrl_2 = 'http://pinfo3.unige.ch/api/stock'
 
   
 
@@ -53,6 +54,27 @@ export class StockService {
     );
       
   }
+  getStock(): Observable<StockResponse> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Origin': 'http://pinfo3.unige.ch/api/stock'
+      })
+    };
+
+    return this.http.get<StockItem[]>(this.configUrl_2, httpOptions);
+  }
+
+
+  getConfig_real() {
+    console.log("trying to recup request")
+    return this.http.get<StockItem[]>(this.configUrl_2)
+      
+  }
+
+  
+
+
 
   
 

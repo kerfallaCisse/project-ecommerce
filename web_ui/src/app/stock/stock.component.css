@@ -22,11 +22,19 @@ thead,
 tfoot {
     background-color: #3f87a6;
     color: #fff;
+   
 }
 
 tbody {
+  
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    
     background-color: #e4f0f5;
+
 }
+tbody, thead tr { display: block; }
 
 caption {
     padding: 10px;
@@ -41,12 +49,14 @@ th {
     border: 1px solid rgb(190, 190, 190);
     padding: 5px 10px;
     font-size: 1rem;
+    width: 300px;
 }
 
 td {
     font-family: 'Aldrich', sans-serif;
     text-align: center;
     font-size: 1rem;
+    width: 300px;
 }
 
 table{
