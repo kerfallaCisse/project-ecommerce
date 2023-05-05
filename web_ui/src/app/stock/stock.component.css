@@ -1,13 +1,119 @@
-body {
-    background-color: #ffffff; /* couleur de fond souhaitée */
+/* indication à gauche du tableau */
+#indication_tableau {
+  max-width: 25%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 1%;
+  padding: 2%;
+  margin: 10% 2%;
+}
+
+#lowmessage {
+  color: red;
+}
+
+#outmessage{
+  color: rgb(142, 142, 0);
+} 
+
+
+/* Tableau*/
+
+thead,
+tfoot {
+    background-color: #3f87a6;
+    color: #fff;
+   
+}
+
+tbody {
+  
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    background-color: #e4f0f5;
+
+}
+tbody, thead tr { display: block; }
+
+caption {
+    padding: 10px;
+    caption-side: bottom;
+}
+
+
+
+
+th {
+  font-family: 'Aldrich', sans-serif;
+    border: 1px solid rgb(190, 190, 190);
+    padding: 5px 10px;
+    font-size: 1rem;
+    width: 300px;
+}
+
+td {
+    font-family: 'Aldrich', sans-serif;
+    text-align: center;
+    font-size: 1rem;
+    width: 300px;
+}
+
+table{
+  margin-top: -25%;
+  margin-left: 28%;
+  border-collapse: collapse;
+  border: 2px solid rgb(200, 200, 200);
+  font-family: sans-serif;
+  font-size: 3%;
+  width: 70%;
+  
+
+}
+
+
+
+/* section Button adding */
+
+  
+
+  #adding_stock {
+    
+    margin-top: 5%;
+    margin-left: 10%;
+    width: 75%;
+  
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    
+    border-radius: 2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  
   }
 
-select {
-    width: 200px;
+  
+
+  #add_button{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    font-family: 'Aldrich', sans-serif;
+    color: white;
+    background-color: rgb(0, 204, 0);
+    box-shadow: inset;
+    padding-left: 3%;
+    padding-right: 3%;
+    font-size: 150%;
+    border-radius: 2rem;
+    border: none;
+  }
+  select {
+    width: 15%;
     padding: 10px;
     font-size: 16px;
     border: none;
-    background-color: #ffffff;
     
   }
   
@@ -16,106 +122,58 @@ select {
     color: #ffffff;
   }
 
-  #adding_stock{
-    background: beige;
+ 
+
+
+
+
+/* section Button remove */
+   
+  #remove_stock {
+    
     margin-top: 5%;
     margin-left: 10%;
-    width: 70%;
-    height: 30%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  #adding_stock {
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-top: 0.1%;
-    margin-left: 5%;
-    margin-bottom: 0.5%;
-    margin-right: 0.5%;
-    background-color:beige;
-    border-radius: 2rem;
+    width: 75%;
   
-  }
-
-  #add_button{
-    color: white;
-    background-color: rgb(0, 204, 0);
-    padding-left: 3%;
-    padding-right: 3%;
-    font-size: 150%;
-    border-radius: 2rem;
-    border: none;
-  }
-
-
-  #remove_stock{
-    background: beige;
-    margin-top: 30%;
-    margin-left: 10%;
-    width: 70%;
-    height: 30%;
     display: flex;
     justify-content: space-between;
-  }
-  #remove_stock {
-    margin-top: 30%;
     padding-top: 2%;
     padding-bottom: 2%;
-    padding-left: 2%;
+    
     padding-right: 2%;
-    margin-top: 0.1%;
-    margin-left: 5%;
-    margin-bottom: 0.5%;
-    margin-right: 0.5%;
-    background-color:beige;
+    
     border-radius: 2rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   
   }
 
   #remove_button{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    font-family: 'Aldrich', sans-serif;
     color: white;
-    background-color: rgb(204, 0, 0);
-    padding-left: 1.1%;
-    padding-right: 1.1%;
+    background-color: red;
+    box-shadow: inset;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
     font-size: 150%;
     border-radius: 2rem;
     border: none;
   }
 
 
-  thead,
-tfoot {
-    background-color: #3f87a6;
-    color: #fff;
+
+
+
+
+
+
+div, label {
+  font-family: "Aldrich", sans-serif;
 }
 
-tbody {
-    background-color: #e4f0f5;
-}
 
-caption {
-    padding: 10px;
-    caption-side: bottom;
-}
 
-table {
-  margin-top: 3%;
-    border-collapse: collapse;
-    border: 2px solid rgb(200, 200, 200);
-    letter-spacing: 1px;
-    font-family: sans-serif;
-    font-size: 0.8rem;
-}
 
-td,
-th {
-    border: 1px solid rgb(190, 190, 190);
-    padding: 5px 10px;
-}
 
-td {
-    text-align: center;
-}
+
+

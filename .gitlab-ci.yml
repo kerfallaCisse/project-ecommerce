@@ -1,5 +1,5 @@
 variables:
-  VERSION : "0.1.2-SNAPSHOT"
+  VERSION : "0.1.3-SNAPSHOT"
 
 
 image: maven:3.6.3-openjdk-17-slim
@@ -340,7 +340,6 @@ deploy:
   stage: deploy
   image: alpine/helm:3.2.1
   script:
-    - printenv
     - export KUBECONFIG=${KUBECONFIG}
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
