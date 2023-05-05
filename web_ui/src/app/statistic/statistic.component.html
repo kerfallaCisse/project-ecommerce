@@ -11,7 +11,14 @@
 
   <div class = "solo_statistics">
 
-    <h4> This week </h4>
+    <div class="select_button">
+      <select id="time_period_select" (change)="onTimePeriodChange($event)">
+        <option value="last_week">Last week</option>
+        <option value="last_month">Last month</option>
+        <option value="last_3_months">Last 3 months</option>
+        <option value="last_year">Last year</option>
+      </select>
+    </div>
 
     <div class = "new_users">
       <h6> New Users </h6>
@@ -42,41 +49,38 @@
 
   <div class = "graphs_statistics">
 
-    <h4>This week </h4>
-
-    <div class="popular_colors_graph" nz-col nzSpan="12">
-      <h2> Popular Colors </h2>
-      <div id="chart1" echarts [options]="histogramOption" theme="macarons" class="demo-chart"></div>
+    <div class="graph_select_button">
+      <select id="graph_time_period_select" (change)="onTimePeriodChange($event)">
+        <option value="last_week">Last week</option>
+        <option value="last_month">Last month</option>
+        <option value="last_3_months">Last 3 months</option>
+        <option value="last_year">Last year</option>
+      </select>
     </div>
 
-    <div class="visits_graph" nz-col nzSpan="12">
-      <h2> Visits </h2>
-      <div id="chart2" echarts [options]="lineChartOption" theme="macarons" class="demo-chart"></div>
-    </div>
+    <div class = "only_statistics_graphs">
 
-    <div class="new_users_graph" nz-col nzSpan="12">
-      <h2> New Users </h2>
-      <!-- <div id="chart3" echarts [options]="option" theme="macarons" class="demo-chart"></div> -->
-    </div>
+      <div class="new_users_graph" nz-col nzSpan="12">
+        <h2> New Users </h2>
+        <div id="chart3" echarts [options]="lineChartOption2" theme="macarons" class="demo-chart"></div>
+      </div>
 
-    <div class="orders_graph" nz-col nzSpan="12">
-      <h2> Orders </h2>
-      <!-- <div id="chart4" echarts [options]="option" theme="macarons" class="demo-chart"></div> -->
-    </div>
+      <div class="visits_graph" nz-col nzSpan="12">
+        <h2> Visits </h2>
+        <div id="chart2" echarts [options]="lineChartOption1" theme="macarons" class="demo-chart"></div>
+      </div>
 
+      <div class="orders_graph" nz-col nzSpan="12">
+        <h2> Orders </h2>
+        <div id="chart4" echarts [options]="lineChartOption3" theme="macarons" class="demo-chart"></div>
+      </div>
+
+      <div class="popular_colors_graph" nz-col nzSpan="12">
+        <h2> Popular Colors </h2>
+        <div id="chart1" echarts [options]="histogramChartOption" theme="macarons" class="demo-chart"></div>
+      </div>
+
+    </div>
   </div>
-
-
-
-  <!-- <div nz-row>
-    <div nz-col nzSpan="12">
-      <h5> id=chart1 </h5>
-      <div id="chart1" echarts [options]="option" theme="macarons" class="demo-chart"></div>
-    </div>
-    <div nz-col nzSpan="12">
-      <h5> id=chart2 </h5>
-      <div id="chart2" echarts [options]="option" theme="macarons" class="demo-chart"></div>
-    </div>
-  </div> -->
 
 </main>

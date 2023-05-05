@@ -20,53 +20,63 @@ main {
   padding-top: 1%;
   text-align: center;
   border-radius: 2em;
+  background-color: white;
 }
 
 .new_users, .new_users_graph {
-  background-color: #D3E5FF;
+  border: 3px rgb(211, 240, 255) solid;
+  background-color:  white ;
 }
 
 .visits, .visits_graph{
-  background-color: #D7FFD3;
+  border: 3px rgb(215,255,211) solid;
+  background-color:  white ;
 }
 
 .orders, .orders_graph {
-  background-color: #DAD3FF;
+  border: 3px rgb(243, 211, 255) solid;
+  background-color:  white ;
 }
 
 .abandonned_baskets {
-  background-color: #F4D3FF;
+  border: 3px rgb(255, 211, 248) solid;
+  background-color:  white ;
   margin-right: 10%;
 }
 
-h6, p, h2, h4 {
+h6, p, h2, h4  {
   font-family: "Aldrich";
 }
 
 
 .graphs_statistics {
   margin-top: 2.5%;
-  /* display: flex;
-  justify-content: space-between; */
-  padding-top: 1%;
+  padding: 1%;
   border-radius: 2em;
   box-sizing: border-box;
   background-color: white;
   border-radius: 1em;
 }
 
+.only_statistics_graphs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 
 .new_users_graph, .visits_graph, .orders_graph, .popular_colors_graph{
   font-family: "Aldrich";
   box-sizing: border-box;
-  /* width: 15%;
-  height: 5%; */
+  width: 48%;
+  height: 10%;
   padding-top: 1%;
+  margin-top: 2% ;
   text-align: center;
   border-radius: 2em;
 }
 
 .popular_colors_graph {
-
-  background-color: #FFEED3;
+  border: 3px rgb(255, 245, 211) solid;
+  background-color:  white ;
 }

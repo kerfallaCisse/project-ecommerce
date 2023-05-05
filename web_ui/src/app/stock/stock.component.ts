@@ -23,7 +23,7 @@ first = this.color[0]
 
 selectedColor_pocket: string = "nothing";
 selectedColor_bag: string = "nothing";
-model_bag: string = "nothing" 
+model_bag: string = "nothing"
 
 selectedColor_pocket_2: string = "nothing";
 selectedColor_bag_2: string = "nothing";
@@ -32,8 +32,8 @@ model_bag_2: string = "nothing"
 numberr: number = 0
 
 ngOnInit(): void {
-    
-  
+
+
   this.stockService.getConfig().subscribe(data => {
       this.tab = data
       this.func_resume_stock()
@@ -41,12 +41,12 @@ ngOnInit(): void {
 
   }
     func_resume_stock(){
-      
+
       let compteur_low = 0
       let compteur_out = 0
-      
+
       for (var i = 0; i < this.tab.length;i++){
-        
+
         if (this.tab[i].quantity == 0){
          compteur_out += 1
           }
@@ -59,11 +59,11 @@ ngOnInit(): void {
       const out_message = document.getElementById("outmessage");
 
       if (out_message != null && low_message != null && (compteur_low != 0 || compteur_out != 0)){
-       
+
           low_message.innerHTML = "> " + compteur_low + " bags with low stock";
           out_message.innerHTML = "> " +compteur_out + " bags almost out of stock";
-        
-      
+
+
       }
     }
 
@@ -74,7 +74,7 @@ ngOnInit(): void {
         if (this.tab[i].color_bag_name ===  color_bag && this.tab[i].color_pocket_name === color_pocket && this.tab[i].modelType === model) {
           if(add == true){
           this.tab[i].quantity = this.tab[i].quantity + +quantiti;
-         
+
           }
           else{
             this.tab[i].quantity = this.tab[i].quantity - +quantiti;
@@ -90,22 +90,22 @@ ngOnInit(): void {
 
     onSubmit_add() {
       this.func_for_modifiquantit(this.selectedColor_bag,this.selectedColor_pocket,this.numberr,this.model_bag,true)
-      
+
     }
 
     onSubmit_remove() {
       this.func_for_modifiquantit(this.selectedColor_bag_2,this.selectedColor_pocket_2,this.numberr,this.model_bag_2,false)
     }
-    
+
   constructor(private stockService: StockService) {}
 
-      
+
   }
-    
 
 
 
-      
+
+
 
 
 
