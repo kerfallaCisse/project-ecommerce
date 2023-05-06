@@ -15,7 +15,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
         version = "1.0.0",
         license = @License(
             name = "MIT",
-            url = "${HOST_API_URL}"
+            url = "http://localhost:8081"
         )
     ),
     tags = {
