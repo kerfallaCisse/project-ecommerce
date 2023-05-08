@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: customization
-          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/getting-started:latest
+          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/customization:0.1.3-SNAPSHOT
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

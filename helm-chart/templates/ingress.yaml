@@ -106,7 +106,7 @@ spec:
   - host: pinfo3.unige.ch
     http:
       paths:
-      - path: "/api/(hello)(/|$)(.*)"
+      - path: "/api/(customization)(/|$)(.*)"
         pathType: ImplementationSpecific
         backend:
           service:
