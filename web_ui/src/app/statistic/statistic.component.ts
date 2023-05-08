@@ -14,7 +14,7 @@ export class StatisticComponent { //implements AfterViewInit
 
   onTimePeriodChange(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    // Mettez à jour vos données en fonction de la valeur sélectionnée
+    // Mettre à jour les données en fonction de la valeur sélectionnée
   }
 
 

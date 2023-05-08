@@ -16,13 +16,13 @@ export class SacPageComponent {
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
-  
+
   ngOnInit() {
     this.initScene();
-    
+
     this.loadModel();
   }
-  
+
   private initScene() {
     const container = this.canvasContainer.nativeElement;
     this.renderer = new THREE.WebGLRenderer();
@@ -41,11 +41,11 @@ export class SacPageComponent {
         const mesh = gltf.scene.children[0];
         this.scene.add(mesh);
       });
-  
-   
 
- 
+
+
+
   }
 }
-  
+
 
