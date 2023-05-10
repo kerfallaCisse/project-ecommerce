@@ -15,8 +15,6 @@ public class Statistic {
 
     public static List<LocalDate> getDatesLastWeek() {
         LocalDate startDate = now.minusDays(7);
-        //startDate.getDayOfWeek()
-        
         return startDate.datesUntil(now).collect(Collectors.toList());
     }
 
