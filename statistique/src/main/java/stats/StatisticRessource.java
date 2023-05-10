@@ -39,20 +39,6 @@ public class StatisticRessource {
     @Path("users/last_year")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNewUsersLastYear() {
-        // LocalDate now = LocalDate.now();
-        // LocalDate _threeMonThDate1 = now.minusMonths(3);
-        // LocalDate _threeMonThDate2 = _threeMonThDate1.minusMonths(3);
-        // LocalDate _threeMonThDate3 = _threeMonThDate2.minusMonths(3);
-        // LocalDate _threeMonThDate4 = _threeMonThDate3.minusMonths(3);
-
-        // System.out.println(_threeMonThDate4);
-        // System.out.println(_threeMonThDate3);
-        // System.out.println(_threeMonThDate2);
-        // System.out.println(_threeMonThDate1);
-        // System.out.println(now);
-
-        
-
         return Response.ok(User.statsLastYear()).build();
     }
 
