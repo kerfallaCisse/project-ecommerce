@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back-office-deployment
+  name: {{ .Values.backoffice.name }}-deployment
   namespace: back-office
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: back-office
+      app: {{ .Values.backoffice.name }}
   template:
     metadata:
       labels:
-        app: back-office
+        app: {{ .Values.backoffice.name }}
     spec:
       containers:
-        - name: back-office
+        - name: {{ .Values.backoffice.name }}
           image: {{ .Values.image.repository }}/{{ .Values.image.group }}/back-office:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.backoffice.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:
@@ -36,9 +36,9 @@ spec:
                   name: my-database-secret
                   key: url
             - name: SMALLRYE_JWT_SIGN_KEY_LOCATION
-              value: /src/main/resources/privatekey.pem
+              value: {{ .Values.auth-keys.private-location}}
             - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
-              value: /src/main/resources/publickey.pem
+              value: {{ .Values.auth-keys.public-location}}
           volumeMounts:
             - name: jwt-keys
               mountPath: /src/main/resources

@@ -4,3 +4,40 @@ image:
     group: pinfo-2023/pinfo-2/project-ecommerce
     tag: 0.1.3-SNAPSHOT
     pullPolicy: Always
+
+backoffice:
+    name: back-office
+    namspace: back-office
+    targetPort: 8080
+    port: 80
+
+statsjwt:
+    name: stats-jwt
+    namspace: stats-jwt
+    targetPort: 8080
+    port: 80
+
+customization:
+    name: customization
+    namspace: customization
+    targetPort: 8080
+    port: 80
+
+stockmanagement:
+    name: stock-management
+    namspace: stock-management
+    targetPort: 8080
+    port: 80
+
+webui:
+    name: web-ui
+    namspace: web-ui
+    targetPort: 80
+    port: 80
+
+
+auth-keys:
+    public-location: /src/main/resources/publickey.pem
+    private-location: /src/main/resources/privatekey.pem
+
+

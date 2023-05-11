@@ -54,16 +54,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: back-office-service
-  namespace: back-office
+  name: {{ .Values.backoffice.name }}-service
+  namespace: {{ .Values.backoffice.namespace}}
 spec:
   type: ClusterIP
   ports:
-    - port: 80
-      targetPort: 8080
+    - port: {{ .Values.backoffice.port }}
+      targetPort: {{ .Values.backoffice.targetPort }}
       protocol: TCP
   selector:
-    app: back-office
+    app: {{ .Values.backoffice.name }}
 ---
 apiVersion: v1
 kind: Service

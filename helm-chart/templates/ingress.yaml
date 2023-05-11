@@ -117,8 +117,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: back-office-ingress
-  namespace: back-office
+  name: {{ .Values.backoffice.name }}-ingress
+  namespace: {{ .Values.backoffice.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     kubernetes.io/ingress.class: public
@@ -141,9 +141,9 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: back-office-service
+            name: {{ .Values.backoffice.name }}-service
             port:
-              number: 80
+              number: {{ .Values.backoffice.port }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
