@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, AfterViewInit} from '@angular/core';
-
+import { PersonalisationService } from 'src/app/personalisation/personalisation.service';
 
 let number = 0;
 let variable: boolean = false
@@ -14,7 +14,7 @@ let variable: boolean = false
 
 
 
-export class PersonalisationComponent implements OnInit {
+export class PersonalisationComponent implements AfterViewInit {
  
  
   
@@ -24,7 +24,7 @@ export class PersonalisationComponent implements OnInit {
   
   
   
-  ngOnInit() {
+  ngAfterViewInit() {
     
     console.log(number)
     if(variable === false){
@@ -47,45 +47,51 @@ export class PersonalisationComponent implements OnInit {
    variable = true
   }
 
-  public constructor() {
-    
-  }
+  
 
 }
 
-class My3DScene {
+export class My3DScene {
 
   private frameId!: number;
-  private scene: THREE.Scene;
-  private camera: THREE.PerspectiveCamera;
-  private renderer: THREE.WebGLRenderer;
-  private gltfLoader: GLTFLoader;
-  private light: THREE.AmbientLight;
-  private model : any;
-  private directionallight : THREE.DirectionalLight;
-
-
+  private scene!: THREE.Scene;
+  private camera!: THREE.PerspectiveCamera;
+  private renderer!: THREE.WebGLRenderer;
+  private gltfLoader!: GLTFLoader;
+  private light!: THREE.AmbientLight;
+  private model: any;
+  private directionallight!: THREE.DirectionalLight;
   private isMouseDown: boolean = false;
+  private isModelLoaded: boolean = false;
 
 
 
   constructor() {
+   this.createScene();
+    this.init();
+   
+  }
 
-
-    console.log("Created scene")
+  private createScene(): void {
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0xFFFFFF);
 
+  }
 
-    this.scene.background = new THREE.Color(0xF5F5DC)
+  private cleanScene(): void {
+    while (this.scene.children.length > 0) {
+      const object = this.scene.children[0];
+      this.scene.remove(object);
+    }
+  }
 
-    //this.model.material.color.setHex( 0xff0000 )
-
-    this.camera = new THREE.PerspectiveCamera(
-      75, window.innerWidth / window.innerHeight, 0.1, 1000
-    );
-
-
+  private init(){
+    console.log("Created scene")
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.gltfLoader = new GLTFLoader();
+    this.light = new THREE.AmbientLight(0xFFFFFF);
+    this.directionallight = new THREE.DirectionalLight(0xFFFFFF, 1);
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
@@ -128,6 +134,8 @@ class My3DScene {
       }
     });
 
+    
+    
 
   }
 
@@ -153,6 +161,7 @@ class My3DScene {
         //this.model.material.color.setHex(0x0000FF); // BlEU COMME LES JEUDI SOIR
         this.scene.add(gltf.scene);
         this.model = gltf.scene;
+        this.isModelLoaded = true;
 
         gltf.scene.position.set(0, 10, -10);
 
@@ -167,12 +176,22 @@ class My3DScene {
 
 
   public render(): void {
+   
     this.frameId = requestAnimationFrame(() => {
       this.render();
     });
 
-    this.model.rotation.z += 0.01;
-    this.model.rotation.x = 4.80
-    this.renderer.render(this.scene, this.camera);
+    if (this.isModelLoaded) {
+      // Logique de rendu du modèle
+      this.model.rotation.z += 0.01;
+      this.model.rotation.x = 4.80;
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+  public cleanup(): void {
+    this.scene.remove(this.model);
+    this.scene.remove(this.camera);
+    // Supprimez d'autres éléments de la scène si nécessaire
   }
 }
+
