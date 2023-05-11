@@ -19,7 +19,7 @@ main {
   height: 5%;
   padding-top: 1%;
   text-align: center;
-  border-radius: 2em;
+  /* border-radius: 2em; */
   background-color: white;
 }
 
@@ -73,7 +73,7 @@ h6, p, h2, h4  {
   padding-top: 1%;
   margin-top: 2% ;
   text-align: center;
-  border-radius: 2em;
+  /* border-radius: 2em; */
 }
 
 .popular_colors_graph {
