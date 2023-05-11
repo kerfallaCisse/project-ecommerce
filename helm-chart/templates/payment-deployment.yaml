@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.payment.name }}-deployment
-  namespace: {{ .Values.payment.namespace }}
+  namespace: {{ .Values.payment.namespace}}
 spec:
   replicas: 1
   selector:
@@ -35,17 +35,5 @@ spec:
                 secretKeyRef:
                   name: my-database-secret
                   key: url
-            - name: SMALLRYE_JWT_SIGN_KEY_LOCATION
-              value: /src/main/resources/privatekey.pem
-            - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
-              value: /src/main/resources/publickey.pem
-          volumeMounts:
-            - name: jwt-keys
-              mountPath: /src/main/resources
-      volumes:
-        - name: jwt-keys
-          secret:
-            secretName: jwt-keys
       imagePullSecrets:
         - name: my-registry-secret
-

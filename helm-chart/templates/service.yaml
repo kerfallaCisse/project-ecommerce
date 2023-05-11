@@ -29,13 +29,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.payment.name }}-service
-  namespace: {{ .Values.payment.namespace }}
+  namespace: {{ .Values.payment.namespace}}
 spec:
   type: ClusterIP
   ports:
-  - name: http
-    port: {{ .Values.payment.port }}
-    targetPort: {{ .Values.payment.targetPort }}
+    - port: {{ .Values.payment.port }}
+      targetPort: {{ .Values.payment.targetPort }}
+      protocol: TCP
+  selector:
+    app: {{ .Values.payment.name }}
 ---
 apiVersion: v1
 kind: Service
