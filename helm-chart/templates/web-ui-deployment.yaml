@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-ui-deployment
-  namespace: web-ui
+  name: {{ .Values.webui.name }}-deployment
+  namespace: {{ .Values.webui.namespace}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web-ui
+      app: {{ .Values.webui.name }}
   template:
     metadata:
       labels:
-        app: web-ui
+        app: {{ .Values.webui.name }}
     spec:
       containers:
-        - name: web-ui
-          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/web-ui:{{ .Values.image.tag }}
+        - name: {{ .Values.webui.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.webui.imagename }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.webui.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:

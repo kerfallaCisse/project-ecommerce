@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stock-management-deployment
-  namespace: stock-management
+  name: {{ .Values.stockmanagement.name }}-deployment
+  namespace: {{ .Values.stockmanagement.namespace}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stock-management
+      app: {{ .Values.stockmanagement.name }}
   template:
     metadata:
       labels:
-        app: stock-management
+        app: {{ .Values.stockmanagement.name }}
     spec:
       containers:
-        - name: stock-management
-          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/stock-management:{{ .Values.image.tag }}
+        - name: {{ .Values.stockmanagement.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.stockmanagement.imagename }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.stockmanagement.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:

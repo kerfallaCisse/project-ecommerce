@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.backoffice.name }}-deployment
-  namespace: {{ .Values.backoffice.namespace }}
+  name: {{ .Values.payment.name }}-deployment
+  namespace: {{ .Values.payment.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.backoffice.name }}
+      app: {{ .Values.payment.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.backoffice.name }}
+        app: {{ .Values.payment.name }}
     spec:
       containers:
-        - name: {{ .Values.backoffice.name }}
-          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.backoffice.imagename }}:{{ .Values.image.tag }}
+        - name: {{ .Values.payment.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.payment.imagename }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: {{ .Values.backoffice.targetPort }}
+            - containerPort: {{ .Values.payment.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:
@@ -48,3 +48,4 @@ spec:
             secretName: jwt-keys
       imagePullSecrets:
         - name: my-registry-secret
+

@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stats-jwt-deployment
-  namespace: stats-jwt
+  name: {{ .Values.statsjwt.name }}-deployment
+  namespace: {{ .Values.statsjwt.namespace}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stats-jwt
+      app: {{ .Values.statsjwt.name }}
   template:
     metadata:
       labels:
-        app: stats-jwt
+        app: {{ .Values.statsjwt.name }}
     spec:
       containers:
-        - name: stats-jwt
-          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/stats-jwt:{{ .Values.image.tag }}
+        - name: {{ .Values.statsjwt.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.statsjwt.imagename }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.statsjwt.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:

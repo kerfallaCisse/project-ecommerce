@@ -10,34 +10,52 @@ backoffice:
     namspace: back-office
     targetPort: 8080
     port: 80
+    imagename: back-office
+    replicas: 1
 
 statsjwt:
     name: stats-jwt
     namspace: stats-jwt
     targetPort: 8080
     port: 80
+    imagename: stats-jwt
+    replicas: 1
 
 customization:
     name: customization
     namspace: customization
     targetPort: 8080
     port: 80
+    imagename: customization
+    replicas: 1
+
+payment:
+    name: payment
+    namspace: payment
+    targetPort: 8080
+    port: 80
+    imagename: payment-service
+    replicas: 1
 
 stockmanagement:
     name: stock-management
     namspace: stock-management
     targetPort: 8080
     port: 80
+    imagename: stock-management
+    replicas: 1
 
 webui:
     name: web-ui
     namspace: web-ui
     targetPort: 80
     port: 80
+    imagename: web-ui
+    replicas: 1
 
 
-auth-keys:
-    public-location: /src/main/resources/publickey.pem
-    private-location: /src/main/resources/privatekey.pem
+authkeys:
+    publicloc: /src/main/resources/publickey.pem
+    privateloc: /src/main/resources/privatekey.pem
 
 
