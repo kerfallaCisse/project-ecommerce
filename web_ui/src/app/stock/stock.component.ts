@@ -44,7 +44,9 @@ ngOnInit(): void {
     })
 
     this.stockService.getConfig_real().subscribe(data2 => {
+      
       this.tab_real = data2
+      
       console.log(this.tab_real)
       this.func_resume_stock()
       
@@ -84,9 +86,9 @@ ngOnInit(): void {
       for (var i = 0; i < this.tab.length; i++) {
         console.log(color_bag,color_pocket,model)
         console.log(this.tab[i])
-        console.log("on rentre dans la modif")
+        
         if (this.tab[i].color_bag_name ===  color_bag && this.tab[i].color_pocket_name === color_pocket && this.tab[i].modelType === model) {
-          console.log("TROUVER")
+          
           if(add == true){
           this.tab[i].quantity = this.tab[i].quantity + +quantiti;
          

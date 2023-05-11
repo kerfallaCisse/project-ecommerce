@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
+
 import { catchError, map, retry, reduce } from 'rxjs/operators';
-import { take } from 'rxjs/operators';
+
 
 export interface StockItem {
   modelType: string;
@@ -54,16 +54,9 @@ export class StockService {
     );
       
   }
-  getStock(): Observable<StockResponse> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Origin': 'http://pinfo3.unige.ch/api/stock'
-      })
-    };
+ 
 
-    return this.http.get<StockItem[]>(this.configUrl_2, httpOptions);
-  }
+  
 
 
   getConfig_real() {
