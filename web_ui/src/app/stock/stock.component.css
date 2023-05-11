@@ -1,165 +1,165 @@
 body {
-    background-color: #ffffff; /* couleur de fond souhaitée */
-    font-family: 'Aldrich';font-size: 22px;
-  }
+  background-color: #ffffff; /* couleur de fond souhaitée */
+  font-family: 'Aldrich';font-size: 22px;
+}
 
 select {
-    width: 160px;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    background-color: #ffffff;
+  width: 160px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #ffffff;
 
-  }
+}
 
-  select option {
-    background-color: #ffffff;
-    color: #ffffff;
-  }
+select option {
+  background-color: #ffffff;
+  color: #ffffff;
+}
 
-  #adding_stock{
-    background: beige;
-    margin-top: 5%;
-    margin-left: 10%;
-    width: 75%;
-    height: 30%;
-    display: flex;
-    justify-content: space-between;
-  }
+#adding_stock{
+  background: beige;
+  margin-top: 5%;
+  margin-left: 10%;
+  width: 75%;
+  height: 30%;
+  display: flex;
+  justify-content: space-between;
+}
 
-  #adding_stock {
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-top: 7%;
-    margin-left: 5%;
-    margin-bottom: 0.5%;
-    margin-right: 0.5%;
-    background-color:rgb(255, 255, 255);
-    border-radius: 2rem;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+#adding_stock {
+  padding-top: 2%;
+  padding-bottom: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin-top: 7%;
+  margin-left: 5%;
+  margin-bottom: 0.5%;
+  margin-right: 0.5%;
+  background-color:rgb(255, 255, 255);
+  border-radius: 2rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
-  }
-
-
-
-  #add_button{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    font-family: 'Aldrich', sans-serif;
-    color: white;
-    background-color: rgb(0, 204, 0);
-    box-shadow: inset;
-    padding-left: 3%;
-    padding-right: 3%;
-    font-size: 150%;
-    border-radius: 2rem;
-    border: none;
-  }
+}
 
 
-  #remove_stock{
-    background: beige;
-    margin-top: 30%;
-    margin-left: 10%;
-    width: 75%;
-    height: 30%;
-    display: flex;
-    justify-content: space-between;
-  }
-  #remove_stock {
 
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-top: 3%;
-    margin-left: 5%;
-    margin-bottom: 0.5%;
-    margin-right: 0.5%;
-    background-color:rgb(255, 255, 255);
-    border-radius: 2rem;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-
-  }
-
-  #remove_button{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    font-family: 'Aldrich', sans-serif;
-    color: white;
-    background-color: rgb(204, 0, 0);
-    padding-left: 1.1%;
-    padding-right: 1.1%;
-    font-size: 150%;
-    border-radius: 2rem;
-    border: none;
-  }
+#add_button{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  font-family: 'Aldrich', sans-serif;
+  color: white;
+  background-color: rgb(0, 204, 0);
+  box-shadow: inset;
+  padding-left: 3%;
+  padding-right: 3%;
+  font-size: 150%;
+  border-radius: 2rem;
+  border: none;
+}
 
 
-  thead,
+#remove_stock{
+  background: beige;
+  margin-top: 30%;
+  margin-left: 10%;
+  width: 75%;
+  height: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+#remove_stock {
+
+  padding-top: 2%;
+  padding-bottom: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin-top: 3%;
+  margin-left: 5%;
+  margin-bottom: 0.5%;
+  margin-right: 0.5%;
+  background-color:rgb(255, 255, 255);
+  border-radius: 2rem;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+#remove_button{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  font-family: 'Aldrich', sans-serif;
+  color: white;
+  background-color: rgb(204, 0, 0);
+  padding-left: 1.1%;
+  padding-right: 1.1%;
+  font-size: 150%;
+  border-radius: 2rem;
+  border: none;
+}
+
+
+thead,
 tfoot {
-    background-color: #3f87a6;
-    color: #fff;
+  background-color: #3f87a6;
+  color: #fff;
 }
 
 tbody {
-    background-color: #e4f0f5;
+  background-color: #e4f0f5;
 }
 
 caption {
-    padding: 10px;
-    caption-side: bottom;
+  padding: 10px;
+  caption-side: bottom;
 }
 
 
 
 
 th {
-  font-family: 'Aldrich', sans-serif;
-    border: 1px solid rgb(190, 190, 190);
-    padding: 5px 10px;
-    font-size: 1rem;
+font-family: 'Aldrich', sans-serif;
+  border: 1px solid rgb(190, 190, 190);
+  padding: 5px 10px;
+  font-size: 1rem;
 }
 
 td {
-    font-family: 'Aldrich', sans-serif;
-    text-align: center;
-    font-size: 1rem;
+  font-family: 'Aldrich', sans-serif;
+  text-align: center;
+  font-size: 1rem;
 }
 
 table{
-  margin-top: -25%;
-  margin-left: 28%;
-  border-collapse: collapse;
-  border: 2px solid rgb(200, 200, 200);
-  font-family: sans-serif;
-  font-size: 3%;
-  width: 70%;
+margin-top: -25%;
+margin-left: 28%;
+border-collapse: collapse;
+border: 2px solid rgb(200, 200, 200);
+font-family: sans-serif;
+font-size: 3%;
+width: 70%;
 
 
 }
 
 section {
-  font-family: 'Aldrich', sans-serif;
+font-family: 'Aldrich', sans-serif;
 }
 
 #indication_tableau {
 
 
-    font-family: 'Aldrich', sans-serif;
+  font-family: 'Aldrich', sans-serif;
 
-  margin-right: 20%;
-  max-width: 300px;
-  margin: 0 auto;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
-  padding: 20px;
-  margin: 10% 2%;
+margin-right: 20%;
+max-width: 300px;
+margin: 0 auto;
+background-color: white;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+border-radius: 5px;
+padding: 20px;
+margin: 10% 2%;
 }
 
 #titre_indication {
-  font-family: 'Aldrich';
+font-family: 'Aldrich';
 }
 
 
@@ -168,13 +168,13 @@ section {
 
 
 #lowmessage {
-  font-family: 'Aldrich', sans-serif;
-  color: red;
+font-family: 'Aldrich', sans-serif;
+color: red;
 }
 
 #outmessage{
-  font-family: 'Aldrich', sans-serif;
-  color: rgb(142, 142, 0);
+font-family: 'Aldrich', sans-serif;
+color: rgb(142, 142, 0);
 }
 
 
