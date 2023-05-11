@@ -7,7 +7,7 @@ image:
 
 backoffice:
     name: back-office
-    namspace: back-office
+    namespace: back-office
     targetPort: 8080
     port: 80
     imagename: back-office
@@ -15,7 +15,7 @@ backoffice:
 
 statsjwt:
     name: stats-jwt
-    namspace: stats-jwt
+    namespace: stats-jwt
     targetPort: 8080
     port: 80
     imagename: stats-jwt
@@ -23,7 +23,7 @@ statsjwt:
 
 customization:
     name: customization
-    namspace: customization
+    namespace: customization
     targetPort: 8080
     port: 80
     imagename: customization
@@ -31,7 +31,7 @@ customization:
 
 payment:
     name: payment
-    namspace: payment
+    namespace: payment
     targetPort: 8080
     port: 80
     imagename: payment-service
@@ -39,7 +39,7 @@ payment:
 
 stockmanagement:
     name: stock-management
-    namspace: stock-management
+    namespace: stock-management
     targetPort: 8080
     port: 80
     imagename: stock-management
@@ -47,7 +47,7 @@ stockmanagement:
 
 webui:
     name: web-ui
-    namspace: web-ui
+    namespace: web-ui
     targetPort: 80
     port: 80
     imagename: web-ui
