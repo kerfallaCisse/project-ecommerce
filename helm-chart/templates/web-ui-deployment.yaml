@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.webui.name }}-deployment
   namespace: {{ .Values.webui.namespace}}
 spec:
-  replicas: 1
+  replicas: {{ .Values.webui.replicas}}
   selector:
     matchLabels:
       app: {{ .Values.webui.name }}

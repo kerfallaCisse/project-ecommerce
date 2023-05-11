@@ -1,4 +1,12 @@
 
+general:
+    hostname: pinfo3.unige.ch
+
+clusterissuer:
+    name: letsencrypt-prod
+    email: "keertika.yogendra@etu.unige.ch"
+    server: https://acme-v02.api.letsencrypt.org/directory
+
 image:
     repository: registry.gitlab.unige.ch
     group: pinfo-2023/pinfo-2/project-ecommerce
@@ -57,5 +65,6 @@ webui:
 authkeys:
     publicloc: /src/main/resources/publickey.pem
     privateloc: /src/main/resources/privatekey.pem
+    mountloc: /src/main/resources
 
 

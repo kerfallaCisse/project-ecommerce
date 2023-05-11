@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.stockmanagement.name }}-deployment
   namespace: {{ .Values.stockmanagement.namespace}}
 spec:
-  replicas: 1
+  replicas: {{ .Values.stockmanagement.replicas}}
   selector:
     matchLabels:
       app: {{ .Values.stockmanagement.name }}

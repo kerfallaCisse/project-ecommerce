@@ -4,13 +4,13 @@ metadata:
   name: {{ .Values.webui.name }}-ingress
   namespace: {{ .Values.webui.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/(.*)(/|$)"
@@ -27,7 +27,7 @@ metadata:
   name: {{ .Values.stockmanagement.name }}-ingress
   namespace: {{ .Values.stockmanagement.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -38,10 +38,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/api/(stock)(/|$)(.*)"
@@ -58,7 +58,7 @@ metadata:
   name: {{ .Values.payment.name }}-ingress
   namespace: {{ .Values.payment.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -69,10 +69,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/api/(payment)(/|$)(.*)"
@@ -89,7 +89,7 @@ metadata:
   name: {{ .Values.customization.name }}-ingress
   namespace: {{ .Values.customization.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -100,10 +100,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/api/(customization)(/|$)(.*)"
@@ -118,9 +118,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.backoffice.name }}-ingress
-  namespace: {{ .Values.backoffice.namespace }}
+  namespace: {{ .Values.backoffice.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -131,10 +131,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/api/(stats)(/|$)(.*)"
@@ -149,9 +149,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.statsjwt.name }}-ingress
-  namespace: {{ .Values.statsjwt.namespace }}
+  namespace: {{ .Values.statsjwt.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -162,10 +162,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/api/(jwt)(/|$)(.*)"

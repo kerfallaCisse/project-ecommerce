@@ -71,7 +71,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.statsjwt.name }}-service
-  namespace: {{ .Values.statsjwt.namespace }}
+  namespace: {{ .Values.statsjwt.namespace}}
 spec:
   type: ClusterIP
   ports:

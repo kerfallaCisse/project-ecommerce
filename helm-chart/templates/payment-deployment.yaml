@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.payment.name }}-deployment
   namespace: {{ .Values.payment.namespace}}
 spec:
-  replicas: 1
+  replicas: {{ .Values.payment.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.payment.name }}
