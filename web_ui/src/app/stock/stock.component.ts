@@ -39,8 +39,8 @@ ngOnInit(): void {
   this.stockService.getConfig().subscribe(data => {
       this.tab = data
       this.func_resume_stock()
-      console.log("tableau pas trié", this.tab)
-      console.log("tableau trié", this.tab.sort())
+      //console.log("tableau pas trié", this.tab)
+      //console.log("tableau trié", this.tab.sort())
     })
 
     this.stockService.getConfig_real().subscribe(data2 => {

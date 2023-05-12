@@ -1,0 +1,8 @@
+{
+    "/api/stock":
+    {
+        "target": "http://pinfo3.unige.ch/api/stock",
+        "secure": false,
+	    "logLevel":"debug"
+    } 
+}
