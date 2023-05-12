@@ -40,7 +40,7 @@ nav.central.menu {
 nav.central.menu ul li a {
   text-decoration: underline;
   text-decoration-color: transparent;
-  text-decoration-thickness: 250%;
+  text-decoration-thickness: 10%;
   transition: text-decoration-color 0.3s ease-in-out;
 }
 
