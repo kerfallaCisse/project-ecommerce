@@ -21,8 +21,13 @@ element.style {
 }
 
 #test {
-  font-family: 'Gentium Book Basic';
+  /* font-family: 'Gentium Book Basic'; */
   font-size: 250%;
   bottom: 20px;
   right: 20px;
+}
+
+#salam {
+  margin-top: 200px;
+  position: absolute;
 }
