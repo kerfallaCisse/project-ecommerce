@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, AfterViewInit} from '@angular/core';
 import { PersonalisationService } from 'src/app/personalisation/personalisation.service';
 import { animate } from '@angular/animations';
+import { Color, MeshStandardMaterial } from 'three';
 
 let number = 0;
 let variable: boolean = false
@@ -26,7 +27,15 @@ export class PersonalisationComponent implements AfterViewInit {
     changer_sac = true;
     console.log("Le bouton a été cliqué !",changer_sac);
     
-    this.my3DScene?.change_color('white')
+    this.my3DScene?.change_color({secondary:"white"});
+
+  }
+
+  change_model_2() {
+    changer_sac = true;
+    console.log("Le bouton a été cliqué !",changer_sac);
+    
+    this.my3DScene?.change_color({secondary:"red"});
 
   }
 
@@ -97,6 +106,7 @@ export class My3DScene {
   private isMouseDown: boolean = false;
   private isModelLoaded: boolean = false;
 
+  public currentColor: string = 'white';
 
 
   constructor() {
@@ -193,13 +203,15 @@ export class My3DScene {
 
     this.gltfLoader.load(path,
       (gltf) => {
-        console.log(gltf.scene.children);
-        this.model = gltf.scene.children[0];
-        this.model.material = new THREE.MeshStandardMaterial({color:new THREE.Color('black')})   
-
        
         this.scene.add(gltf.scene);
         this.model = gltf.scene;
+
+        console.log(this.model.children)
+
+        this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x000000)});
+        this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x00008B)});
+
         this.isModelLoaded = true;
 
         gltf.scene.position.set(0, -10, 0);
@@ -211,20 +223,17 @@ export class My3DScene {
       });
   }
 
-  public change_color(color: string){
-    console.log("oh")
-    this.model.material.color('white') 
-
+  public change_color(colors:{primary?:String,secondary?:String}) {
+    if (colors.primary)
+      this.model?.children[0].material.color.set(colors.primary);
+    if (colors.secondary)
+      this.model?.children[1].material.color.set(colors.secondary)
+    // and need to call your render function to apply changes to scene
   }
 
   
   
-  public cleanScene(): void {
-    if (this.model) {
-      this.scene.remove(this.model);
-      this.model = null;
-    }
-  }
+
   
 
 
@@ -271,7 +280,7 @@ export class My3DScene {
   public cleanup(): void {
     this.scene.remove(this.model);
     this.scene.remove(this.camera);
-    // Supprimez d'autres éléments de la scène si nécessaire
+  
   }
 }
 

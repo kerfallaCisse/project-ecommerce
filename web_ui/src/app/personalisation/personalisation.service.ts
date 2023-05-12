@@ -20,7 +20,7 @@ export class PersonalisationService {
 
   removeModel(): void {
     if (this.modelInstance) {
-      this.modelInstance.cleanup();
+      // this.modelInstance.cleanScene();
       this.modelInstance = null;
     }
   }
