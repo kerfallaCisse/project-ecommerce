@@ -24,7 +24,7 @@ export class StockService {
   
 
   configUrl = 'assets/config.json';
-  configUrl_2 = 'http://pinfo3.unige.ch/api/stock'
+  configUrl_2 = '/api/stock'
 
   
 
