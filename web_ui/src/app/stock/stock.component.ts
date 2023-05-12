@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StockItem, StockResponse, StockService } from './stock.service';
+import { StockResponse, StockService } from '../services/stock/stock.service';
+import { StockItem } from '../shared/models/stock';
 
 @Component({
   selector: 'app-config',
@@ -44,14 +45,14 @@ ngOnInit(): void {
     })
 
     this.stockService.getConfig_real().subscribe(data2 => {
-      
+
       this.tab_real = data2
-      
+
       console.log(this.tab_real)
       this.func_resume_stock()
-      
+
     })
-    
+
 
   }
     func_resume_stock(){
@@ -82,13 +83,13 @@ ngOnInit(): void {
     }
 
     func_for_modifiquantit(color_bag: string,color_pocket: string,quantiti: number,model: string ,add: boolean) {
-      
+
       for (var i = 0; i < this.tab.length; i++) {
         console.log(color_bag,color_pocket,model)
         console.log(this.tab[i])
-        
+
         if (this.tab[i].color_bag_name ===  color_bag && this.tab[i].color_pocket_name === color_pocket && this.tab[i].modelType === model) {
-          
+
           if(add == true){
           this.tab[i].quantity = this.tab[i].quantity + +quantiti;
 
