@@ -20,21 +20,21 @@ public class Color extends PanacheEntity {
     @Column
     public LocalDate created_at;
 
-    private static HashMap<String, Long> colors = new HashMap<>() {
-        {
-            put("blue", 0L);
-            put("white", 0L);
-            put("green", 0L);
-            put("yellow", 0L);
-            put("red", 0L);
-            put("grey", 0L);
-            put("black", 0L);
 
-        }
-    };
 
-    public static JsonObject statsWeek() {
-        List<LocalDate> dates = Statistic.getDatesLastWeek();
+    public static JsonObject stats(List<LocalDate> dates) {
+        HashMap<String, Long> colors = new HashMap<>() {
+            {
+                put("blue", 0L);
+                put("white", 0L);
+                put("green", 0L);
+                put("yellow", 0L);
+                put("red", 0L);
+                put("grey", 0L);
+                put("black", 0L);
+    
+            }
+        };
         Set<String> colors_name = colors.keySet();
         for (String color_name : colors_name) {
             for (LocalDate date : dates) {
@@ -45,8 +45,6 @@ public class Color extends PanacheEntity {
 
         return Statistic.constructResponseObject(colors);
     }
-
-    
 
     private static void updateColorOrders(HashMap<String, Long> colors, String color_name, Long nbrOrders) {
         Long initial_value = colors.get(color_name);

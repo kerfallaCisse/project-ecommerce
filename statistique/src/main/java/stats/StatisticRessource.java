@@ -12,6 +12,11 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/statistics")
 public class StatisticRessource {
+
+    private List<LocalDate> datesWeek = Statistic.getDatesLastWeek();
+    private List<LocalDate> datesLastMonth = Statistic.getDatesLastMonth();
+    private List<LocalDate> datesLastThreeMonth = Statistic.getDatesLastThreeMonths();
+    private List<LocalDate> datesLastYear = Statistic.getDatesLastYear();
     
     @GET
     @Path("users/last_week")
@@ -28,11 +33,11 @@ public class StatisticRessource {
     }
 
     @GET
-    @Path("users/last_three_month")
+    @Path("users/last_three_months")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNewUsersLastThreeMonth() {
-        List<LocalDate> dates = Statistic.getDatesLastThreeMonths();
-        return Response.ok(User.statsLastThreeMonth(dates)).build();
+        
+        return Response.ok(User.statsLastThreeMonth(datesLastThreeMonth)).build();
         
     }
 
@@ -47,8 +52,31 @@ public class StatisticRessource {
     @Path("colors/last_week")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getColorsLastWeek() {
-        return Response.ok(Color.statsWeek()).build();
+        return Response.ok(Color.stats(datesWeek)).build();
     }
+
+    @GET
+    @Path("colors/last_month")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getColorsLastMonth() {
+        return Response.ok(Color.stats(datesLastMonth)).build();
+    }
+
+    @GET
+    @Path("colors/last_three_months")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getColorsLastThreeMonths() {
+        return Response.ok(Color.stats(datesLastThreeMonth)).build();
+    }
+
+    @GET
+    @Path("colors/last_year")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getColorsLastYear() {
+        return Response.ok(Color.stats(datesLastYear)).build();
+    }
+
+
 
 
 
