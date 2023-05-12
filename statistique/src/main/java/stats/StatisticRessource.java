@@ -5,6 +5,7 @@ import jakarta.ws.rs.GET;
 import java.util.List;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import stats.model.Color;
 import stats.model.User;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -40,6 +41,13 @@ public class StatisticRessource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNewUsersLastYear() {
         return Response.ok(User.statsLastYear()).build();
+    }
+
+    @GET
+    @Path("colors/last_week")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getColorsLastWeek() {
+        return Response.ok(Color.statsWeek()).build();
     }
 
 

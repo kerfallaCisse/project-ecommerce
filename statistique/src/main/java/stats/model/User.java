@@ -7,10 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import stats.Statistic;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import jakarta.json.Json;
@@ -75,7 +72,7 @@ public class User extends PanacheEntity {
 
         }
 
-        return constructResponseObject(weeks);
+        return Statistic.constructResponseObject(weeks);
 
     }
 
@@ -144,7 +141,7 @@ public class User extends PanacheEntity {
 
         }
 
-        return constructResponseObject(weeks);
+        return Statistic.constructResponseObject(weeks);
     }
 
     public static JsonObject statsLastYear() {
@@ -192,7 +189,7 @@ public class User extends PanacheEntity {
         computeJs(jsonObject3, months, 7);
         computeJs(jsonObject4, months, 10);
 
-        return constructResponseObject(months);
+        return Statistic.constructResponseObject(months);
 
     }
 
@@ -201,18 +198,7 @@ public class User extends PanacheEntity {
         weeks.put(key, nbrOfUser + nbrUser);
     }
 
-    private static JsonObject constructResponseObject(HashMap<String, Long> map) {
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        Set<Map.Entry<String, Long>> paires = map.entrySet();
-        Iterator<Map.Entry<String, Long>> iter = paires.iterator();
 
-        while (iter.hasNext()) {
-            Map.Entry<String, Long> paire = iter.next();
-            jsonObjectBuilder.add(paire.getKey(), paire.getValue());
-        }
-
-        return jsonObjectBuilder.build();
-    }
 
     private static void computeJs(JsonObject jsonObject, HashMap<String, Long> months, int start_month) {
         Long _monthValue = 0L;
