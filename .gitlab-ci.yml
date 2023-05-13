@@ -48,7 +48,7 @@ test-stock-management:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
     - denis
 
 
@@ -96,7 +96,7 @@ test-customization:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
 container-image-customization:
@@ -143,7 +143,7 @@ test-payment:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
 
@@ -190,7 +190,7 @@ test-backoffice-service:
     - cd backoffice_service
     - mvn test
   only:
-    - main
+    - schedules
 
 
 container-image-backoffice-service:
@@ -238,7 +238,7 @@ test-stats-jwt:
     - cd stats-jwt
     - mvn test
   only:
-    - main
+    - schedules
 
 
 
