@@ -1,4 +1,4 @@
-# statistique
+# statistic_service
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
@@ -43,19 +43,14 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 ./mvnw package -Pnative -Dquarkus.native.container-build=true
 ```
 
-You can then execute your native executable with: `./target/statistique-1.0.0-SNAPSHOT-runner`
+You can then execute your native executable with: `./target/statistic_service-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
-## Related Guides
-
-- Reactive MySQL client ([guide](https://quarkus.io/guides/reactive-sql-clients)): Connect to the MySQL database using the reactive pattern
-- JDBC Driver - MySQL ([guide](https://quarkus.io/guides/datasource)): Connect to the MySQL database via JDBC
-
 ## Provided Code
 
-### RESTEasy JAX-RS
+### RESTEasy Reactive
 
-Easily start your RESTful Web Services
+Easily start your Reactive RESTful Web Services
 
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)

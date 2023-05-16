@@ -1,15 +1,16 @@
-package stats.model;
+package statistic_service.model;
 
-import java.time.LocalDate;
-
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.HashMap;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import stats.Statistic;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
+import java.time.LocalDate;
+import java.util.List;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -29,18 +30,18 @@ public class User extends PanacheEntity {
     @Column
     public LocalDate created_at;
 
-    public static JsonObject statsWeek() {
+    public JsonObject statsWeek(List<LocalDate> dates) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        List<LocalDate> dates = Statistic.getDatesLastWeek();
         for (LocalDate date : dates) {
             String day = date.getDayOfWeek().toString();
-            Long nbrUser = User.find("created_at", date).count();
+            Long nbrUser = find("created_at", date).count();
             jsonObjectBuilder.add(day, nbrUser);
         }
         return jsonObjectBuilder.build();
+
     }
 
-    public static JsonObject statsMonth() {
+    public JsonObject statsMonth(List<LocalDate> dates) {
         HashMap<String, Long> weeks = new HashMap<>() {
             {
                 put("week1", 0L);
@@ -51,32 +52,30 @@ public class User extends PanacheEntity {
             }
         };
 
-        List<LocalDate> dates = Statistic.getDatesLastMonth();
-
         for (int i = 0; i < dates.size(); i++) {
 
             LocalDate date = dates.get(i);
             long nbrUser = User.find("created_at", date).count();
 
             if (i < 7)
-                updateNbrOfUsersWeek("week1", nbrUser, weeks);
+                updateWeekValue("week1", nbrUser, weeks);
 
             else if (i >= 7 && i < 14)
-                updateNbrOfUsersWeek("week2", nbrUser, weeks);
+                updateWeekValue("week2", nbrUser, weeks);
 
             else if (i >= 14 && i < 21)
-                updateNbrOfUsersWeek("week3", nbrUser, weeks);
+                updateWeekValue("week3", nbrUser, weeks);
 
             else
-                updateNbrOfUsersWeek("week4", nbrUser, weeks);
+                updateWeekValue("week4", nbrUser, weeks);
 
         }
 
-        return Statistic.constructResponseObject(weeks);
+        return constructResponseObject(weeks);
 
     }
 
-    public static JsonObject statsLastThreeMonth(List<LocalDate> dates) {
+    public JsonObject statsLastThreeMonth(List<LocalDate> dates) {
         HashMap<String, Long> weeks = new HashMap<>() {
             {
                 put("week1", 0L);
@@ -101,50 +100,50 @@ public class User extends PanacheEntity {
             long nbrUser = User.find("created_at", date).count();
 
             if (i < 7)
-                updateNbrOfUsersWeek("week1", nbrUser, weeks);
+                updateWeekValue("week1", nbrUser, weeks);
 
             else if (i >= 7 && i < 14)
-                updateNbrOfUsersWeek("week2", nbrUser, weeks);
+                updateWeekValue("week2", nbrUser, weeks);
 
             else if (i >= 14 && i < 21)
-                updateNbrOfUsersWeek("week3", nbrUser, weeks);
+                updateWeekValue("week3", nbrUser, weeks);
 
             else if (i >= 21 && i < 28)
-                updateNbrOfUsersWeek("week4", nbrUser, weeks);
+                updateWeekValue("week4", nbrUser, weeks);
 
             else if (i >= 28 && i < 35)
-                updateNbrOfUsersWeek("week4", nbrUser, weeks);
+                updateWeekValue("week4", nbrUser, weeks);
 
             else if (i >= 35 && i < 42)
-                updateNbrOfUsersWeek("week5", nbrUser, weeks);
+                updateWeekValue("week5", nbrUser, weeks);
 
             else if (i >= 42 && i < 49)
-                updateNbrOfUsersWeek("week6", nbrUser, weeks);
+                updateWeekValue("week6", nbrUser, weeks);
 
             else if (i >= 49 && i < 56)
-                updateNbrOfUsersWeek("week7", nbrUser, weeks);
+                updateWeekValue("week7", nbrUser, weeks);
 
             else if (i >= 56 && i < 63)
-                updateNbrOfUsersWeek("week8", nbrUser, weeks);
+                updateWeekValue("week8", nbrUser, weeks);
 
             else if (i >= 63 && i < 70)
-                updateNbrOfUsersWeek("week9", nbrUser, weeks);
+                updateWeekValue("week9", nbrUser, weeks);
 
             else if (i >= 70 && i < 77)
-                updateNbrOfUsersWeek("week10", nbrUser, weeks);
+                updateWeekValue("week10", nbrUser, weeks);
 
             else if (i >= 77 && i < 84)
-                updateNbrOfUsersWeek("week11", nbrUser, weeks);
+                updateWeekValue("week11", nbrUser, weeks);
 
             else
-                updateNbrOfUsersWeek("week12", nbrUser, weeks);
+                updateWeekValue("week12", nbrUser, weeks);
 
         }
 
-        return Statistic.constructResponseObject(weeks);
+        return User.constructResponseObject(weeks);
     }
 
-    public static JsonObject statsLastYear() {
+    public JsonObject statsLastYear() {
 
         HashMap<String, Long> months = new HashMap<>() {
             {
@@ -189,18 +188,20 @@ public class User extends PanacheEntity {
         computeJs(jsonObject3, months, 7);
         computeJs(jsonObject4, months, 10);
 
-        return Statistic.constructResponseObject(months);
+        return User.constructResponseObject(months);
 
     }
 
-    private static void updateNbrOfUsersWeek(String key, Long nbrUser, HashMap<String, Long> weeks) {
-        Long nbrOfUser = weeks.get(key);
-        weeks.put(key, nbrOfUser + nbrUser);
+    public JsonObject usersTotal() {
+        int total = User.listAll().size();
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("total", total);
+        
+        return jsonObjectBuilder.build();
     }
 
 
-
-    private static void computeJs(JsonObject jsonObject, HashMap<String, Long> months, int start_month) {
+    public static void computeJs(JsonObject jsonObject, HashMap<String, Long> months, int start_month) {
         Long _monthValue = 0L;
         String initialMonth = "month" + Long.toString(Long.valueOf(start_month));
         String startMonthPlus1 = "month" + Long.toString(Long.valueOf(start_month + 1));
@@ -223,5 +224,24 @@ public class User extends PanacheEntity {
                 + Long.parseLong(jsonObject.getJsonNumber("week12").toString());
         months.put(startMonthPlus2, _monthValue);
     }
+
+    public static void updateWeekValue(String key, Long nbrUser, HashMap<String, Long> weeks) {
+        Long nbrOfUser = weeks.get(key);
+        weeks.put(key, nbrOfUser + nbrUser);
+    }
+
+    public static JsonObject constructResponseObject(HashMap<String, Long> map) {
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        Set<Map.Entry<String, Long>> paires = map.entrySet();
+        Iterator<Map.Entry<String, Long>> iter = paires.iterator();
+
+        while (iter.hasNext()) {
+            Map.Entry<String, Long> paire = iter.next();
+            jsonObjectBuilder.add(paire.getKey(), paire.getValue());
+        }
+
+        return jsonObjectBuilder.build();
+    }
+
 
 }
