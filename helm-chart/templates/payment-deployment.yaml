@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.stockmanagement.name }}-deployment
-  namespace: {{ .Values.stockmanagement.namespace}}
+  name: {{ .Values.payment.name }}-deployment
+  namespace: {{ .Values.payment.namespace}}
 spec:
-  replicas: {{ .Values.stockmanagement.replicas}}
+  replicas: {{ .Values.payment.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.stockmanagement.name }}
+      app: {{ .Values.payment.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.stockmanagement.name }}
+        app: {{ .Values.payment.name }}
     spec:
       containers:
-        - name: {{ .Values.stockmanagement.name }}
-          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.stockmanagement.imagename }}:{{ .Values.image.tag }}
+        - name: {{ .Values.payment.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.payment.imagename }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: {{ .Values.stockmanagement.targetPort }}
+            - containerPort: {{ .Values.payment.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:

@@ -1,4 +1,86 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+
+
+
 <header>
   <app-header></app-header>
 </header>
-<p>statistic works!</p>
+
+<main class="stat_page_container">
+
+  <div class = "solo_statistics">
+
+    <div class="select_button">
+      <select id="time_period_select" (change)="onTimePeriodChange($event)">
+        <option value="last_week">Last week</option>
+        <option value="last_month">Last month</option>
+        <option value="last_3_months">Last 3 months</option>
+        <option value="last_year">Last year</option>
+      </select>
+    </div>
+
+    <div class = "new_users">
+      <h6> New Users </h6>
+      <h2> 486 </h2>
+      <p> -0.56% <i class='bx bx-trending-down'></i></p>
+    </div>
+
+    <div class = "visits">
+      <h6> Visits </h6>
+      <h2> 2700 </h2>
+      <p> +5.7% <i class='bx bx-trending-up' ></i></p>
+    </div>
+
+    <div class = "orders">
+      <h6> Orders </h6>
+      <h2> 67 </h2>
+      <p> +3.89% <i class='bx bx-trending-up' ></i></p>
+    </div>
+
+    <div class = "abandonned_baskets">
+      <h6> Abandonned Baskets </h6>
+      <h2> 23 </h2>
+      <p> -1.08% <i class='bx bx-trending-down' ></i></p>
+    </div>
+
+  </div>
+
+
+  <div class = "graphs_statistics">
+
+    <div class="graph_select_button">
+      <select id="graph_time_period_select" (change)="onTimePeriodChange($event)">
+        <option value="last_week">Last week</option>
+        <option value="last_month">Last month</option>
+        <option value="last_3_months">Last 3 months</option>
+        <option value="last_year">Last year</option>
+      </select>
+    </div>
+
+    <div class = "only_statistics_graphs">
+
+      <div class="new_users_graph" nz-col nzSpan="12">
+        <h2> New Users </h2>
+        <div id="chart3" echarts [options]="lineChartOption2" theme="macarons" class="demo-chart"></div>
+      </div>
+
+      <div class="visits_graph" nz-col nzSpan="12">
+        <h2> Visits </h2>
+        <div id="chart2" echarts [options]="lineChartOption1" theme="macarons" class="demo-chart"></div>
+      </div>
+
+      <div class="orders_graph" nz-col nzSpan="12">
+        <h2> Orders </h2>
+        <div id="chart4" echarts [options]="lineChartOption3" theme="macarons" class="demo-chart"></div>
+      </div>
+
+      <div class="popular_colors_graph" nz-col nzSpan="12">
+        <h2> Popular Colors </h2>
+        <div id="chart1" echarts [options]="histogramChartOption" theme="macarons" class="demo-chart"></div>
+      </div>
+
+    </div>
+  </div>
+
+</main>

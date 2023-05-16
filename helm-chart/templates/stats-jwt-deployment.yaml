@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stats-jwt-deployment
-  namespace: stats-jwt
+  name: {{ .Values.statsjwt.name }}-deployment
+  namespace: {{ .Values.statsjwt.namespace}}
 spec:
-  replicas: 1
+  replicas: {{ .Values.statsjwt.replicas}}
   selector:
     matchLabels:
-      app: stats-jwt
+      app: {{ .Values.statsjwt.name }}
   template:
     metadata:
       labels:
-        app: stats-jwt
+        app: {{ .Values.statsjwt.name }}
     spec:
       containers:
-        - name: stats-jwt
-          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:0.1.3-SNAPSHOT
-          imagePullPolicy: Always
+        - name: {{ .Values.statsjwt.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.statsjwt.imagename }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.statsjwt.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:
@@ -36,12 +36,12 @@ spec:
                   name: my-database-secret
                   key: url
             - name: SMALLRYE_JWT_SIGN_KEY_LOCATION
-              value: /src/main/resources/privatekey.pem
+              value: {{ .Values.authkeys.privateloc}}
             - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
-              value: /src/main/resources/publickey.pem
+              value: {{ .Values.authkeys.publicloc}}
           volumeMounts:
             - name: jwt-keys
-              mountPath: /src/main/resources
+              mountPath: {{ .Values.authkeys.mountloc}}
       volumes:
         - name: jwt-keys
           secret:

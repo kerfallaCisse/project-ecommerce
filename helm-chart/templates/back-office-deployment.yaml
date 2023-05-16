@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back-office-deployment
-  namespace: back-office
+  name: {{ .Values.backoffice.name }}-deployment
+  namespace: {{ .Values.backoffice.namespace}}
 spec:
-  replicas: 1
+  replicas: {{ .Values.backoffice.replicas }}
   selector:
     matchLabels:
-      app: back-office
+      app: {{ .Values.backoffice.name }}
   template:
     metadata:
       labels:
-        app: back-office
+        app: {{ .Values.backoffice.name }}
     spec:
       containers:
-        - name: back-office
-          image: registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:0.1.3-SNAPSHOT
-          imagePullPolicy: Always
+        - name: {{ .Values.backoffice.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.backoffice.imagename }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.backoffice.targetPort }}
           env:
             - name: MYSQL_USER
               valueFrom:
@@ -36,12 +36,12 @@ spec:
                   name: my-database-secret
                   key: url
             - name: SMALLRYE_JWT_SIGN_KEY_LOCATION
-              value: /src/main/resources/privatekey.pem
+              value: {{ .Values.authkeys.privateloc}}
             - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
-              value: /src/main/resources/publickey.pem
+              value: {{ .Values.authkeys.publicloc}}
           volumeMounts:
             - name: jwt-keys
-              mountPath: /src/main/resources
+              mountPath: {{ .Values.authkeys.mountloc}}
       volumes:
         - name: jwt-keys
           secret:

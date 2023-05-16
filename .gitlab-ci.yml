@@ -49,7 +49,7 @@ test-stock-management:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
     - denis
 
 
@@ -97,27 +97,7 @@ test-customization:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
-    - kerfalla
-
-
-container-image-backoffice-service:
-  stage: image-push
-  dependencies:
-    - mvn-build-backoffice-service
-  image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
-    entrypoint: [""]
-  script:
-    - /kaniko/executor
-      --build-arg MYSQL_USER=${MYSQL_USER}
-      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      --build-arg MYSQL_URL=${MYSQL_URL}
-      --context "${CI_PROJECT_DIR}/backoffice_service/stats"
-      --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:latest"
-  only:
-    - prod
+    - schedules
 
 
 mvn-build-stats-jwt:
@@ -178,7 +158,7 @@ test-payment:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
 
@@ -225,7 +205,7 @@ test-backoffice-service:
     - cd backoffice_service
     - mvn test
   only:
-    - main
+    - schedules
 
 
 container-image-backoffice-service:
@@ -273,7 +253,7 @@ test-stats-jwt:
     - cd stats-jwt
     - mvn test
   only:
-    - main
+    - schedules
 
 
 
@@ -347,6 +327,7 @@ deploy:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_MESSAGE =~ /.*\[helm\].*/
 
 
 
