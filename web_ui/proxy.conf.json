@@ -1,8 +1,8 @@
 {
-    "/api/stock":
-    {
-        "target": "http://pinfo3.unige.ch/api/stock",
-        "secure": false,
-	    "logLevel":"debug"
-    } 
+    "/api/stock": {
+    "target": "https://pinfo3.unige.ch/api/stock",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
+    }
 }

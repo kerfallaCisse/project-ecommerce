@@ -23,8 +23,8 @@ export class StockService {
 
   
 
-  configUrl = 'assets/config.json';
-  configUrl_2 = '/api/stock'
+  configUrl = '/assets/config.json';
+  configUrl_2 = "https://pinfo3.unige.ch"//'/api/stock'
 
   
 
@@ -35,9 +35,7 @@ export class StockService {
 
  
   getConfig() {
-    console.log("trying to recup request")
     return this.http.get<StockItem[]>(this.configUrl)
-      
   }
   
   modifyQuantity(data: StockItem[]) {

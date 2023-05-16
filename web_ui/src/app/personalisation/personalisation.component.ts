@@ -24,18 +24,26 @@ export class PersonalisationComponent implements AfterViewInit {
   
 
   change_model() {
+   
     changer_sac = true;
+
     console.log("Le bouton a été cliqué !",changer_sac);
     
-    this.my3DScene?.change_color({secondary:"white"});
+    //this.my3DScene?.change_color({secondary:"white"});
+    this.cleanScene()
+    this.my3DScene?.loadGLTFModel('assets/assets_3d/sac_finalPETIT.glb')
+    
+    
 
   }
 
   change_model_2() {
     changer_sac = true;
     console.log("Le bouton a été cliqué !",changer_sac);
-    
-    this.my3DScene?.change_color({secondary:"red"});
+    this.cleanScene()
+    this.my3DScene?.loadGLTFModel('assets/assets_3d/sac_final_grande2.glb')
+    //this.my3DScene?.change_color({secondary:"red"});
+   
 
   }
 
@@ -163,7 +171,8 @@ export class My3DScene {
 
 
     this.gltfLoader = new GLTFLoader();
-    this.loadGLTFModel('assets/assets_3d/bluerose.glb','white')
+    
+    this.loadGLTFModel('assets/assets_3d/sac_final_grande2.glb')
 
 
     // enft c'est un "écouteur" qui observe quand l'utilisateur clique sur la souris
@@ -199,7 +208,7 @@ export class My3DScene {
     }
   }
 
-  public loadGLTFModel(path: string,color:string) {
+  public loadGLTFModel(path: string) {
 
     this.gltfLoader.load(path,
       (gltf) => {
