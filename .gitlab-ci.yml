@@ -9,6 +9,7 @@ stages:
   - build
   - image-push
   - test
+  - image-push
   - deploy
 
 sonarcloud-check-branch:
@@ -98,6 +99,20 @@ test-customization:
   only:
     - schedules
 
+
+mvn-build-stats-jwt:
+  stage:  build
+  script: 
+    - cd stats-jwt
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - stats-jwt/target
+    expire_in: 2 hours
+  only:
+    - main
+    - prod
+    - kerfalla
 
 container-image-customization:
   stage: image-push
