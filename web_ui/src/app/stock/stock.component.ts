@@ -51,6 +51,13 @@ ngOnInit(): void {
       this.func_resume_stock()
       
     })
+
+    this.stockService.getConfig_2().subscribe(data2 => {
+      
+      console.log(data2)
+    })
+
+
     
 
   }

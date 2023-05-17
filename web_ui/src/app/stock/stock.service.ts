@@ -24,7 +24,10 @@ export class StockService {
   
 
   configUrl = '/assets/config.json';
-  configUrl_2 = "https://pinfo3.unige.ch"//'/api/stock'
+  configUrl_2 = '/api/stock'
+  configUrl_3 = '/api/customization'
+
+
 
   
 
@@ -36,6 +39,10 @@ export class StockService {
  
   getConfig() {
     return this.http.get<StockItem[]>(this.configUrl)
+  }
+
+  getConfig_2() {
+    return this.http.get(this.configUrl_3)
   }
   
   modifyQuantity(data: StockItem[]) {
