@@ -2,8 +2,7 @@ import * as THREE from 'three';
 import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, AfterViewInit} from '@angular/core';
-import { PersonalisationService } from 'src/app/personalisation/personalisation.service';
-import { animate } from '@angular/animations';
+
 import { Color, MeshStandardMaterial } from 'three';
 
 let number = 0;
@@ -23,23 +22,12 @@ export class PersonalisationComponent implements AfterViewInit {
   
   
 
-  change_model() {
-   
-    changer_sac = true;
-
-    console.log("Le bouton a été cliqué !",changer_sac);
-    
-    //this.my3DScene?.change_color({secondary:"white"});
+  change_model() { // model 40L
     this.cleanScene()
     this.my3DScene?.loadGLTFModel('assets/assets_3d/sac_finalPETIT.glb')
-    
-    
-
   }
 
-  change_model_2() {
-    changer_sac = true;
-    console.log("Le bouton a été cliqué !",changer_sac);
+  change_model_2() { // model 70L
     this.cleanScene()
     this.my3DScene?.loadGLTFModel('assets/assets_3d/sac_final_grande2.glb')
     //this.my3DScene?.change_color({secondary:"red"});
@@ -47,51 +35,20 @@ export class PersonalisationComponent implements AfterViewInit {
 
   }
 
-  private cleanScene(): void {
-    
-    this.my3DScene?.model.clear();
-    console.log(this.my3DScene?.model.children)
-
+  private cleanScene(): void { // permet de nettoyer la scene
+    this.my3DScene!.model.clear();
   }
 
 
-  
-  
-  // Create a new instance of the scene and start rendering
-  
-  
-  
-  
-  
   ngAfterViewInit() {
     
-    console.log(number)
     if(variable === false){
-     this.funcion()
-     number += 1
-    
-    }
-  }
-
-  funcion(){
-    console.log("Engine initiated")
-    
-    const animate = () => {
-
       this.my3DScene = new My3DScene();
       this.my3DScene.render();
-
-
-      
+      variable = true
+     number += 1
     }
-   animate();
-   variable = true
-
-   
   }
-
-  
-  
 }
 
 
@@ -113,6 +70,7 @@ export class My3DScene {
 
   private isMouseDown: boolean = false;
   private isModelLoaded: boolean = false;
+  
 
   public currentColor: string = 'white';
 
@@ -126,25 +84,21 @@ export class My3DScene {
   private createScene(): void {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xFFFFFF);
-
   }
 
  
 
   private init(){
-    console.log("Created scene")
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.gltfLoader = new GLTFLoader();
 
-    // this.spotlight = new THREE.SpotLight(0xFFFFF);
-    // this.spotlight.position.set( 0, 0, 10 );
-     this.scene.add(this.spotlight);
    
 
-    this.pointlight = new THREE.PointLight(0xFFFFF,5); // moins futuriste mettre ,3 après 
+    this.pointlight = new THREE.PointLight(0xFFFFF,5,3); // moins futuriste mettre ,3 après 
    
-    this.scene.add(this.pointlight);
+    
 
    
 
@@ -157,22 +111,14 @@ export class My3DScene {
     document.body.appendChild(this.renderer.domElement);
 
     
-    
-
-    // on peut rêgler la position de la caméra
+  
     this.camera.position.x = -30;
     this.camera.position.y = 0;
     this.camera.position.z = 50;
-
-
-    // permet d'ajouter de la "lumière" sur le sac
+ 
 
     
-
-
-    this.gltfLoader = new GLTFLoader();
-    
-    this.loadGLTFModel('assets/assets_3d/sac_final_grande2.glb')
+    this.loadGLTFModel('assets/assets_3d/testrotate.glb')
 
 
     // enft c'est un "écouteur" qui observe quand l'utilisateur clique sur la souris
@@ -216,14 +162,15 @@ export class My3DScene {
         this.scene.add(gltf.scene);
         this.model = gltf.scene;
 
-        console.log(this.model.children)
-
+        
         this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x000000)});
         this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x00008B)});
 
         this.isModelLoaded = true;
 
-        gltf.scene.position.set(0, -10, 0);
+        gltf.scene.position.set(0, 0, 0);
+
+        this.model.center()
 
       },
       undefined,
@@ -237,11 +184,7 @@ export class My3DScene {
       this.model?.children[0].material.color.set(colors.primary);
     if (colors.secondary)
       this.model?.children[1].material.color.set(colors.secondary)
-    // and need to call your render function to apply changes to scene
   }
-
-  
-  
 
   
 
@@ -253,30 +196,10 @@ export class My3DScene {
     });
 
     if (this.isModelLoaded) {
-  // Créer un nouveau groupe
   if (this.isModelLoaded) {
-  // Créer un nouveau groupe
-  var pivot = new THREE.Group();
-  this.scene.add(pivot);
-  pivot.add(this.model);
-  
-  // Positionner le pivot au centre de l'objet
-  var boundingBox = new THREE.Box3().setFromObject(this.model);
-  var center = new THREE.Vector3();
-  boundingBox.getCenter(center);
-  this.model.position.sub(center);
-  
-  // Appliquer la rotation sur le pivot
-  pivot.rotation.x = 0;
-  pivot.rotation.y = 0;
-  pivot.rotation.z = 0;
-  this.model.rotation.y += 0.01;
-  
-  this.model.rotation.z = 0;
+
+  this.model.rotation.y += 0.01
   this.model.rotation.x = 3.05
-
-
-
   
   this.renderer.render(this.scene, this.camera);
 }
@@ -284,14 +207,12 @@ export class My3DScene {
 
 
 
+
 }
   }
-  public cleanup(): void {
-    this.scene.remove(this.model);
-    this.scene.remove(this.camera);
   
   }
-}
+
 
 
 
