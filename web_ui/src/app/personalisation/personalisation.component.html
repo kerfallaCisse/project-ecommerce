@@ -7,39 +7,44 @@
 <div class="salam">
   <label>Choose your bag size !</label>
   <div id="acote">
-    <button id="button_40l" (click)="change_model()">40L</button>
-    <button id="button_70l" aria-pressed="true" (click)="change_model_2()">70L</button>
+    <button id="button_40l" (click)="change_size(40)">40L</button>
+    <button id="button_70l" aria-pressed="true" (click)="change_size(70)">70L</button>
   </div>
   <div class="oh">
     <label>Choose your pochette color !</label>
     <div class="button_pochette">
-      <button>Rouge</button>
-      <button>Blanc</button>
-      <button>Bleu</button>
+      <button (click)="change_colors(true,'#500000')">Red</button>
+      <button (click)="change_colors(true,'#595959')">White</button>
+      <button (click)="change_colors(true,'#000060')">Blue</button>
     </div>
   </div>
   <div class="oh_2">
     <label>Choose your pochette color !</label>
     <div class="button_pochette_2">
-      <button>Rouge</button>
-      <button>Blanc</button>
-      <button>Bleu</button>
+      <button (click)="change_colors(false,'#500000')">Red</button>
+      <button (click)="change_colors(false,'#595959')">White</button>
+      <button (click)="change_colors(false,'#000060')">Blue</button>
     </div>
   </div>
   <button>Next</button>
-</div>
-
-
-
-
-
-<div id="overlay">
   
-   
 </div>
+<label>Color bag</label>
+<div class="hein">
+  
+
+  <button id ="blue" class= "round-button"></button>
+  <button id ="white" class= "round-button"></button>
+  <button id ="red" class= "round-button"></button>
+</div>
+
+
+
+
+
 
 <!-- test -->
 
-<div class="container">
-	
-</div>
+
+
+

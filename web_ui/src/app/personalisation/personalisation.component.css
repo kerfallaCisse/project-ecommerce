@@ -56,5 +56,50 @@ display:grid
         display: flex;
       }
 
-  
-  
+  /* A SUPP */
+
+
+  .round-button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border: none;
+    color: #FFFFFF; /* Couleur du texte */
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+  }
+
+.round-button:hover{
+    opacity: 0.8;
+}
+
+#red{
+
+    background-color: #FF0000;
+}
+#blue{
+    background-color: #0000FF;
+}
+
+.hein {
+    display: flex;
+    height: 100px;
+    width: 300px;
+    background-color: grey;
+    border-radius: 10px;
+    color: aqua;
+    justify-content: space-between;
+  }
+
+
+
+
+
+
+

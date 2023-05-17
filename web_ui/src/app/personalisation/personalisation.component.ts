@@ -22,18 +22,28 @@ export class PersonalisationComponent implements AfterViewInit {
   
   
 
-  change_model() { // model 40L
+  change_size(taille:number) { // model 40L
     this.cleanScene()
-    this.my3DScene?.loadGLTFModel('assets/assets_3d/sac_finalPETIT.glb')
+    if(taille===40){
+    this.cleanScene()
+    this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
+     } if(taille===70) {
+    this.cleanScene()
+    this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb')
+     }
   }
 
-  change_model_2() { // model 70L
-    this.cleanScene()
-    this.my3DScene?.loadGLTFModel('assets/assets_3d/sac_final_grande2.glb')
-    //this.my3DScene?.change_color({secondary:"red"});
-   
-
+  change_colors(endroit:boolean,color:string){
+    if(endroit){
+    this.my3DScene?.change_color(true,color)
+    }if(!endroit){
+     this.my3DScene?.change_color(false,color)
+    }
   }
+
+  
+
+
 
   private cleanScene(): void { // permet de nettoyer la scene
     this.my3DScene!.model.clear();
@@ -112,13 +122,13 @@ export class My3DScene {
 
     
   
-    this.camera.position.x = -30;
-    this.camera.position.y = 0;
+    this.camera.position.x = -10;
+    this.camera.position.y = 5;
     this.camera.position.z = 50;
  
 
     
-    this.loadGLTFModel('assets/assets_3d/testrotate.glb')
+   this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
 
 
     // enft c'est un "écouteur" qui observe quand l'utilisateur clique sur la souris
@@ -148,8 +158,9 @@ export class My3DScene {
       const y = -(event.clientY / window.innerHeight) * 2 + 1;
 
       // Mettre à jour la rotation du modèle en fonction de la position de la souris
-
-      this.model.rotation.y += event.movementX / 100;
+      this.model.children[0].rotation.y += event.movementX / 100
+      this.model.children[1].rotation.y += event.movementX / 100
+      
 
     }
   }
@@ -163,8 +174,8 @@ export class My3DScene {
         this.model = gltf.scene;
 
         
-        this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x000000)});
-        this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x00008B)});
+        this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x595959)});
+        this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x000060)});
 
         this.isModelLoaded = true;
 
@@ -179,11 +190,13 @@ export class My3DScene {
       });
   }
 
-  public change_color(colors:{primary?:String,secondary?:String}) {
-    if (colors.primary)
-      this.model?.children[0].material.color.set(colors.primary);
-    if (colors.secondary)
-      this.model?.children[1].material.color.set(colors.secondary)
+  public change_color(endroit:boolean,primary?:String) {
+    
+    if (endroit){
+      this.model?.children[1].material.color.set(primary);
+    } if(!endroit) {
+      this.model?.children[0].material.color.set(primary);
+    }
   }
 
   
@@ -197,8 +210,10 @@ export class My3DScene {
 
     if (this.isModelLoaded) {
   if (this.isModelLoaded) {
+    
+  this.model.children[0].rotation.y += 0.01
+  this.model.children[1].rotation.y += 0.01
 
-  this.model.rotation.y += 0.01
   this.model.rotation.x = 3.05
   
   this.renderer.render(this.scene, this.camera);
