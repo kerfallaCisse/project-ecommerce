@@ -1,22 +1,117 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import type { EChartsOption } from 'echarts';
 import { getInstanceByDom, connect } from 'echarts';
+import { StatisticService } from '../services/statistic/statistic.service';
+import { StatData } from '../shared/models/statistic';
+
 
 
 @Component({
   selector: 'app-statistic',
   templateUrl: './statistic.component.html',
-  styleUrls: ['./statistic.component.css']
+  styleUrls: ['./statistic.component.css'],
+  providers: [StatisticService]
 })
 
 
-export class StatisticComponent { //implements AfterViewInit
+export class StatisticComponent implements OnInit{ //implements AfterViewInit
+
+  constructor(private statService: StatisticService) { }
+
+  users_info: StatData[] = [];
+  orders_info: StatData[] = [];
+  colors_info:  StatData[] = [];
+
+  line_chart_users: EChartsOption = {} ;
+  line_chart_orders: EChartsOption = {} ;
+  histo_chart_colors: EChartsOption = {} ;
+
+
+
+  ngOnInit(): void {
+    // Charger les données initiales en utilisant la valeur par défaut 'last_week'
+    this.loadStatData('last_week');
+  }
 
   onTimePeriodChange(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    // Mettre à jour les données en fonction de la valeur sélectionnée
+    // Charger les données en fonction de la valeur sélectionnée
+    this.loadStatData(selectedValue);
   }
 
+  // Créer une méthode loadStatData() pour charger les données en fonction de la valeur sélectionnée
+  loadStatData(selectedValue: string): void {
+    this.statService.getEndpointURLs(selectedValue).subscribe(
+      ({ users, orders, colors }: { users: any; orders: any; colors: any }) => {
+        // Vider les tableaux stat_info et orders_info avant de charger de nouvelles données
+        this.users_info = [];
+        this.orders_info = [];
+        this.colors_info = [];
+
+        // Convertir les données JSON en un tableau de paires clé-valeur et stocker les données dans les tableaux
+        const usersKeyValueArray = Object.entries(users);
+        const ordersKeyValueArray = Object.entries(orders);
+        const colorsKeyValueArray = Object.entries(colors);
+
+        // Trier les tableaux par clé, sauf pour les jours de la semaine
+        const weekdays = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
+        usersKeyValueArray.sort((a, b) => {
+          if (weekdays.includes(a[0]) && weekdays.includes(b[0])) {
+            return 0;
+          } else {
+            return a[0].localeCompare(b[0]);
+          }
+        });
+        ordersKeyValueArray.sort((a, b) => {
+          if (weekdays.includes(a[0]) && weekdays.includes(b[0])) {
+            return 0;
+          } else {
+            return a[0].localeCompare(b[0]);
+          }
+        });
+        colorsKeyValueArray.sort((a, b) => {
+          if (weekdays.includes(a[0]) && weekdays.includes(b[0])) {
+            return 0;
+          } else {
+            return a[0].localeCompare(b[0]);
+          }
+        });
+
+        usersKeyValueArray.forEach(([key, value]) => {
+          this.users_info.push({ key, value: value as number });
+        });
+
+        ordersKeyValueArray.forEach(([key, value]) => {
+          this.orders_info.push({ key, value: value as number });
+        });
+
+        colorsKeyValueArray.forEach(([key, value]) => {
+          this.colors_info.push({ key, value: value as number });
+        });
+
+        const users_keys = this.users_info.map(x => x.key);
+        const users_values = this.users_info.map(x => x.value);
+        this.line_chart_users = this.createLineChartOption(users_keys, users_values);
+
+        const orders_keys = this.orders_info.map(x => x.key);
+        const orders_values = this.orders_info.map(x => x.value);
+        this.line_chart_orders = this.createLineChartOption(orders_keys, orders_values);
+
+        const colors_keys = this.colors_info.map(x => x.key);
+        const colors_values = this.colors_info.map(x => x.value);
+        this.histo_chart_colors = this.createHistogramChartOption(colors_keys, colors_values);
+
+      },
+      error => {
+        console.log("Erreur lors de la réception des données");
+      },
+      () => {
+        console.log("Stat info:", this.users_info);
+        console.log("Orders info:", this.orders_info);
+        console.log("Colors info:", this.colors_info);
+      }
+    );
+  }
 
 
   createHistogramChartOption(xData: string[], seriesData: number[]): EChartsOption {
@@ -104,25 +199,10 @@ export class StatisticComponent { //implements AfterViewInit
     };
   }
 
-  histogramChartOption = this.createHistogramChartOption(['Black', 'Blue', 'Green', 'Grey', 'Red', 'White', 'Yellow'], [10, 52, 200, 334, 390, 330, 220]);
+  // histogramChartOption = this.createHistogramChartOption(['Black', 'Blue', 'Green', 'Grey', 'Red', 'White', 'Yellow'], [10, 52, 200, 334, 390, 330, 220]);
   lineChartOption1 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [820, 932, 901, 934, 1290, 1430, 1550, 1600, 1650.1450, 1680.1890]);
-  lineChartOption2 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [20, 32, 101, 234, 290, 430, 556, 600, 650.1450, 680.1890]);
-  lineChartOption3 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [8, 31, 71, 80, 82, 90, 120, 234, 300, 400]);
+  // lineChartOption2 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [20, 32, 101, 234, 290, 430, 556, 600, 650.1450, 680.1890]);
+  // lineChartOption3 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [8, 31, 71, 80, 82, 90, 120, 234, 300, 400]);
 
-  constructor() { }
 
 }
-
-
-
-
-
-  // ngAfterViewInit() {
-  //   setTimeout(() => {
-  //     const chartElement1 = document.getElementById('chart1')!;
-  //     const chartElement2 = document.getElementById('chart2')!;
-  //     const chart1 = getInstanceByDom(chartElement1)!;
-  //     const chart2 = getInstanceByDom(chartElement2)!;
-  //     // connect([chart1, chart2]);
-  //   });
-  // }

@@ -17,7 +17,9 @@ import { StatisticComponent } from './statistic/statistic.component';
 
 // pour connecter B2D
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule} from '@angular/common/http';
+import { CartComponent } from './cart/cart.component';
+import { AboutComponent } from './about/about.component'
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import {HttpClientModule} from '@angular/common/http'
     PrecisionComponent,
     CustomizationComponent,
     StockComponent,
-    StatisticComponent
+    StatisticComponent,
+    CartComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
