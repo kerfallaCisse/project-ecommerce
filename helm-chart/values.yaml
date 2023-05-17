@@ -58,7 +58,7 @@ statistics:
     namespace: statistics
     targetPort: 8080
     port: 80
-    imagename: getting-started
+    imagename: statistics
     replicas: 1
 
 webui:

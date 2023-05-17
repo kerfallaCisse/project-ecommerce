@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.statistics.name }}
-          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.statistics.imagename }}:latest
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.statistics.imagename }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy}}
           ports:
             - containerPort: {{ .Values.statistics.targetPort }}

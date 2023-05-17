@@ -199,7 +199,7 @@ spec:
   - host: {{ .Values.general.hostname}}
     http:
       paths:
-      - path: "/api/(hello)(/|$)(.*)"
+      - path: "/api/(statistics)(/|$)(.*)"
         pathType: ImplementationSpecific
         backend:
           service:
