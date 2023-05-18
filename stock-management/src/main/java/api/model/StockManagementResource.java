@@ -52,7 +52,6 @@ public class StockManagementResource {
     }
 
     // Send json data to update stock
-    @Path("/update")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -79,7 +78,7 @@ public class StockManagementResource {
             smallModel.persist();
 
         } else if ("large".equals(modelType)) {
-            LargeModel largeModel = LargeModel.find("color_pocket_name", colorPocket).firstResult();
+            LargeModel largeModel = LargeModel.find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
 
             if (largeModel != null) {
                 // If the model already exists in the database, update its quantity
