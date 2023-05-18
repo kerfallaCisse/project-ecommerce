@@ -2,7 +2,7 @@
 header {
   background: white;
   padding: 0;
-  border-bottom: 0.1em solid rgb(66, 200, 66);;
+  border-bottom: 0.1em solid rgb(73, 132, 73);;
   position: sticky ;
 }
 
@@ -21,11 +21,17 @@ a {
 
 /* Styles the logo text with a specific font, weight, and size. Also adds a margin to the left of the logo and a padding right to center the central-menu. */
 a.logo {
-  font-family: 'Aclonica';
+  font-family: 'Orbitron';
   font-weight: bold;
   font-size: 280%;
   margin-left: 2%;
   padding-right: 5%;
+}
+
+span {
+  font-family: 'Orbitron';
+  font-weight: bold;
+  font-size: 100%;
 }
 
 /* Styles the central menu navigation by setting it to display as a flexbox, with items centered horizontally and text centered. */
@@ -40,7 +46,7 @@ nav.central.menu {
 nav.central.menu ul li a {
   text-decoration: underline;
   text-decoration-color: transparent;
-  text-decoration-thickness: 250%;
+  text-decoration-thickness: 10%;
   transition: text-decoration-color 0.3s ease-in-out;
 }
 
@@ -60,7 +66,7 @@ nav ul {
 
 /* Styles the links in the central menu by setting a specific font family, padding, and display property. */
 nav ul li a {
-  font-family: 'Gentium Book Basic';
+  font-family: 'Mulish';
   padding: 1em;
   display: inline-block;
 }

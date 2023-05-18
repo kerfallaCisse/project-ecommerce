@@ -1,4 +1,5 @@
 {
+
     "/api/customization": {
     "target": "https://pinfo3.unige.ch",
     "secure": true,

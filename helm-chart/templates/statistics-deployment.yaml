@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.statistics.name }}-deployment
+  namespace: {{ .Values.statistics.namespace}}
+spec:
+  replicas: {{ .Values.statistics.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.statistics.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.statistics.name }}
+    spec:
+      containers:
+        - name: {{ .Values.statistics.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.statistics.imagename }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy}}
+          ports:
+            - containerPort: {{ .Values.statistics.targetPort }}
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: password
+            - name: MYSQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: url
+      imagePullSecrets:
+        - name: my-registry-secret
+

@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { PrecisionComponent } from './login/precision/precision.component';
@@ -18,19 +17,22 @@ import { StatisticComponent } from './statistic/statistic.component';
 
 // pour connecter B2D
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule} from '@angular/common/http';
+import { CartComponent } from './cart/cart.component';
+import { AboutComponent } from './about/about.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    SearchComponent,
     LoginComponent,
     PrecisionComponent,
     CustomizationComponent,
     StockComponent,
-    StatisticComponent
+    StatisticComponent,
+    CartComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

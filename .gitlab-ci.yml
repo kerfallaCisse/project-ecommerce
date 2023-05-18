@@ -9,6 +9,7 @@ stages:
   - build
   - image-push
   - test
+  - image-push
   - deploy
 
 sonarcloud-check-branch:
@@ -48,7 +49,7 @@ test-stock-management:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
     - denis
 
 
@@ -96,7 +97,7 @@ test-customization:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
 container-image-customization:
@@ -143,7 +144,7 @@ test-payment:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
 
@@ -190,7 +191,7 @@ test-backoffice-service:
     - cd backoffice_service
     - mvn test
   only:
-    - main
+    - schedules
 
 
 container-image-backoffice-service:
@@ -238,7 +239,7 @@ test-stats-jwt:
     - cd stats-jwt
     - mvn test
   only:
-    - main
+    - schedules
 
 
 
@@ -257,6 +258,54 @@ container-image-stats-jwt:
       --context "${CI_PROJECT_DIR}/stats-jwt"
       --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:${VERSION}"
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+
+
+
+mvn-build-statistics:
+  stage:  build
+  script: 
+    - cd statistic_service
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - statistic_service/target
+    expire_in: 2 hours
+  only:
+    - main
+    - schedules
+
+
+test-statistics:
+  stage: test
+  dependencies:
+    - mvn-build-statistics 
+  script:
+    - cd statistic_service 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - schedules
+
+
+container-image-statistics:
+  stage: image-push
+  dependencies:
+    - mvn-build-statistics 
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/statistic_service"
+      --dockerfile "${CI_PROJECT_DIR}/statistic_service/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/statistics:${VERSION}"
   only:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/

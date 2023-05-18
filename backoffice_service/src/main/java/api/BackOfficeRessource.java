@@ -28,16 +28,16 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 @RolesAllowed("admin")
 public class BackOfficeRessource {
 
-    StatisticRepository statisticRepository = new StatisticRepository(); // <- for test create the object to avoid null
+    // StatisticRepository statisticRepository = new StatisticRepository(); // <- for test create the object to avoid null
                                                                          // pointer exception
 
-    ColorRepository colorRepository = new ColorRepository(); // same for color repository
+    // ColorRepository colorRepository = new ColorRepository(); // same for color repository
 
-    // @Inject
-    // StatisticRepository statisticRepository;
+    @Inject
+    StatisticRepository statisticRepository;
 
-    // @Inject
-    // ColorRepository colorRepository;
+    @Inject
+    ColorRepository colorRepository;
 
     @GET
     @Path("connected")
@@ -47,6 +47,7 @@ public class BackOfficeRessource {
     public Response getNumberOfUserConnected() {
 
         List<Statistic> stats = statisticRepository.list("SELECT number_of_user_connected FROM Statistic");
+        // stats.stream().
         if(stats.size() == 0) return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
         return Response.ok(stats.get(0)).build();
     }
