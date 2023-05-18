@@ -7,7 +7,6 @@ Lien Figma pour la démo : https://www.figma.com/file/HTl6RYN9J2JQqWY67RuyK0/InV
 
 Lancer le projet Angular : ng serve -o
 
-
 Pour les messages de commit : utiliser les conventions de commit voir https://www.conventionalcommits.org/en/v1.0.0/.
 Les éléments qui seront généralement utilisés dans les messages de commit sont les suivants :
 
