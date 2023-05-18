@@ -9,19 +9,19 @@ import javax.persistence.Table;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
-@Table(name="SmallModel")
+@Table(name = "SmallModel")
 public class SmallModel extends PanacheEntity {
-    
-    @Column(name="id")
+
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(name="quantity")
+    @Column(name = "quantity")
     public int quantity;
 
-    @Column(name="color_pocket_name")
+    @Column(name = "color_pocket_name")
     public String color_pocket_name;
 
-    @Column(name="color_bag_name")
+    @Column(name = "color_bag_name")
     public String color_bag_name;
 }

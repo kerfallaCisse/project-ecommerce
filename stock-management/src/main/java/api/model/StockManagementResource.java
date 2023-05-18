@@ -14,7 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-
 @Path("/stock")
 public class StockManagementResource {
 
@@ -28,23 +27,23 @@ public class StockManagementResource {
 
         for (SmallModel smallModel : smallModels) {
             JsonObject json = Json.createObjectBuilder()
-                .add("modelType", "SmallModel")
-                .add("id", smallModel.id)
-                .add("quantity", smallModel.quantity)
-                .add("color_pocket_name", smallModel.color_pocket_name)
-                .add("color_bag_name", smallModel.color_bag_name)
-                .build();
+                    .add("modelType", "SmallModel")
+                    .add("id", smallModel.id)
+                    .add("quantity", smallModel.quantity)
+                    .add("color_pocket_name", smallModel.color_pocket_name)
+                    .add("color_bag_name", smallModel.color_bag_name)
+                    .build();
             jsonArrayBuilder.add(json);
         }
 
         for (LargeModel largeModel : largeModels) {
             JsonObject json = Json.createObjectBuilder()
-                .add("modelType", "LargeModel")
-                .add("id", largeModel.id)
-                .add("quantity", largeModel.quantity)
-                .add("color_pocket_name", largeModel.color_pocket_name)
-                .add("color_bag_name", largeModel.color_bag_name)
-                .build();
+                    .add("modelType", "LargeModel")
+                    .add("id", largeModel.id)
+                    .add("quantity", largeModel.quantity)
+                    .add("color_pocket_name", largeModel.color_pocket_name)
+                    .add("color_bag_name", largeModel.color_bag_name)
+                    .build();
             jsonArrayBuilder.add(json);
         }
 
@@ -63,11 +62,12 @@ public class StockManagementResource {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         if ("small".equals(modelType)) {
-            SmallModel smallModel = SmallModel.find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
+            SmallModel smallModel = SmallModel
+                    .find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
 
             if (smallModel != null) {
                 // If the model already exists in the database, update its quantity
-                if (smallModel.quantity + quantity >= 0){
+                if (smallModel.quantity + quantity >= 0) {
                     smallModel.quantity += quantity;
                     smallModel.persist();
                 } else {
@@ -76,7 +76,7 @@ public class StockManagementResource {
                 }
             } else {
                 // Otherwise, create a new model
-                if (quantity >= 0){
+                if (quantity >= 0) {
                     smallModel = new SmallModel();
                     smallModel.color_pocket_name = colorPocket;
                     smallModel.color_bag_name = colorBag;
@@ -86,14 +86,15 @@ public class StockManagementResource {
                     JsonObject json = Json.createObjectBuilder().add("error", "negativ quantity error").build();
                     jsonArrayBuilder.add(json);
                 }
-                
+
             }
         } else if ("large".equals(modelType)) {
-            LargeModel largeModel = LargeModel.find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
+            LargeModel largeModel = LargeModel
+                    .find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
 
             if (largeModel != null) {
                 // If the model already exists in the database, update its quantity
-                if (largeModel.quantity + quantity >= 0){
+                if (largeModel.quantity + quantity >= 0) {
                     largeModel.quantity += quantity;
                     largeModel.persist();
                 } else {
@@ -118,7 +119,7 @@ public class StockManagementResource {
             // Invalid model type
             throw new IllegalArgumentException("Invalid model type: " + modelType);
         }
-        
+
         // Send confirmation
         JsonObject json = Json.createObjectBuilder().add("result", "ok").build();
         jsonArrayBuilder.add(json);
