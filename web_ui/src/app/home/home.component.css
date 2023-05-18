@@ -9,7 +9,7 @@ main {
 .introduction_section {
   padding-top: 10%;
   padding-bottom: 5%;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("/assets/home-background/home-background-1.jpg");
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("/assets/home-background/home-background-1.jpg");
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,7 +68,7 @@ span {
   color: white;
   transition: background-color 0.5s;
   cursor: pointer;
-  padding: 5px 80vh;
+  padding: 20px 80vh;
 }
 
 .button_read_more:hover {
@@ -80,6 +80,7 @@ span {
 
 
 .invia_story_section {
+  padding: 10% 8% 10% 5%;
   display: flex;
   opacity: 0; /* Par défaut, la section est invisible */
   animation: fade-in 5s ease-in-out forwards; /* Animation d'apparition */
@@ -97,8 +98,8 @@ span {
 }
 
 .invia {
-  width: 50%;
-  padding: 1% 2% 5% 2%;
+  width: 60%;
+  padding: 3% 3% 3% 3%;
   background-color: white;
 }
 
@@ -118,6 +119,7 @@ span {
 }
 
 .image_section {
+  border-radius: 1em;
   display: flex;
   flex: 1;
   background-image: url("/assets/home-background/home-background-2.jpeg");
@@ -140,7 +142,7 @@ span {
 
 
 #owner_story_title {
-  font-family: 'Gentium Book Basic';
+  font-family: 'Mulish';
   margin-bottom: 2%;
   font-size: 450%;
   color: black;
@@ -148,7 +150,7 @@ span {
 }
 
 #owner_story_text {
-  font-family: 'Gentium Book Basic';
+  font-family: 'Mulish';
   margin-bottom: 5%;
   font-size: 250%;
   color: black;
