@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { My3DScene } from 'src/app/personalisation/personalisation.component';
+import { My3DScene } from 'src/app/customization/customization.component';
 
 @Injectable({
   providedIn: 'root'
 })
 
 
-export class PersonalisationService {
+export class CustomizationService {
 
   private modelInstance: My3DScene | null = null;
   public isVisible: boolean = false;

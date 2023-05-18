@@ -9,14 +9,14 @@ let number = 0;
 let variable: boolean = false
 let changer_sac = false
 @Component({
-  selector: 'app-personalisation',
-  templateUrl: './personalisation.component.html',
-  styleUrls: ['./personalisation.component.css']
+  selector: 'app-customization',
+  templateUrl: './customization.component.html',
+  styleUrls: ['./customization.component.css']
 })
 
 
 
-export class PersonalisationComponent implements AfterViewInit {
+export class CustomizationComponent implements AfterViewInit {
   
   private my3DScene: My3DScene | undefined;
   

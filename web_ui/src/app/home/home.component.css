@@ -130,12 +130,12 @@ main {
   color: black;
 }
 
-.button_start_personalisation_container {
+.button_start_customization_container {
   display: flex;
   justify-content: center;
 }
 
-#button_start_personalisation {
+#button_start_customization {
   margin-top: 5%;
   background-color: black;
   font-size: 250%;
