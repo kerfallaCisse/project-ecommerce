@@ -12,12 +12,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("/stock")
 public class StockManagementResource {
 
-    // get json data with all models
+    // Get json data with all models
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getStock() {
@@ -50,7 +51,7 @@ public class StockManagementResource {
         return jsonArrayBuilder.build();
     }
 
-    // Send json data to update stock
+    // Send json data to update stock or create a new model
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -123,6 +124,40 @@ public class StockManagementResource {
         // Send confirmation
         JsonObject json = Json.createObjectBuilder().add("result", "ok").build();
         jsonArrayBuilder.add(json);
+        return jsonArrayBuilder.build();
+    }
+
+    @Path("/quantity")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonArray getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor, @QueryParam("pocketColor") String pocketColor) {
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        if (modelType == null || bagColor == null || pocketColor == null){
+            JsonObject json = Json.createObjectBuilder().add("error", "empty params error").build();
+            jsonArrayBuilder.add(json);
+        } else {
+            if ("smallModel".equals(modelType)){
+                SmallModel smallModel = SmallModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
+                if (smallModel == null) {
+                    JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
+                    jsonArrayBuilder.add(json);
+                } else {
+                    JsonObject json = Json.createObjectBuilder().add("quantity", smallModel.quantity).build();
+                    jsonArrayBuilder.add(json);
+                }
+            } else if ("largeModel".equals(modelType)) {
+                LargeModel largeModel = LargeModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
+                if (largeModel == null) {
+                    JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
+                    jsonArrayBuilder.add(json);
+                } else {
+                    JsonObject json = Json.createObjectBuilder().add("quantity", largeModel.quantity).build();
+                    jsonArrayBuilder.add(json);
+                }
+            }
+
+        }
+
         return jsonArrayBuilder.build();
     }
 
