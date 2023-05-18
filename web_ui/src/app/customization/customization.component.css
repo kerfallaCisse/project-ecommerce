@@ -22,15 +22,13 @@
   width: 25px;
   height: 25px;
   border: none;
-  color: #FFFFFF; /* Couleur du texte */
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
+  
   cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  
 }
 
 .round-button:hover{
@@ -62,30 +60,30 @@
 position: absolute;
 display: flex;
   height: 100px;
-  width: 300px;
-  background-color: grey;
+  width: 200px;
+  background-color: white;
   border-radius: 10px;
   color: aqua;
   justify-content: space-between;
   height: 10%;
-  
+  margin-left: 20%;
 }
 
 #lautre{
-margin-top: 20%;
+margin-top: 30%;
 
 }
 
 #lautre2{
-margin-top: 35%;
+margin-top: 50%;
 }
 
 #cart_button{
-margin-top: 45%
+margin-top: 55%
 }
 
 #cart_button{
-margin-top: 60%;
+margin-top: 70%;
 }
 
 #size{
@@ -96,23 +94,32 @@ display: flex;
 #soiL{
 height: 100%; /* Rouge */
 width: 100%;
+font-family: 'Anton';
+background-color: #FFFFFF;
+border-radius: 10px;
+
 }
 
 #quaL {
 font-family: 'Anton';
+background-color: #FFFFFF;
 height: 100%; /* Rouge */
 width: 100%;
+border-radius: 10px;
 }
 
 #grand_formu{
 position: absolute;
-background-color: beige;
-width: 500px;
-height: 500px;
+background-color: rgba(230, 230, 230, 0.35);
+/* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+margin-left: 3%;
+width: 400px;
+height: 400px;
 display: flex;
 text-align: center;
 justify-content: space-between;
 border-radius: 10px;
+margin-top: 5%;
 }
 
 #titre_1{
@@ -122,3 +129,11 @@ font-size: 50px;
 
 }
 
+#add_to_cart{
+  font-family: 'Anton';
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: white
+  ;
+}
