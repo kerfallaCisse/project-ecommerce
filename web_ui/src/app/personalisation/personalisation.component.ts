@@ -128,7 +128,7 @@ export class My3DScene {
  
 
     
-   this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
+   //this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
 
 
     // enft c'est un "écouteur" qui observe quand l'utilisateur clique sur la souris

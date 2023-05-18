@@ -2,40 +2,36 @@
   <app-header></app-header>
   <link href="https://fr.allfont.net/allfont.css?fonts=gentium-book-basic" rel="stylesheet" type="text/css" />
   <link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet'>
 </header>
 
-<div class="salam">
-  <label>Choose your bag size !</label>
-  <div id="acote">
-    <button id="button_40l" (click)="change_size(40)">40L</button>
-    <button id="button_70l" aria-pressed="true" (click)="change_size(70)">70L</button>
-  </div>
-  <div class="oh">
-    <label>Choose your pochette color !</label>
-    <div class="button_pochette">
-      <button (click)="change_colors(true,'#500000')">Red</button>
-      <button (click)="change_colors(true,'#595959')">White</button>
-      <button (click)="change_colors(true,'#000060')">Blue</button>
-    </div>
-  </div>
-  <div class="oh_2">
-    <label>Choose your pochette color !</label>
-    <div class="button_pochette_2">
-      <button (click)="change_colors(false,'#500000')">Red</button>
-      <button (click)="change_colors(false,'#595959')">White</button>
-      <button (click)="change_colors(false,'#000060')">Blue</button>
-    </div>
-  </div>
-  <button>Next</button>
-  
-</div>
-<label>Color bag</label>
-<div class="hein">
-  
 
-  <button id ="blue" class= "round-button"></button>
-  <button id ="white" class= "round-button"></button>
-  <button id ="red" class= "round-button"></button>
+
+<div id="titre_1"> Personalize your bag!</div>
+
+<div id="grand_formu">
+  <label>Color bag</label>
+  <div id="size" class="okok">
+    <button id ="quaL" (click)="change_size(70)">70L</button>
+    <button id ="soiL"  (click)="change_size(40)">40L</button>
+  </div>
+
+  <div id ="lautre" class="okok">
+    <button id ="blue" class= "round-button" (click)="change_colors(true,'#000060')"></button>
+    <button id ="white" class= "round-button" (click)="change_colors(true,'#595959')"></button>
+    <button id ="red" class= "round-button" (click)="change_colors(true,'#500000')"></button>
+  </div>
+
+  <div id="lautre2" class="okok">
+    <button id ="blue" class= "round-button" (click)="change_colors(false,'#000060')" ></button>
+    <button id ="white" class= "round-button" (click)="change_colors(false,'#595959')"></button>
+    <button id ="red" class= "round-button" (click)="change_colors(false,'#500000')"></button>
+  </div>
+
+  <div id="cart_button" class="okok">
+    <button id="add_to_cart">Add to Cart</button>
+  </div>
+
 </div>
 
 
