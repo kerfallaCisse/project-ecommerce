@@ -60,38 +60,59 @@ public class StockManagementResource {
         String colorPocket = model.getString("color_pocket_name");
         String colorBag = model.getString("color_bag_name");
         int quantity = model.getInt("quantity");
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         if ("small".equals(modelType)) {
             SmallModel smallModel = SmallModel.find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
 
             if (smallModel != null) {
                 // If the model already exists in the database, update its quantity
-                smallModel.quantity += quantity;
+                if (smallModel.quantity + quantity >= 0){
+                    smallModel.quantity += quantity;
+                    smallModel.persist();
+                } else {
+                    JsonObject json = Json.createObjectBuilder().add("error", "subtraction error").build();
+                    jsonArrayBuilder.add(json);
+                }
             } else {
                 // Otherwise, create a new model
-                smallModel = new SmallModel();
-                smallModel.color_pocket_name = colorPocket;
-                smallModel.color_bag_name = colorBag;
-                smallModel.quantity = quantity;
+                if (quantity >= 0){
+                    smallModel = new SmallModel();
+                    smallModel.color_pocket_name = colorPocket;
+                    smallModel.color_bag_name = colorBag;
+                    smallModel.quantity = quantity;
+                    smallModel.persist();
+                } else {
+                    JsonObject json = Json.createObjectBuilder().add("error", "negativ quantity error").build();
+                    jsonArrayBuilder.add(json);
+                }
+                
             }
-
-            smallModel.persist();
-
         } else if ("large".equals(modelType)) {
             LargeModel largeModel = LargeModel.find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
 
             if (largeModel != null) {
                 // If the model already exists in the database, update its quantity
-                largeModel.quantity += quantity;
+                if (largeModel.quantity + quantity >= 0){
+                    largeModel.quantity += quantity;
+                    largeModel.persist();
+                } else {
+                    JsonObject json = Json.createObjectBuilder().add("error", "subtraction error").build();
+                    jsonArrayBuilder.add(json);
+                }
             } else {
                 // Otherwise, create a new model
-                largeModel = new LargeModel();
-                largeModel.color_pocket_name = colorPocket;
-                largeModel.color_bag_name = colorBag;
-                largeModel.quantity = quantity;
+                if (quantity >= 0) {
+                    largeModel = new LargeModel();
+                    largeModel.color_pocket_name = colorPocket;
+                    largeModel.color_bag_name = colorBag;
+                    largeModel.quantity = quantity;
+                    largeModel.persist();
+                } else {
+                    JsonObject json = Json.createObjectBuilder().add("error", "negativ quantity error").build();
+                    jsonArrayBuilder.add(json);
+                }
             }
-
-            largeModel.persist();
 
         } else {
             // Invalid model type
@@ -99,7 +120,6 @@ public class StockManagementResource {
         }
         
         // Send confirmation
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         JsonObject json = Json.createObjectBuilder().add("result", "ok").build();
         jsonArrayBuilder.add(json);
         return jsonArrayBuilder.build();
