@@ -97,10 +97,12 @@ width: 100%;
 font-family: 'Anton';
 background-color: #FFFFFF;
 border-radius: 10px;
+border: none
 
 }
 
 #quaL {
+border: none;
 font-family: 'Anton';
 background-color: #FFFFFF;
 height: 100%; /* Rouge */
@@ -130,10 +132,64 @@ font-size: 50px;
 }
 
 #add_to_cart{
+
   font-family: 'Anton';
   height: 100%;
   width: 100%;
   border-radius: 10px;
-  background-color: white
+  background-color: white;
+  border: none
   ;
+}
+
+#bag_color{
+  width: 75%;
+  height: 20%;
+font-family: "Aldrich";
+margin-right: 10%;
+margin-top: 45%;
+position: absolute;
+}
+
+#pocket_color{
+  font-family: "Aldrich";
+  position: absolute;
+  margin-top: 25%;
+  margin-right: 28%;
+  width: 80%;
+  height: 5%;
+}
+
+#bag_size{
+  font-family: "Aldrich";
+  margin-top: 6%;
+  width: 80%;
+  height: 5%;
+  margin-right: 26%;
+  position: absolute;
+}
+
+#myLabel {
+  display: none; 
+  font-family: "Aldrich";
+  margin-top: 85%;
+  margin-left: 17%;
+  align-items: center;
+  justify-content: center;
+}
+
+#salam {
+  position: absolute;
+  flex: 1;
+  background-image: url("src/assets/home-background/home-background-1.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+
+.back {
+  
+  background-image: url("src/assets/home-background/home-background-1.jpg");
+  background-size:auto; /* Ajuste la taille de l'image pour couvrir tout le body */
+  background-position: center; /* Centre l'image horizontalement et verticalement */
 }
