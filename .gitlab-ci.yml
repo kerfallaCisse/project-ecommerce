@@ -72,6 +72,8 @@ container-image-stock-management:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
+
 
 
 mvn-build-customization:
@@ -119,6 +121,7 @@ container-image-customization:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
 
 mvn-build-payment :
@@ -167,6 +170,7 @@ container-image-payment:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
   
 mvn-build-backoffice-service:
@@ -213,6 +217,7 @@ container-image-backoffice-service:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
 
 
@@ -262,6 +267,7 @@ container-image-stats-jwt:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
 
 
@@ -310,6 +316,7 @@ container-image-statistics:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
 npm-build-ui:
   stage: build
@@ -349,6 +356,7 @@ container-image-web-ui:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
  
 deploy:
   stage: deploy
@@ -362,6 +370,7 @@ deploy:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
       - $CI_COMMIT_MESSAGE =~ /.*\[helm\].*/
+      - $CI_COMMIT_REF_NAME == "main"
 
 
 
