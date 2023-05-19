@@ -2,7 +2,6 @@ package statistic_service;
 
 import statistic_service.model.Color;
 import statistic_service.model.User;
-//import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -146,6 +145,8 @@ public class StatisticRessource {
         }
 
         // After all checkings
+
+        // Il faut effectuer une vérification avec le service de stockage pour s'assurer que ça existe dans la base de données
 
         LocalDate currentDate = LocalDate.now();
         String[] colors = { bagColor, pocketColor };
