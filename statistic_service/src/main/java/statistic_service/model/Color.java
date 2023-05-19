@@ -24,7 +24,7 @@ public class Color extends PanacheEntity {
     private String name;
 
     @Column
-    public LocalDate created_at;
+    private LocalDate created_at;
 
     public JsonObject stats(List<LocalDate> dates) {
         HashMap<String, Long> colors = new HashMap<>() {
