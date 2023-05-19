@@ -14,7 +14,7 @@ spec:
     http:
       paths:
       - path: "/(.*)(/|$)"
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: {{ .Values.webui.name }}-service
@@ -175,3 +175,35 @@ spec:
             name: {{ .Values.statsjwt.name }}-service
             port:
               number: {{ .Values.statsjwt.port }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.statistics.name }}-ingress
+  namespace: {{ .Values.statistics.namespace}}
+  annotations:
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
+  rules:
+  - host: {{ .Values.general.hostname}}
+    http:
+      paths:
+      - path: "/api/(statistics)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Values.statistics.name }}-service
+            port:
+              number: {{ .Values.statistics.port }}
+

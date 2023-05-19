@@ -36,8 +36,9 @@ numberr: number = 0
 
 ngOnInit(): void {
 
-
+ 
   this.stockService.getConfig().subscribe(data => {
+    
       this.tab = data
       this.func_resume_stock()
       //console.log("tableau pas trié", this.tab)
@@ -52,6 +53,13 @@ ngOnInit(): void {
       this.func_resume_stock()
 
     })
+
+
+    this.stockService.getConfig_2().subscribe(data2 => {
+      
+      console.log(data2)
+    })
+
 
 
   }

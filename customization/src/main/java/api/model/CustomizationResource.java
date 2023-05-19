@@ -21,44 +21,40 @@ public class CustomizationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor, @QueryParam("pocketColor") String pocketColor) {
+    public String getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor,
+            @QueryParam("pocketColor") String pocketColor) {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
-        if (modelType == null){
+        if (modelType == null) {
             modelType = "largeModel";
         }
-        if (bagColor == null){
-                bagColor = "Black";
+        if (bagColor == null) {
+            bagColor = "Black";
         }
-        if (pocketColor == null){
+        if (pocketColor == null) {
             pocketColor = "Black";
         }
-        if ("largeModel".equals(modelType)){
+        if ("largeModel".equals(modelType)) {
             LargeModel largeModel = LargeModel.find("bag_name", bagColor + pocketColor).firstResult();
             if (largeModel == null) {
                 jsonArrayBuilder.add(Json.createObjectBuilder()
-                    .add("Error", "Bag not found")
-                );
+                        .add("Error", "Bag not found"));
             }
 
             jsonArrayBuilder.add(Json.createObjectBuilder()
                     .add("id", largeModel.id)
-                    .add("cloudinary_url", largeModel.cloudinary_url)
-            );
-            
+                    .add("cloudinary_url", largeModel.cloudinary_url));
+
         }
 
-        else if ("smallModel".equals(modelType)){
+        else if ("smallModel".equals(modelType)) {
             jsonArrayBuilder.add(Json.createObjectBuilder()
-                    .add("Error", "Databse empty")
-            );
+                    .add("Error", "Databse empty"));
         }
 
         return jsonArrayBuilder.build().toString();
-        
+
     }
-
-
 
     // IMPORTANT change manually image path and model.bag_name
     @Path("/upload")
@@ -75,12 +71,13 @@ public class CustomizationResource {
 
         try {
             // Upload
-            Map<String, Object> uploadResult = cloudinary.uploader().upload("BlackBlack.jpeg", ObjectUtils.emptyMap()); // Change URL
+            Map<String, Object> uploadResult = cloudinary.uploader().upload("BlackBlack.jpeg", ObjectUtils.emptyMap()); // Change
+                                                                                                                        // URL
 
             // Get the public URL
             String publicUrl = cloudinary.url().generate(uploadResult.get("public_id").toString());
             System.out.println(publicUrl);
-            
+
             // Add URL to database
             LargeModel model = new LargeModel();
             model.bag_name = ""; // Set the bag name here. Ex BlackBlack

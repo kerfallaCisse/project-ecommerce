@@ -74,6 +74,8 @@ container-image-stock-management:
       - $CI_PIPELINE_SOURCE == "schedule"
 
 
+
+
 mvn-build-customization:
   stage:  build
   script: 
@@ -100,20 +102,6 @@ test-customization:
     - schedules
 
 
-mvn-build-stats-jwt:
-  stage:  build
-  script: 
-    - cd stats-jwt
-    -  mvn clean package -DskipTests
-  artifacts:
-    paths:
-      - stats-jwt/target
-    expire_in: 2 hours
-  only:
-    - main
-    - prod
-    - kerfalla
-
 container-image-customization:
   stage: image-push
   dependencies:
@@ -133,6 +121,7 @@ container-image-customization:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+
 
 
 mvn-build-payment :
@@ -171,6 +160,7 @@ container-image-payment:
     entrypoint: [""]
   script:
     - /kaniko/executor
+      --build-arg STRIPE_SECRET=${STRIPE_SECRET}
       --build-arg MYSQL_USER=${MYSQL_USER}
       --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
       --build-arg MYSQL_URL=${MYSQL_URL}
@@ -181,6 +171,7 @@ container-image-payment:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+
 
   
 mvn-build-backoffice-service:
@@ -231,6 +222,7 @@ container-image-backoffice-service:
 
 
 
+
 mvn-build-stats-jwt:
   stage:  build
   script: 
@@ -277,6 +269,56 @@ container-image-stats-jwt:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
 
+
+
+
+mvn-build-statistics:
+  stage:  build
+  script: 
+    - cd statistic_service
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - statistic_service/target
+    expire_in: 2 hours
+  only:
+    - main
+    - schedules
+
+
+test-statistics:
+  stage: test
+  dependencies:
+    - mvn-build-statistics 
+  script:
+    - cd statistic_service 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - schedules
+
+
+container-image-statistics:
+  stage: image-push
+  dependencies:
+    - mvn-build-statistics 
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --context "${CI_PROJECT_DIR}/statistic_service"
+      --dockerfile "${CI_PROJECT_DIR}/statistic_service/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/statistics:${VERSION}"
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+
+
 npm-build-ui:
   stage: build
   image: node:16.14.2-alpine3.14
@@ -315,6 +357,7 @@ container-image-web-ui:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+
  
 deploy:
   stage: deploy
@@ -328,6 +371,7 @@ deploy:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
       - $CI_COMMIT_MESSAGE =~ /.*\[helm\].*/
+
 
 
 

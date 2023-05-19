@@ -25,8 +25,11 @@ export class StockService {
 
 
 
-  configUrl = 'assets/config.json';
+  configUrl = '/assets/config.json';
   configUrl_2 = '/api/stock'
+  configUrl_3 = '/api/customization'
+
+
 
 
 
@@ -37,10 +40,13 @@ export class StockService {
 
 
   getConfig() {
-    console.log("trying to recup request")
     return this.http.get<StockItem[]>(this.configUrl)
-
+    
   }
+
+  getConfig_2() {
+    return this.http.get(this.configUrl_3)
+ }
 
   modifyQuantity(data: StockItem[]) {
       this.http.put(this.configUrl, data)

@@ -6,6 +6,8 @@ import { PrecisionComponent } from './login/precision/precision.component'
 import { CustomizationComponent } from './customization/customization.component';
 import { StockComponent } from './stock/stock.component';
 import { StatisticComponent } from './statistic/statistic.component';
+import { CartComponent } from './cart/cart.component';
+import { AboutComponent } from './about/about.component';
 
 
 
@@ -18,8 +20,9 @@ const routes: Routes = [
 ]},
 {path:'customization', component: CustomizationComponent},
 {path:'stock', component: StockComponent},
-{path:'statistic', component: StatisticComponent}
-
+{path:'statistic', component: StatisticComponent},
+{path:'cart', component: CartComponent},
+{path:'about', component: AboutComponent}
 ];
 
 @NgModule({

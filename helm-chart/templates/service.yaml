@@ -80,3 +80,19 @@ spec:
       protocol: TCP
   selector:
     app: {{ .Values.statsjwt.name }}
+  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.statistics.name }}-service
+  namespace: {{ .Values.statistics.namespace}}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.statistics.port }}
+      targetPort: {{ .Values.statistics.targetPort }}
+      protocol: TCP
+  selector:
+    app: {{ .Values.statistics.name }}
+

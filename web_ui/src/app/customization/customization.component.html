@@ -1,12 +1,56 @@
 <header>
   <app-header></app-header>
-  <!-- <link href="https://fr.allfont.net/allfont.css?fonts=gentium-book-basic" rel="stylesheet" type="text/css" /> -->
+  <link href="https://fr.allfont.net/allfont.css?fonts=gentium-book-basic" rel="stylesheet" type="text/css" />
+  <link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet'>
+  <style>
+    /* Style du body avec l'image de fond */
+    body {
+      background-image: url("src/assets/home-background/home-background-1.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
 </header>
-<div id="salam">
-<button (click)="change_model()">Pochette Blanche</button>
-<button (click)="change_model_2()">Pochette Rouge</button>
+
+
+
+<div id="titre_1"> Personalize your bag!</div>
+
+<div id="grand_formu">
+  <div id="bag_size">Choose your bag size</div>
+  <div id="size" class="okok">
+    <button id ="quaL" (click)="change_size(70)">70L</button>
+    <button id ="soiL"  (click)="change_size(40)">40L</button>
+  </div>
+
+ 
+  <div id="pocket_color">Choose your pocket color</div>
+  <div id ="lautre" class="okok">
+    <button id ="blue" class= "round-button" (click)="change_colors(true,'#000060')"></button>
+    <button id ="white" class= "round-button" (click)="change_colors(true,'#595959')"></button>
+    <button id ="red" class= "round-button" (click)="change_colors(true,'#500000')"></button>
+  </div>
+
+  <div id="bag_color">Choose your bag color</div>
+  <div id="lautre2" class="okok">
+    
+    <button id ="blue" class= "round-button" (click)="change_colors(false,'#000060')" ></button>
+    <button id ="white" class= "round-button" (click)="change_colors(false,'#595959')"></button>
+    <button id ="red" class= "round-button" (click)="change_colors(false,'#500000')"></button>
+  </div>
+
+  <div id="cart_button" class="okok">
+    <button id="add_to_cart" (click)="finish_()">Add to Cart</button>
+  </div>
+  <label id="myLabel">The bag has been added to your cart!</label>
+
 </div>
-<div id="overlay">
-  
-   
-</div>
+
+
+
+<!-- test -->
+
+
+
+
