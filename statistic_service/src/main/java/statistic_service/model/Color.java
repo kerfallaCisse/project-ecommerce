@@ -18,10 +18,10 @@ import jakarta.json.JsonObjectBuilder;
 @Entity
 public class Color extends PanacheEntity {
 
-    // This entity is also use for orders
+    // This entity zs also use for orders
 
     @Column(length = 100)
-    public String name;
+    private String name;
 
     @Column
     public LocalDate created_at;
