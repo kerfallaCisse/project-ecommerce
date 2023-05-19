@@ -17,28 +17,42 @@ let changer_sac = false
 
 
 export class CustomizationComponent implements AfterViewInit {
-  
+  selectedColor_pocket: string = "nothing";
+  tab: string[] = [];
+
+
   private my3DScene: My3DScene | undefined;
   
   
 
   change_size(taille:number) { // model 40L
-    this.cleanScene()
+    
     if(taille===40){
+    this.tab[0] = "40L"
     this.cleanScene()
     this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
      } if(taille===70) {
+    this.tab[0] = "70L"
     this.cleanScene()
     this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb')
      }
   }
 
   change_colors(endroit:boolean,color:string){
+    
     if(endroit){
+    this.tab[1] = color
     this.my3DScene?.change_color(true,color)
     }if(!endroit){
+     this.tab[2] = color
      this.my3DScene?.change_color(false,color)
     }
+  }
+
+  finish_(){
+    console.log(this.tab)
+    var label = document.getElementById("myLabel");
+    label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
   }
 
   
@@ -122,13 +136,13 @@ export class My3DScene {
 
     
   
-    this.camera.position.x = -10;
-    this.camera.position.y = 5;
-    this.camera.position.z = 50;
+    this.camera.position.x = -5;
+    this.camera.position.y = 10;
+    this.camera.position.z = 30;
  
 
     
-   //this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
+   this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
 
 
     // enft c'est un "écouteur" qui observe quand l'utilisateur clique sur la souris
@@ -179,7 +193,7 @@ export class My3DScene {
 
         this.isModelLoaded = true;
 
-        gltf.scene.position.set(0, 0, 0);
+        gltf.scene.position.set(0, 5, 5);
 
         this.model.center()
 
