@@ -4,6 +4,7 @@ import com.stripe.exception.StripeException;
 import domain.model.*;
 import domain.service.PaymentService;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,9 +21,9 @@ public class PaymentRestService {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String checkoutSession(Basket basket) throws StripeException{
-        String session = payment.createCheckoutSession(basket);
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonObject checkoutSession(Basket basket) throws StripeException{
+        JsonObject session = payment.createCheckoutSession(basket);
         return session;
     }
 }
