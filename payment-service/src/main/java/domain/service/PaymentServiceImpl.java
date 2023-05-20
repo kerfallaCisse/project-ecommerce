@@ -46,7 +46,7 @@ public class PaymentServiceImpl implements PaymentService{
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setSuccessUrl("http://localhost:8080/success.html")
                 .setCancelUrl("http://localhost:8080/cancel.html")
-                .setCurrency(basket.getCurrent())
+                .setCurrency("chf")
                 .addAllLineItem(lineItems)
                 .build();
 
