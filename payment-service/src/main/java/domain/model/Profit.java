@@ -10,6 +10,5 @@ import lombok.Data;
 @Entity
 public class Profit extends PanacheEntity {
     @Column
-    public Double amount;
-
+    private Double amount;
 }

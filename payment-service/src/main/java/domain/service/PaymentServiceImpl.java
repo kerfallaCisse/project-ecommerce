@@ -56,8 +56,6 @@ public class PaymentServiceImpl implements PaymentService{
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         jsonObjectBuilder.add("amount",total_amount);
         jsonObjectBuilder.add("url",session.getUrl());
-        //Profit profit = Profit.findById(1);
-        //profit.setAmount(total_amount);
 
         return jsonObjectBuilder.build();
     }
