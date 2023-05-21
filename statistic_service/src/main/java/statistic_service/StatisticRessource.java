@@ -2,7 +2,10 @@ package statistic_service;
 
 import statistic_service.model.Color;
 import statistic_service.model.User;
+import statistic_service.model.Profit;
+import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -146,8 +149,6 @@ public class StatisticRessource {
 
         // After all checkings
 
-        // Il faut effectuer une vérification avec le service de stockage pour s'assurer que ça existe dans la base de données
-
         LocalDate currentDate = LocalDate.now();
         String[] colors = { bagColor, pocketColor };
 
@@ -168,6 +169,16 @@ public class StatisticRessource {
         }
 
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @GET
+    @Path("profit")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProfit() {
+        Profit profit = Profit.findById(1);
+        Double amount = profit.getAmount(); 
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        return Response.ok(jsonObjectBuilder.add("profit",amount).build()).build();
     }
 
 }
