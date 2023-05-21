@@ -181,18 +181,4 @@ public class StatisticRessource {
         return Response.ok(jsonObjectBuilder.add("profit",amount).build()).build();
     }
 
-    @GET
-    @Path("update")
-    @Transactional
-    public Response updateProfitAmount() {
-
-        Profit profit = Profit.findById(1);
-        Double amount = profit.getAmount();
-        System.out.println(amount);
-        profit.setAmount(300+amount);
-        System.out.println(profit.getAmount());
-        profit.persist();
-        return Response.status(Response.Status.OK).build();
-    }
-
 }
