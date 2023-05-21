@@ -12,7 +12,11 @@ import domain.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 
 
 
@@ -25,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService{
     public PaymentServiceImpl(){}
     
     @Override
-    public String createCheckoutSession(Basket basket) throws StripeException{
+    public  JsonObject createCheckoutSession(Basket basket) throws StripeException{
         Stripe.apiKey = apiKey;
 
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
@@ -42,12 +46,18 @@ public class PaymentServiceImpl implements PaymentService{
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setSuccessUrl("http://localhost:8080/success.html")
                 .setCancelUrl("http://localhost:8080/cancel.html")
-                .setCurrency(basket.getCurrent())
+                .setCurrency("chf")
                 .addAllLineItem(lineItems)
                 .build();
 
         Session session = Session.create(params);
-        return session.getUrl();
+
+        Double total_amount = (double) session.getAmountTotal()/100;
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("amount",total_amount);
+        jsonObjectBuilder.add("url",session.getUrl());
+
+        return jsonObjectBuilder.build();
     }
 
     private String getPriceId(String productId) {        
