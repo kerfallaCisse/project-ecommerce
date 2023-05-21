@@ -3,6 +3,7 @@ package api.rest;
 import com.stripe.exception.StripeException;
 import domain.model.*;
 import domain.service.PaymentService;
+import java.lang.Math;
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.transaction.Transactional;
@@ -39,7 +40,7 @@ public class PaymentRestService {
         Double amount = Double.parseDouble(jsonObject.getJsonNumber("amount").toString());
         Profit profit = Profit.findById(1L);
         Double initial_amount = profit.getAmount();
-        profit.setAmount(amount+initial_amount);
+        profit.setAmount(Math.abs(amount)+initial_amount);
         profit.persist();
         
         if (profit.isPersistent()) return Response.status(Response.Status.OK).build();
