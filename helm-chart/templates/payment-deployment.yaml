@@ -20,6 +20,11 @@ spec:
           ports:
             - containerPort: {{ .Values.payment.targetPort }}
           env:
+            - name: STRIPE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_SECRET
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:

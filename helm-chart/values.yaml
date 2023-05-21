@@ -53,6 +53,14 @@ stockmanagement:
     imagename: stock-management
     replicas: 1
 
+statistics:
+    name: statistics
+    namespace: statistics
+    targetPort: 8080
+    port: 80
+    imagename: statistics
+    replicas: 1
+
 webui:
     name: web-ui
     namespace: web-ui
