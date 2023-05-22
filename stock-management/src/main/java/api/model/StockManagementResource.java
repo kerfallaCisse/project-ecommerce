@@ -85,7 +85,7 @@ public class StockManagementResource {
             }
         } else {
             JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
-            jsonArrayBuilder.add(json).build();
+            return jsonArrayBuilder.add(json).build();
         }
         if (model.containsKey("quantity")) {
             if (model.get("quantity").getValueType() == JsonValue.ValueType.NUMBER) {
@@ -93,7 +93,7 @@ public class StockManagementResource {
             }
         } else {
             JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
-            jsonArrayBuilder.add(json).build();
+            return jsonArrayBuilder.add(json).build();
         }
 
         if ("small".equals(modelType)) {
