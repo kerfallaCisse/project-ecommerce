@@ -96,7 +96,6 @@ public class StockManagementResource {
             jsonArrayBuilder.add(json).build();
         }
 
-        System.out.println(quantity);
         if ("small".equals(modelType)) {
             SmallModel smallModel = SmallModel
                     .find("color_pocket_name = ?1 and color_bag_name = ?2", colorPocket, colorBag).firstResult();
@@ -154,14 +153,12 @@ public class StockManagementResource {
         } else {
             // Invalid model type
             JsonObject json = Json.createObjectBuilder().add("error", "invalid model").build();
-            jsonArrayBuilder.add(json);
-            return jsonArrayBuilder.build();
+            return jsonArrayBuilder.add(json).build();
         }
 
         // Send confirmation
         JsonObject json = Json.createObjectBuilder().add("result", "ok").build();
-        jsonArrayBuilder.add(json);
-        return jsonArrayBuilder.build();
+        return jsonArrayBuilder.add(json).build();
     }
 
     @Path("/quantity")
@@ -171,13 +168,13 @@ public class StockManagementResource {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         if (modelType == null || bagColor == null || pocketColor == null){
             JsonObject json = Json.createObjectBuilder().add("error", "empty params error").build();
-            jsonArrayBuilder.add(json);
+            return jsonArrayBuilder.add(json).build();
         } else {
             if ("smallModel".equals(modelType)){
                 SmallModel smallModel = SmallModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
                 if (smallModel == null) {
                     JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("quantity", smallModel.quantity).build();
                     jsonArrayBuilder.add(json);
@@ -186,7 +183,7 @@ public class StockManagementResource {
                 LargeModel largeModel = LargeModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
                 if (largeModel == null) {
                     JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("quantity", largeModel.quantity).build();
                     jsonArrayBuilder.add(json);
