@@ -22,15 +22,13 @@
   width: 25px;
   height: 25px;
   border: none;
-  color: #FFFFFF; /* Couleur du texte */
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
+  
   cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  
 }
 
 .round-button:hover{
@@ -62,30 +60,30 @@
 position: absolute;
 display: flex;
   height: 100px;
-  width: 300px;
-  background-color: grey;
+  width: 200px;
+  background-color: white;
   border-radius: 10px;
   color: aqua;
   justify-content: space-between;
   height: 10%;
-  
+  margin-left: 20%;
 }
 
 #lautre{
-margin-top: 20%;
+margin-top: 30%;
 
 }
 
 #lautre2{
-margin-top: 35%;
+margin-top: 50%;
 }
 
 #cart_button{
-margin-top: 45%
+margin-top: 55%
 }
 
 #cart_button{
-margin-top: 60%;
+margin-top: 70%;
 }
 
 #size{
@@ -96,23 +94,34 @@ display: flex;
 #soiL{
 height: 100%; /* Rouge */
 width: 100%;
+font-family: 'Anton';
+background-color: #FFFFFF;
+border-radius: 10px;
+border: none
+
 }
 
 #quaL {
+border: none;
 font-family: 'Anton';
+background-color: #FFFFFF;
 height: 100%; /* Rouge */
 width: 100%;
+border-radius: 10px;
 }
 
 #grand_formu{
 position: absolute;
-background-color: beige;
-width: 500px;
-height: 500px;
+background-color: rgba(230, 230, 230, 0.35);
+/* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+margin-left: 3%;
+width: 400px;
+height: 400px;
 display: flex;
 text-align: center;
 justify-content: space-between;
 border-radius: 10px;
+margin-top: 5%;
 }
 
 #titre_1{
@@ -122,3 +131,65 @@ font-size: 50px;
 
 }
 
+#add_to_cart{
+
+  font-family: 'Anton';
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: white;
+  border: none
+  ;
+}
+
+#bag_color{
+  width: 75%;
+  height: 20%;
+font-family: "Aldrich";
+margin-right: 10%;
+margin-top: 45%;
+position: absolute;
+}
+
+#pocket_color{
+  font-family: "Aldrich";
+  position: absolute;
+  margin-top: 25%;
+  margin-right: 28%;
+  width: 80%;
+  height: 5%;
+}
+
+#bag_size{
+  font-family: "Aldrich";
+  margin-top: 6%;
+  width: 80%;
+  height: 5%;
+  margin-right: 26%;
+  position: absolute;
+}
+
+#myLabel {
+  display: none; 
+  font-family: "Aldrich";
+  margin-top: 85%;
+  margin-left: 17%;
+  align-items: center;
+  justify-content: center;
+}
+
+#salam {
+  position: absolute;
+  flex: 1;
+  background-image: url("src/assets/home-background/home-background-1.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+
+.back {
+  
+  background-image: url("src/assets/home-background/home-background-1.jpg");
+  background-size:auto; /* Ajuste la taille de l'image pour couvrir tout le body */
+  background-position: center; /* Centre l'image horizontalement et verticalement */
+}

@@ -74,6 +74,8 @@ container-image-stock-management:
       - $CI_PIPELINE_SOURCE == "schedule"
 
 
+
+
 mvn-build-customization:
   stage:  build
   script: 
@@ -121,6 +123,7 @@ container-image-customization:
       - $CI_PIPELINE_SOURCE == "schedule"
 
 
+
 mvn-build-payment :
   stage:  build
   script: 
@@ -157,6 +160,7 @@ container-image-payment:
     entrypoint: [""]
   script:
     - /kaniko/executor
+      --build-arg STRIPE_SECRET=${STRIPE_SECRET}
       --build-arg MYSQL_USER=${MYSQL_USER}
       --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
       --build-arg MYSQL_URL=${MYSQL_URL}
@@ -167,6 +171,7 @@ container-image-payment:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+
 
   
 mvn-build-backoffice-service:
@@ -213,6 +218,7 @@ container-image-backoffice-service:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+
 
 
 
@@ -265,6 +271,7 @@ container-image-stats-jwt:
 
 
 
+
 mvn-build-statistics:
   stage:  build
   script: 
@@ -311,6 +318,7 @@ container-image-statistics:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
 
+
 npm-build-ui:
   stage: build
   image: node:16.14.2-alpine3.14
@@ -349,6 +357,7 @@ container-image-web-ui:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+
  
 deploy:
   stage: deploy
@@ -362,6 +371,7 @@ deploy:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
       - $CI_COMMIT_MESSAGE =~ /.*\[helm\].*/
+
 
 
 

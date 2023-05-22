@@ -19,16 +19,16 @@ import jakarta.json.JsonObjectBuilder;
 public class User extends PanacheEntity {
 
     @Column(length = 100)
-    public String name;
+    private String name;
 
     @Column(length = 100)
-    public String email;
+    private String email;
 
     @Column(length = 100)
-    public String auth0_user_id;
+    private String auth0_user_id;
 
     @Column
-    public LocalDate created_at;
+    private LocalDate created_at;
 
     public JsonObject statsWeek(List<LocalDate> dates) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
