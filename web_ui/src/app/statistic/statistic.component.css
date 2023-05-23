@@ -8,7 +8,6 @@ main {
   justify-content: space-between;
   padding: 1%;
   box-sizing: border-box;
-  background-color: white;
   border-radius: 1em;
 }
 
@@ -24,22 +23,22 @@ main {
 }
 
 .new_users, .new_users_graph {
-  border: 3px rgb(211, 240, 255) solid;
+  border: 1px black solid;
   background-color:  white ;
 }
 
 .visits, .visits_graph{
-  border: 3px rgb(215,255,211) solid;
+  border: 1px black solid;
   background-color:  white ;
 }
 
 .orders, .orders_graph {
-  border: 3px rgb(243, 211, 255) solid;
+  border: 1px black solid;
   background-color:  white ;
 }
 
 .abandonned_baskets {
-  border: 3px rgb(255, 211, 248) solid;
+  border: 1px black solid;
   background-color:  white ;
   margin-right: 10%;
 }
@@ -54,7 +53,6 @@ h6, p, h2, h4  {
   padding: 1%;
   border-radius: 2em;
   box-sizing: border-box;
-  background-color: white;
   border-radius: 1em;
 }
 
@@ -77,6 +75,6 @@ h6, p, h2, h4  {
 }
 
 .popular_colors_graph {
-  border: 3px rgb(255, 245, 211) solid;
-  background-color:  white ;
+  border: 1px black solid;
+  background-color:  rgb(76, 87, 123) ;
 }
