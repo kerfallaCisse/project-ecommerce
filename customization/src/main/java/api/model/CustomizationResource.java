@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.transaction.Transactional;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,9 +22,9 @@ public class CustomizationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor,
+    public JsonObject getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor,
             @QueryParam("pocketColor") String pocketColor) {
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
 
         if (modelType == null) {
             modelType = "largeModel";
@@ -34,25 +35,35 @@ public class CustomizationResource {
         if (pocketColor == null) {
             pocketColor = "Black";
         }
-        if ("largeModel".equals(modelType)) {
+        if ("largeModel".equals(modelType) || "smallModel".equals(modelType)) {
             LargeModel largeModel = LargeModel.find("bag_name", bagColor + pocketColor).firstResult();
             if (largeModel == null) {
-                jsonArrayBuilder.add(Json.createObjectBuilder()
-                        .add("Error", "Bag not found"));
-            }
-
-            jsonArrayBuilder.add(Json.createObjectBuilder()
+                return jsonObjectBuilder.add("error", "bag not found").build();
+            } else {
+                jsonObjectBuilder
                     .add("id", largeModel.id)
-                    .add("cloudinary_url", largeModel.cloudinary_url));
-
+                    .add("cloudinary_url", largeModel.cloudinary_url);
+            }
         }
 
-        else if ("smallModel".equals(modelType)) {
-            jsonArrayBuilder.add(Json.createObjectBuilder()
-                    .add("Error", "Databse empty"));
+        // Change it in case when real images are available
+        /*else if ("smallModel".equals(modelType)) {
+            SmallModel smallModel = SmallModel.find("bag_name", bagColor + pocketColor).firstResult();
+            if (smallModel == null) {
+                return jsonObjectBuilder.add("error", "bag not found").build();
+            } else {
+                jsonObjectBuilder
+                    .add("id", largeModel.id)
+                    .add("cloudinary_url", largeModel.cloudinary_url);
+            }
+        }
+        */
+
+        else {
+            return jsonObjectBuilder.add("error", "bag not found").build();
         }
 
-        return jsonArrayBuilder.build().toString();
+        return jsonObjectBuilder.build();
 
     }
 
