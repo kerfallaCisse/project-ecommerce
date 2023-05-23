@@ -1,18 +1,28 @@
 package api.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.json.JsonObjectBuilder;
 import javax.transaction.Transactional;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
+import org.jboss.resteasy.reactive.MultipartForm;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -100,6 +110,26 @@ public class CustomizationResource {
             System.out.println(exception.getMessage());
             return "Error: " + exception.getMessage();
         }
+    }
+
+    // Upload logo and put on a bag, upload image on cloudinary
+    @Path("/add_logo")
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public JsonObject addLogo(@MultipartForm CustomizationFormData formData) throws IOException {
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+
+        BufferedImage bagImage = CustomizationFormData.bagImage;
+        BufferedImage newLogo = CustomizationFormData.newLogo;
+
+        Graphics2D g = (Graphics2D) bagImage.createGraphics();
+        g.drawImage(newLogo, (bagImage.getWidth() - newLogo.getWidth()) / 2, (bagImage.getHeight() - newLogo.getHeight()) / 2, null);
+        // Replace by db upload 
+        ImageIO.write(bagImage, "jpg", new File("bagWithLogo.jpg"));
+
+        return jsonObjectBuilder.add("bag", "cloudinary url").build();
     }
 
 }
