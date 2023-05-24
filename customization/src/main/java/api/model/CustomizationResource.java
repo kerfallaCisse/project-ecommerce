@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import javax.json.JsonObjectBuilder;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
@@ -19,10 +19,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import org.jboss.resteasy.reactive.MultipartForm;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -113,7 +112,7 @@ public class CustomizationResource {
     }
 
     // Upload logo and put on a bag, upload image on cloudinary
-    @Path("/add_logo")
+    /*@Path("/add_logo")
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
@@ -130,6 +129,33 @@ public class CustomizationResource {
         ImageIO.write(bagImage, "jpg", new File("bagWithLogo.jpg"));
 
         return jsonObjectBuilder.add("bag", "cloudinary url").build();
-    }
+    }*/
 
+    @Path("/add_logo")
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public String mergeImages(CustomizationFormData imageData) throws IOException {
+        // Read the bagImage from the input stream
+        BufferedImage bagImage = ImageIO.read(imageData.getBagImage());
+
+        // Read the newLogo from the input stream
+        BufferedImage newLogo = ImageIO.read(imageData.getNewLogo());
+
+        // Create a Graphics object to perform the overlay
+        Graphics2D g2d = bagImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Draw the newLogo onto the bagImage
+        g2d.drawImage(newLogo, 0, 0, null);
+
+        // Cleanup
+        g2d.dispose();
+
+        // Save the merged image to a file (optional)
+        String mergedImagePath = "/customization";
+        ImageIO.write(bagImage, "png", new File(mergedImagePath));
+
+        return mergedImagePath;
+    }
+    
 }

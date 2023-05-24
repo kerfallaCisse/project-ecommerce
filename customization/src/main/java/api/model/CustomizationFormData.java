@@ -1,13 +1,25 @@
 package api.model;
 
-import java.awt.image.BufferedImage;
-import javax.ws.rs.FormParam;
+import java.io.InputStream;
 
 public class CustomizationFormData {
 
-    @FormParam("FormLogo")
-    public static BufferedImage newLogo;
+    private InputStream bagImage;
+    private InputStream newLogo;
 
-    @FormParam("bagImage")
-    public static BufferedImage bagImage;
+    public InputStream getBagImage() {
+        return bagImage;
+    }
+
+    public void setBagImage(InputStream bagImage) {
+        this.bagImage = bagImage;
+    }
+
+    public InputStream getNewLogo() {
+        return newLogo;
+    }
+
+    public void setNewLogo(InputStream newLogo) {
+        this.newLogo = newLogo;
+    }
 }

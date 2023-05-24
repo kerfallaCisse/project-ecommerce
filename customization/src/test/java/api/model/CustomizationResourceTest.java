@@ -19,67 +19,67 @@ public class CustomizationResourceTest {
     public void testGetImageLarge() {
         given()
                 .queryParam("modelType", "largeModel")
-                .queryParam("bagColor", "blue")
-                .queryParam("pocketColor", "blue")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "Blue")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].id", equalTo(2))
-                .body("[0].cloudinary_url", equalTo("http://fake_url.com"));
+                .body("id", equalTo(6))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlue"));
     }
 
     @Test
     public void testGetImageSmall() {
         given()
-                .queryParam("modelType", "largeModel")
-                .queryParam("bagColor", "blue")
-                .queryParam("pocketColor", "blue")
+                .queryParam("modelType", "smallModel")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "Blue")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].id", equalTo(2))
-                .body("[0].cloudinary_url", equalTo("http://fake_url.com"));
+                .body("id", equalTo(6))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlue"));
     }
 
     @Test
     public void testGetImageWithoutModel() {
         given()
-                .queryParam("bagColor", "blue")
-                .queryParam("pocketColor", "blue")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "Blue")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].id", equalTo(1))
-                .body("[0].cloudinary_url", equalTo("http://fake_url.com"));
+                .body("id", equalTo(6))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlue"));
     }
 
     @Test
     public void testGetImageWithoutBagColor() {
         given()
                 .queryParam("modelType", "largeModel")
-                .queryParam("pocketColor", "blue")
+                .queryParam("pocketColor", "Blue")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].id", equalTo(1))
-                .body("[0].cloudinary_url", equalTo("http://fake_url.com"));
+                .body("id", equalTo(7))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlackBlue"));
     }
 
     @Test
     public void testGetImageWithoutPocketColor() {
         given()
                 .queryParam("modelType", "largeModel")
-                .queryParam("pocketColor", "blue")
+                .queryParam("bagColor", "Blue")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].id", equalTo(1))
-                .body("[0].cloudinary_url", equalTo("http://fake_url.com"));
+                .body("id", equalTo(2))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlack"));
     }
 
     @Test
@@ -89,8 +89,8 @@ public class CustomizationResourceTest {
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].id", equalTo(1))
-                .body("[0].cloudinary_url", equalTo("http://fake_url.com"));
+                .body("id", equalTo(1))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlackBlack"));
     }
 
     // Test if model does not exist
@@ -99,12 +99,12 @@ public class CustomizationResourceTest {
         given()
                 .queryParam("modelType", "fakeModel")
                 .queryParam("bagColor", "Blue")
-                .queryParam("pocketColor", "blue")
+                .queryParam("pocketColor", "Blue")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("bag not found"));
+                .body("error", equalTo("bag not found"));
     }
 
     @Test
@@ -112,25 +112,25 @@ public class CustomizationResourceTest {
         given()
                 .queryParam("modelType", "largeModel")
                 .queryParam("bagColor", "fakeColor")
-                .queryParam("pocketColor", "blue")
+                .queryParam("pocketColor", "Blue")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("bag not found"));
+                .body("error", equalTo("bag not found"));
     }
 
     @Test
     public void testGetImageWithWrongPocketColor() {
         given()
                 .queryParam("modelType", "largeModel")
-                .queryParam("bagColor", "blue")
+                .queryParam("bagColor", "Blue")
                 .queryParam("pocketColor", "fakeColor")
                 .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("bag not found"));
+                .body("error", equalTo("bag not found"));
     }
 
 }
