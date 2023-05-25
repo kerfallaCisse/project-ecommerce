@@ -86,3 +86,9 @@ nav.features.logos ul {
 nav.features.logos ul li a:hover {
   background-color: rgb(235, 235, 235);
 }
+
+@media only screen and (max-width: 900px) {
+  header {
+      width : 900px
+  }
+}
