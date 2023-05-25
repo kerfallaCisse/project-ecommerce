@@ -8,13 +8,14 @@ import {StockItem} from '../../shared/models/stock'
 import { catchError, map, retry, reduce } from 'rxjs/operators';
 
 
-// export interface StockItem {
-//   modelType: string;
-//   id: number;
-//   quantity: number;
-//   color_pocket_name: string;
-//   color_bag_name: string;
-// }
+export interface Item {
+  modelType: string;
+  color_pocket_name: string;
+  color_bag_name: string;
+  quantity: number;
+}
+
+
 
 export type StockResponse = StockItem[];
 
@@ -23,13 +24,12 @@ export type StockResponse = StockItem[];
 @Injectable()
 export class StockService {
 
+  
 
-
-  configUrl = '/assets/config.json';
+  
   configUrl_2 = '/api/stock'
   configUrl_3 = '/api/customization'
-
-
+  configUrl_4 = '/api/stock/update'
 
 
 
@@ -38,43 +38,31 @@ export class StockService {
 
   quantities: number[] = [];
 
-
-  getConfig() {
-    return this.http.get<StockItem[]>(this.configUrl)
-    
-  }
-
-  getConfig_2() {
-    return this.http.get(this.configUrl_3)
- }
-
-  modifyQuantity(data: StockItem[]) {
-      this.http.put(this.configUrl, data)
-  }
-
-
-
-
-  getOnelement(id: number) {
-    console.log("trying to recup one element")
-    return this.http.get<StockItem[]>('assets/config.json').pipe(
-      map(items => items.find(item => item.id === id))
-    );
-
-  }
-
-
-
-
-
   getConfig_real() {
     console.log("trying to recup request")
     return this.http.get<StockItem[]>(this.configUrl_2)
-
   }
 
+  modifiy_donne(model: string,color_bag_name:string,color_pocket_name: string,quantity: number){
+    var y: number = +quantity;
+    const data: Item = {
+      modelType:  model,
+      color_pocket_name: color_pocket_name,
+      color_bag_name: color_bag_name,
+      
+      quantity: -y,
+      
+    };
+    console.log(data)
+    this.http.post<Item>(this.configUrl_2,data).subscribe(response => {
+      console.log(response)
+    })
+    
+    ;
+}
 
 
+  
 
 
 

@@ -178,18 +178,4 @@ position: absolute;
   justify-content: center;
 }
 
-#salam {
-  position: absolute;
-  flex: 1;
-  background-image: url("src/assets/home-background/home-background-1.jpg");
-  background-size: cover;
-  background-position: center;
-}
 
-
-.back {
-  
-  background-image: url("src/assets/home-background/home-background-1.jpg");
-  background-size:auto; /* Ajuste la taille de l'image pour couvrir tout le body */
-  background-position: center; /* Centre l'image horizontalement et verticalement */
-}
