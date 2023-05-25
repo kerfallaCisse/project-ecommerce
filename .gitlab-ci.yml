@@ -160,6 +160,7 @@ container-image-payment:
     entrypoint: [""]
   script:
     - /kaniko/executor
+      --build-arg STRIPE_SECRET=${STRIPE_SECRET}
       --build-arg MYSQL_USER=${MYSQL_USER}
       --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
       --build-arg MYSQL_URL=${MYSQL_URL}
