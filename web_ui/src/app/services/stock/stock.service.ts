@@ -50,7 +50,7 @@ export class StockService {
       color_pocket_name: color_pocket_name,
       color_bag_name: color_bag_name,
       
-      quantity: -y,
+      quantity: y,
       
     };
     console.log(data)

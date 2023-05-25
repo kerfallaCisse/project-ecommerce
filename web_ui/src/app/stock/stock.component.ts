@@ -123,7 +123,7 @@ ngOnInit(): void {
     }
 
     onSubmit_remove() {
-      this.stockService.modifiy_donne(this.model_bag,this.selectedColor_bag,this.selectedColor_pocket,-this.numberr,)
+      this.stockService.modifiy_donne(this.model_bag_2,this.selectedColor_bag_2,this.selectedColor_pocket_2,-this.numberr,)
       this.stockService.getConfig_real().subscribe(data2 => { 
 
         this.tab_real = data2
