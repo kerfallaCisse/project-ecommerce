@@ -1,5 +1,4 @@
 
-/* ------------------------ Firts section : Website Introduction -----------------------------*/
 main {
   background-color: white;
   position: sticky ;
@@ -54,7 +53,7 @@ span {
   color: black;
   transition: background-color 0.3s;
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 10px 15px;
 }
 
 .button_shop_now:hover {
@@ -68,105 +67,30 @@ span {
   color: white;
   transition: background-color 0.5s;
   cursor: pointer;
-  padding: 20px 80vh;
+  width: 100vw!important;
+  display: grid;
+  padding: 10px 0;
+  justify-content: center;
 }
+
+.button_read_more > a {
+  width: 100vw!important;
+  text-align: center;
+}
+
 
 .button_read_more:hover {
   background-color: black;
 }
 
-/* ------------------------ Second section : Invia's story -----------------------------*/
-
-
-
-.invia_story_section {
-  padding: 10% 8% 10% 5%;
-  display: flex;
-  opacity: 0; /* Par défaut, la section est invisible */
-  animation: fade-in 5s ease-in-out forwards; /* Animation d'apparition */
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0; /* Commence avec une opacité de 0 */
-    transform: translateY(50px); /* Décalage vers le bas pour l'effet de glissement */
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
   }
-  100% {
-    opacity: 1; /* Opacité complète à la fin de l'animation */
-    transform: translateY(0); /* Pas de décalage vertical à la fin de l'animation */
+  .button_read_more > a {
+    width: 900px!important;
   }
-}
-
-.invia {
-  width: 60%;
-  padding: 3% 3% 3% 3%;
-  background-color: white;
-}
-
-#invia_story_title {
-  font-family: 'Mulish';
-  margin-top: 2%;
-  font-size: 400%;
-  color: black;
-  text-align: center;
-}
-
-#invia_story_text {
-  font-family: 'Mulish';
-  margin-top: 5%;
-  font-size: 200%;
-  color: black;
-}
-
-.image_section {
-  border-radius: 1em;
-  display: flex;
-  flex: 1;
-  background-image: url("/assets/home-background/home-background-2.jpeg");
-  background-size: cover;
-  background-position: center;
-}
-
-
-/* ------------------------ Third section : Owner's story -----------------------------*/
-
-
-.owner_story_section {
-  padding-top: 1%;
-  padding-bottom: 1%;
-  background-color: rgb(197, 206, 208);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-#owner_story_title {
-  font-family: 'Mulish';
-  margin-bottom: 2%;
-  font-size: 450%;
-  color: black;
-  text-align: center;
-}
-
-#owner_story_text {
-  font-family: 'Mulish';
-  margin-bottom: 5%;
-  font-size: 250%;
-  color: black;
-}
-
-#button_start_customization {
-  font-family: 'Mulish';
-  font-size: 200%;
-  background-color: transparent;
-  border: 2px solid black;
-  color: black;
-  transition: background-color 0.3s;
-  cursor: pointer;
-  padding: 10px 20px;
-}
-
-#button_start_customization:hover {
-  background-color: rgba(73, 132, 73, 0.8);
+  .button_read_more {
+    width: 900px!important;
+  }
 }

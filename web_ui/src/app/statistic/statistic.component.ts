@@ -52,7 +52,6 @@ export class StatisticComponent implements OnInit{
 
         this.sum_users = 0;
         this.sum_orders = 0;
-
         // Convertir les données JSON en un tableau de paires clé-valeur et stocker les données dans les tableaux
         const usersKeyValueArray = Object.entries(users);
         const ordersKeyValueArray = Object.entries(orders);
