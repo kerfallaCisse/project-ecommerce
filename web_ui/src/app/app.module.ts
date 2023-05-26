@@ -19,7 +19,10 @@ import { StatisticComponent } from './statistic/statistic.component';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import { CartComponent } from './cart/cart.component';
-import { AboutComponent } from './about/about.component'
+import { AboutComponent } from './about/about.component';
+import { FormComponent } from './form/form.component';
+import { SuccessComponent } from './success/success.component';
+import { FailComponent } from './fail/fail.component'
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { AboutComponent } from './about/about.component'
     StockComponent,
     StatisticComponent,
     CartComponent,
-    AboutComponent
+    AboutComponent,
+    FormComponent,
+    SuccessComponent,
+    FailComponent
   ],
   imports: [
     BrowserModule,

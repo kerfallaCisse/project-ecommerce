@@ -16,7 +16,7 @@ main {
 }
 
 .container1{
-  padding: 20px;
+  padding: 40px;
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@ main {
   text-align: center;
   background-color: white;
   font-family: "Aldrich";
-  border: 1px black solid;
+  border: 1px white solid;
   background-color:  white ;
 }
 

@@ -20,14 +20,19 @@ export class StatisticComponent implements OnInit{
   users_info: StatData[] = [];
   orders_info: StatData[] = [];
   colors_info: StatData[] = [];
+  // basket_info: StatData[] = [];
+  // profit_info: StatData[] = [];
 
   sum_users: number = 0;
   sum_orders: number = 0;
+  // sum_basket: number = 0;
+  // sum_profit: number = 0;
 
   line_chart_users: EChartsOption = {} ;
   line_chart_orders: EChartsOption = {} ;
   histo_chart_colors: EChartsOption = {} ;
-
+  // line_chart_basket: EChartsOption = {} ;
+  // line_chart_profit: EChartsOption = {} ;
 
 
   ngOnInit(): void {
@@ -44,18 +49,25 @@ export class StatisticComponent implements OnInit{
   // Créer une méthode loadStatData() pour charger les données en fonction de la valeur sélectionnée
   loadStatData(selectedValue: string): void {
     this.statService.getEndpointURLs(selectedValue).subscribe(
-      ({ users, orders, colors }: { users: any; orders: any; colors: any }) => {
+      // ({ users, orders, colors, basket, profit }: { users: any; orders: any; colors: any; basket: any; profit: any }) => {
+      ({ users, orders, colors }: { users: any; orders: any; colors: any; }) => {
         // Vider les tableaux stat_info et orders_info avant de charger de nouvelles données
         this.users_info = [];
         this.orders_info = [];
         this.colors_info = [];
+        // this.basket_info = [];
+        // this.profit_info = [];
 
         this.sum_users = 0;
         this.sum_orders = 0;
+        // this.sum_basket = 0;
+        // this.sum_profit = 0;
         // Convertir les données JSON en un tableau de paires clé-valeur et stocker les données dans les tableaux
         const usersKeyValueArray = Object.entries(users);
         const ordersKeyValueArray = Object.entries(orders);
         const colorsKeyValueArray = Object.entries(colors);
+        // const basketKeyValueArray = Object.entries(basket);
+        // const profitKeyValueArray = Object.entries(profit);
 
         // Trier les tableaux par clé, sauf pour les jours de la semaine
         const weekdays = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
@@ -81,10 +93,8 @@ export class StatisticComponent implements OnInit{
         usersKeyValueArray.sort(sortFunction);
         ordersKeyValueArray.sort(sortFunction);
         colorsKeyValueArray.sort(sortFunction);
-
-        usersKeyValueArray.sort(sortFunction);
-        ordersKeyValueArray.sort(sortFunction);
-        colorsKeyValueArray.sort(sortFunction);
+        // basketKeyValueArray.sort(sortFunction);
+        // profitKeyValueArray.sort(sortFunction);
 
         usersKeyValueArray.forEach(([key, value]) => {
           this.users_info.push({ key, value: value as number });
@@ -97,6 +107,14 @@ export class StatisticComponent implements OnInit{
         colorsKeyValueArray.forEach(([key, value]) => {
           this.colors_info.push({ key, value: value as number });
         });
+
+        // basketKeyValueArray.forEach(([key, value]) => {
+        //   this.basket_info.push({ key, value: value as number });
+        // });
+
+        // profitKeyValueArray.forEach(([key, value]) => {
+        //   this.profit_info.push({ key, value: value as number });
+        // });
 
         const users_keys = this.users_info.map(x => x.key);
         const users_values = this.users_info.map(x => x.value);
@@ -112,6 +130,16 @@ export class StatisticComponent implements OnInit{
         const colors_values = this.colors_info.map(x => x.value);
         this.histo_chart_colors = this.createHistogramChartOption(colors_keys, colors_values);
 
+        // const basket_keys = this.basket_info.map(x => x.key);
+        // const basket_values = this.basket_info.map(x => x.value);
+        // this.sum_basket = orders_values.reduce((acc, val) => acc + val, 0);
+        // this.line_chart_basket = this.createLineChartOption(basket_keys, basket_values);
+
+        // const profit_keys = this.profit_info.map(x => x.key);
+        // const profit_values = this.profit_info.map(x => x.value);
+        // this.sum_profit = orders_values.reduce((acc, val) => acc + val, 0);
+        // this.line_chart_profit = this.createLineChartOption(profit_keys, profit_values);
+
       },
       error => {
         console.log("Erreur lors de la réception des données");
@@ -119,6 +147,7 @@ export class StatisticComponent implements OnInit{
       () => {
         console.log("Stat info:", this.sum_users);
         console.log("Orders info:", this.sum_orders);
+
       }
     );
   }
@@ -197,13 +226,13 @@ export class StatisticComponent implements OnInit{
         data: seriesData,
         type: 'line',
         areaStyle: {
-          color: 'rgba(76, 87, 123, 0.5)'
+          color: 'rgba(0, 0, 0, 0.5)'
         },
         lineStyle: {
-          color: 'rgb(76, 87, 123)'
+          color: 'rgb(0, 0, 0)'
         },
         itemStyle: {
-          color: 'rgb(76, 87, 123)'
+          color: 'rgb(0, 0, 0)'
         }
       }]
     };
