@@ -14,10 +14,17 @@
     "changeOrigin": true
     },
 
+    "/api/stock/update": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+
     "/api/statistics": {
-      "target": "https://pinfo3.unige.ch",
-      "secure": true,
-      "logLevel": "debug",
-      "changeOrigin": true
-      }
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
 }
