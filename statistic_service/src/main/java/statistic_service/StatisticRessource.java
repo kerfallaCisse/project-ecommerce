@@ -1,5 +1,6 @@
 package statistic_service;
 
+import statistic_service.model.AbandonedBasket;
 import statistic_service.model.Color;
 import statistic_service.model.User;
 import statistic_service.model.Profit;
@@ -14,6 +15,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,14 +156,14 @@ public class StatisticRessource {
 
         if (pocketColor.equals(bagColor)) {
             for (int i = 0; i < quantity; i++) {
-                if(!color.save(pocketColor, currentDate)) {
+                if (!color.save(pocketColor, currentDate)) {
                     return Response.status(Response.Status.NOT_FOUND).build();
                 }
             }
         } else {
             for (String color_name : colors) {
                 for (int i = 0; i < quantity; i++) {
-                    if(!color.save(color_name, currentDate)) {
+                    if (!color.save(color_name, currentDate)) {
                         return Response.status(Response.Status.NOT_FOUND).build();
                     }
                 }
@@ -175,24 +177,35 @@ public class StatisticRessource {
     @Path("profit")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProfit() {
-        Profit profit = Profit.findById(1);
-        Double amount = profit.getAmount(); 
+        Profit profit = Profit.findById(1L);
+        Double amount = profit.getAmount();
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        return Response.ok(jsonObjectBuilder.add("profit",amount).build()).build();
+        return Response.ok(jsonObjectBuilder.add("profit", amount).build()).build();
+    }
+
+    @PUT
+    @Path("abandoned_basket")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response update_abandonedBasket() {
+        AbandonedBasket abandonedBasket = AbandonedBasket.findById(1L);
+        int nbr = abandonedBasket.getNbr();
+        abandonedBasket.setNbr(nbr + 1);
+        abandonedBasket.persist();
+        if (abandonedBasket.isPersistent())
+            return Response.status(Response.Status.OK).build();
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+
     }
 
     @GET
-    @Path("update")
-    @Transactional
-    public Response updateProfitAmount() {
-
-        Profit profit = Profit.findById(1);
-        Double amount = profit.getAmount();
-        System.out.println(amount);
-        profit.setAmount(300+amount);
-        System.out.println(profit.getAmount());
-        profit.persist();
-        return Response.status(Response.Status.OK).build();
+    @Path("abandoned_basket")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAbandonedBasket() {
+        AbandonedBasket abandonedBasket = AbandonedBasket.findById(1L);
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        return Response.ok(jsonObjectBuilder.add("nbr", abandonedBasket.getNbr()).build()).build();
     }
 
 }
