@@ -8,6 +8,7 @@ import java.util.HashMap;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+//import jakarta.persistence.EntityManager;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -56,7 +57,11 @@ public class User extends PanacheEntity {
 
             LocalDate date = dates.get(i);
             long nbrUser = User.find("created_at", date).count();
-
+            //             ;
+            //             long nbrUser = PanacheEntity.find(" from " + User.class.getSimpleName() + " where created_at", date).count();
+            // EntityManager em;
+            // PanacheEntity.getEntityManager().fin
+            // em.find(this.getClass(), em, null, null)
             if (i < 7)
                 updateWeekValue("week1", nbrUser, weeks);
 
