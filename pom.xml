@@ -84,6 +84,7 @@
   </dependencies>
   <build>
     <plugins>
+    <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${quarkus.platform.version}</version>
@@ -119,8 +120,8 @@
          <groupId>org.jacoco</groupId> 
         <artifactId>jacoco-maven-plugin</artifactId> 
         <version>${jacoco.version}</version> 
-        <configuration> <!-- Rest of your configuration, if any --> <
-          formats>XML</formats> 
+        <configuration> <!-- Rest of your configuration, if any --> 
+        <formats>XML</formats> 
           </configuration> 
           <executions> <execution> 
             <id>prepare-unit-tests</id> 
