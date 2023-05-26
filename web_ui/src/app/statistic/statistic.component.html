@@ -19,52 +19,39 @@
     </select>
   </div>
 
-  <div class = "solo_statistics">
 
-    <div class = "new_users">
-      <h6> New Users </h6>
-      <h2> {{sum_users}} </h2>
-      <p> -0.56% <i class='bx bx-trending-down'></i></p>
-    </div>
+  <div class = "statistics_container">
 
-    <div class = "visits">
-      <h6> Visits </h6>
-      <h2> 2700 </h2>
-      <p> +5.7% <i class='bx bx-trending-up' ></i></p>
-    </div>
-
-    <div class = "orders">
-      <h6> Orders </h6>
-      <h2> {{sum_orders}} </h2>
-      <p> +3.89% <i class='bx bx-trending-up' ></i></p>
-    </div>
-
-    <div class = "abandonned_baskets">
-      <h6> Abandonned Baskets </h6>
-      <h2> 23 </h2>
-      <p> -1.08% <i class='bx bx-trending-down' ></i></p>
-    </div>
-
-  </div>
-
-  <div class = "graphs_statistics">
-
-
-    <div class = "only_statistics_graphs">
-
-      <div class="new_users_graph" nz-col nzSpan="12">
-        <h2> New Users </h2>
-        <div id="chart3" echarts [options]="line_chart_users" theme="macarons" class="demo-chart"></div>
+      <div class = "solo_statistics_container">
+        <div class = "container1">
+        <div class = "new_users">
+          <h6> New Users </h6>
+          <h2> {{sum_users}} </h2>
+          <p> -0.56% <i class='bx bx-trending-down'></i></p>
+        </div>
       </div>
+      <div class = "container1">
+        <div class = "total_profit">
+          <h6> Total profit </h6>
+          <h2> 2700 </h2>
+          <p> +5.7% <i class='bx bx-trending-up' ></i></p>
+        </div>
+        </div>
+        <div class = "container1">
+        <div class = "orders">
+          <h6> Orders </h6>
+          <h2> {{sum_orders}} </h2>
+          <p> +3.89% <i class='bx bx-trending-up' ></i></p>
+        </div>
+        </div>
+        <div class = "container1">
+        <div class = "abandonned_baskets">
+          <h6> Abandonned Baskets </h6>
+          <h2> 23 </h2>
+          <p> -1.08% <i class='bx bx-trending-down' ></i></p>
+        </div>
+        </div>
 
-      <div class="visits_graph" nz-col nzSpan="12">
-        <h2> Visits </h2>
-        <div id="chart2" echarts [options]="lineChartOption1" theme="macarons" class="demo-chart"></div>
-      </div>
-
-      <div class="orders_graph" nz-col nzSpan="12">
-        <h2> Orders </h2>
-        <div id="chart4" echarts [options]="line_chart_orders" theme="macarons" class="demo-chart"></div>
       </div>
 
       <div class="popular_colors_graph" nz-col nzSpan="12">
@@ -72,7 +59,16 @@
         <div id="chart1" echarts [options]="histo_chart_colors" theme="macarons" class="demo-chart"></div>
       </div>
 
+      <div class="new_users_graph" nz-col nzSpan="12">
+        <h2> New Users </h2>
+        <div id="chart3" echarts [options]="line_chart_users" theme="macarons" class="demo-chart"></div>
+      </div>
+
+      <div class="orders_graph" nz-col nzSpan="12">
+        <h2> Orders </h2>
+        <div id="chart4" echarts [options]="line_chart_orders" theme="macarons" class="demo-chart"></div>
+      </div>
+
     </div>
-  </div>
 
 </main>
