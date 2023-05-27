@@ -51,6 +51,8 @@ public class Color extends PanacheEntity {
         return User.constructResponseObject(colors);
     }
 
+    // For orders
+
     public JsonObject statsWeek(List<LocalDate> dates) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         for (LocalDate date : dates) {

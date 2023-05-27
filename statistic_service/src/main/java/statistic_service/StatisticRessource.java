@@ -4,9 +4,12 @@ import statistic_service.model.AbandonedBasket;
 import statistic_service.model.Color;
 import statistic_service.model.User;
 import statistic_service.model.Profit;
+import statistic_service.model.Stats;
+import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -29,6 +32,9 @@ public class StatisticRessource {
     User user = new User();
 
     Color color = new Color();
+
+    @Inject
+    Stats stats;
 
     List<LocalDate> datesWeek = date.getDatesLastWeek();
     List<LocalDate> datesMonth = date.getDatesLastMonth();
@@ -206,6 +212,16 @@ public class StatisticRessource {
         AbandonedBasket abandonedBasket = AbandonedBasket.findById(1L);
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         return Response.ok(jsonObjectBuilder.add("nbr", abandonedBasket.getNbr()).build()).build();
+    }
+
+    @GET
+    @Path("test")
+    public void testGeneric() {
+        EntityManager userEntityManager = User.getEntityManager();
+        EntityManager colorEntityManager = Color.getEntityManager();
+
+        stats.statsWeek(user, userEntityManager);
+        stats.statsWeek(color, colorEntityManager);
     }
 
 }

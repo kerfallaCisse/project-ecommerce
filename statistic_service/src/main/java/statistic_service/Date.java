@@ -3,6 +3,9 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class Date {
 
     private LocalDate now = LocalDate.now();
