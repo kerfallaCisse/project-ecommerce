@@ -8,6 +8,8 @@ import { StockComponent } from './stock/stock.component';
 import { StatisticComponent } from './statistic/statistic.component';
 import { CartComponent } from './cart/cart.component';
 import { AboutComponent } from './about/about.component';
+import { SuccessComponent } from './success/success.component';
+import { FailComponent } from './fail/fail.component';
 
 
 
@@ -22,7 +24,9 @@ const routes: Routes = [
 {path:'stock', component: StockComponent},
 {path:'statistic', component: StatisticComponent},
 {path:'cart', component: CartComponent},
-{path:'about', component: AboutComponent}
+{path:'about', component: AboutComponent},
+{path:'success', component: SuccessComponent},
+{path:'fail', component: FailComponent}
 ];
 
 @NgModule({

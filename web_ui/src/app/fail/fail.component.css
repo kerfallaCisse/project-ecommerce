@@ -1,0 +1,45 @@
+.success_container {
+  background-color: rgb(243, 243, 243);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  min-height: 90vh;
+}
+
+.text {
+  padding: 5% 20% 5% 20%;
+  background-color: white;
+}
+
+h2, h5, a, span {
+  text-align: center;
+  font-family: 'Mulish';
+}
+
+h5, a {
+  font-size: large;
+  color: black;
+}
+
+h5 {
+  margin-top: 20%;
+}
+
+a span {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 10%;
+  transition: text-decoration-color 0.3s ease-in-out;
+}
+
+a span:hover {
+  text-decoration-color: rgb(207, 44, 44);
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
+  }
+}
