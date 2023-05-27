@@ -23,6 +23,7 @@ import { AboutComponent } from './about/about.component';
 import { FormComponent } from './form/form.component';
 import { SuccessComponent } from './success/success.component';
 import { FailComponent } from './fail/fail.component'
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { FailComponent } from './fail/fail.component'
     NgbModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })
