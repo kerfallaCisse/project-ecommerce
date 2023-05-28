@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormInformations } from '../shared/models/form';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmationService } from '../services/confirmation/confirmation.service';
+
+
 
 
 @Component({
@@ -18,7 +22,7 @@ export class FormComponent {
   showError: boolean = false;
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmationService: ConfirmationService) {
     this.form = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
@@ -45,12 +49,12 @@ export class FormComponent {
       };
       console.log(formData);
       this.showError = false;
+      this.router.navigate(['/confirmation'], { queryParams: formData });
+      this.confirmationService.setFormData(formData);
+
     } else {
       this.showError = true;
     }
   }
-
-
-
 
 }

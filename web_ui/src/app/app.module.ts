@@ -24,6 +24,7 @@ import { FormComponent } from './form/form.component';
 import { SuccessComponent } from './success/success.component';
 import { FailComponent } from './fail/fail.component'
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AboutComponent,
     FormComponent,
     SuccessComponent,
-    FailComponent
+    FailComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,
