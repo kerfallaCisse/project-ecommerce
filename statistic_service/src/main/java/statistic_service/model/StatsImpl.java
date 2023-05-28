@@ -1,48 +1,39 @@
 package statistic_service.model;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.inject.Inject;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.persistence.EntityManager;
+import statistic_service.Date;
+import java.util.List;
+import java.time.LocalDate;
+import jakarta.json.Json;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.HashMap;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-//import jakarta.persistence.EntityManager;
 
-import java.time.LocalDate;
-import java.util.List;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 
-@Entity
-public class User extends PanacheEntity {
+public class StatsImpl implements Stats {
 
-    @Column(length = 100)
-    private String name;
+    Date date = new Date();
 
-    @Column(length = 100)
-    private String email;
-
-    @Column(length = 100)
-    private String auth0_user_id;
-
-    @Column
-    private LocalDate created_at;
-
-    public JsonObject statsWeek(List<LocalDate> dates) {
+    public <T extends PanacheEntity> JsonObject statsWeek(T entity, EntityManager entityManager) {
+        List<LocalDate> dates = date.getDatesLastWeek();
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        for (LocalDate date : dates) {
-            String day = date.getDayOfWeek().toString();
-            Long nbrUser = find("created_at", date).count();
+        for (LocalDate dte : dates) {
+            String day = dte.getDayOfWeek().toString();
+            String query = "FROM " + entity.getClass().getSimpleName() + " WHERE created_at = ?1";
+            Long nbrUser = Long.valueOf(entityManager.createQuery(query).setParameter(1, dte).getResultList().size());
             jsonObjectBuilder.add(day, nbrUser);
         }
         return jsonObjectBuilder.build();
-
     }
 
-    public JsonObject statsMonth(List<LocalDate> dates) {
+    public <T extends PanacheEntity> JsonObject statsMonth(T entity, EntityManager entityManager) {
+        List<LocalDate> dates = date.getDatesLastMonth();
         HashMap<String, Long> weeks = new HashMap<>() {
             {
                 put("week1", 0L);
@@ -54,14 +45,10 @@ public class User extends PanacheEntity {
         };
 
         for (int i = 0; i < dates.size(); i++) {
+            LocalDate dte = dates.get(i);
+            String query = "FROM " + entity.getClass().getSimpleName() + " WHERE created_at = ?1";
+            Long nbrUser = Long.valueOf(entityManager.createQuery(query).setParameter(1, dte).getResultList().size());
 
-            LocalDate date = dates.get(i);
-            long nbrUser = User.find("created_at", date).count();
-            //             ;
-            //             long nbrUser = PanacheEntity.find(" from " + User.class.getSimpleName() + " where created_at", date).count();
-            // EntityManager em;
-            // PanacheEntity.getEntityManager().fin
-            // em.find(this.getClass(), em, null, null)
             if (i < 7)
                 updateWeekValue("week1", nbrUser, weeks);
 
@@ -73,14 +60,14 @@ public class User extends PanacheEntity {
 
             else
                 updateWeekValue("week4", nbrUser, weeks);
-
         }
 
         return constructResponseObject(weeks);
 
     }
 
-    public JsonObject statsLastThreeMonth(List<LocalDate> dates) {
+    public <T extends PanacheEntity> JsonObject statsLastThreeMonths(T entity, EntityManager entityManager,
+            List<LocalDate> dates) {
         HashMap<String, Long> weeks = new HashMap<>() {
             {
                 put("week1", 0L);
@@ -100,10 +87,9 @@ public class User extends PanacheEntity {
         };
 
         for (int i = 0; i < dates.size(); i++) {
-
-            LocalDate date = dates.get(i);
-            long nbrUser = User.find("created_at", date).count();
-
+            LocalDate dte = dates.get(i);
+            String query = "FROM " + entity.getClass().getSimpleName() + " WHERE created_at = ?1";
+            Long nbrUser = Long.valueOf(entityManager.createQuery(query).setParameter(1, dte).getResultList().size());
             if (i < 7)
                 updateWeekValue("week1", nbrUser, weeks);
 
@@ -142,14 +128,11 @@ public class User extends PanacheEntity {
 
             else
                 updateWeekValue("week12", nbrUser, weeks);
-
         }
-
-        return User.constructResponseObject(weeks);
+        return constructResponseObject(weeks);
     }
 
-    public JsonObject statsLastYear() {
-
+    public <T extends PanacheEntity> JsonObject statsLastYear(T entity, EntityManager entityManager) {
         HashMap<String, Long> months = new HashMap<>() {
             {
                 put("month1", 0L);
@@ -166,7 +149,6 @@ public class User extends PanacheEntity {
                 put("month12", 0L);
             }
         };
-
         LocalDate now = LocalDate.now();
         LocalDate _threeMonThDate1 = now.minusMonths(3);
         LocalDate _threeMonThDate2 = _threeMonThDate1.minusMonths(3);
@@ -183,30 +165,38 @@ public class User extends PanacheEntity {
         List<LocalDate> _threeMonThDate1_list = _threeMonThDate1.datesUntil(now)
                 .collect(Collectors.toList());
 
-        JsonObject jsonObject1 = statsLastThreeMonth(_threeMonThDate4_list);
-        JsonObject jsonObject2 = statsLastThreeMonth(_threeMonThDate3_list);
-        JsonObject jsonObject3 = statsLastThreeMonth(_threeMonThDate2_list);
-        JsonObject jsonObject4 = statsLastThreeMonth(_threeMonThDate1_list);
+        JsonObject jsonObject1 = statsLastThreeMonths(entity, entityManager, _threeMonThDate4_list);
+        JsonObject jsonObject2 = statsLastThreeMonths(entity, entityManager, _threeMonThDate3_list);
+        JsonObject jsonObject3 = statsLastThreeMonths(entity, entityManager, _threeMonThDate2_list);
+        JsonObject jsonObject4 = statsLastThreeMonths(entity, entityManager, _threeMonThDate1_list);
 
         computeJs(jsonObject1, months, 1);
         computeJs(jsonObject2, months, 4);
         computeJs(jsonObject3, months, 7);
         computeJs(jsonObject4, months, 10);
 
-        return User.constructResponseObject(months);
-
+        return constructResponseObject(months);
     }
 
-    public JsonObject usersTotal() {
-        int total = User.listAll().size();
+    protected void updateWeekValue(String key, Long nbrUser, HashMap<String, Long> weeks) {
+        Long nbrOfUser = weeks.get(key);
+        weeks.put(key, nbrOfUser + nbrUser);
+    }
+
+    protected JsonObject constructResponseObject(HashMap<String, Long> map) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        jsonObjectBuilder.add("total", total);
-        
+        Set<Map.Entry<String, Long>> paires = map.entrySet();
+        Iterator<Map.Entry<String, Long>> iter = paires.iterator();
+
+        while (iter.hasNext()) {
+            Map.Entry<String, Long> paire = iter.next();
+            jsonObjectBuilder.add(paire.getKey(), paire.getValue());
+        }
+
         return jsonObjectBuilder.build();
     }
 
-
-    public static void computeJs(JsonObject jsonObject, HashMap<String, Long> months, int start_month) {
+    protected void computeJs(JsonObject jsonObject, HashMap<String, Long> months, int start_month) {
         Long _monthValue = 0L;
         String initialMonth = "month" + Long.toString(Long.valueOf(start_month));
         String startMonthPlus1 = "month" + Long.toString(Long.valueOf(start_month + 1));
@@ -229,24 +219,5 @@ public class User extends PanacheEntity {
                 + Long.parseLong(jsonObject.getJsonNumber("week12").toString());
         months.put(startMonthPlus2, _monthValue);
     }
-
-    public static void updateWeekValue(String key, Long nbrUser, HashMap<String, Long> weeks) {
-        Long nbrOfUser = weeks.get(key);
-        weeks.put(key, nbrOfUser + nbrUser);
-    }
-
-    public static JsonObject constructResponseObject(HashMap<String, Long> map) {
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        Set<Map.Entry<String, Long>> paires = map.entrySet();
-        Iterator<Map.Entry<String, Long>> iter = paires.iterator();
-
-        while (iter.hasNext()) {
-            Map.Entry<String, Long> paire = iter.next();
-            jsonObjectBuilder.add(paire.getKey(), paire.getValue());
-        }
-
-        return jsonObjectBuilder.build();
-    }
-
 
 }

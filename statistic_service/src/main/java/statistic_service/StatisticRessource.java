@@ -1,72 +1,80 @@
 package statistic_service;
 
-import statistic_service.model.AbandonedBasket;
-import statistic_service.model.Color;
-import statistic_service.model.User;
-import statistic_service.model.Profit;
-import statistic_service.model.Stats;
-import jakarta.inject.Inject;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.EntityManager;
+import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import statistic_service.model.OrderStats;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
+import statistic_service.model.ProfitStats;
+import statistic_service.model.StatsImpl;
+import statistic_service.model.entity.AbandonedBasket;
+import statistic_service.model.entity.Color;
+import statistic_service.model.entity.Profit;
+import statistic_service.model.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.ws.rs.core.Response;
 
 @Path("/statistics")
+@Transactional
 public class StatisticRessource {
 
     Date date = new Date();
 
+    ProfitStats profitStats = new ProfitStats();
+
+    StatsImpl statsImpl = new StatsImpl();
+
+    OrderStats orderStats = new OrderStats();
+
+    Profit profit = new Profit();
+    EntityManager pEntityManager = Profit.getEntityManager();
+
     User user = new User();
+    EntityManager userEntityManager = User.getEntityManager();
+
+    AbandonedBasket abandonedBasket = new AbandonedBasket();
+    EntityManager abEntityManager = AbandonedBasket.getEntityManager();
 
     Color color = new Color();
+    EntityManager colorEntityManager = Color.getEntityManager();
 
-    @Inject
-    Stats stats;
-
-    List<LocalDate> datesWeek = date.getDatesLastWeek();
-    List<LocalDate> datesMonth = date.getDatesLastMonth();
-    List<LocalDate> datesLastThreeMonth = date.getDatesLastThreeMonths();
-    List<LocalDate> datesLastYear = date.getDatesLastYear();
+    List<LocalDate> datesLastThreeMonths = date.getDatesLastThreeMonths();
 
     @GET
     @Path("users/last_week")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNewUsersStatsWeek() {
-        return Response.ok(user.statsWeek(datesWeek)).build();
+        return Response.ok(statsImpl.statsWeek(user, userEntityManager)).build();
     }
 
     @GET
     @Path("users/last_month")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNewUsersStatLastMonth() {
-        return Response.ok(user.statsMonth(datesMonth)).build();
+        return Response.ok(statsImpl.statsMonth(user, userEntityManager)).build();
     }
 
     @GET
     @Path("users/last_three_month")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNewUsersStatsLastThreeMonth() {
-        return Response.ok(user.statsLastThreeMonth(datesLastThreeMonth)).build();
+        return Response.ok(statsImpl.statsLastThreeMonths(user, userEntityManager, datesLastThreeMonths)).build();
     }
 
     @GET
     @Path("users/last_year")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsersStatsLastYear() {
-        return Response.ok(user.statsLastYear()).build();
+        return Response.ok(statsImpl.statsLastYear(user, userEntityManager)).build();
     }
 
     @GET
@@ -80,58 +88,63 @@ public class StatisticRessource {
     @Path("colors/last_week")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getColorsStatsWeek() {
-        return Response.ok(color.stats(datesWeek)).build();
+        List<LocalDate> dates = date.getDatesLastWeek();
+        return Response.ok(orderStats.stats(dates)).build();
     }
 
     @GET
     @Path("colors/last_month")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getColorsLastMonth() {
-        return Response.ok(color.stats(datesMonth)).build();
+        List<LocalDate> dates = date.getDatesLastMonth();
+        return Response.ok(orderStats.stats(dates)).build();
     }
 
     @GET
     @Path("colors/last_three_month")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getColorsLastThreeMonths() {
-        return Response.ok(color.stats(datesLastThreeMonth)).build();
+        List<LocalDate> dates = date.getDatesLastThreeMonths();
+        return Response.ok(orderStats.stats(dates)).build();
     }
 
     @GET
     @Path("colors/last_year")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getColorsLastYear() {
-        return Response.ok(color.stats(datesLastYear)).build();
+        List<LocalDate> dates = date.getDatesLastYear();
+        return Response.ok(orderStats.stats(dates)).build();
     }
 
     @GET
     @Path("orders/last_week")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOrdersLastWeek() {
-        return Response.ok(color.statsWeek(datesWeek)).build();
+        return Response.ok(orderStats.statsWeek(color, colorEntityManager)).build();
     }
 
     @GET
     @Path("orders/last_month")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOrdersLastMonth() {
-        return Response.ok(color.statsMonth(datesMonth)).build();
+        return Response.ok(orderStats.statsMonth(color, colorEntityManager)).build();
     }
 
     @GET
     @Path("orders/last_three_month")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOrdersLastThreeMonth() {
-        return Response.ok(color.statsLastThreeMonth(datesLastThreeMonth)).build();
+        return Response.ok(orderStats.statsLastThreeMonths(color, colorEntityManager, datesLastThreeMonths)).build();
     }
 
     @GET
     @Path("orders/last_year")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOrdersLastYear() {
-        return Response.ok(color.statsLastYear()).build();
+        return Response.ok(orderStats.statsLastYear(color, colorEntityManager)).build();
     }
 
+    // When a user make an order
     @POST
     @Path("colors/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -145,7 +158,8 @@ public class StatisticRessource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        String[] colors_name = { "red", "blue", "green", "yellow", "white", "grey", "black" };
+        String[] colors_name = { "red", "blue", "green", "yellow", "white", "grey",
+                "black" };
         List<String> all_colors = new ArrayList<>();
         for (String clr : colors_name) {
             all_colors.add(clr);
@@ -180,48 +194,79 @@ public class StatisticRessource {
     }
 
     @GET
-    @Path("profit")
+    @Path("profit/last_week")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProfit() {
-        Profit profit = Profit.findById(1L);
-        Double amount = profit.getAmount();
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        return Response.ok(jsonObjectBuilder.add("profit", amount).build()).build();
+    public Response getProfitLastWeek() {
+        return Response.ok(profitStats.statsWeek(profit, pEntityManager)).build();
     }
 
-    @PUT
-    @Path("abandoned_basket")
+    @GET
+    @Path("profit/last_month")
     @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
-    public Response update_abandonedBasket() {
-        AbandonedBasket abandonedBasket = AbandonedBasket.findById(1L);
-        int nbr = abandonedBasket.getNbr();
-        abandonedBasket.setNbr(nbr + 1);
-        abandonedBasket.persist();
-        if (abandonedBasket.isPersistent())
-            return Response.status(Response.Status.OK).build();
+    public Response getProfitLastMonth() {
+        return Response.ok(profitStats.statsMonth(profit, pEntityManager)).build();
+    }
+
+    @GET
+    @Path("profit/last_three_month")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProfitLastThreeMonth() {
+        return Response.ok(profitStats.statsLastThreeMonths(profit, pEntityManager, datesLastThreeMonths)).build();
+    }
+
+    @GET
+    @Path("profit/last_year")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProfitLastYear() {
+        return Response.ok(profitStats.statsLastYear(profit, pEntityManager)).build();
+    }
+
+    @GET
+    @Path("abandoned_basket/last_week")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAbandonedBasketLastWeek() {
+        return Response.ok(statsImpl.statsWeek(abandonedBasket, abEntityManager)).build();
+    }
+
+    @GET
+    @Path("abandoned_basket/last_month")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAbandonedBasketLastMonth() {
+        return Response.ok(statsImpl.statsMonth(abandonedBasket, abEntityManager)).build();
+    }
+
+    @GET
+    @Path("abandoned_basket/last_three_month")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAbandonedBasketLastThreeMonth() {
+        return Response.ok(statsImpl.statsLastThreeMonths(abandonedBasket, abEntityManager, datesLastThreeMonths))
+                .build();
+    }
+
+    @GET
+    @Path("abandoned_basket/last_year")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAbandonedBasketLastYear() {
+        return Response.ok(statsImpl.statsLastYear(abandonedBasket, abEntityManager)).build();
+    }
+
+    @POST
+    @Path("abandoned_basket")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAbandonedBasket(JsonObject jsonObject) {
+        String modelType = jsonObject.getString("modelType");
+        if (!modelType.equals("smallModel") || !modelType.equals("largeModel"))
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        LocalDate currentDate = date.now;
+        AbandonedBasket aBasket = new AbandonedBasket();
+        aBasket.setModelType(modelType);
+        aBasket.setCreated_at(currentDate);
+        aBasket.persist();
+        if (aBasket.isPersistent())
+            return Response.status(Response.Status.CREATED).build();
 
         return Response.status(Response.Status.NOT_FOUND).build();
 
-    }
-
-    @GET
-    @Path("abandoned_basket")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAbandonedBasket() {
-        AbandonedBasket abandonedBasket = AbandonedBasket.findById(1L);
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        return Response.ok(jsonObjectBuilder.add("nbr", abandonedBasket.getNbr()).build()).build();
-    }
-
-    @GET
-    @Path("test")
-    public void testGeneric() {
-        EntityManager userEntityManager = User.getEntityManager();
-        EntityManager colorEntityManager = Color.getEntityManager();
-
-        stats.statsWeek(user, userEntityManager);
-        stats.statsWeek(color, colorEntityManager);
     }
 
 }
