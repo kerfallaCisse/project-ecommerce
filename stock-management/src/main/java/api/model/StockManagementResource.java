@@ -6,6 +6,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -56,11 +57,44 @@ public class StockManagementResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public JsonArray insertModel(JsonObject model) {
-        String modelType = model.getString("modelType");
-        String colorPocket = model.getString("color_pocket_name");
-        String colorBag = model.getString("color_bag_name");
-        int quantity = model.getInt("quantity");
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        String modelType = null;
+        String colorPocket = null;
+        String colorBag = null;
+        int quantity = 0;
+
+        if (model.containsKey("modelType")) {
+            if (model.get("modelType").getValueType() == JsonValue.ValueType.STRING) {
+                modelType = model.getString("modelType");
+            }
+        } else {
+            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            return jsonArrayBuilder.add(json).build();
+        }
+        if (model.containsKey("color_pocket_name")) {
+            if (model.get("color_pocket_name").getValueType() == JsonValue.ValueType.STRING) {
+                colorPocket = model.getString("color_pocket_name");
+            }
+        } else {
+            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            return jsonArrayBuilder.add(json).build();
+        }
+        if (model.containsKey("color_bag_name")) {
+            if (model.get("color_bag_name").getValueType() == JsonValue.ValueType.STRING) {
+                colorBag = model.getString("color_bag_name");
+            }
+        } else {
+            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            return jsonArrayBuilder.add(json).build();
+        }
+        if (model.containsKey("quantity")) {
+            if (model.get("quantity").getValueType() == JsonValue.ValueType.NUMBER) {
+                quantity = model.getInt("quantity");
+            }
+        } else {
+            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            return jsonArrayBuilder.add(json).build();
+        }
 
         if ("small".equals(modelType)) {
             SmallModel smallModel = SmallModel
@@ -73,7 +107,7 @@ public class StockManagementResource {
                     smallModel.persist();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("error", "subtraction error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 }
             } else {
                 // Otherwise, create a new model
@@ -85,7 +119,7 @@ public class StockManagementResource {
                     smallModel.persist();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("error", "negativ quantity error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 }
 
             }
@@ -100,7 +134,7 @@ public class StockManagementResource {
                     largeModel.persist();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("error", "subtraction error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 }
             } else {
                 // Otherwise, create a new model
@@ -112,19 +146,19 @@ public class StockManagementResource {
                     largeModel.persist();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("error", "negativ quantity error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 }
             }
 
         } else {
             // Invalid model type
-            throw new IllegalArgumentException("Invalid model type: " + modelType);
+            JsonObject json = Json.createObjectBuilder().add("error", "invalid model").build();
+            return jsonArrayBuilder.add(json).build();
         }
 
         // Send confirmation
         JsonObject json = Json.createObjectBuilder().add("result", "ok").build();
-        jsonArrayBuilder.add(json);
-        return jsonArrayBuilder.build();
+        return jsonArrayBuilder.add(json).build();
     }
 
     @Path("/quantity")
@@ -134,13 +168,13 @@ public class StockManagementResource {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         if (modelType == null || bagColor == null || pocketColor == null){
             JsonObject json = Json.createObjectBuilder().add("error", "empty params error").build();
-            jsonArrayBuilder.add(json);
+            return jsonArrayBuilder.add(json).build();
         } else {
             if ("smallModel".equals(modelType)){
                 SmallModel smallModel = SmallModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
                 if (smallModel == null) {
                     JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("quantity", smallModel.quantity).build();
                     jsonArrayBuilder.add(json);
@@ -149,7 +183,7 @@ public class StockManagementResource {
                 LargeModel largeModel = LargeModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
                 if (largeModel == null) {
                     JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
-                    jsonArrayBuilder.add(json);
+                    return jsonArrayBuilder.add(json).build();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("quantity", largeModel.quantity).build();
                     jsonArrayBuilder.add(json);

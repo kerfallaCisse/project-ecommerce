@@ -17,11 +17,10 @@ export class StockComponent implements OnInit {
 quantities: number[] = []
 
 
-tab: {modelType: string,id: number,quantity: number,color_pocket_name: string,color_bag_name: string}[] = [];
 tab_real: {modelType: string,id: number,quantity: number,color_pocket_name: string,color_bag_name: string}[] = [];
 
 color: string[] = ["black","withe","yellow","blue","red","green","gray"]
-modeltype: string[] = ["SmallModel","LargeModel"]
+modeltype: string[] = ["small","large"]
 first = this.color[0]
 
 selectedColor_pocket: string = "nothing";
@@ -37,28 +36,19 @@ numberr: number = 0
 ngOnInit(): void {
 
  
-  this.stockService.getConfig().subscribe(data => {
-    
-      this.tab = data
-      this.func_resume_stock()
-      //console.log("tableau pas trié", this.tab)
-      //console.log("tableau trié", this.tab.sort())
-    })
 
-    this.stockService.getConfig_real().subscribe(data2 => {
+
+    this.stockService.getConfig_real().subscribe(data2 => { // la vrai de vrai 
 
       this.tab_real = data2
 
       console.log(this.tab_real)
       this.func_resume_stock()
-
-    })
-
-
-    this.stockService.getConfig_2().subscribe(data2 => {
       
-      console.log(data2)
     })
+
+
+  
 
 
 
@@ -68,12 +58,12 @@ ngOnInit(): void {
       let compteur_low = 0
       let compteur_out = 0
 
-      for (var i = 0; i < this.tab.length;i++){
+      for (var i = 0; i < this.tab_real.length;i++){
 
-        if (this.tab[i].quantity == 0){
+        if (this.tab_real[i].quantity == 0){
          compteur_out += 1
           }
-        else if (this.tab[i].quantity < 5){
+        else if (this.tab_real[i].quantity < 5){
           compteur_low += 1
         }
       }
@@ -90,20 +80,21 @@ ngOnInit(): void {
       }
     }
 
+    
+
     func_for_modifiquantit(color_bag: string,color_pocket: string,quantiti: number,model: string ,add: boolean) {
 
-      for (var i = 0; i < this.tab.length; i++) {
-        console.log(color_bag,color_pocket,model)
-        console.log(this.tab[i])
+      for (var i = 0; i < this.tab_real.length; i++) {
+        
 
-        if (this.tab[i].color_bag_name ===  color_bag && this.tab[i].color_pocket_name === color_pocket && this.tab[i].modelType === model) {
+        if (this.tab_real[i].color_bag_name ===  color_bag && this.tab_real[i].color_pocket_name === color_pocket && this.tab_real[i].modelType === model) {
 
           if(add == true){
-          this.tab[i].quantity = this.tab[i].quantity + +quantiti;
+          this.tab_real[i].quantity = this.tab_real[i].quantity + +quantiti;
 
           }
           else{
-            this.tab[i].quantity = this.tab[i].quantity - +quantiti;
+            this.tab_real[i].quantity = this.tab_real[i].quantity - +quantiti;
           }
           break
         }
@@ -115,13 +106,37 @@ ngOnInit(): void {
     }
 
     onSubmit_add() {
-      this.func_for_modifiquantit(this.selectedColor_bag,this.selectedColor_pocket,this.numberr,this.model_bag,true)
-      this.func_resume_stock()
+      
+      this.stockService.modifiy_donne(this.model_bag,this.selectedColor_bag,this.selectedColor_pocket,this.numberr,)
+      this.stockService.getConfig_real().subscribe(data2 => { 
+
+        this.tab_real = data2
+  
+        console.log(this.tab_real)
+    
+        this.func_resume_stock()
+  
+      })
+      
+      //window.location.reload();
+      console.log(typeof this.model_bag,this.selectedColor_bag,this.selectedColor_pocket,typeof this.numberr)
     }
 
     onSubmit_remove() {
-      this.func_for_modifiquantit(this.selectedColor_bag_2,this.selectedColor_pocket_2,this.numberr,this.model_bag_2,false)
-      this.func_resume_stock()
+      this.stockService.modifiy_donne(this.model_bag_2,this.selectedColor_bag_2,this.selectedColor_pocket_2,-this.numberr,)
+      this.stockService.getConfig_real().subscribe(data2 => { 
+
+        this.tab_real = data2
+  
+        console.log(this.tab_real)
+    
+        this.func_resume_stock()
+  
+      })
+      
+      //window.location.reload();
+      console.log(typeof this.model_bag,this.selectedColor_bag,this.selectedColor_pocket,typeof this.numberr)
+      
     }
 
   constructor(private stockService: StockService) {}

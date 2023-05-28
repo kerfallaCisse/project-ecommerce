@@ -1,12 +1,12 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=invia&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=invia)
-
+<!---
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=invia&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=invia)"
+-->
 
 ## Politique d'utilisation du Git
 
 Lien Figma pour la démo : https://www.figma.com/file/HTl6RYN9J2JQqWY67RuyK0/InVia?node-id=0%3A1&t=vGXtljRW6ZaA6RMi-1
 
 Lancer le projet Angular : ng serve -o
-
 
 Pour les messages de commit : utiliser les conventions de commit voir https://www.conventionalcommits.org/en/v1.0.0/.
 Les éléments qui seront généralement utilisés dans les messages de commit sont les suivants :

@@ -113,7 +113,6 @@ border-radius: 10px;
 #grand_formu{
 position: absolute;
 background-color: rgba(230, 230, 230, 0.35);
-/* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
 margin-left: 3%;
 width: 400px;
 height: 400px;
@@ -178,18 +177,6 @@ position: absolute;
   justify-content: center;
 }
 
-#salam {
-  position: absolute;
-  flex: 1;
-  background-image: url("src/assets/home-background/home-background-1.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
-
-.back {
-  
-  background-image: url("src/assets/home-background/home-background-1.jpg");
-  background-size:auto; /* Ajuste la taille de l'image pour couvrir tout le body */
-  background-position: center; /* Centre l'image horizontalement et verticalement */
+#white {
+  background-color: black;
 }
