@@ -1,0 +1,65 @@
+.confirmation_page {
+  width: 100%;
+  min-height: 100vh;
+  background-color:  rgb(243, 243, 243);;
+  padding: 5% 2% 2% 2%;
+  display: flex;
+}
+
+.form_confirmation, .cart_confirmation {
+  background-color: white;
+  width: 50%;
+  padding: 5% 5% 5% 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 20%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+p, h2, a {
+  font-family: "Mulish";
+  text-align: left;
+  color: black;
+}
+
+h2 {
+  padding-bottom: 20px;
+}
+
+p {
+  font-size: medium;
+}
+
+.back-form, .back-cart {
+  font-size: large;
+  border-radius: 0.5em;
+  padding: 1% 1% 1% 1%;
+  border: 1px black solid;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+}
+
+.payment{
+  justify-content: center;
+}
+
+.back-form:hover {
+  background-color: rgb(168, 166, 166);
+}
+
+.back-cart:hover {
+  background-color: rgb(168, 166, 166);
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
+  }
+  .form_confirmation, .cart_confirmation {
+    width: 100%;
+  }
+}
