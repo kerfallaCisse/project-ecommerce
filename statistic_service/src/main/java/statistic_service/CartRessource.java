@@ -14,6 +14,7 @@ import java.util.Optional;
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import statistic_service.model.entity.User;
+import statistic_service.mail.GMailer;
 import statistic_service.model.entity.CustomBag;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
@@ -22,7 +23,9 @@ import java.util.List;
 
 @Path("cart")
 @Transactional
-public class CartRessource {
+public class CartRessource  {
+
+    //GMailer gMailer = new GMailer();
 
     @POST
     @Path("add")
@@ -92,6 +95,32 @@ public class CartRessource {
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @POST
+    @Path("confirmation")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getDeliveryInfos(JsonObject jsonObject) {
+
+        String firtsName = jsonObject.getString("firstname");
+        String lastName = jsonObject.getString("lastName");
+        String address = jsonObject.getString("address");
+        String zipCode = jsonObject.getString("zipCode");
+        String town =  jsonObject.getString("town");
+        String country = jsonObject.getString("country");
+        String email = jsonObject.getString("email");
+        String phoneNumber = jsonObject.getString("phoneNumber");
+
+
+        
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("mail")
+    public void testEmail() throws Exception {
+        GMailer gMailer = new GMailer();
+        gMailer.sendEmail("A new message for command confirmation", "Commande confirmation send from invia");
     }
 
 }
