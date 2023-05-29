@@ -27,6 +27,9 @@ public class CustomBag extends PanacheEntity {
     @Column(length = 255)
     private String image;
 
+    @Column
+    private int quantity;
+
 
     
 }

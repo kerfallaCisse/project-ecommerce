@@ -1,7 +1,6 @@
 package statistic_service.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.EntityManager;

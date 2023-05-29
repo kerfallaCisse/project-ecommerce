@@ -8,7 +8,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 @Entity
 public class Color extends PanacheEntity {
 
-    // This entity zs also use for orders
+    // This entity is also use for orders
 
     @Column(length = 100)
     private String name;

@@ -255,17 +255,19 @@ public class StatisticRessource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAbandonedBasket(JsonObject jsonObject) {
         String modelType = jsonObject.getString("modelType");
-        if (!modelType.equals("smallModel") || !modelType.equals("largeModel"))
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        LocalDate currentDate = date.now;
-        AbandonedBasket aBasket = new AbandonedBasket();
-        aBasket.setModelType(modelType);
-        aBasket.setCreated_at(currentDate);
-        aBasket.persist();
-        if (aBasket.isPersistent())
-            return Response.status(Response.Status.CREATED).build();
-
-        return Response.status(Response.Status.NOT_FOUND).build();
+        if (modelType.equals("smallModel") || modelType.equals("largeModel")) {
+            LocalDate currentDate = date.now;
+            AbandonedBasket aBasket = new AbandonedBasket();
+            aBasket.setModelType(modelType);
+            aBasket.setCreated_at(currentDate);
+            aBasket.persist();
+            if (aBasket.isPersistent())
+                return Response.status(Response.Status.CREATED).build();
+            else
+                return Response.status(Response.Status.NOT_FOUND).build();
+        }
+            
+        return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
 

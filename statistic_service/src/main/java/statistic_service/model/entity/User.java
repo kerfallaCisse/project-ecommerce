@@ -2,13 +2,19 @@ package statistic_service.model.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import lombok.Data;
+
 import java.time.LocalDate;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 @Entity
+@Data
 public class User extends PanacheEntity {
+
+    @Column
+    Long id;
 
     @Column(length = 100)
     private String name;
