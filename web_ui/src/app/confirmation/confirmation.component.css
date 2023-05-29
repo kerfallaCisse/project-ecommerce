@@ -34,13 +34,17 @@ p {
 
 .back-form, .back-cart {
   font-size: large;
-  margin-top: 10px;
   border-radius: 0.5em;
   padding: 1% 1% 1% 1%;
   border: 1px black solid;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
+  margin-top: auto;
+}
+
+.payment{
+  justify-content: center;
 }
 
 .back-form:hover {
@@ -49,4 +53,13 @@ p {
 
 .back-cart:hover {
   background-color: rgb(168, 166, 166);
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
+  }
+  .form_confirmation, .cart_confirmation {
+    width: 100%;
+  }
 }
