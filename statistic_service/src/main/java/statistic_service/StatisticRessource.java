@@ -20,7 +20,6 @@ import statistic_service.model.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import jakarta.ws.rs.core.Response;
 
 @Path("/statistics")
@@ -150,9 +149,18 @@ public class StatisticRessource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response addOrders(JsonObject jsonObject) {
-        String pocketColor = jsonObject.getString("pocket");
-        String bagColor = jsonObject.getString("bag");
-        Integer quantity = (Integer) jsonObject.getInt("quantity");
+        String pocketColor;
+        String bagColor;
+        Integer quantity;
+        try {
+            pocketColor = jsonObject.getString("pocket");
+            bagColor = jsonObject.getString("bag");
+            quantity = (Integer) jsonObject.getInt("quantity");
+        } catch (NullPointerException e) {
+            System.err.println(e.getMessage());
+            System.err.println(e.getStackTrace());
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         if (pocketColor == null || bagColor == null || quantity == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -254,21 +262,27 @@ public class StatisticRessource {
     @Path("abandoned_basket")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAbandonedBasket(JsonObject jsonObject) {
-        String modelType = jsonObject.getString("modelType");
-        if (modelType.equals("smallModel") || modelType.equals("largeModel")) {
-            LocalDate currentDate = date.now;
-            AbandonedBasket aBasket = new AbandonedBasket();
-            aBasket.setModelType(modelType);
-            aBasket.setCreated_at(currentDate);
-            aBasket.persist();
-            if (aBasket.isPersistent())
-                return Response.status(Response.Status.CREATED).build();
-            else
-                return Response.status(Response.Status.NOT_FOUND).build();
+        String modelType;
+        try {
+            modelType = jsonObject.getString("modelType");
+            if (modelType.equals("smallModel") || modelType.equals("largeModel")) {
+                LocalDate currentDate = date.now;
+                AbandonedBasket aBasket = new AbandonedBasket();
+                aBasket.setModelType(modelType);
+                aBasket.setCreated_at(currentDate);
+                aBasket.persist();
+                if (aBasket.isPersistent())
+                    return Response.status(Response.Status.CREATED).build();
+                else
+                    return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        } catch (NullPointerException e) {
+            System.err.println(e.getMessage());
+            System.err.println(e.getStackTrace());
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-            
+  
         return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
-
 }
