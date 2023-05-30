@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, AfterViewInit} from '@angular/core';
+import {CustomizationService} from '../services/customization/customization.service';
 
 import { Color, MeshStandardMaterial } from 'three';
 
@@ -9,19 +10,32 @@ let number = 0;
 let variable: boolean = false
 let changer_sac = false
 
+export interface Iteme {
+
+  modelType: string;
+  color_pocket_name: string;
+  color_bag_name: string;
+  quantity: number;
+  file: File | null;
+}
+
 @Component({
   selector: 'app-customization',
   templateUrl: './customization.component.html',
-  styleUrls: ['./customization.component.css']
+  styleUrls: ['./customization.component.css'],
+  providers: [CustomizationService]
 })
 
 
 
 export class CustomizationComponent implements AfterViewInit {
+  
   selectedColor_pocket: string = "nothing";
   maValeur: number = 1;
   tab: string[] = [];
   fileName = '';
+  tab_real_ai: {modelType: string,color_pocket_name: string,color_bag_name: string,quantity: number,fichier: File,}[] = [];
+
   
 
   
@@ -30,16 +44,17 @@ export class CustomizationComponent implements AfterViewInit {
 
   fileToUpload: File | null = null;
 
+
  handleFileInput(event: Event) {
     const fileInput = event.target as HTMLInputElement;
   
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const file: File = fileInput.files[0];
       // Effectuer les opérations nécessaires avec le fichier sélectionné
-      console.log("on est la mon gar")
-      console.log(file);
+      // console.log("on est la mon gar")
+      // console.log(file);
       this.fileToUpload = file
-      console.log(this.fileToUpload)
+      //console.log(this.fileToUpload)
 
     }
   }
@@ -58,21 +73,38 @@ export class CustomizationComponent implements AfterViewInit {
      }
   }
 
+  constructor(private customizationService: CustomizationService) {}
+
   change_colors(endroit:boolean,color:string){
     
     if(endroit){
+    
     this.tab[1] = color
     this.my3DScene?.change_color(true,color)
     }if(!endroit){
-     this.tab[2] = color
+    this.tab[2] = color
      this.my3DScene?.change_color(false,color)
     }
   }
 
   finish_(){
-    console.log(this.tab)
+    
+    // console.log(this.tab)
+    // console.log(this.fileToUpload)
     var label = document.getElementById("myLabel");
     label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
+    
+    const data: Iteme = {
+      modelType:  this.tab[0],
+      color_pocket_name: this.tab[1],
+      color_bag_name: this.tab[2],
+      quantity: this.maValeur,
+      file: this.fileToUpload || null
+      
+    };
+
+    console.log(data)
+
   }
 
   button_plus(){
@@ -106,9 +138,18 @@ export class CustomizationComponent implements AfterViewInit {
   fileInput = document.getElementById("fileInput");
 
   ngAfterViewInit() {
-
-
     
+
+    this.customizationService.getQuantityOfUrl().subscribe((dataa: any) => {
+      const quantity = dataa[0].quantity;
+      
+      console.log(quantity)
+      if(quantity > 10){
+        console.log("salut")
+      }
+    
+    })
+
     if(variable === false){
       this.my3DScene = new My3DScene();
       this.my3DScene.render();
@@ -147,9 +188,8 @@ export class My3DScene {
 
 
   constructor() {
-   this.createScene();
+    this.createScene();
     this.init();
-   
   }
 
   private createScene(): void {
