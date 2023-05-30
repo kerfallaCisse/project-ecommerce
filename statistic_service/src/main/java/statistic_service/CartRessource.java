@@ -10,7 +10,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.Optional;
-
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import statistic_service.model.entity.User;
@@ -23,9 +22,7 @@ import java.util.List;
 
 @Path("cart")
 @Transactional
-public class CartRessource  {
-
-    //GMailer gMailer = new GMailer();
+public class CartRessource {
 
     @POST
     @Path("add")
@@ -100,27 +97,81 @@ public class CartRessource  {
     @POST
     @Path("confirmation")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getDeliveryInfos(JsonObject jsonObject) {
+    public Response getDeliveryInfos(JsonObject jsonObject) throws Exception {
 
         String firtsName = jsonObject.getString("firstname");
         String lastName = jsonObject.getString("lastName");
         String address = jsonObject.getString("address");
         String zipCode = jsonObject.getString("zipCode");
-        String town =  jsonObject.getString("town");
+        String town = jsonObject.getString("town");
         String country = jsonObject.getString("country");
         String email = jsonObject.getString("email");
         String phoneNumber = jsonObject.getString("phoneNumber");
 
+        String MESSAGE_TO_INVIA = "New order to be delivered." + "\nCountry: " + country + "\nAddress: " + address
+                + "\nZip code: " + zipCode + "\nTown: " + town + "\nEmail: " + email + "\nPhone number: " + phoneNumber
+                + "\nFirst name: " + firtsName + "\nLast name: " + lastName;
+        String INVIA_SUBJECT = "new command";
+        String CUSTOMER_SUBJECT = "order confirmation";
+        String MESSAGE_TO_CUSTOMER = "We have received your order. Thank you for your purchase. You will receive the bag at the following address: "
+                + "\nCountry: " + country + "\nAddress: " + address
+                + "\nZip code: " + zipCode + "\nTown: " + town;
 
-        
+        GMailer gMailer = new GMailer();
+        String INVIA_EMAIL = "inviabag@gmail.com";
+
+        // We send the email to invia inbox
+        gMailer.sendEmail(INVIA_SUBJECT, MESSAGE_TO_INVIA, INVIA_EMAIL);
+
+        // We send the email to the customer
+        gMailer.sendEmail(CUSTOMER_SUBJECT, MESSAGE_TO_CUSTOMER, email);
+
         return Response.ok().build();
     }
 
     @GET
     @Path("mail")
-    public void testEmail() throws Exception {
-        GMailer gMailer = new GMailer();
-        gMailer.sendEmail("A new message for command confirmation", "Commande confirmation send from invia");
-    }
+    public Response testEmail() {
+        // For testing 
+        String firtsName = "Kerfalla";
+        String lastName = "Cissé";
+        String address = "XXXX";
+        String zipCode = "5000";
+        String town = "Geneva";
+        String country = "Switzerland";
+        String email = "kerfciss@gmail.com";
+        String phoneNumber = "+41 80 800 80 80";
 
+        String MESSAGE_TO_INVIA = "New order to be delivered." + "\nCountry: " + country + "\nAddress: " + address
+                + "\nZip code: " + zipCode + "\nTown: " + town + "\nEmail: " + email + "\nPhone number: " + phoneNumber
+                + "\nFirst name: " + firtsName + "\nLast name: " + lastName;
+        String INVIA_SUBJECT = "new command";
+        String CUSTOMER_SUBJECT = "order confirmation";
+        String MESSAGE_TO_CUSTOMER = "We have received your order. Thank you for your purchase. You will receive the bag at the following address: "
+                + "\nCountry: " + country + "\nAddress: " + address
+                + "\nZip code: " + zipCode + "\nTown: " + town;
+
+        try {
+            GMailer gMailer = new GMailer();
+            String INVIA_EMAIL = "inviabag@gmail.com";
+    
+            // We send the email to invia inbox
+            gMailer.sendEmail(INVIA_SUBJECT, MESSAGE_TO_INVIA, INVIA_EMAIL);
+    
+            // We send the email to the customer
+            gMailer.sendEmail(CUSTOMER_SUBJECT, MESSAGE_TO_CUSTOMER, email);
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(e.getStackTrace());
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+
+        return Response.status(Response.Status.OK).build();
+        
+
+
+
+
+    }
 }

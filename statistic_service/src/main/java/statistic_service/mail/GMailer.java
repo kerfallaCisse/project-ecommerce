@@ -24,7 +24,6 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
@@ -32,28 +31,46 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Message;
 
+import java.nio.file.Path;
+import java.io.FileInputStream;
+
 public class GMailer {
-    private static final String TEST_EMAIL_ADRESS = "inviabag@gmail.com";
+    private static final String INVIA_EMAIL = "inviabag@gmail.com";
+
     Gmail service;
 
+    private static final String APPLICATION_NAME = "Projet info";
+
+    private static final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+
+    // Directory to store authorization tokens for this application
+    private static final String TOKENS_DIRECTORY_PATH = "src/main/resources/tokens";
+
+
+    private static final Path path = Paths.get(
+            "src/main/resources/client_secret_1071445554883-33dj6kj0ps9dme1g22qntoaau2v8a12p.apps.googleusercontent.com.json");
+
+    private static final String CREDENTIALS_FILE_PATH = path.toAbsolutePath().toString();
+
     public GMailer() throws IOException, GeneralSecurityException {
-        GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+        System.out.println(CREDENTIALS_FILE_PATH);
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        service = new Gmail.Builder(httpTransport, jsonFactory, getCredentials(httpTransport, jsonFactory))
-                .setApplicationName("Projet info")
+        service = new Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
+                .setApplicationName(APPLICATION_NAME)
                 .build();
     }
 
-    public void sendEmail(String subject, String message)
+    public void sendEmail(String subject, String message, String recipient)
             throws IOException, AddressException, MessagingException, GeneralSecurityException {
         // Création du message
         Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props);
+        Session session = Session.getDefaultInstance(props, null);
         MimeMessage email = new MimeMessage(session);
-        email.setFrom(new InternetAddress(TEST_EMAIL_ADRESS));
-        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(TEST_EMAIL_ADRESS));
+        email.setFrom(new InternetAddress(INVIA_EMAIL));
+        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient)); 
         email.setSubject(subject);
         email.setText(message);
+        
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
@@ -80,14 +97,17 @@ public class GMailer {
 
     }
 
-    private static Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
+    // Authorize credential object
+    private static Credential getCredentials(final NetHttpTransport httpTransport)
             throws IOException {
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory,
-                new InputStreamReader(GMailer.class.getResourceAsStream(
-                        "ressources/client_secret_1071445554883-33dj6kj0ps9dme1g22qntoaau2v8a12p.apps.googleusercontent.com.json")));
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, jsonFactory,
-                clientSecrets, Set.of(GmailScopes.GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
+
+        FileInputStream fis = new FileInputStream(CREDENTIALS_FILE_PATH);
+
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
+                new InputStreamReader(fis));
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY,
+                clientSecrets, Set.of(GmailScopes.GMAIL_SEND)) // This application is only able to send email
+                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
 
