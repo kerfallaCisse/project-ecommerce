@@ -15,6 +15,9 @@
     <quarkus.platform.version>2.16.6.Final</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
+    <jacoco.version>0.8.7</jacoco.version>
+    <aggregate.report.dir>./target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir> 
+    <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -120,6 +123,28 @@
           </execution>
         </executions>
       </plugin>
+       <plugin> 
+         <groupId>org.jacoco</groupId> 
+        <artifactId>jacoco-maven-plugin</artifactId> 
+        <version>${jacoco.version}</version> 
+        <configuration> <!-- Rest of your configuration, if any --> 
+        <formats>XML</formats> 
+          </configuration> 
+          <executions> <execution> 
+            <id>prepare-unit-tests</id> 
+            <goals> 
+              <goal>prepare-agent</goal> 
+              </goals> 
+              </execution> 
+              <execution> 
+                <id>report</id> 
+                <phase>prepare-package</phase> 
+                <goals> 
+                  <goal>report</goal> 
+                </goals> 
+              </execution> 
+              </executions> 
+              </plugin>
     </plugins>
   </build>
   <profiles>

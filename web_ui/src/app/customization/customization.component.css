@@ -79,12 +79,13 @@ margin-top: 50%;
 }
 
 #cart_button{
-margin-top: 55%
+margin-top: 105%
 }
 
-#cart_button{
+#lautre3{
 margin-top: 70%;
 }
+
 
 #size{
 margin-top: 10%;
@@ -112,10 +113,11 @@ border-radius: 10px;
 
 #grand_formu{
 position: absolute;
-background-color: rgba(230, 230, 230, 0.35);
+/* background-color: rgba(230, 230, 230, 0.35); */
+background-color: #FF0000;
 margin-left: 3%;
 width: 400px;
-height: 400px;
+height: 500px;
 display: flex;
 text-align: center;
 justify-content: space-between;
@@ -139,6 +141,7 @@ font-size: 50px;
   background-color: white;
   border: none
   ;
+
 }
 
 #bag_color{
@@ -171,12 +174,54 @@ position: absolute;
 #myLabel {
   display: none; 
   font-family: "Aldrich";
-  margin-top: 85%;
-  margin-left: 17%;
+  margin-top: 120%;
+  margin-right: 25%;
   align-items: center;
   justify-content: center;
 }
 
 #white {
   background-color: black;
+}
+
+#monElement{
+  color: black;
+  font-family: "Aldrich";
+  font-size: 20px;
+  margin-top: 5%;
+}
+
+#button_plus{
+  border-radius: 5px;
+  border: none;
+  background-color: black;
+  color: white;
+  
+  text-align: center;
+}
+#button_moins{
+  border-radius: 5px;
+  border: none;
+  background-color: black;
+  color: white;
+  
+  text-align: center; 
+}
+
+
+#lautre4{
+  margin-top: 88%;
+}
+
+#monFormulaire{
+  font-family: "Aldrich";
+  color: black;
+}
+
+
+#quantity{
+  font-family: "Aldrich";
+  
+  margin-top: 65%;
+  margin-left: 20%;
 }
