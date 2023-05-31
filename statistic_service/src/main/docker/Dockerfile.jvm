@@ -81,11 +81,6 @@ FROM registry.access.redhat.com/ubi8/openjdk-17:1.14
 
 ENV LANGUAGE='en_US:en'
 
-# Create a new directory
-RUN mkdir -p /app/src/main/resources/tokens
-
-# Copy the secret file into the Docker image
-COPY --chown=185 src/main/resources/tokens /app/src/main/resources/tokens
 
 # We make four distinct layers so if there are application changes the library layers can be re-used
 COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
@@ -97,4 +92,6 @@ EXPOSE 8080
 USER 185
 ENV JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
+
+
 
