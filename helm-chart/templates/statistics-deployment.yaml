@@ -47,7 +47,7 @@ spec:
                   key: key
           volumeMounts:
             - name: google-api-mount
-              mountPath: /app/src/main/resources/tokens
+              mountPath: /deployments/src/main/resources/tokens
       volumes:
         - name: google-api-mount
           secret:
