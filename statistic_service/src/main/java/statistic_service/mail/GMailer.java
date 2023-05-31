@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 
-
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
