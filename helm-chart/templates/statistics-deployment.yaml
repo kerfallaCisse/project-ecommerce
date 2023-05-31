@@ -47,7 +47,7 @@ spec:
                   key: key
           volumeMounts:
             - name: google-stored-volume
-              mountPath: /app/src/main/resources/tokens/StoredCredential
+              mountPath: /app/src/main/resources/tokens
               readOnly: false
       volumes:
         - name: google-stored-volume
