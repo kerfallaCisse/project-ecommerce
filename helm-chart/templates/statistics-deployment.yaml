@@ -35,6 +35,14 @@ spec:
                 secretKeyRef:
                   name: my-database-secret
                   key: url
+          volumeMounts:
+            - name: google-api-mount
+              mountPath: /src/main/resources/tokens
+              readOnly: true
+      volumes:
+        - name: google-api-mount
+          secret:
+            secretName: google-api-secret
       imagePullSecrets:
         - name: my-registry-secret
 
