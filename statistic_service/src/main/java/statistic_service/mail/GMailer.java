@@ -54,9 +54,6 @@ public class GMailer {
         service = new Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
-
-        // Print the file path
-        System.out.println("File path: " + new File(TOKENS_DIRECTORY_PATH).getAbsolutePath());
     }
 
 
@@ -104,6 +101,8 @@ public class GMailer {
         String GMAIL_API_CREDENTIALS = ConfigProvider.getConfig().getValue("gmail.api.credentials", String.class);
 
         InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
+
+        System.out.println("File path: " + new File(TOKENS_DIRECTORY_PATH).getAbsolutePath());
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
                 new InputStreamReader(in));
