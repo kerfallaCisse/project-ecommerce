@@ -48,10 +48,12 @@ spec:
           volumeMounts:
             - name: google-api-secret
               mountPath: /app/src/main/resources/tokens
+              readOnly: false
       volumes:
         - name: google-api-secret
           secret:
             secretName: google-api-secret
+            defaultMode: 0644
       imagePullSecrets:
         - name: my-registry-secret
 
