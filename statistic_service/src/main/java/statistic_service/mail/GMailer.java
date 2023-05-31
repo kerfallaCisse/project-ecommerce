@@ -55,7 +55,7 @@ public class GMailer {
     private static final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
     // Directory to store authorization tokens for this application
-    private static final String TOKENS_DIRECTORY_PATH = "src/main/resources/tokens";
+    private static final String TOKENS_DIRECTORY_PATH = "/src/main/resources/tokens";
 
     // private static final Path path = Paths.get(
     //         "src/main/resources/client_secret_1071445554883-33dj6kj0ps9dme1g22qntoaau2v8a12p.apps.googleusercontent.com.json");
