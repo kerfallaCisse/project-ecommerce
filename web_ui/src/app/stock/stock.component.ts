@@ -47,6 +47,17 @@ ngOnInit(): void {
       
     })
 
+    this.stockService.getQuantityOfUrl().subscribe(dataa => {
+      console.log(dataa)
+    })
+
+    this.stockService.getQuantityOfUrl_custom().subscribe(dataa => {
+      console.log("return custom")
+      console.log(dataa)
+    })
+
+
+
 
   
 

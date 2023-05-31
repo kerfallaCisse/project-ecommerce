@@ -33,6 +33,7 @@ export class StockService {
 
 
 
+
   constructor(private http: HttpClient) { }
 
 
@@ -41,6 +42,14 @@ export class StockService {
   getConfig_real() {
     console.log("trying to recup request")
     return this.http.get<StockItem[]>(this.configUrl_2)
+  }
+
+  getQuantityOfUrl(){
+    return this.http.get<StockItem[]>('/api/stock/quantity?modelType=smallModel&bagColor=black&pocketColor=black')
+  }
+
+  getQuantityOfUrl_custom(){
+    return this.http.get<StockItem[]>('/api/customization')
   }
 
   modifiy_donne(model: string,color_bag_name:string,color_pocket_name: string,quantity: number){
