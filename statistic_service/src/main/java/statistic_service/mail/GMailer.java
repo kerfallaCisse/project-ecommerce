@@ -123,19 +123,28 @@ public class GMailer {
             System.out.println("Directory does not exist or is not a directory.");
         }
 
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
-                new InputStreamReader(in));
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY,
-                clientSecrets, Set.of(GmailScopes.GMAIL_SEND)) // This application is only able to send email
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+    GoogleAuthorizationCodeFlow flow;
+    try {
+        flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
+                Set.of(GmailScopes.GMAIL_SEND))
+                .setDataStoreFactory(new FileDataStoreFactory(directory))
                 .setAccessType("offline")
                 .build();
-
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        // Authorisatin de l'utilisateur
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-
+    } catch (IOException e) {
+        System.out.println("Failed to build GoogleAuthorizationCodeFlow: " + e.getMessage());
+        throw e;
     }
+
+    LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+    // Authorize the user
+    try {
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    } catch (IOException e) {
+        System.out.println("Failed to authorize the user: " + e.getMessage());
+        throw e;
+    }
+}
     
 
 }
