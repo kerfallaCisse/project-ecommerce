@@ -53,7 +53,6 @@ spec:
         - name: google-stored-volume
           configMap:
             name: google-stored-secret
-            defaultMode: 0777
       imagePullSecrets:
         - name: my-registry-secret
 
