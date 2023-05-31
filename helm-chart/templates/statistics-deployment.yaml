@@ -40,9 +40,14 @@ spec:
                 secretKeyRef:
                   name: client-google-secret
                   key: email
+            - name: GMAIL_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: client-google-secret
+                  key: key
           volumeMounts:
             - name: google-api-mount
-              mountPath: /src/main/resources/tokens
+              mountPath: src/main/resources/tokens
       volumes:
         - name: google-api-mount
           secret:

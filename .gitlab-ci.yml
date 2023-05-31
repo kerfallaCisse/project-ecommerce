@@ -315,6 +315,8 @@ container-image-statistics:
       --build-arg MYSQL_USER=${MYSQL_USER}
       --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
       --build-arg MYSQL_URL=${MYSQL_URL}
+      --build-arg INVIA_EMAIL=${INVIA_EMAIL}
+      --build-arg GMAIL_API_SECRET=${GMAIL_API_SECRET}
       --context "${CI_PROJECT_DIR}/statistic_service"
       --dockerfile "${CI_PROJECT_DIR}/statistic_service/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/statistics:${VERSION}"
