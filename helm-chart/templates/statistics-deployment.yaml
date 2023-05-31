@@ -35,6 +35,11 @@ spec:
                 secretKeyRef:
                   name: my-database-secret
                   key: url
+            - name: INVIA_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: client-google-secret
+                  key: email
           volumeMounts:
             - name: google-api-mount
               mountPath: /src/main/resources/tokens
