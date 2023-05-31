@@ -1,9 +1,11 @@
 package statistic_service.mail;
 
+// import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Paths;
+// import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 import java.util.Set;
@@ -30,14 +32,23 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Message;
+import com.google.common.io.CharSource;
 
-import java.nio.file.Path;
-import java.io.FileInputStream;
+import jakarta.enterprise.context.ApplicationScoped;
 
+import org.eclipse.microprofile.config.ConfigProvider;
+
+import java.nio.charset.StandardCharsets;
+// import java.nio.file.Path;
+// import java.io.FileInputStream;
+
+@ApplicationScoped
 public class GMailer {
-    private static final String INVIA_EMAIL = "inviabag@gmail.com";
 
     Gmail service;
+
+    // @ConfigProperty(name = "invia")
+    // String INVIA_EMAIL;
 
     private static final String APPLICATION_NAME = "Projet info";
 
@@ -46,14 +57,12 @@ public class GMailer {
     // Directory to store authorization tokens for this application
     private static final String TOKENS_DIRECTORY_PATH = "src/main/resources/tokens";
 
+    // private static final Path path = Paths.get(
+    //         "src/main/resources/client_secret_1071445554883-33dj6kj0ps9dme1g22qntoaau2v8a12p.apps.googleusercontent.com.json");
 
-    private static final Path path = Paths.get(
-            "src/main/resources/client_secret_1071445554883-33dj6kj0ps9dme1g22qntoaau2v8a12p.apps.googleusercontent.com.json");
-
-    private static final String CREDENTIALS_FILE_PATH = path.toAbsolutePath().toString();
+    // private static final String CREDENTIALS_FILE_PATH = path.toAbsolutePath().toString();
 
     public GMailer() throws IOException, GeneralSecurityException {
-        System.out.println(CREDENTIALS_FILE_PATH);
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         service = new Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
                 .setApplicationName(APPLICATION_NAME)
@@ -66,11 +75,11 @@ public class GMailer {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         MimeMessage email = new MimeMessage(session);
+        String INVIA_EMAIL = ConfigProvider.getConfig().getValue("invia.email", String.class);
         email.setFrom(new InternetAddress(INVIA_EMAIL));
-        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient)); 
+        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipient));
         email.setSubject(subject);
         email.setText(message);
-        
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
@@ -101,10 +110,15 @@ public class GMailer {
     private static Credential getCredentials(final NetHttpTransport httpTransport)
             throws IOException {
 
-        FileInputStream fis = new FileInputStream(CREDENTIALS_FILE_PATH);
+        // Convert to string to input stream
+        // FileInputStream fis = new FileInputStream(CREDENTIALS_FILE_PATH);
+
+        String GMAIL_API_CREDENTIALS = ConfigProvider.getConfig().getValue("gmail.api.credentials", String.class);
+
+        InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
-                new InputStreamReader(fis));
+                new InputStreamReader(in));
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY,
                 clientSecrets, Set.of(GmailScopes.GMAIL_SEND)) // This application is only able to send email
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
