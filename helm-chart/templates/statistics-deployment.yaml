@@ -46,10 +46,10 @@ spec:
                   name: client-google-secret
                   key: key
           volumeMounts:
-            - name: google-api-mount
+            - name: google-api-secret
               mountPath: /app/src/main/resources/tokens
       volumes:
-        - name: google-api-mount
+        - name: google-api-secret
           secret:
             secretName: google-api-secret
       imagePullSecrets:

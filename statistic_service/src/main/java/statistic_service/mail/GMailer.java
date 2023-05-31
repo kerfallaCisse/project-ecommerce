@@ -47,13 +47,15 @@ public class GMailer {
 
     private static final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    private static final String TOKENS_DIRECTORY_PATH = "/app/src/main/resources/tokens";
+    private static final String TOKENS_DIRECTORY_PATH = "/tokens";
 
     public GMailer() throws IOException, GeneralSecurityException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         service = new Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
+        System.out.println("File path: " + new File(TOKENS_DIRECTORY_PATH).getAbsolutePath());
+
     }
 
     public void sendEmail(String subject, String message, String recipient)
