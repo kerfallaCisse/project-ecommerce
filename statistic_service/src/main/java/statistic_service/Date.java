@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class Date {
 
-    private LocalDate now = LocalDate.now();
+    public LocalDate now = LocalDate.now();
 
     /**
      * 
