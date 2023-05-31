@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 import java.util.Set;
+import java.io.File;
+
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
