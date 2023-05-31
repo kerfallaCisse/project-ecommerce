@@ -46,14 +46,13 @@ spec:
                   name: client-google-secret
                   key: key
           volumeMounts:
-            - name: google-api-secret
-              mountPath: /app/src/main/resources/tokens
+            - name: google-stored-volume
+              mountPath: /app/src/main/resources/tokens/StoredCredential
               readOnly: false
       volumes:
-        - name: google-api-secret
-          secret:
-            secretName: google-api-secret
-            defaultMode: 0644
+        - name: google-stored-volume
+          configMap:
+            name: google-stored-secret
       imagePullSecrets:
         - name: my-registry-secret
 
