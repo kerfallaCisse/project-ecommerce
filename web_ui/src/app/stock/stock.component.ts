@@ -41,6 +41,7 @@ ngOnInit(): void {
     this.stockService.getConfig_real().subscribe(data2 => { // la vrai de vrai 
 
       this.tab_real = data2
+      
 
       console.log(this.tab_real)
       this.func_resume_stock()

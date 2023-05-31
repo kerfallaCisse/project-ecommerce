@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable,HostListener } from '@angular/core';
 import { My3DScene } from 'src/app/customization/customization.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -10,6 +10,7 @@ export interface Cart {
   pocketColor: string
   image: string
   logo: number 
+  quantity:number
 }
 
 @Injectable({
@@ -24,6 +25,7 @@ export class CustomizationService {
   private modelInstance: My3DScene | null = null;
   public isVisible: boolean = false;
 
+ 
 
   getQuantityOfUrl(model:String,bagcolor:string,pocketColor:string){
     return this.http.get<number>('/api/stock/quantity?modelType='+model+'&bagColor='+ bagcolor + '&pocketColor='+pocketColor)
@@ -38,8 +40,13 @@ export class CustomizationService {
       pocketColor: pocketColor,
       image: image,
       logo: logo,
+      quantity: 2,
     }
-  
+    console.log("a envoyer")
+    console.log(data_cart)
+    this.http.post<Cart>("api/statistics/cart/add",data_cart).subscribe(response => { 
+      console.log(response)
+    })
   }
 
 
