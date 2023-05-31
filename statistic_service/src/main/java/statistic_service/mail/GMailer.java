@@ -1,11 +1,9 @@
 package statistic_service.mail;
 
-// import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-// import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 import java.util.Set;
@@ -39,28 +37,17 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import java.nio.charset.StandardCharsets;
-// import java.nio.file.Path;
-// import java.io.FileInputStream;
 
 @ApplicationScoped
 public class GMailer {
 
     Gmail service;
 
-    // @ConfigProperty(name = "invia")
-    // String INVIA_EMAIL;
-
     private static final String APPLICATION_NAME = "Projet info";
 
     private static final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    // Directory to store authorization tokens for this application
     private static final String TOKENS_DIRECTORY_PATH = "src/main/resources/tokens";
-
-    // private static final Path path = Paths.get(
-    //         "src/main/resources/client_secret_1071445554883-33dj6kj0ps9dme1g22qntoaau2v8a12p.apps.googleusercontent.com.json");
-
-    // private static final String CREDENTIALS_FILE_PATH = path.toAbsolutePath().toString();
 
     public GMailer() throws IOException, GeneralSecurityException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -110,9 +97,6 @@ public class GMailer {
     private static Credential getCredentials(final NetHttpTransport httpTransport)
             throws IOException {
 
-        // Convert to string to input stream
-        // FileInputStream fis = new FileInputStream(CREDENTIALS_FILE_PATH);
-
         String GMAIL_API_CREDENTIALS = ConfigProvider.getConfig().getValue("gmail.api.credentials", String.class);
 
         InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
@@ -130,4 +114,6 @@ public class GMailer {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
     }
+    
+
 }

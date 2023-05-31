@@ -1,6 +1,7 @@
 package statistic_service;
 
 import jakarta.persistence.EntityManager;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -17,6 +18,7 @@ import statistic_service.model.entity.AbandonedBasket;
 import statistic_service.model.entity.Color;
 import statistic_service.model.entity.Profit;
 import statistic_service.model.entity.User;
+import jakarta.ws.rs.QueryParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,8 @@ public class StatisticRessource {
     EntityManager colorEntityManager = Color.getEntityManager();
 
     List<LocalDate> datesLastThreeMonths = date.getDatesLastThreeMonths();
+
+    CartRessource cartRessource = new CartRessource();
 
     @GET
     @Path("users/last_week")
@@ -285,4 +289,40 @@ public class StatisticRessource {
         return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
+
+    @Path("cart/add")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addUserCart(JsonObject jsonObject) {
+        if(cartRessource.addToCart(jsonObject)) {
+            return Response.status(Response.Status.OK).build();
+        }
+
+         return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @Path("cart")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserCart(@QueryParam("email") String email) {
+        JsonArray jsonObject = cartRessource.getUserCart(email);
+        if (jsonObject == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(jsonObject).build();
+    }
+
+
+    @Path("cart/confirmation")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getDeliveryInfosSendMail(JsonObject jsonObject) {
+        if(cartRessource.getDeliveryInfos(jsonObject)) {
+            return Response.status(Response.Status.OK).build();
+        }
+
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
 }
