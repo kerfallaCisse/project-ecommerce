@@ -28,6 +28,7 @@ public class PaymentRestService {
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject checkoutSession(Basket basket) throws StripeException{
         JsonObject session = payment.createCheckoutSession(basket);
+        //return Response.ok(session).build();
         return session;
     }
 

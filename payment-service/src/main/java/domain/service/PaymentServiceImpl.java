@@ -26,11 +26,11 @@ public class PaymentServiceImpl implements PaymentService{
     @ConfigProperty(name = "stripe.api.key") 
     String apiKey;
 
-    @ConfigProperty(name = "successURL") 
-    String success;
+    // @ConfigProperty(name = "successURL") 
+    // String success;
     
-    @ConfigProperty(name = "cancelURL") 
-    String cancel;
+    // @ConfigProperty(name = "cancelURL") 
+    // String cancel;
 
     public PaymentServiceImpl(){}
     
@@ -50,8 +50,8 @@ public class PaymentServiceImpl implements PaymentService{
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-                .setSuccessUrl(success)
-                .setCancelUrl(cancel)
+                .setSuccessUrl("http://localhost:8080/success.html")
+                .setCancelUrl("http://localhost:8080/cancel.html")
                 .setCurrency("chf")
                 .addAllLineItem(lineItems)
                 .build();
