@@ -8,7 +8,6 @@ import { Color, MeshStandardMaterial } from 'three';
 let number = 0;
 let variable: boolean = false
 let changer_sac = false
-
 @Component({
   selector: 'app-customization',
   templateUrl: './customization.component.html',
@@ -19,31 +18,12 @@ let changer_sac = false
 
 export class CustomizationComponent implements AfterViewInit {
   selectedColor_pocket: string = "nothing";
-  maValeur: number = 1;
   tab: string[] = [];
-  fileName = '';
-  
 
-  
 
   private my3DScene: My3DScene | undefined;
-
-  fileToUpload: File | null = null;
-
- handleFileInput(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
   
-    if (fileInput && fileInput.files && fileInput.files.length > 0) {
-      const file: File = fileInput.files[0];
-      // Effectuer les opérations nécessaires avec le fichier sélectionné
-      console.log("on est la mon gar")
-      console.log(file);
-      this.fileToUpload = file
-      console.log(this.fileToUpload)
-
-    }
-  }
-
+  
 
   change_size(taille:number) { // model 40L
     
@@ -75,26 +55,6 @@ export class CustomizationComponent implements AfterViewInit {
     label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
   }
 
-  button_plus(){
-    this.maValeur += 1
-    
-    var element = document.getElementById("monElement");
-    if (element) {
-      element.textContent = this.maValeur.toString();
-    }
-  }
-
-  button_moins(){
-    if (this.maValeur != 1) {
-    this.maValeur -= 1
-    
-    var element = document.getElementById("monElement");
-    if (element) {
-      element.textContent = this.maValeur.toString();
-    }
-  } 
-  }
-
   
 
 
@@ -103,21 +63,14 @@ export class CustomizationComponent implements AfterViewInit {
     this.my3DScene!.model.clear();
   }
 
-  fileInput = document.getElementById("fileInput");
 
   ngAfterViewInit() {
-
-
     
     if(variable === false){
       this.my3DScene = new My3DScene();
       this.my3DScene.render();
       variable = true
      number += 1
-    }
-    var element = document.getElementById("monElement");
-    if (element) {
-      element.textContent = this.maValeur.toString();
     }
   }
 }
@@ -292,5 +245,4 @@ export class My3DScene {
 
 
 
-  
 
