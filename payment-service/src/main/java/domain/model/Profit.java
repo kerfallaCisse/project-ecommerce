@@ -1,10 +1,10 @@
 package domain.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import lombok.Data;
-import java.time.LocalDate;
 
 
 @Data
