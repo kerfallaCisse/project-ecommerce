@@ -1,0 +1,81 @@
+body{
+    background-color: rgb(240, 240, 240);
+}
+
+#carte_panier{
+    
+    background-color: white;
+    width: 1000px;
+    margin-top: 1%;
+    border-radius: 10px;
+}
+
+#image{
+    font-family: 'Gentium Book Plus', serif;
+    height: 200px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#titre_1{
+    font-family: 'Aldrich', serif;
+    font-size: 30px;
+}
+
+#titre_2{
+    font-family: 'Aldrich', serif;
+    font-size: 15px;
+}
+
+.container{
+    display: flex;
+   
+}
+
+.article{
+    
+    display: flex;
+    flex-direction: column;
+    margin: 50px 10px 10px 10px;
+    
+}
+
+.article img {
+    width: 100px; /* Ajustez la taille de l'image selon vos besoins */
+    height: auto;
+    margin-right: 10px;
+    font-family: 'Aldrich', serif;
+}
+
+div {
+    font-family: 'Aldrich', serif;
+}
+p {
+    font-family: 'Aldrich', serif;
+}
+
+.checkout{
+    position: absolute;
+    
+    margin-left: 70%;
+    height: 200px;
+   
+    justify-content: center;
+    text-align: center;
+    margin-top: 10%;
+}
+
+#inte{
+    font-size: 20px;
+}
+
+#button{
+    margin-top: 3%;
+    border-radius: 10px;
+    background-color: greenyellow;
+    border: none;
+}
+#oh{
+    
+    margin-top: 10%;
+}

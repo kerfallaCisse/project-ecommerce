@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import {Component,OnInit, AfterViewInit} from '@angular/core';
+import {Component,OnInit, HostListener , AfterViewInit} from '@angular/core';
 import {CustomizationService} from '../services/customization/customization.service';
 
 import { Color, MeshStandardMaterial } from 'three';
@@ -28,16 +28,16 @@ export interface Iteme {
 
 
 
-export class CustomizationComponent implements AfterViewInit {
+export class CustomizationComponent implements OnInit {
   
   selectedColor_pocket: string = "nothing";
   maValeur: number = 1;
-  price = 130;
+  
   tab: string[] = [];
   fileName = '';
   tab_real_ai: {modelType: string,color_pocket_name: string,color_bag_name: string,quantity: number,fichier: File,}[] = [];
   quantity: number = 5
-  
+  pricee = 130
 
   
 
@@ -45,6 +45,8 @@ export class CustomizationComponent implements AfterViewInit {
 
   fileToUpload: File | null = null;
 
+
+ 
 
  handleFileInput(event: Event) {
     const fileInput = event.target as HTMLInputElement;
@@ -58,10 +60,16 @@ export class CustomizationComponent implements AfterViewInit {
 
   change_size(taille:number) { // change la taille du sac quand l'utilisatueur clique sinon c'est 40L par défault 
     if(taille===40){
+    this.maValeur = 1
     this.tab[0] = "smallModel"
     this.cleanScene()
+    
+    this.pricee = 130
     this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
      } if(taille===70) {
+      this.maValeur = 1
+      this.pricee = 150
+      
     this.tab[0] = "largeModel"
     this.cleanScene()
     this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb')
@@ -105,18 +113,9 @@ export class CustomizationComponent implements AfterViewInit {
     if(blabla >= this.maValeur){
       var label = document.getElementById("myLabel");
       label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
-    
-      const data: Iteme = { 
-        modelType:  this.tab[0],
-        color_pocket_name: this.tab[1],
-        color_bag_name: this.tab[2],
-        quantity: this.maValeur,
-        file: this.fileToUpload || null
-      };
-
-      console.log(data)  
+     
       // appel de la fonction qui va faire le post
-
+      this.function_for_make_post()
     }
     else{
       if(this.quantity == 0){
@@ -130,21 +129,24 @@ export class CustomizationComponent implements AfterViewInit {
 
   button_plus(){  // ajoute plus de quantité
     this.maValeur += 1
-    
-    var element = document.getElementById("monElement");
-    if (element) {
-      element.textContent = this.maValeur.toString();
+    console.log(this.pricee,this.maValeur)
+    if(this.tab[0] == undefined || this.tab[0] == "smallModel"){
+      this.pricee += 130
+    }else {
+      this.pricee += 150
     }
   }
 
   button_moins(){ // diminue les quantités 
+    
     if (this.maValeur != 1) {
     this.maValeur -= 1
-    
-    var element = document.getElementById("monElement");
-    if (element) {
-      element.textContent = this.maValeur.toString();
+    if(this.tab[0] == undefined || this.tab[0] == "smallModel"){
+      this.pricee -= 130
+    }else {
+      this.pricee -= 150
     }
+
   } 
   }
 
@@ -164,27 +166,24 @@ export class CustomizationComponent implements AfterViewInit {
 
   fileInput = document.getElementById("fileInput");
 
-  ngAfterViewInit() {
+  ngOnInit  () {
     
 
     
-
+    
     if(variable === false){
       this.my3DScene = new My3DScene();
       this.my3DScene.render();
       variable = true
      number += 1
+    }else{
+      window.location.reload()
+      console.log("salut")
+      this.cleanScene()
+      this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
     }
-    var element = document.getElementById("monElement");
-    if (element) {
-      element.textContent = this.maValeur.toString();
-    }
-    const price = document.getElementById("price");
-    
-    if (price) {
-
-      price.textContent = this.price.toString();
-    }
+   
+   
   }
 }
 
