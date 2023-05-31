@@ -47,7 +47,7 @@ public class GMailer {
 
     private static final GsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    private static final String TOKENS_DIRECTORY_PATH = "src/main/resources/tokens";
+    private static final String TOKENS_DIRECTORY_PATH = "/app/src/main/resources/tokens";
 
     public GMailer() throws IOException, GeneralSecurityException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
