@@ -54,9 +54,11 @@ public class GMailer {
         service = new Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
-        System.out.println("File path: " + new File(TOKENS_DIRECTORY_PATH).getAbsolutePath());
 
+        // Print the file path
+        System.out.println("File path: " + new File(TOKENS_DIRECTORY_PATH).getAbsolutePath());
     }
+
 
     public void sendEmail(String subject, String message, String recipient)
             throws IOException, AddressException, MessagingException, GeneralSecurityException {
