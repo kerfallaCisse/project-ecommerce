@@ -225,3 +225,15 @@ position: absolute;
   margin-top: 65%;
   margin-left: 20%;
 }
+
+.price{
+position: absolute;
+margin-top: 42%;
+margin-left: 53%;
+font-size: 50px;
+}
+
+#price{
+  font-family: "Aldrich";
+}
+

@@ -32,10 +32,11 @@ export class CustomizationComponent implements AfterViewInit {
   
   selectedColor_pocket: string = "nothing";
   maValeur: number = 1;
+  price = 130;
   tab: string[] = [];
   fileName = '';
   tab_real_ai: {modelType: string,color_pocket_name: string,color_bag_name: string,quantity: number,fichier: File,}[] = [];
-
+  quantity: number = 5
   
 
   
@@ -50,24 +51,18 @@ export class CustomizationComponent implements AfterViewInit {
   
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const file: File = fileInput.files[0];
-      // Effectuer les opérations nécessaires avec le fichier sélectionné
-      // console.log("on est la mon gar")
-      // console.log(file);
       this.fileToUpload = file
-      //console.log(this.fileToUpload)
-
     }
   }
 
 
-  change_size(taille:number) { // model 40L
-    
+  change_size(taille:number) { // change la taille du sac quand l'utilisatueur clique sinon c'est 40L par défault 
     if(taille===40){
-    this.tab[0] = "40L"
+    this.tab[0] = "smallModel"
     this.cleanScene()
     this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
      } if(taille===70) {
-    this.tab[0] = "70L"
+    this.tab[0] = "largeModel"
     this.cleanScene()
     this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb')
      }
@@ -75,39 +70,65 @@ export class CustomizationComponent implements AfterViewInit {
 
   constructor(private customizationService: CustomizationService) {}
 
-  change_colors(endroit:boolean,color:string){
+  change_colors(endroit:boolean,color:string){ // change la couleur du sac (pocket et bag)
     
-    if(endroit){
-    
-    this.tab[1] = color
+    if(endroit){ // pocket 
+    if (color == "#0F0F0F"){
+      this.tab[1] = "black"
+    } else if (color == "#500000"){
+      this.tab[1] = "red"
+    } else if (color == "#000060"){
+      this.tab[1] = "blue"
+    }
     this.my3DScene?.change_color(true,color)
     }if(!endroit){
-    this.tab[2] = color
+      if (color == "#0F0F0F"){
+        this.tab[2] = "black"
+      } else if (color == "#500000"){
+        this.tab[2] = "red"
+      } else if (color == "#000060"){
+        this.tab[2] = "blue"
+      }
      this.my3DScene?.change_color(false,color)
     }
   }
 
   finish_(){
+    if (this.tab[0] == undefined){
+       this.tab[0] = "smallModel"
+    }
+    this.customizationService.getQuantityOfUrl(this.tab[0],this.tab[1],this.tab[2]).subscribe((dataa: any) => {
+      this.quantity = dataa[0].quantity;
+      let blabla = dataa[0].quantity;
+   
+    console.log("Quantity : " + blabla)
+    if(blabla >= this.maValeur){
+      var label = document.getElementById("myLabel");
+      label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
     
-    // console.log(this.tab)
-    // console.log(this.fileToUpload)
-    var label = document.getElementById("myLabel");
-    label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
-    
-    const data: Iteme = {
-      modelType:  this.tab[0],
-      color_pocket_name: this.tab[1],
-      color_bag_name: this.tab[2],
-      quantity: this.maValeur,
-      file: this.fileToUpload || null
-      
-    };
+      const data: Iteme = { 
+        modelType:  this.tab[0],
+        color_pocket_name: this.tab[1],
+        color_bag_name: this.tab[2],
+        quantity: this.maValeur,
+        file: this.fileToUpload || null
+      };
 
-    console.log(data)
+      console.log(data)  
+      // appel de la fonction qui va faire le post
 
+    }
+    else{
+      if(this.quantity == 0){
+      alert("Nous sommes désolés, ce modèle n'est plus disponible")
+      }else{
+        alert("Nous somme désolés, il ne reste que " + this.quantity + " sac de ce modèle")
+      }
+    }
+  })
   }
 
-  button_plus(){
+  button_plus(){  // ajoute plus de quantité
     this.maValeur += 1
     
     var element = document.getElementById("monElement");
@@ -116,7 +137,7 @@ export class CustomizationComponent implements AfterViewInit {
     }
   }
 
-  button_moins(){
+  button_moins(){ // diminue les quantités 
     if (this.maValeur != 1) {
     this.maValeur -= 1
     
@@ -128,6 +149,12 @@ export class CustomizationComponent implements AfterViewInit {
   }
 
   
+  function_for_make_post(){
+    const image = "http://res.cloudinary.com/dqvvvce88/image/upload/wz1dbmyo22ohwuug3nbi"
+    const logo = 0
+    const email = "john@gmail.com"
+    this.customizationService.make_post_for_cart(email,this.tab[0],this.tab[1],this.tab[2],image,logo)
+  }
 
 
 
@@ -140,15 +167,7 @@ export class CustomizationComponent implements AfterViewInit {
   ngAfterViewInit() {
     
 
-    this.customizationService.getQuantityOfUrl().subscribe((dataa: any) => {
-      const quantity = dataa[0].quantity;
-      
-      console.log(quantity)
-      if(quantity > 10){
-        console.log("salut")
-      }
     
-    })
 
     if(variable === false){
       this.my3DScene = new My3DScene();
@@ -159,6 +178,12 @@ export class CustomizationComponent implements AfterViewInit {
     var element = document.getElementById("monElement");
     if (element) {
       element.textContent = this.maValeur.toString();
+    }
+    const price = document.getElementById("price");
+    
+    if (price) {
+
+      price.textContent = this.price.toString();
     }
   }
 }
@@ -207,7 +232,7 @@ export class My3DScene {
 
    
 
-    this.pointlight = new THREE.PointLight(0xFFFFF,5,3); // moins futuriste mettre ,3 après 
+    this.pointlight = new THREE.PointLight(0xFFFFF,5,3);  
    
     
 
@@ -275,7 +300,7 @@ export class My3DScene {
         this.model = gltf.scene;
 
         
-        this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x595959)});
+        this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x0F0F0F)});
         this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x000060)});
 
         this.isModelLoaded = true;
