@@ -26,11 +26,11 @@ public class PaymentServiceImpl implements PaymentService{
     @ConfigProperty(name = "stripe.api.key") 
     String apiKey;
 
-    // @ConfigProperty(name = "successURL") 
-    // String success;
+    @ConfigProperty(name = "successURL") 
+    String success;
     
-    // @ConfigProperty(name = "cancelURL") 
-    // String cancel;
+    @ConfigProperty(name = "cancelURL") 
+    String cancel;
 
     public PaymentServiceImpl(){}
     
@@ -39,10 +39,17 @@ public class PaymentServiceImpl implements PaymentService{
         Stripe.apiKey = apiKey;
 
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
+        // Prendre la liste des prodId depuis stripe
         for (Product product : basket.getProducts()) {
+            Integer quantity = (Integer) product.getQuantity();
+            String prod_id = product.getProdId();
+        
+            if (prod_id == null || quantity <= 0 || quantity == null) {
+                return null;
+            } 
             SessionCreateParams.LineItem lineItem = SessionCreateParams.LineItem.builder()
-                    .setQuantity(Long.valueOf(product.getQuantity()))
-                    .setPrice(getPriceId(product.getProdId()))
+                    .setQuantity(Long.valueOf(quantity))
+                    .setPrice(getPriceId(prod_id))
                     .build();
             lineItems.add(lineItem);
         }
@@ -50,8 +57,8 @@ public class PaymentServiceImpl implements PaymentService{
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-                .setSuccessUrl("http://localhost:8080/success.html")
-                .setCancelUrl("http://localhost:8080/cancel.html")
+                .setSuccessUrl(success)
+                .setCancelUrl(cancel)
                 .setCurrency("chf")
                 .addAllLineItem(lineItems)
                 .build();

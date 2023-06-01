@@ -7,11 +7,11 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
 
 @QuarkusTest
 @TestHTTPEndpoint(PaymentRestService.class)
@@ -23,7 +23,7 @@ public class PaymentResourceTest {
 
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         jsonObjectBuilder.add("prodId","");
-        jsonObjectBuilder.add("quantity",2);
+        jsonObjectBuilder.add("quantity",0);
         
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         jsonArrayBuilder.add(jsonObjectBuilder);
@@ -36,7 +36,7 @@ public class PaymentResourceTest {
             .when()
             .post("payment")
             .then()
-            .statusCode(404);
+            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
     }
 
 }
