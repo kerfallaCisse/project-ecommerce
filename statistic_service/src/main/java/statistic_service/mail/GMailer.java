@@ -111,6 +111,27 @@ public class GMailer {
 
         InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
 
+        System.out.println("File path: " + new File(TOKENS_DIRECTORY_PATH).getAbsolutePath());
+        File directory = new File(TOKENS_DIRECTORY_PATH);
+
+        // Check if the directory exists and is a directory
+        if (directory.exists() && directory.isDirectory()) {
+            // Get all files within the directory
+            File[] files = directory.listFiles();
+
+            if (files != null) {
+                // Print the name of each file
+                for (File file : files) {
+                    System.out.println("File: " + file.getName());
+                }
+            } else {
+                System.out.println("No files found in the directory.");
+            }
+        } else {
+            System.out.println("Directory does not exist or is not a directory.");
+        }
+
+
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
                 new InputStreamReader(in));
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY,
