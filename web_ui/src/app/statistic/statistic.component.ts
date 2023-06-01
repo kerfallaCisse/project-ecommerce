@@ -128,7 +128,7 @@ export class StatisticComponent implements OnInit{
 
         const colors_keys = this.colors_info.map(x => x.key);
         const colors_values = this.colors_info.map(x => x.value);
-        this.histo_chart_colors = this.createHistogramChartOption(colors_keys, colors_values);
+        this.histo_chart_colors = this.createPieChartOption(colors_keys, colors_values, colors_keys);
 
         // const basket_keys = this.basket_info.map(x => x.key);
         // const basket_values = this.basket_info.map(x => x.value);
@@ -226,7 +226,7 @@ export class StatisticComponent implements OnInit{
         data: seriesData,
         type: 'line',
         areaStyle: {
-          color: 'rgba(0, 0, 0, 0.5)'
+          color: 'rgba(0, 0, 0, 0.3)'
         },
         lineStyle: {
           color: 'rgb(0, 0, 0)'
@@ -239,56 +239,47 @@ export class StatisticComponent implements OnInit{
   }
 
 
-  createPieChartOption(xData: string[], seriesData: number[]): EChartsOption {
+  createPieChartOption(xData: string[], seriesData: number[], colors: string[]): EChartsOption {
+    const data = xData.map((name, index) => {
+      return { value: seriesData[index], name: name, itemStyle: { color: colors[index] } };
+    });
+
     return {
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      top: '5%',
-      left: 'center'
-    },
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: ['40%', '70%'],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 10,
-          borderColor: '#fff',
-          borderWidth: 2
-        },
-        label: {
-          show: false,
-          position: 'center'
-        },
-        emphasis: {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
           label: {
-            show: true,
-            fontSize: 40,
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: false
-        },
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' }
-        ]
-      }
-    ]
-  };
-}
-
-  // histogramChartOption = this.createHistogramChartOption(['Black', 'Blue', 'Green', 'Grey', 'Red', 'White', 'Yellow'], [10, 52, 200, 334, 390, 330, 220]);
-  lineChartOption1 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [820, 932, 901, 934, 1290, 1430, 1550, 1600, 1650.1450, 1680.1890]);
-  // lineChartOption2 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [20, 32, 101, 234, 290, 430, 556, 600, 650.1450, 680.1890]);
-  // lineChartOption3 = this.createLineChartOption(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [8, 31, 71, 80, 82, 90, 120, 234, 300, 400]);
-
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 40,
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: data
+        }
+      ]
+    };
+  }
 
 }

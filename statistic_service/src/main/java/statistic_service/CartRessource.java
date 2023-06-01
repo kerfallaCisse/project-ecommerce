@@ -1,34 +1,22 @@
 package statistic_service;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-
 import java.util.Optional;
 import jakarta.json.JsonObject;
-import jakarta.transaction.Transactional;
 import statistic_service.model.entity.User;
 import statistic_service.mail.GMailer;
 import statistic_service.model.entity.CustomBag;
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
 import java.util.List;
 import java.util.ArrayList;
+import org.eclipse.microprofile.config.ConfigProvider;
 
-@Path("cart")
-@Transactional
+
 public class CartRessource {
 
-    @POST
-    @Path("add")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addToCart(JsonObject jsonObject) {
+    public Boolean addToCart(JsonObject jsonObject) {
         try {
             String email = jsonObject.getString("email");
             String modelType = jsonObject.getString("modelType");
@@ -40,7 +28,7 @@ public class CartRessource {
 
             if (pocketColor == null || bagColor == null || quantity == null || logo == null || image == null
                     || modelType == null || email == null) {
-                return Response.status(Response.Status.BAD_REQUEST).build();
+                return false;
             }
 
             String[] models = { "largeModel", "smallModel" };
@@ -50,7 +38,7 @@ public class CartRessource {
             }
 
             if (!all_models.contains(modelType))
-                return Response.status(Response.Status.BAD_REQUEST).build();
+                return false;
 
             String[] colors_name = { "red", "blue", "green", "yellow", "white", "grey",
                     "black" };
@@ -60,7 +48,7 @@ public class CartRessource {
             }
 
             if (!all_colors.contains(pocketColor) || !all_colors.contains(bagColor)) {
-                return Response.status(Response.Status.BAD_REQUEST).build();
+                return false;
             }
 
             // Add to cart is only able for user who creates an account
@@ -79,24 +67,22 @@ public class CartRessource {
                 customBag.setQuantity(quantity);
                 customBag.persist();
                 if (customBag.isPersistent())
-                    return Response.status(Response.Status.CREATED).build();
+                    return true;
                 else
-                    return Response.status(Response.Status.NOT_FOUND).build();
+                    return false;
             }
         } catch (NullPointerException e) {
             System.err.println(e.getMessage());
             System.err.println(e.getStackTrace());
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return false;
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        return false;
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUserCart(@QueryParam("email") String email) {
+    public JsonArray getUserCart(String email) {
         if (email == null)
-            Response.status(Response.Status.BAD_REQUEST).build();
+            return null;
         // we check if the user exists in the data base
         Optional<User> user = User.find("email", email).firstResultOptional();
         if (user.isPresent()) {
@@ -104,7 +90,7 @@ public class CartRessource {
             // We find all the customized bag by the user
             List<CustomBag> custom_bags = CustomBag.find("user_id", user_id).list();
             if (custom_bags.size() == 0)
-                return Response.status(Response.Status.NO_CONTENT).build();
+                return null;
 
             // We create the json to return
             JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
@@ -119,17 +105,14 @@ public class CartRessource {
                 jsonArrayBuilder.add(jsonObjectBuilder);
             }
 
-            return Response.ok(jsonArrayBuilder.build()).build();
+            return jsonArrayBuilder.build();
 
         }
 
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return null;
     }
 
-    @POST
-    @Path("confirmation")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response getDeliveryInfos(JsonObject jsonObject) {
+    public Boolean getDeliveryInfos(JsonObject jsonObject) {
 
         String firtsName;
         String lastName;
@@ -152,7 +135,7 @@ public class CartRessource {
         } catch (NullPointerException e) {
             System.err.println(e.getMessage());
             System.err.println(e.getStackTrace());
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return false;
         }
 
         String MESSAGE_TO_INVIA = "New order to be delivered." + "\nCountry: " + country + "\nAddress: " + address
@@ -167,7 +150,7 @@ public class CartRessource {
         try {
 
             GMailer gMailer = new GMailer();
-            String INVIA_EMAIL = "inviabag@gmail.com";
+            String INVIA_EMAIL = ConfigProvider.getConfig().getValue("invia.email", String.class);
             // We send the email to invia inbox
             gMailer.sendEmail(INVIA_SUBJECT, MESSAGE_TO_INVIA, INVIA_EMAIL);
 
@@ -177,10 +160,10 @@ public class CartRessource {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             System.err.println(e.getStackTrace());
-            return Response.status(Response.Status.NO_CONTENT).build();
+            return false;
         }
 
-        return Response.status(Response.Status.OK).build();
+        return true;
     }
 
 }

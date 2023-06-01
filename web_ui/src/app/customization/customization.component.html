@@ -20,8 +20,8 @@
 
 
 <div class="price">
-  <p id="price" style="display: inline-block;"></p>
-  <div style="display: inline-block;">CHF</div>
+  <p id="price" style="display: inline-block;">{{ pricee }}</p>
+  <div id="chf" style="display: inline-block;">CHF</div>
 </div>
 
 
@@ -53,7 +53,7 @@
   <div id="lautre3" class="okok">
     
     <button id="button_moins" (click)="button_moins()"> -</button>
-    <p id="monElement"></p>
+    <p id="monElement">{{maValeur}}</p>
     <button id="button_plus" (click)="button_plus()"> +</button>
 
 

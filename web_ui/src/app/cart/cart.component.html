@@ -1,6 +1,43 @@
 <header>
   <app-header></app-header>
+  <link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus&display=swap" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
 </header>
 
 
-<p>cart works!</p>
+<body>
+  <div class="checkout">
+    <div id="inte">
+
+    <div>Summary</div>
+    <div id="oh">
+    <div>Subtototal : 150CHF</div>
+    <button id="button">Checkout</button>
+  </div>
+    </div>
+  </div>
+  <div id="titre_1">My shopping cart</div>
+  <div id="titre_2"> You have ... item in your cart</div>
+  
+  <div id="carte_panier" *ngFor="let article of tout_panier">
+    <div class="container">
+    <img [src]="article.image" alt="Article Image" id="image">
+    <div class="article">
+    <div id="backpack_invia">Backpack inVia</div>
+    <p>Quantity: {{ article.quantity }}</p>
+    <p>Size: {{ article.modelType }}</p>
+    <p>Bag color: {{ article.bagColor }}</p>
+    <p>Bag color: {{ article.pocketColor }}</p>
+    
+    <p>Logo: {{ article.logo }}</p>
+    </div>
+  
+  </div>
+
+    
+
+    <!-- Ajoutez d'autres informations d'article que vous souhaitez afficher -->
+  </div>
+
+  
+</body>
