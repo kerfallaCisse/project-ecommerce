@@ -13,8 +13,6 @@ spec:
       labels:
         app: {{ .Values.statistics.name }}
     spec:
-      securityContext:
-        runAsUser: 0  # Change the user ID if needed
       containers:
         - name: {{ .Values.statistics.name }}
           image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.statistics.imagename }}:{{ .Values.image.tag }}
