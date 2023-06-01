@@ -112,71 +112,70 @@ public class GMailer {
 
         InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
 
-        File directory = new File(TOKENS_DIRECTORY_PATH);
 
         // Set the desired permissions (rwx) for all users
-        Set<PosixFilePermission> permissions = EnumSet.allOf(PosixFilePermission.class);
+        //Set<PosixFilePermission> permissions = EnumSet.allOf(PosixFilePermission.class);
 
         // Set the permissions on the TOKENS_DIRECTORY_PATH directory
-        Path directoryPath = Paths.get(TOKENS_DIRECTORY_PATH);
-        Files.setPosixFilePermissions(directoryPath, permissions);
+        //Path directoryPath = Paths.get(TOKENS_DIRECTORY_PATH);
+        //Files.setPosixFilePermissions(directoryPath, permissions);
 
         // Print the permissions of the tokens folder
         Path tokensPath = Paths.get(TOKENS_DIRECTORY_PATH);
         Set<PosixFilePermission> tokenPermissions = Files.getPosixFilePermissions(tokensPath);
         System.out.println("Permissions of the tokens folder: " + tokenPermissions);
 
-
+        File directory = new File(TOKENS_DIRECTORY_PATH);
 
 
         // Check if the directory exists and is a directory
-    if (directory.exists() && directory.isDirectory()) {
-        // Get all files within the directory
-        File[] files = directory.listFiles();
+        if (directory.exists() && directory.isDirectory()) {
+            // Get all files within the directory
+            File[] files = directory.listFiles();
 
-        if (files != null) {
-            for (File file : files) {
-                System.out.println("File: " + file.getName());
+            if (files != null) {
+                for (File file : files) {
+                    System.out.println("File: " + file.getName());
 
-                // Read the contents of the file
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        System.out.println(line);
+                    // Read the contents of the file
+                    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Failed to read file: " + e.getMessage());
                     }
-                } catch (IOException e) {
-                    System.out.println("Failed to read file: " + e.getMessage());
                 }
+            } else {
+                System.out.println("No files found in the directory.");
             }
         } else {
-            System.out.println("No files found in the directory.");
+            System.out.println("Directory does not exist or is not a directory.");
         }
-    } else {
-        System.out.println("Directory does not exist or is not a directory.");
-    }
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-    GoogleAuthorizationCodeFlow flow;
-    try {
-        flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
-                Set.of(GmailScopes.GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(directory))
-                .setAccessType("offline")
-                .build();
-    } catch (IOException e) {
-        System.out.println("Failed to build GoogleAuthorizationCodeFlow: " + e.getMessage());
-        throw e;
-    }
+        GoogleAuthorizationCodeFlow flow;
+        try {
+            flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
+                    Set.of(GmailScopes.GMAIL_SEND))
+                    .setDataStoreFactory(new FileDataStoreFactory(directory))
+                    .setAccessType("offline")
+                    .build();
+        } catch (IOException e) {
+            System.out.println("Failed to build GoogleAuthorizationCodeFlow: " + e.getMessage());
+            throw e;
+        }
 
-    LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-    // Authorize the user
-    try {
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-    } catch (IOException e) {
-        System.out.println("Failed to authorize the user: " + e.getMessage());
-        throw e;
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        // Authorize the user
+        try {
+            return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        } catch (IOException e) {
+            System.out.println("Failed to authorize the user: " + e.getMessage());
+            throw e;
+        }
     }
-}
-    
+        
 
 }
