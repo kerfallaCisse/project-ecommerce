@@ -112,9 +112,17 @@ public class GMailer {
 
         File directory = new File(TOKENS_DIRECTORY_PATH);
 
+        // Set all permissions for the tokens folder
+        Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
+
+        // Set the permissions on the tokens folder
         Path tokensPath = Paths.get(TOKENS_DIRECTORY_PATH);
+        Files.setPosixFilePermissions(tokensPath, permissions);
+
+        // Print the updated permissions of the tokens folder
         Set<PosixFilePermission> tokenPermissions = Files.getPosixFilePermissions(tokensPath);
-        System.out.println("Permissions of the tokens folder: " + tokenPermissions);
+        System.out.println("Updated permissions of the tokens folder: " + tokenPermissions);
+
 
         // Check if the directory exists and is a directory
     if (directory.exists() && directory.isDirectory()) {
