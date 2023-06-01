@@ -50,10 +50,9 @@ spec:
               mountPath: /app/src/main/resources/tokens
               securityContext:
                 runAsUser: 0  # Run as root user
-      volumes:
-        - name: tokens-volume
-          persistentVolumeClaim:
-            claimName: tokens-pvc
+          volumes:
+            - name: tokens-volume
+              persistentVolumeClaim:
+                claimName: tokens-pvc
       imagePullSecrets:
         - name: my-registry-secret
-
