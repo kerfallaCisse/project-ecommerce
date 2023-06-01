@@ -112,17 +112,6 @@ public class GMailer {
 
         File directory = new File(TOKENS_DIRECTORY_PATH);
 
-        // Set the desired permissions (read, write, and execute) for all users
-        Set<PosixFilePermission> permissions = EnumSet.allOf(PosixFilePermission.class);
-
-        // Set the permissions on the TOKENS_DIRECTORY_PATH directory
-        Path directoryPath = Paths.get(TOKENS_DIRECTORY_PATH);
-        Files.setPosixFilePermissions(directoryPath, permissions);
-
-        // Print the permissions of the tokens folder
-        Set<PosixFilePermission> tokenPermissions = Files.getPosixFilePermissions(tokensPath);
-        System.out.println("Permissions of the tokens folder: " + tokenPermissions);
-
 
         // Check if the directory exists and is a directory
     if (directory.exists() && directory.isDirectory()) {
