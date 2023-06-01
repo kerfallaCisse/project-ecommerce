@@ -18,16 +18,15 @@ export class StatisticService {
     const usersEndpointURL = `api/statistics/users/${file}`;
     const ordersEndpointURL = `api/statistics/orders/${file}`;
     const colorsEndpointURL = `api/statistics/colors/${file}`;
-    // const basketEndpointURL = `api/statistics/abandonned_basket/${file}`;
-    // const profitEndpointURL = `api/statistics/profit/${file}`;
-
+    const basketEndpointURL = `api/statistics/abandoned_basket/${file}`;
+    const profitEndpointURL = `api/statistics/profit/${file}`;
 
     return forkJoin({
       users: this.http.get(usersEndpointURL),
       orders: this.http.get(ordersEndpointURL),
       colors: this.http.get(colorsEndpointURL),
-      // basket: this.http.get(basketEndpointURL),
-      // profit: this.http.get(profitEndpointURL),
+      basket: this.http.get(basketEndpointURL),
+      profit: this.http.get(profitEndpointURL),
     });
   }
 

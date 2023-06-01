@@ -1,10 +1,10 @@
 export interface FormInformations {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   address: string;
-  zip_code: number;
+  zipCode: number;
   town: string;
   country: string;
-  mail: string;
-  phone_number: number;
+  email: string;
+  phoneNumber: number;
 }
