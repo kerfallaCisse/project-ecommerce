@@ -13,13 +13,6 @@ spec:
       labels:
         app: {{ .Values.statistics.name }}
     spec:
-      initContainers:
-        - name: fix-permissions
-          image: busybox
-          command: ["sh", "-c", "chmod -R 777 /app/src/main/resources/tokens"]
-          volumeMounts:
-            - name: tokens-volume
-              mountPath: /app/src/main/resources
       containers:
         - name: {{ .Values.statistics.name }}
           image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.statistics.imagename }}:{{ .Values.image.tag }}
