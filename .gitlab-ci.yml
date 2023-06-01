@@ -23,6 +23,8 @@ mvn-build-statistics:
     paths:
       - statistic_service/target
     expire_in: 2 hours
+  only:
+    main
 
 
 container-image-statistics:
@@ -42,6 +44,8 @@ container-image-statistics:
       --context "${CI_PROJECT_DIR}/statistic_service"
       --dockerfile "${CI_PROJECT_DIR}/statistic_service/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/statistics:${VERSION}"
+  only:
+    main
 
 
 deploy:
