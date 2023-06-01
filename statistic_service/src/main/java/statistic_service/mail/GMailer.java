@@ -32,13 +32,11 @@ import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Message;
 import com.google.common.io.CharSource;
 
-import jakarta.enterprise.context.ApplicationScoped;
-
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import java.nio.charset.StandardCharsets;
 
-@ApplicationScoped
+
 public class GMailer {
 
     Gmail service;
@@ -98,7 +96,8 @@ public class GMailer {
             throws IOException {
 
         String GMAIL_API_CREDENTIALS = ConfigProvider.getConfig().getValue("gmail.api.credentials", String.class);
-
+        
+        // We convert the string as InputStream
         InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,

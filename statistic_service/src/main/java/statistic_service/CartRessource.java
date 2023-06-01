@@ -1,17 +1,7 @@
 package statistic_service;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-
 import java.util.Optional;
 import jakarta.json.JsonObject;
-import jakarta.transaction.Transactional;
 import statistic_service.model.entity.User;
 import statistic_service.mail.GMailer;
 import statistic_service.model.entity.CustomBag;
@@ -23,13 +13,9 @@ import java.util.List;
 import java.util.ArrayList;
 import org.eclipse.microprofile.config.ConfigProvider;
 
-// @Path("cart")
-// @Transactional
+
 public class CartRessource {
 
-    // @POST
-    // @Path("add")
-    // @Consumes(MediaType.APPLICATION_JSON)
     public Boolean addToCart(JsonObject jsonObject) {
         try {
             String email = jsonObject.getString("email");
@@ -94,8 +80,6 @@ public class CartRessource {
         return false;
     }
 
-    // @GET
-    // @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getUserCart(String email) {
         if (email == null)
             return null;
@@ -121,7 +105,6 @@ public class CartRessource {
                 jsonArrayBuilder.add(jsonObjectBuilder);
             }
 
-            // return Response.ok(jsonArrayBuilder.build()).build();
             return jsonArrayBuilder.build();
 
         }
@@ -129,9 +112,6 @@ public class CartRessource {
         return null;
     }
 
-    // @POST
-    // @Path("confirmation")
-    // @Consumes(MediaType.APPLICATION_JSON)
     public Boolean getDeliveryInfos(JsonObject jsonObject) {
 
         String firtsName;
