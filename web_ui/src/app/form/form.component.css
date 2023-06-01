@@ -58,10 +58,15 @@ p{
   border: 1px white solid;
 }
 
-input {
+input, select {
   padding: 1.5% 1% 1.5% 1% ;
   border: 1px black solid;
   border-radius: 0.3em;
+  width: 300px;
+}
+
+select {
+  text-align: center;
 }
 
 div .ng-valid {

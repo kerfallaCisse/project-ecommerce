@@ -24,30 +24,29 @@ export class FormComponent {
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private confirmationService: ConfirmationService) {
     this.form = this.fb.group({
-      first_name: ['', Validators.required],
-      last_name: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       address: ['', Validators.required],
-      zip_code: ['', Validators.required],
+      zipCode: ['', Validators.required],
       town: ['', Validators.required],
       country: ['Switzerland', Validators.required],
-      mail: ['', Validators.required],
-      phone_number: ['', Validators.required],
+      email: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
       const formData: FormInformations = {
-        first_name: this.form.get('first_name')!.value,
-        last_name: this.form.get('last_name')!.value,
+        firstName: this.form.get('firstName')!.value,
+        lastName: this.form.get('lastName')!.value,
         address: this.form.get('address')!.value,
-        zip_code: this.form.get('zip_code')!.value,
+        zipCode: this.form.get('zipCode')!.value,
         town: this.form.get('town')!.value,
         country: this.form.get('country')!.value,
-        mail: this.form.get('mail')!.value,
-        phone_number: this.form.get('phone_number')!.value,
+        email: this.form.get('email')!.value,
+        phoneNumber: this.form.get('phoneNumber')!.value,
       };
-      console.log(formData);
       this.showError = false;
       this.router.navigate(['/confirmation'], { queryParams: formData });
       this.confirmationService.setFormData(formData);
