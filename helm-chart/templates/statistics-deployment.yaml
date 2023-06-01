@@ -48,7 +48,6 @@ spec:
           volumeMounts:
             - name: tokens-volume
               mountPath: /app/src/main/resources/tokens
-              readOnly: false
       volumes:
         - name: tokens-volume
           persistentVolumeClaim:
