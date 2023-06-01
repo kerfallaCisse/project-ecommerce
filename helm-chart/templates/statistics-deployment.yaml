@@ -45,6 +45,13 @@ spec:
                 secretKeyRef:
                   name: client-google-secret
                   key: key
+          volumeMounts:
+            - name: tokens-volume
+              mountPath: /app/src/main/resources/tokens
+      volumes:
+        - name: tokens-volume
+          persistentVolumeClaim:
+            claimName: tokens-pvc
       imagePullSecrets:
         - name: my-registry-secret
 
