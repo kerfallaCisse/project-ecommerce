@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
@@ -41,6 +40,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+
 
 @ApplicationScoped
 public class GMailer {
@@ -107,6 +111,10 @@ public class GMailer {
         InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
 
         File directory = new File(TOKENS_DIRECTORY_PATH);
+
+        Path tokensPath = Paths.get(TOKENS_DIRECTORY_PATH);
+        Set<PosixFilePermission> tokenPermissions = Files.getPosixFilePermissions(tokensPath);
+        System.out.println("Permissions of the tokens folder: " + tokenPermissions);
 
         // Check if the directory exists and is a directory
     if (directory.exists() && directory.isDirectory()) {
