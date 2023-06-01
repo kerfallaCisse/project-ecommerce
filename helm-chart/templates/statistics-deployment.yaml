@@ -48,6 +48,11 @@ spec:
           volumeMounts:
             - name: tokens-volume
               mountPath: /app/src/main/resources/tokens
+              readOnly: false
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 0
       volumes:
         - name: tokens-volume
           persistentVolumeClaim:
