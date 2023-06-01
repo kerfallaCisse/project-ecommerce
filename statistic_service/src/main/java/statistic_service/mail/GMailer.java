@@ -44,8 +44,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.FileAttribute;
-import java.security.GeneralSecurityException;
 
 
 @ApplicationScoped
@@ -114,16 +112,16 @@ public class GMailer {
 
         File directory = new File(TOKENS_DIRECTORY_PATH);
 
-        // Set all permissions for the tokens folder
-        Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
+        // Set the desired permissions (read, write, and execute) for all users
+        Set<PosixFilePermission> permissions = EnumSet.allOf(PosixFilePermission.class);
 
-        // Set the permissions on the tokens folder
-        Path tokensPath = Paths.get(TOKENS_DIRECTORY_PATH);
-        Files.setPosixFilePermissions(tokensPath, permissions);
+        // Set the permissions on the TOKENS_DIRECTORY_PATH directory
+        Path directoryPath = Paths.get(TOKENS_DIRECTORY_PATH);
+        Files.setPosixFilePermissions(directoryPath, permissions);
 
-        // Print the updated permissions of the tokens folder
+        // Print the permissions of the tokens folder
         Set<PosixFilePermission> tokenPermissions = Files.getPosixFilePermissions(tokensPath);
-        System.out.println("Updated permissions of the tokens folder: " + tokenPermissions);
+        System.out.println("Permissions of the tokens folder: " + tokenPermissions);
 
 
         // Check if the directory exists and is a directory
