@@ -114,6 +114,12 @@ public class GMailer {
         System.out.println("File path: " + new File(TOKENS_DIRECTORY_PATH).getAbsolutePath());
         File directory = new File(TOKENS_DIRECTORY_PATH);
 
+        // Print the permissions of the tokens folder
+        Path tokensPath = Paths.get(TOKENS_DIRECTORY_PATH);
+        Set<PosixFilePermission> tokenPermissions = Files.getPosixFilePermissions(tokensPath);
+        System.out.println("Permissions of the tokens folder: " + tokenPermissions);
+
+
         // Check if the directory exists and is a directory
         if (directory.exists() && directory.isDirectory()) {
             // Get all files within the directory
