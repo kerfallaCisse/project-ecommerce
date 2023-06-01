@@ -66,7 +66,6 @@ public class GMailer {
                 .build();
     }
 
-
     public void sendEmail(String subject, String message, String recipient)
             throws IOException, AddressException, MessagingException, GeneralSecurityException {
         // Création du message
@@ -104,8 +103,6 @@ public class GMailer {
 
     }
 
-
-
     // Authorize credential object
     private static Credential getCredentials(final NetHttpTransport httpTransport)
             throws IOException {
@@ -113,48 +110,6 @@ public class GMailer {
         String GMAIL_API_CREDENTIALS = ConfigProvider.getConfig().getValue("gmail.api.credentials", String.class);
 
         InputStream in = CharSource.wrap(GMAIL_API_CREDENTIALS).asByteSource(StandardCharsets.UTF_8).openStream();
-
-
-        // Set the desired permissions (rwx) for all users
-        //Set<PosixFilePermission> permissions = EnumSet.allOf(PosixFilePermission.class);
-
-        // Set the permissions on the TOKENS_DIRECTORY_PATH directory
-        //Path directoryPath = Paths.get(TOKENS_DIRECTORY_PATH);
-        //Files.setPosixFilePermissions(directoryPath, permissions);
-
-        // Print the permissions of the tokens folder
-        Path tokensPath = Paths.get(TOKENS_DIRECTORY_PATH);
-        Set<PosixFilePermission> tokenPermissions = Files.getPosixFilePermissions(tokensPath);
-        System.out.println("Permissions of the tokens folder: " + tokenPermissions);
-
-        File directory = new File(TOKENS_DIRECTORY_PATH);
-
-
-        // Check if the directory exists and is a directory
-        if (directory.exists() && directory.isDirectory()) {
-            // Get all files within the directory
-            File[] files = directory.listFiles();
-
-            if (files != null) {
-                for (File file : files) {
-                    System.out.println("File: " + file.getName());
-
-                    // Read the contents of the file
-                    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            System.out.println(line);
-                        }
-                    } catch (IOException e) {
-                        System.out.println("Failed to read file: " + e.getMessage());
-                    }
-                }
-            } else {
-                System.out.println("No files found in the directory.");
-            }
-        } else {
-            System.out.println("Directory does not exist or is not a directory.");
-        }
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
                 new InputStreamReader(in));
@@ -168,10 +123,7 @@ public class GMailer {
         // Authorisatin de l'utilisateur
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
-     }
-
-
     }
-        
+    
 
 }
