@@ -11,7 +11,7 @@
         <module>backoffice_service</module> 
         <module>customization</module>
         <module>payment-service</module>
-        <!--- <module>statistic_service</module> -->
+        <!--- <module>statistic_service</module>-->
         <module>stats-jwt</module> 
         <module>stock-management</module>
     </modules>
