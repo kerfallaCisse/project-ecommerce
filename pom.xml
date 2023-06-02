@@ -27,8 +27,13 @@
         <quarkus.platform.version>2.16.5.Final</quarkus.platform.version>
         <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
         <jacoco.version>0.8.7</jacoco.version>
-        <aggregate.report.dir>./target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir> 
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>
+        backoffice_service/target/jacoco-report/jacoco.xml,
+        customization/target/jacoco-report/jacoco.xml,
+        payment-service/target/jacoco-report/jacoco.xml,
+        stats-jwt/target/jacoco-report/jacoco.xml,
+        stock-management/target/jacoco-report/jacoco.xml
+      </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencyManagement>
         <dependencies>
