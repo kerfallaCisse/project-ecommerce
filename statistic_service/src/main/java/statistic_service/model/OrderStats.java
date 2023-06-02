@@ -15,11 +15,7 @@ public class OrderStats extends StatsImpl {
         HashMap<String, Long> colors = new HashMap<>() {
             {
                 put("blue", 0L);
-                put("white", 0L);
-                put("green", 0L);
-                put("yellow", 0L);
                 put("red", 0L);
-                put("grey", 0L);
                 put("black", 0L);
 
             }

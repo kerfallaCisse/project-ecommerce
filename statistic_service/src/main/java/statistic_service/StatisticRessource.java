@@ -5,6 +5,7 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import statistic_service.model.OrderStats;
@@ -323,6 +324,16 @@ public class StatisticRessource {
         }
 
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    @Path("cart/")
+    @DELETE
+    public Response deleteUserBasket(@QueryParam("image") String image) {
+        if(cartRessource.deleteBasket(image)) {
+            return Response.status(Response.Status.OK).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
 }
