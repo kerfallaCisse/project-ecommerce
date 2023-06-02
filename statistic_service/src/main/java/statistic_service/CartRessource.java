@@ -171,10 +171,7 @@ public class CartRessource {
         if (basketToDelete.isPresent()) {
             CustomBag basket = basketToDelete.get();
             basket.delete();
-            if (basket.isPersistent())
-                return true;
-            else
-                return false;
+            return true;
         }
         return false;
     }

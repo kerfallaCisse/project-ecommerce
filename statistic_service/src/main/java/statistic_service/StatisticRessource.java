@@ -326,7 +326,7 @@ public class StatisticRessource {
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
-    @Path("cart/")
+    @Path("cart")
     @DELETE
     public Response deleteUserBasket(@QueryParam("image") String image) {
         if(cartRessource.deleteBasket(image)) {
