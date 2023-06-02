@@ -11,6 +11,7 @@ local.properties
 .loadpath
 .recommenders
 
+.env
 
 .vscode
 .DS_store
