@@ -28,11 +28,11 @@
         <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
         <jacoco.version>0.8.7</jacoco.version>
         <sonar.coverage.jacoco.xmlReportPaths>
-        backoffice_service/target/jacoco-report/jacoco.xml,
-        customization/target/jacoco-report/jacoco.xml,
-        payment-service/target/jacoco-report/jacoco.xml,
-        stats-jwt/target/jacoco-report/jacoco.xml,
-        stock-management/target/jacoco-report/jacoco.xml
+        ${project.build.directory}/backoffice_service/target/jacoco-report/jacoco.xml,
+        ${project.build.directory}/customization/target/jacoco-report/jacoco.xml,
+        ${project.build.directory}/payment-service/target/jacoco-report/jacoco.xml,
+        ${project.build.directory}/stats-jwt/target/jacoco-report/jacoco.xml,
+        ${project.build.directory}/stock-management/target/jacoco-report/jacoco.xml
       </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencyManagement>
