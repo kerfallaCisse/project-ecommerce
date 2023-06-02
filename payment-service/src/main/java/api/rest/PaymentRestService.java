@@ -48,7 +48,6 @@ public class PaymentRestService {
         if (amount <= 0)
             return Response.status(Response.Status.NOT_FOUND).build();
         
-        
         profit.setAmount(amount + initial_amount);
         profit.setCreated_at(currentDate);
         profit.persist();

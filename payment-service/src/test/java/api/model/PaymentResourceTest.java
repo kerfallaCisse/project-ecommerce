@@ -39,4 +39,66 @@ public class PaymentResourceTest {
             .statusCode(Response.Status.NOT_FOUND.getStatusCode());
     }
 
+    @Test
+    public void testCheckoutBadProdId() {
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("prodId","chdgchmsgdfdhasfd");
+        jsonObjectBuilder.add("quantity",1);
+        
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        jsonArrayBuilder.add(jsonObjectBuilder);
+        jsonObjectBuilder.add("products",jsonArrayBuilder);
+
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(jsonObjectBuilder.build())
+            .when()
+            .post("payment")
+            .then()
+            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    public void testCheckoutWithoutQuantity() {
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("prodId","prod_NvFbGlQ0kp8mVU");
+        
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        jsonArrayBuilder.add(jsonObjectBuilder);
+        jsonObjectBuilder.add("products",jsonArrayBuilder);
+
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(jsonObjectBuilder.build())
+            .when()
+            .post("payment")
+            .then()
+            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    public void testCheckoutQuantityZero() {
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("prodId","prod_NvFbGlQ0kp8mVU");
+        jsonObjectBuilder.add("quantity", 0);
+        
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        jsonArrayBuilder.add(jsonObjectBuilder);
+        jsonObjectBuilder.add("products",jsonArrayBuilder);
+
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(jsonObjectBuilder.build())
+            .when()
+            .post("payment")
+            .then()
+            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
+    }
+
 }

@@ -7,8 +7,7 @@ import com.stripe.model.PriceSearchResult;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.PriceSearchParams;
 import com.stripe.param.checkout.SessionCreateParams;
-import domain.model.Basket;
-import domain.model.Product;
+import domain.model.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
@@ -39,12 +38,13 @@ public class PaymentServiceImpl implements PaymentService{
         Stripe.apiKey = apiKey;
 
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
-        // Prendre la liste des prodId depuis stripe
-        for (Product product : basket.getProducts()) {
+        for (Productb product : basket.getProducts()) {
             Integer quantity = (Integer) product.getQuantity();
             String prod_id = product.getProdId();
+
+            //Product prod = Product.retrieve(prod_id); || prod == null8
         
-            if (prod_id == null || quantity <= 0 || quantity == null) {
+            if (prod_id == null || quantity <= 0 || quantity == null ) {
                 return null;
             } 
             SessionCreateParams.LineItem lineItem = SessionCreateParams.LineItem.builder()
