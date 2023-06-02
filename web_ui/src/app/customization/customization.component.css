@@ -113,8 +113,8 @@ border-radius: 10px;
 
 #grand_formu{
 position: absolute;
-/* background-color: rgba(230, 230, 230, 0.35); */
-background-color: #FF0000;
+background-color: rgba(230, 230, 230, 0.35); 
+/*background-color: #FF0000; */
 margin-left: 3%;
 width: 400px;
 height: 500px;

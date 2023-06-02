@@ -11,15 +11,17 @@
 
     <div>Summary</div>
     <div id="oh">
-    <div>Subtototal : 150CHF</div>
-    <button id="button">Checkout</button>
-  </div>
+      <div>Subtotal : <span id="subtotal">150</span> CHF</div>
+      <div id="autour_boutton">
+      <a href="/form" id="vers_formulaire">Checkout</a>
+    </div>
+  </div> 
     </div>
   </div>
   <div id="titre_1">My shopping cart</div>
   <div id="titre_2"> You have ... item in your cart</div>
   
-  <div id="carte_panier" *ngFor="let article of tout_panier">
+  <div id="carte_panier" *ngFor="let article of nouv">
     <div class="container">
     <img [src]="article.image" alt="Article Image" id="image">
     <div class="article">
@@ -31,7 +33,8 @@
     
     <p>Logo: {{ article.logo }}</p>
     </div>
-  
+    <p id="prix">Price : {{ article.price }}CHF</p>
+    <button id="button_supprimer">Supprimer</button>
   </div>
 
     
