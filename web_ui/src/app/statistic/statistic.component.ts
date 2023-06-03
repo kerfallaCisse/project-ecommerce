@@ -36,21 +36,17 @@ export class StatisticComponent implements OnInit{
 
 
   ngOnInit(): void {
-    // Charger les données initiales en utilisant la valeur par défaut 'last_week'
     this.loadStatData('last_week');
   }
 
   onTimePeriodChange(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    // Charger les données en fonction de la valeur sélectionnée
     this.loadStatData(selectedValue);
   }
 
-  // Créer une méthode loadStatData() pour charger les données en fonction de la valeur sélectionnée
   loadStatData(selectedValue: string): void {
     this.statService.getEndpointURLs(selectedValue).subscribe(
       ({ users, orders, colors, basket, profit }: { users: any; orders: any; colors: any; basket: any; profit: any }) => {
-        // Vider les tableaux stat_info et orders_info avant de charger de nouvelles données
         this.users_info = [];
         this.orders_info = [];
         this.colors_info = [];
@@ -61,14 +57,13 @@ export class StatisticComponent implements OnInit{
         this.sum_orders = 0;
         this.sum_basket = 0;
         this.sum_profit = 0;
-        // Convertir les données JSON en un tableau de paires clé-valeur et stocker les données dans les tableaux
+
         const usersKeyValueArray = Object.entries(users);
         const ordersKeyValueArray = Object.entries(orders);
         const colorsKeyValueArray = Object.entries(colors);
         const basketKeyValueArray = Object.entries(basket);
         const profitKeyValueArray = Object.entries(profit);
 
-        // Trier les tableaux par clé, sauf pour les jours de la semaine
         const weekdays = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
         const monthRegex = /^month(\d+)$/;
         const weekRegex = /^week(\d+)$/;
@@ -225,7 +220,7 @@ export class StatisticComponent implements OnInit{
         data: seriesData,
         type: 'line',
         areaStyle: {
-          color: 'rgba(0, 0, 0, 0.3)'
+          color: 'rgba(0, 0, 0, 0.2)'
         },
         lineStyle: {
           color: 'rgb(0, 0, 0)'
@@ -258,7 +253,7 @@ export class StatisticComponent implements OnInit{
           avoidLabelOverlap: false,
           itemStyle: {
             borderRadius: 5,
-            borderColor: '#ddd',
+            borderColor: '#fff',
           },
           label: {
             show: false,
