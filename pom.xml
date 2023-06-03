@@ -164,31 +164,7 @@
 					<artifactId>sonar-maven-plugin</artifactId>
 					<version>${sonar.maven.plugin.version}</version>
 				</plugin>
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<configuration>
-					<!-- Rest of your configuration, if any -->
-					<formats>XML</formats>
-				</configuration>
-				<executions>
-					<execution>
-						<id>prepare-unit-tests</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-      <plugin>
+        <plugin>
     <groupId>org.jacoco</groupId>
     <artifactId>jacoco-maven-plugin</artifactId>
     <configuration>
@@ -196,10 +172,17 @@
     </configuration>
     <executions>
         <execution>
-            <id>report-aggregate</id>
-            <phase>test</phase>
+            <id>prepare-unit-tests</id>
             <goals>
-                <goal>report-aggregate</goal>
+                <goal>prepare-agent</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+                <goal>report</goal>
+                <goal>report-aggregate</goal> <!-- Added line -->
             </goals>
         </execution>
     </executions>
