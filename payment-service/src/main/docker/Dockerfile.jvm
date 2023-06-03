@@ -78,22 +78,6 @@ FROM registry.access.redhat.com/ubi8/openjdk-17:1.14
 
 ENV LANGUAGE='en_US:en'
 
-# Create the directory for the Stripe library
-RUN mkdir -p /deployments/lib
-
-# Install Stripe library
-RUN curl -L https://github.com/stripe/stripe-java/releases/download/v1.14.7/stripe-java-1.14.7.jar -o /deployments/lib/stripe-java-1.14.7.jar
-
-# Install busybox
-RUN curl -L https://busybox.net/downloads/binaries/1.31.0-defconfig-multiarch/busybox-x86_64 -o /tmp/busybox \
-    && chmod +x /tmp/busybox \
-    && mv /tmp/busybox /usr/bin/busybox
-
-# Install Stripe CLI
-RUN curl -L https://github.com/stripe/stripe-cli/releases/download/v1.7.0/stripe_1.7.0_linux_x86_64.tar.gz | /usr/bin/busybox tar -xz -C /tmp \
-    && mv /tmp/stripe /usr/local/bin/stripe \
-    && chmod +x /usr/local/bin/stripe
-
 # We make four distinct layers so if there are application changes the library layers can be re-used
 COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
 COPY --chown=185 target/quarkus-app/*.jar /deployments/
