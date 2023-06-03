@@ -26,14 +26,19 @@
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>2.16.5.Final</quarkus.platform.version>
         <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
+
+        <lombok.version>1.18.22</lombok.version>
+        <mockito.version>4.3.1</mockito.version>
+        <junit.version>5.8.2</junit.version>
         <jacoco.version>0.8.7</jacoco.version>
-        <sonar.coverage.jacoco.xmlReportPaths>
-        ${project.build.directory}/backoffice_service/target/jacoco-report/jacoco.xml,
-        ${project.build.directory}/customization/target/jacoco-report/jacoco.xml,
-        ${project.build.directory}/payment-service/target/jacoco-report/jacoco.xml,
-        ${project.build.directory}/stats-jwt/target/jacoco-report/jacoco.xml,
-        ${project.build.directory}/stock-management/target/jacoco-report/jacoco.xml
-      </sonar.coverage.jacoco.xmlReportPaths>
+        <failsafe.version>3.0.0-M4</failsafe.version>
+        <sonar.maven.plugin.version>3.9.1</sonar.maven.plugin.version>
+
+        <aggregate.report.dir>./target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
+
+
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -94,11 +99,7 @@
       <artifactId>java-dotenv</artifactId>
       <version>5.2.2</version>
     </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-jacoco</artifactId>
-      <scope>test</scope>
-    </dependency>
+    
     </dependencies>
     <build>
         <plugins>
@@ -153,6 +154,40 @@
               </execution>
             </executions>
           </plugin>
+          <plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar.maven.plugin.version}</version>
+				</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<configuration>
+					<!-- Rest of your configuration, if any -->
+					<formats>XML</formats>
+				</configuration>
+				<executions>
+					<execution>
+						<id>prepare-unit-tests</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
         </plugins>
     </build>
     <profiles>
@@ -182,32 +217,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.7</version>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.0.2155</version>
-            </plugin>
-
                 </plugins>
             </build>
         </profile>
