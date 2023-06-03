@@ -78,6 +78,9 @@ FROM registry.access.redhat.com/ubi8/openjdk-17:1.14
 
 ENV LANGUAGE='en_US:en'
 
+# Create the directory for the Stripe library
+RUN mkdir -p /deployments/lib
+
 # Install Stripe library
 RUN curl -L https://github.com/stripe/stripe-java/releases/download/v1.14.7/stripe-java-1.14.7.jar -o /deployments/lib/stripe-java-1.14.7.jar
 
