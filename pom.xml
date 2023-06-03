@@ -11,7 +11,7 @@
         <module>backoffice_service</module> 
         <module>customization</module>
         <module>payment-service</module>
-        <!--- <module>statistic_service</module>-->
+        <!-- <module>statistic_service</module> -->
         <module>stats-jwt</module> 
         <module>stock-management</module>
     </modules>
@@ -203,6 +203,45 @@
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.9.0.2155</version>
             </plugin>
+             <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                   <execution>
+                      <id>default-prepare-agent</id>
+                      <goals>
+                           <goal>prepare-agent</goal>
+                      </goals>
+                      <configuration>
+                        <exclClassLoaders>*QuarkusClassLoader</exclClassLoaders>  
+                        <destFile>${project.build.directory}/jacoco-quarkus.exec</destFile>
+                        <append>true</append>
+                      </configuration>
+                   </execution>
+                <execution>
+                    <id>default-prepare-agent-integration</id>
+                    <goals>
+                        <goal>prepare-agent-integration</goal>
+                    </goals>
+                    <configuration>
+                        <destFile>${project.build.directory}/jacoco-quarkus.exec</destFile>
+                        <append>true</append>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>report</id>
+                    <phase>post-integration-test</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                    <configuration>
+                        <dataFile>${project.build.directory}/jacoco-quarkus.exec</dataFile>
+                        <outputDirectory>${project.build.directory}/jacoco-report</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
 
                 </plugins>
             </build>
