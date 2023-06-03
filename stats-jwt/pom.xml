@@ -4,7 +4,11 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ch.unige.projet_info.stats_jwt</groupId>
+  <parent>
+    <groupId>org.gs</groupId>
+    <artifactId>ecommerce</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
   <artifactId>stats-jwt</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <properties>
@@ -71,7 +75,15 @@
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
-    
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jacoco</artifactId>
+      <scope>test</scope>
+    </dependency><dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jacoco</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
