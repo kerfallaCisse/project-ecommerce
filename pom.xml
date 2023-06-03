@@ -43,6 +43,10 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-jwt</artifactId>
+    </dependency>
       <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jackson</artifactId>
@@ -53,7 +57,19 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-mysql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-agroal</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-reactive-mysql-client</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -83,6 +99,21 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
+    </dependency>
+     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-mockito</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-test-security</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
