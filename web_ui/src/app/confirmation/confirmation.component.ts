@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from '../services/confirmation/confirmation.service';
-import { Cart } from 'src/app/shared/models/confirmation' //temporaire
+import { Cart } from 'src/app/shared/models/confirmation' 
 
 
 

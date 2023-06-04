@@ -1,59 +1,9 @@
+
 body{
     background-color: rgb(240, 240, 240);
 }
 
-#carte_panier{
-    
-    background-color: white;
-    width: 60%;
-    margin-top: 1%;
-    border-radius: 10px;
-}
-
-#image{
-    font-family: 'Gentium Book Plus', serif;
-    height: 200px;
-    margin-top: 2%;
-    margin-bottom: 2%;
-}
-
-#titre_1{
-    font-family: 'Aldrich', serif;
-    font-size: 30px;
-}
-
-#titre_2{
-    font-family: 'Aldrich', serif;
-    font-size: 15px;
-}
-
-.container{
-    display: flex;
-   
-}
-
-.article{
-    
-    display: flex;
-    flex-direction: column;
-    margin: 50px 10px 10px 10px;
-    
-}
-
-.article img {
-    width: 100px; /* Ajustez la taille de l'image selon vos besoins */
-    height: auto;
-    margin-right: 10px;
-    font-family: 'Aldrich', serif;
-}
-
-div {
-    font-family: 'Aldrich', serif;
-}
-p {
-    font-family: 'Aldrich', serif;
-}
-
+/* --------------- SUMMARY ----------- */
 .checkout{
     position: absolute;
     background-color: white;
@@ -67,26 +17,86 @@ p {
     margin-top: 10%;
 }
 
-#inte{
+#interieur_chekout{
     font-size: 20px;
 }
 
-#vers_formulaire{
-    font-family: 'Aldrich', serif;
-    color: black;
-    font-size: 20px;
+#affichage_subtotal{
+    margin-top: 30%;
 }
 
-#autour_boutton {
+#green_button {
     background-color: greenyellow;
     width: 60%;
     border-radius: 5px;
     margin-left: 20%;
 }
-#oh{
-    
-    margin-top: 30%;
+
+#vers_formulaire{
+    font-family: 'Mulish';;
+    color: black;
+    font-size: 20px;
 }
+
+#subtotal{
+    font-family: 'Mulish';
+}
+
+/*    ------ LES TITRES   --------  */
+
+#titre_1{
+    font-family: 'Mulish';
+    font-size: 30px;
+}
+
+#titre_2{
+    font-family: 'Mulish';
+    font-size: 15px;
+}
+
+/*   ----- LE PANIER --------- */
+
+
+#carte_panier{
+    
+    background-color: white;
+    width: 60%;
+    margin-top: 1%;
+    border-radius: 10px;
+}
+
+.container{
+    display: flex; 
+}
+
+#image{
+    font-family: 'Mulish';
+    height: 200px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.article{
+    
+    flex-direction: column;
+    margin: 50px 10px 10px 10px;
+    
+}
+
+.article img {
+    width: 100px; /* Ajustez la taille de l'image selon vos besoins */
+    height: auto;
+    margin-right: 10px;
+    font-family: 'Mulish';
+}
+
+div {
+    font-family: 'Mulish';
+}
+p {
+    font-family: 'Mulish';
+}
+
 
 #prix{
     margin-left: 10%;
@@ -108,6 +118,3 @@ p {
     opacity: 50%;
 }
 
-#subtotal{
-    font-family: 'Aldrich', serif;
-}
