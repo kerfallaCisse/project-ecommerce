@@ -1,16 +1,8 @@
-<!-- Link to the boxicons stylesheet from unpkg.com -->
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-<script>
-function func_reload_header_2() {
-  console.log("je suis la")
-  window.location.reload();
-}
-</script>
-<!-- Header section of the page -->
+
 <header>
 
-  <!-- Container div to center the content -->
   <div class="container1">
 
     <!-- Logo for the website -->
@@ -19,9 +11,9 @@ function func_reload_header_2() {
     <!-- Navigation menu for the main pages -->
     <nav class="central menu">
       <ul>
-        <li><a href="/" onclick="func_reload_header_2()">Home</a></li>
-        <li><a href="/customization" onclick="func_reload_header_2()"> Customization </a></li>
-        <li><a href="/about" onclick="func_reload_header_2()"> About </a></li>
+        <li><a href="/" onclick="loadHeader()">Home</a></li>
+        <li><a href="/customization" onclick="loadHeader()"> Customization </a></li>
+        <li><a href="/about" onclick="loadHeader()"> About </a></li>
         <li><a href="# " routerLink="/help-page"> Help </a></li>
       </ul>
     </nav>
@@ -29,12 +21,13 @@ function func_reload_header_2() {
     <!-- Navigation menu for the secondary features -->
     <nav class="features logos">
       <ul>
-        <li><a href="/statistic" onclick="func_reload_header_2()"><i class="bx bx-line-chart-down my-icon" ></i></a></li>
-        <li><a href="/stock" onclick="func_reload_header_2()"><i class='bx bxs-package' ></i></a></li>
-        <li><a href="/cart" onclick="func_reload_header_2()"><i class="bx bx-cart my-icon" ></i></a></li>
-        <li><a href="/login" onclick="func_reload_header_2()"><i class="bx bx-user my-icon"></i></a></li>
+        <li><a href="/statistic" onclick="loadHeader()"  data-tooltip="Stat"><i class="bx bx-line-chart-down my-icon" ></i></a></li>
+        <li><a href="/stock" onclick="loadHeader()"  data-tooltip="Stock"><i class='bx bxs-package' ></i></a></li>
+        <li><a href="/cart" onclick="loadHeader()"  data-tooltip="Cart"><i class="bx bx-cart my-icon" ></i></a></li>
+        <li><a href="/login" onclick="loadHeader()"  data-tooltip="Login"><i class="bx bx-user my-icon"></i></a></li>
       </ul>
     </nav>
+
 
   </div>
 </header>
