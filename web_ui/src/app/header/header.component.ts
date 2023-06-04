@@ -12,13 +12,10 @@ let variable: boolean = false
 
 export class HeaderComponent{
 
-  func_reload_header() {
-    window.location.href = "/";
+
+  loadHeader() {
+    console.log("je suis la");
     window.location.reload();
   }
 
-  func_reload_about() {
-    window.location.href = "/about";
-    window.location.reload();
-  }
 }
