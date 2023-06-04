@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class Basket {
-    public List<Productb> products;
+    public List<ProductBasket> products;
 }

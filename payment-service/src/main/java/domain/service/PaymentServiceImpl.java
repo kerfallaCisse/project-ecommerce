@@ -1,9 +1,11 @@
 package domain.service;
 
 import com.stripe.Stripe;
+import com.stripe.exception.InvalidRequestException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Price;
 import com.stripe.model.PriceSearchResult;
+import com.stripe.model.Product;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.PriceSearchParams;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -19,17 +21,12 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 
 
+
 @ApplicationScoped
 public class PaymentServiceImpl implements PaymentService{
 
     @ConfigProperty(name = "stripe.api.key") 
     String apiKey;
-
-    @ConfigProperty(name = "successURL") 
-    String success;
-    
-    @ConfigProperty(name = "cancelURL") 
-    String cancel;
 
     public PaymentServiceImpl(){}
     
@@ -38,39 +35,59 @@ public class PaymentServiceImpl implements PaymentService{
         Stripe.apiKey = apiKey;
 
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
-        for (Productb product : basket.getProducts()) {
-            Integer quantity = (Integer) product.getQuantity();
+        for (ProductBasket product : basket.getProducts()) {
+            int quantity = product.getQuantity();
             String prod_id = product.getProdId();
 
-            //Product prod = Product.retrieve(prod_id); || prod == null8
-        
-            if (prod_id == null || quantity <= 0 || quantity == null ) {
+            try{
+                Product.retrieve(prod_id);
+            }catch(InvalidRequestException e) {
+                System.out.println("An InvalidRequestException has occurred : " + e.getMessage());
                 return null;
-            } 
+            }
+
+            if (prod_id == null || quantity <= 0 || (Integer)quantity == null ) {
+                return null;
+            }
+
             SessionCreateParams.LineItem lineItem = SessionCreateParams.LineItem.builder()
                     .setQuantity(Long.valueOf(quantity))
                     .setPrice(getPriceId(prod_id))
                     .build();
             lineItems.add(lineItem);
         }
+        
+        try {
+            SessionCreateParams params = SessionCreateParams.builder()
+            .setMode(SessionCreateParams.Mode.PAYMENT)
+            .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+            // .setSuccessUrl("http://localhost:8080/success.html")
+            // .setCancelUrl("http://localhost:8080/cancel.html")
+            .setSuccessUrl("https://pinfo3.unige.ch/success.html")
+            .setCancelUrl("https://pinfo3.unige.ch/cancel.html")
+            .setCurrency("chf")
+            .addAllLineItem(lineItems)
+            .build();
+
+            Session session = Session.create(params);
+
+            System.out.print(session);
+            Double total_amount = (double) session.getAmountTotal()/100;
+            JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+            jsonObjectBuilder.add("amount",total_amount);
+            jsonObjectBuilder.add("url",session.getUrl());
     
-        SessionCreateParams params = SessionCreateParams.builder()
-                .setMode(SessionCreateParams.Mode.PAYMENT)
-                .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-                .setSuccessUrl(success)
-                .setCancelUrl(cancel)
-                .setCurrency("chf")
-                .addAllLineItem(lineItems)
-                .build();
+            return jsonObjectBuilder.build();
 
-        Session session = Session.create(params);
+        } catch (InvalidRequestException e) {
+            System.out.println("An InvalidRequestException has occurred : " + e.getMessage());
+            return null;
 
-        Double total_amount = (double) session.getAmountTotal()/100;
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        jsonObjectBuilder.add("amount",total_amount);
-        jsonObjectBuilder.add("url",session.getUrl());
+        } catch (StripeException e) {
+            System.out.println("A Stripe exception has occurred : " + e.getMessage());
+            return null;
+        }
 
-        return jsonObjectBuilder.build();
     }
 
     private String getPriceId(String productId) {        
@@ -87,8 +104,12 @@ public class PaymentServiceImpl implements PaymentService{
             
             return priceId;
 
+        } catch (InvalidRequestException e) {
+            System.out.println("An InvalidRequestException has occurred: " + e.getMessage());
+            return null;
+
         } catch (StripeException e) {
-            e.printStackTrace();
+            System.out.println("A Stripe exception has occurred  : " + e.getMessage());
             return null;
         }
     }
