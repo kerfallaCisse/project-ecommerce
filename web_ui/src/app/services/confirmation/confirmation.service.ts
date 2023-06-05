@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FormInformations } from 'src/app/shared/models/form';
 import { HttpClient } from '@angular/common/http';
-import { Cart } from 'src/app/shared/models/confirmation' //temporaire
+import { Cart, Product, ProductJson } from 'src/app/shared/models/confirmation'
 
 
 
@@ -37,12 +37,19 @@ export class ConfirmationService {
   }
 
   postForm(data:FormInformations) {
-    const confirmationEndpointURL = '/api/statistics/cart/confirmation'
+    const confirmationFormEndpointURL = '/api/statistics/cart/confirmation'
     console.log("la",data)
-    this.http.post<FormInformations>(confirmationEndpointURL, data).subscribe(response => {
+    this.http.post<FormInformations>(confirmationFormEndpointURL, data).subscribe(response => {
       console.log(response,"sal")
     })
   }
 
+  postCart(cart:ProductJson) {
+    const confirmationCartFormEndpointURL = '/api/payment'
+    console.log("ici",cart)
+    this.http.post<FormInformations>(confirmationCartFormEndpointURL, cart).subscribe(response => {
+      console.log(response,"salu")
+    })
+  }
 }
 
