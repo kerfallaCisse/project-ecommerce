@@ -4,6 +4,7 @@ import { Cart, Product, ProductJson } from 'src/app/shared/models/confirmation';
 
 
 
+
 @Component({
   selector: 'app-confirmation',
   templateUrl: './confirmation.component.html',
