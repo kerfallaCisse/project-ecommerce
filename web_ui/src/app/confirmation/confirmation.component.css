@@ -81,7 +81,7 @@ p {
 }
 
 @media only screen and (max-width: 900px) {
-  main {
+  .confirmation_page {
     width: 900px;
   }
   .form_confirmation, .cart_confirmation {
