@@ -1,6 +1,9 @@
-<header>
-  <app-header></app-header>
-</header>
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
+</div>
+
 
 <main class="confirmation_page">
 
@@ -30,9 +33,8 @@
       <p> 130$</p> -->
 
       <div class="cart_confirmation2" *ngFor="let item of cart_info">
-        <p>Model Type: {{ getModelTypeDisplayName(item.modelType) }}</p>
-        <p>Bag Color: {{ item.bagColor }} // Pocket Color: {{ item.pocketColor }}</p>
-        <p>Logo: {{ getLogoDisplayName(item.logo)  }}</p>
+        <p>Type:&nbsp;{{ getModelTypeDisplayName(item.modelType) }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bag Color:&nbsp;{{ item.bagColor }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pocket Color:&nbsp;{{ item.pocketColor }}</p>
+        <p>Logo:&nbsp;{{ getLogoDisplayName(item.logo)}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Quantity:&nbsp;{{ item.quantity }}</p>
         <hr>
       </div>
 

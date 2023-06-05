@@ -9,7 +9,7 @@
 
 
 *{
-    font-family: "Alconica";
+    font-family: "Mulish";
     box-sizing: border-box;
 }
 html{
@@ -17,7 +17,7 @@ html{
 }
 body{
     margin: 0;
-    font-family: "Alconica";
+    font-family: "Mulish";
     font-size: 0.85rem;
 }
 

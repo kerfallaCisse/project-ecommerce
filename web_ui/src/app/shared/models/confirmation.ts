@@ -6,3 +6,13 @@ export interface Cart {
   logo: number
   quantity:number
 }
+
+export interface Product {
+  prodId: string;
+  quantity: number;
+}
+
+export interface ProductJson {
+  products: Product[];
+}
+
