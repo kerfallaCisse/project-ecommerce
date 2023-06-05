@@ -29,7 +29,7 @@ public class PaymentRestService {
         JsonObject session = payment.createCheckoutSession(basket);
         System.out.print(session);
         if (session == null)    
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         
         return Response.ok(session).build();
     }
@@ -46,7 +46,7 @@ public class PaymentRestService {
         Double initial_amount = profit.getAmount();
 
         if (amount <= 0)
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         
         profit.setAmount(amount + initial_amount);
         profit.setCreated_at(currentDate);
@@ -55,7 +55,7 @@ public class PaymentRestService {
         if (profit.isPersistent())
             return Response.status(Response.Status.OK).build();
 
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
 }
