@@ -58,8 +58,8 @@ public class PaymentServiceImpl implements PaymentService{
             SessionCreateParams params = SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.PAYMENT)
             .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-            .setSuccessUrl("https://pinfo3.unige.ch/success.html")
-            .setCancelUrl("https://pinfo3.unige.ch/cancel.html")
+            .setSuccessUrl("https://pinfo3.unige.ch/success")
+            .setCancelUrl("https://pinfo3.unige.ch/fail")
             .setCurrency("chf")
             .addAllLineItem(lineItems)
             .build();
