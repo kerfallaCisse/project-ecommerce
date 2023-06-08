@@ -19,9 +19,6 @@ import javax.json.JsonObjectBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 
-
-
-
 @ApplicationScoped
 public class PaymentServiceImpl implements PaymentService{
 
@@ -61,8 +58,6 @@ public class PaymentServiceImpl implements PaymentService{
             SessionCreateParams params = SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.PAYMENT)
             .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-            // .setSuccessUrl("http://localhost:8080/success.html")
-            // .setCancelUrl("http://localhost:8080/cancel.html")
             .setSuccessUrl("https://pinfo3.unige.ch/success.html")
             .setCancelUrl("https://pinfo3.unige.ch/cancel.html")
             .setCurrency("chf")
@@ -70,8 +65,6 @@ public class PaymentServiceImpl implements PaymentService{
             .build();
 
             Session session = Session.create(params);
-
-            System.out.print(session);
             Double total_amount = (double) session.getAmountTotal()/100;
             JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
             jsonObjectBuilder.add("amount",total_amount);
