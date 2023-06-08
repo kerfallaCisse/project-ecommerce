@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from '../services/confirmation/confirmation.service';
-import { Cart, Product, ProductJson } from 'src/app/shared/models/confirmation';
+import { Cart, Product, ProductJson, PaymentResponse } from 'src/app/shared/models/confirmation';
+import { tap } from 'rxjs/operators';
+
 
 
 
@@ -51,21 +53,31 @@ export class ConfirmationComponent {
         }
       }
 
+      const products: Product[] = [];
+
+      if (this.small_models > 0) {
+        products.push({
+          prodId: 'prod_O1FSPgFMsu8V1o',
+          quantity: this.small_models
+        });
+      }
+
+      if (this.large_models > 0) {
+        products.push({
+          prodId: 'prod_O1FSw1MDp2WNIT',
+          quantity: this.large_models
+        });
+      }
+
+      if (this.logos > 0) {
+        products.push({
+          prodId: 'prod_O1FT1XFDOKRsUC',
+          quantity: this.logos
+        });
+      }
+
       this.productJson = {
-        products: [
-          {
-            prodId: 'prod_O1FT1XFDOKRsUC',
-            quantity: this.logos
-          },
-          {
-            prodId: 'prod_O1FSw1MDp2WNIT',
-            quantity: this.large_models
-          },
-          {
-            prodId: 'prod_O1FSPgFMsu8V1o',
-            quantity: this.small_models
-          }
-        ]
+        products: products
       };
 
       console.log('Product JSON:', this.productJson);
@@ -78,8 +90,13 @@ export class ConfirmationComponent {
     if (formDataFromLocalStorage) {
       this.confirmationService.postForm(formDataFromLocalStorage);
     }
-    console.log('salut', this.productJson)
-    this.confirmationService.postCart(this.productJson)
+
+    this.confirmationService.postCart(this.productJson).pipe(
+      tap((response: PaymentResponse) => {
+        console.log(response, "postCart");
+        window.location.href = response.url;
+      })
+    ).subscribe();
   }
 
   getModelTypeDisplayName(modelType: string): string {

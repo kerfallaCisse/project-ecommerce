@@ -3,7 +3,6 @@ import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, HostListener , AfterViewInit} from '@angular/core';
 import {CustomizationService} from '../services/customization/customization.service';
-
 import { Color, MeshStandardMaterial } from 'three';
 
 let number = 0;
@@ -11,7 +10,6 @@ let variable: boolean = false
 let changer_sac = false
 
 export interface Iteme {
-
   modelType: string;
   color_pocket_name: string;
   color_bag_name: string;
@@ -27,60 +25,53 @@ export interface Iteme {
 })
 
 
-
 export class CustomizationComponent implements OnInit {
-  
+
+  constructor(private customizationService: CustomizationService) {}
+
   selectedColor_pocket: string = "nothing";
   maValeur: number = 1;
-  
+
   tab: string[] = [];
   fileName = '';
   tab_real_ai: {modelType: string,color_pocket_name: string,color_bag_name: string,quantity: number,fichier: File,}[] = [];
   quantity: number = 5
   pricee = 130
 
-  
-
   private my3DScene: My3DScene | undefined;
 
   fileToUpload: File | null = null;
 
 
- 
-
- handleFileInput(event: Event) {
+  handleFileInput(event: Event) {
     const fileInput = event.target as HTMLInputElement;
-  
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const file: File = fileInput.files[0];
       this.fileToUpload = file
     }
   }
 
-
-  change_size(taille:number) { // change la taille du sac quand l'utilisatueur clique sinon c'est 40L par défault 
+  change_size(taille:number) { // change la taille du sac quand l'utilisatueur clique sinon c'est 40L par défault
     if(taille===40){
-    this.maValeur = 1
-    this.tab[0] = "smallModel"
-    this.cleanScene()
-    
-    this.pricee = 130
-    this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
-     } if(taille===70) {
+      this.maValeur = 1
+      this.tab[0] = "smallModel"
+      this.cleanScene()
+      this.pricee = 130
+      this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
+    }
+    if(taille===70) {
       this.maValeur = 1
       this.pricee = 150
-      
-    this.tab[0] = "largeModel"
-    this.cleanScene()
-    this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb')
-     }
+      this.tab[0] = "largeModel"
+      this.cleanScene()
+      this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb')
+    }
   }
 
-  constructor(private customizationService: CustomizationService) {}
 
   change_colors(endroit:boolean,color:string){ // change la couleur du sac (pocket et bag)
-    
-    if(endroit){ // pocket 
+
+    if(endroit){ // pocket
     if (color == "#0F0F0F"){
       this.tab[1] = "black"
     } else if (color == "#500000"){
@@ -103,28 +94,27 @@ export class CustomizationComponent implements OnInit {
 
   finish_(){
     if (this.tab[0] == undefined){
-       this.tab[0] = "smallModel"
+      this.tab[0] = "smallModel"
     }
     this.customizationService.getQuantityOfUrl(this.tab[0],this.tab[1],this.tab[2]).subscribe((dataa: any) => {
       this.quantity = dataa[0].quantity;
       let blabla = dataa[0].quantity;
-   
-    console.log("Quantity : " + blabla)
-    if(blabla >= this.maValeur){
-      var label = document.getElementById("myLabel");
-      label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
-     
-      // appel de la fonction qui va faire le post
-      this.function_for_make_post()
-    }
-    else{
-      if(this.quantity == 0){
-      alert("Nous sommes désolés, ce modèle n'est plus disponible")
+
+      console.log("Quantity : " + blabla)
+      if(blabla >= this.maValeur){
+        var label = document.getElementById("myLabel");
+        label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
+
+        // appel de la fonction qui va faire le post
+        this.function_for_make_post()
       }else{
-        alert("Nous somme désolés, il ne reste que " + this.quantity + " sac de ce modèle")
+        if(this.quantity == 0){
+          alert("Nous sommes désolés, ce modèle n'est plus disponible")
+        }else{
+          alert("Nous somme désolés, il ne reste que " + this.quantity + " sac de ce modèle")
+        }
       }
-    }
-  })
+    })
   }
 
   button_plus(){  // ajoute plus de quantité
@@ -137,20 +127,17 @@ export class CustomizationComponent implements OnInit {
     }
   }
 
-  button_moins(){ // diminue les quantités 
-    
+  button_moins(){ // diminue les quantités
     if (this.maValeur != 1) {
-    this.maValeur -= 1
-    if(this.tab[0] == undefined || this.tab[0] == "smallModel"){
-      this.pricee -= 130
-    }else {
-      this.pricee -= 150
+      this.maValeur -= 1
+      if(this.tab[0] == undefined || this.tab[0] == "smallModel"){
+        this.pricee -= 130
+      } else {
+        this.pricee -= 150
+      }
     }
-
-  } 
   }
 
-  
   function_for_make_post(){
     const image = "http://res.cloudinary.com/dqvvvce88/image/upload/wz1dbmyo22ohwuug3nbi"
     const logo = 0
@@ -159,31 +146,25 @@ export class CustomizationComponent implements OnInit {
   }
 
 
-
   private cleanScene(): void { // permet de nettoyer la scene
     this.my3DScene!.model.clear();
   }
 
   fileInput = document.getElementById("fileInput");
 
-  ngOnInit  () {
-    
+  ngOnInit(){
 
-    
-    
     if(variable === false){
       this.my3DScene = new My3DScene();
       this.my3DScene.render();
       variable = true
-     number += 1
+      number += 1
     }else{
       window.location.reload()
       console.log("salut")
       this.cleanScene()
       this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
     }
-   
-   
   }
 }
 
@@ -195,21 +176,14 @@ export class My3DScene {
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   private gltfLoader!: GLTFLoader;
-  
   public model: any;
-
-
   private light!: THREE.AmbientLight;
   private spotlight!: THREE.SpotLight;
   private directionallight!: THREE.DirectionalLight;
   private pointlight!: THREE.PointLight;
-
   private isMouseDown: boolean = false;
   private isModelLoaded: boolean = false;
-  
-
   public currentColor: string = 'white';
-
 
   constructor() {
     this.createScene();
@@ -221,40 +195,29 @@ export class My3DScene {
     this.scene.background = new THREE.Color(0xFFFFFF);
   }
 
- 
-
   private init(){
-    
+
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    // this.renderer = new THREE.WebGLRenderer({ antialias: true }); //stacy
+    this.renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') as HTMLCanvasElement }); //stacy pr le html
     this.gltfLoader = new GLTFLoader();
-
-   
-
-    this.pointlight = new THREE.PointLight(0xFFFFF,5,3);  
-   
-    
-
-   
+    this.pointlight = new THREE.PointLight(0xFFFFF,5,3);
 
     this.directionallight = new THREE.DirectionalLight(0xFFFFFF, 2.5);
-    this.directionallight.position.set(0, 0, 5).normalize(); // au middle mettre 10 
+    this.directionallight.position.set(0, 0, 5).normalize(); // au middle mettre 10
     this.scene.add(this.directionallight);
 
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(this.renderer.domElement);
+    // document.body.appendChild(this.renderer.domElement); //stacy
+    const container = document.getElementById('my3DContainer'); //szacy pr le html
+    container?.appendChild(this.renderer.domElement);
 
-    
-  
     this.camera.position.x = -5;
     this.camera.position.y = 10;
     this.camera.position.z = 30;
- 
 
-    
-   this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
-
+    this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
 
     // enft c'est un "écouteur" qui observe quand l'utilisateur clique sur la souris
     this.renderer.domElement.addEventListener('mouseup', () => {
@@ -271,8 +234,11 @@ export class My3DScene {
       }
     });
 
-    
-    
+    window.addEventListener('resize', () => {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
   }
 
@@ -285,8 +251,6 @@ export class My3DScene {
       // Mettre à jour la rotation du modèle en fonction de la position de la souris
       this.model.children[0].rotation.y += event.movementX / 100
       this.model.children[1].rotation.y += event.movementX / 100
-      
-
     }
   }
 
@@ -294,11 +258,10 @@ export class My3DScene {
 
     this.gltfLoader.load(path,
       (gltf) => {
-       
+
         this.scene.add(gltf.scene);
         this.model = gltf.scene;
 
-        
         this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x0F0F0F)});
         this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x000060)});
 
@@ -312,11 +275,12 @@ export class My3DScene {
       undefined,
       (error) => {
         console.error('Error', error, error.message);
-      });
+      }
+    );
   }
 
   public change_color(endroit:boolean,primary?:String) {
-    
+
     if (endroit){
       this.model?.children[1].material.color.set(primary);
     } if(!endroit) {
@@ -324,37 +288,25 @@ export class My3DScene {
     }
   }
 
-  
-
-
   public render(): void {
-   
+
     this.frameId = requestAnimationFrame(() => {
       this.render();
     });
 
     if (this.isModelLoaded) {
-  if (this.isModelLoaded) {
-    
-  this.model.children[0].rotation.y += 0.01
-  this.model.children[1].rotation.y += 0.01
-
-  this.model.rotation.x = 3.05
-  
-  this.renderer.render(this.scene, this.camera);
+      if (this.isModelLoaded) {
+      this.model.children[0].rotation.y += 0.01
+      this.model.children[1].rotation.y += 0.01
+      this.model.rotation.x = 3.05
+      this.renderer.render(this.scene, this.camera);
+      }
+    }
+  }
 }
 
 
 
 
 
-}
-  }
-  
-  }
-
-
-
-
-  
 
