@@ -1,38 +1,30 @@
 import { Injectable,HostListener } from '@angular/core';
 import { My3DScene } from 'src/app/customization/customization.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Cart } from 'src/app/shared/models/customization';
 
 
-export interface Cart {
-  email: string,
-  modelType: string
-  bagColor: string
-  pocketColor: string
-  image: string
-  logo: number 
-  quantity:number
-}
 
 @Injectable({
   providedIn: 'root'
 })
 
 
-
 export class CustomizationService {
 
   constructor(private http: HttpClient) { }
+
   private modelInstance: My3DScene | null = null;
   public isVisible: boolean = false;
 
- 
 
   getQuantityOfUrl(model:String,bagcolor:string,pocketColor:string){
     return this.http.get<number>('/api/stock/quantity?modelType='+model+'&bagColor='+ bagcolor + '&pocketColor='+pocketColor)
   }
 
-    // POST PRÊT POUR KERFALLA 
-  make_post_for_cart(email: string,modelType: string,pocketColor: string,bagColor: string,image: string,logo: number ){
+  // POST PRÊT POUR KERFALLA
+  postForCart(email: string,modelType: string,pocketColor: string,bagColor: string,image: string,logo: number, quantity: number ){
+
     const data_cart: Cart = {
       email: email,
       modelType: modelType,
@@ -40,11 +32,12 @@ export class CustomizationService {
       pocketColor: pocketColor,
       image: image,
       logo: logo,
-      quantity: 2,
+      quantity: quantity,
     }
+
     console.log("a envoyer")
     console.log(data_cart)
-    this.http.post<Cart>("api/statistics/cart/add",data_cart).subscribe(response => { 
+    this.http.post<Cart>("api/statistics/cart/add",data_cart).subscribe(response => {
       console.log(response)
     })
   }
@@ -59,7 +52,7 @@ export class CustomizationService {
 
   removeModel(): void {
     if (this.modelInstance) {
-      
+
       this.modelInstance = null;
     }
   }
