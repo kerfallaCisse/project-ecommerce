@@ -4,6 +4,7 @@ import { HeaderService } from '../services/header/header.service';
 import {Item2} from '../shared/models/header';
 import { Item } from '../services/stock/stock.service';
 
+
 let variable: boolean = false
 
 @Component({
@@ -28,6 +29,7 @@ export class HeaderComponent implements AfterViewInit{
 
 
   constructor(private headerService: HeaderService) {}
+
   ngAfterViewInit(): void {
     this.headerService.get_panier_john().subscribe(data2 => { 
 
