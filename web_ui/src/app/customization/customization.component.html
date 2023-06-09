@@ -17,42 +17,42 @@
       <div id="bag_size" class="user_custom">
         <label>Choose your bag size</label>
         <div class="button_container">
-          <button id ="small_model"  (click)="change_size(40)">40L</button>
-          <button id ="large_model" (click)="change_size(70)">70L</button>
+          <button id="small_model" [class.selected]="selectedSize === 40" (click)="change_size(40)">40L</button>
+          <button id="large_model" [class.selected]="selectedSize === 70" (click)="change_size(70)">70L</button>
         </div>
       </div>
 
       <div id=bag_color class="user_custom">
-        <label>Choose your bag color</label>
+        <label>Select your bag color</label>
         <div class="button_container">
-          <button id ="blue" class= "round-button" (click)="change_colors(false,'#000060')" ></button>
-          <button id ="white" class= "round-button" (click)="change_colors(false,'#0F0F0F')"></button>
-          <button id ="red" class= "round-button" (click)="change_colors(false,'#500000')"></button>
+          <button id="blue" class="round-button" [class.selected]="selectedBagColor === '#000060'" (click)="change_colors(false, '#000060')"></button>
+          <button id="black" class="round-button" [class.selected]="selectedBagColor === '#0F0F0F'" (click)="change_colors(false, '#0F0F0F')"></button>
+          <button id="red" class="round-button" [class.selected]="selectedBagColor === '#500000'" (click)="change_colors(false, '#500000')"></button>
         </div>
       </div>
 
       <div id ="pocket_color" class="user_custom">
-        <label>Choose your pocket color</label>
+        <label>Select your pocket color</label>
         <div class="button_container">
-          <button id ="blue" class= "round-button" (click)="change_colors(true,'#000060')"></button>
-          <button id ="white" class= "round-button" (click)="change_colors(true,'#0F0F0F')"></button>
-          <button id ="red" class= "round-button" (click)="change_colors(true,'#500000')"></button>
+          <button id="blue" class="round-button" [class.selected]="selectedPocketColor === '#000060'" (click)="change_colors(true, '#000060')"></button>
+          <button id="black" class="round-button" [class.selected]="selectedPocketColor === '#0F0F0F'" (click)="change_colors(true, '#0F0F0F')"></button>
+          <button id="red" class="round-button" [class.selected]="selectedPocketColor === '#500000'" (click)="change_colors(true, '#500000')"></button>
         </div>
       </div>
 
       <div id="quantity" class="user_custom">
-        <label>Quantity</label>
+        <label>Add desired quantity</label>
         <div class="button_container">
           <button id="button_moins" (click)="button_moins()"> - </button>
-          <p id="monElement">{{maValeur}}</p>
+          <p id="bag_quantity">{{maValeur}}</p>
           <button id="button_plus" (click)="button_plus()"> + </button>
         </div>
       </div>
 
       <div id="select_file" class="user_custom">
         <form id="monFormulaire">
-          <div class="form-group">
-            <label>Choose File</label>
+          <label>Download your own logo (+30CHF)</label>
+          <div class="button_container">
             <input type="file" id="file" (change)="handleFileInput($event)">
           </div>
         </form>
@@ -61,14 +61,13 @@
       <div id="cart_button" class="user_custom">
         <button id="add_to_cart" (click)="finish_()">Add to Cart</button>
       </div>
-      <label id="myLabel">The bag has been added to your cart!</label>
+      <label id="label_adding">The bag has been added to your cart!</label>
 
     </div>
 
 
     <div class="scene3d">
-
-      <div id="my3DContainer">
+      <div id="my3DContainer" class="my3d-container">
         <canvas id="myCanvas"></canvas>
       </div>
 
@@ -76,15 +75,12 @@
         <p id="price" style="display: inline-block;">{{ pricee }}</p>
         <div id="chf" style="display: inline-block;">CHF</div>
       </div>
+    </div>
+
+
+
 
     </div>
 
-  </div>
 </main>
-
-
-
-
-
-
 

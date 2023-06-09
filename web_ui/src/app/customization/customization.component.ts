@@ -42,6 +42,10 @@ export class CustomizationComponent implements OnInit {
 
   fileToUpload: File | null = null;
 
+  selectedSize: number = 40;
+  selectedBagColor: string = '#0F0F0F';
+  selectedPocketColor: string = '#000060';
+
 
   handleFileInput(event: Event) {
     const fileInput = event.target as HTMLInputElement;
@@ -52,12 +56,16 @@ export class CustomizationComponent implements OnInit {
   }
 
   change_size(taille:number) { // change la taille du sac quand l'utilisatueur clique sinon c'est 40L par défault
+    this.selectedSize = taille;
+
     if(taille===40){
       this.maValeur = 1
       this.tab[0] = "smallModel"
       this.cleanScene()
       this.pricee = 130
       this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
+      this.selectedBagColor = '#0F0F0F';
+      this.selectedPocketColor = '#000060';
     }
     if(taille===70) {
       this.maValeur = 1
@@ -65,11 +73,18 @@ export class CustomizationComponent implements OnInit {
       this.tab[0] = "largeModel"
       this.cleanScene()
       this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb')
+      this.selectedBagColor = '#0F0F0F';
+      this.selectedPocketColor = '#000060'
     }
   }
 
 
   change_colors(endroit:boolean,color:string){ // change la couleur du sac (pocket et bag)
+    if (endroit) {
+      this.selectedPocketColor = color;
+    } else {
+      this.selectedBagColor = color;
+    }
 
     if(endroit){ // pocket
     if (color == "#0F0F0F"){
@@ -102,7 +117,7 @@ export class CustomizationComponent implements OnInit {
 
       console.log("Quantity : " + blabla)
       if(blabla >= this.maValeur){
-        var label = document.getElementById("myLabel");
+        var label = document.getElementById("label_adding");
         label!.style.display = "block"; // Affiche le label lorsque le bouton est cliqué
 
         // appel de la fonction qui va faire le post
@@ -153,6 +168,7 @@ export class CustomizationComponent implements OnInit {
   fileInput = document.getElementById("fileInput");
 
   ngOnInit(){
+
 
     if(variable === false){
       this.my3DScene = new My3DScene();
@@ -259,6 +275,9 @@ export class My3DScene {
     this.gltfLoader.load(path,
       (gltf) => {
 
+        this.centerModel(gltf.scene); // Centre le modèle //Stacy
+        gltf.scene.position.set(1, 1, 1);
+
         this.scene.add(gltf.scene);
         this.model = gltf.scene;
 
@@ -266,10 +285,6 @@ export class My3DScene {
         this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x000060)});
 
         this.isModelLoaded = true;
-
-        gltf.scene.position.set(0, 5, 5);
-
-        this.model.center()
 
       },
       undefined,
@@ -303,6 +318,14 @@ export class My3DScene {
       }
     }
   }
+
+  //Stacy
+  public centerModel(model: THREE.Object3D): void {
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    model.position.sub(center); // Centre le modèle sur l'origine
+  }
+
 }
 
 

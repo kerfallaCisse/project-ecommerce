@@ -5,13 +5,12 @@
 
 .customization_page {
   width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
   background-color:  rgb(243, 243, 243);
+  display: flex;
 }
 
-
 .custom_form, .scene3d {
-  width: 50%;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -19,12 +18,14 @@
 }
 
 .custom_form {
-  min-height: 100vh;
-  background-color: bisque;
+  width: 35%;
+  min-height: 90vh;
+  background-color:rgba(190, 205, 190, 0.377);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  z-index: 10;
 }
 
 .user_custom {
@@ -34,6 +35,9 @@
   background-color: white;
   padding: 10px;
   width: 400px;
+  height: 100px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
 }
 
 .button_container {
@@ -46,235 +50,112 @@ label {
   font-family: 'Mulish';
   font-size: large;
   color: black;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .scene3d {
+  width: 65%;
   background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
-/*
-#overlay {
-  position: absolute;
-  display: block;
-  top: 15%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-} */
+#small_model, #large_model {
+  height: 50px;
+  width: 100px;
+  font-family: 'Mulish';
+  font-size: medium;
+  border-radius: 10px;
+  opacity: 0.5;
+  border: none;
+}
 
 
-
-
-
-/* A SUPP */
-
-/*
 .round-button {
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  border: none;
-
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  display: flex;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 5%;
-
+  border: none;
+  opacity: 0.5;
 }
 
-.round-button:hover{
-  opacity: 0.8;
-}
-
-#red{
-
+#red {
   background-color: #FF0000;
 }
-#blue{
+
+#blue {
   background-color: #0000FF;
 }
 
-.couleur_pochette2 {
+#black {
+  background-color: #0F0F0F;
+}
 
-  display: flex;
-  height: 100px;
-  width: 300px;
-  background-color: grey;
-  border-radius: 10px;
-  color: aqua;
-  justify-content: space-between;
-  position: absolute;
+.selected {
+  border: 2px solid black !important;
+  opacity: 1 !important;
+}
+
+#button_plus, #button_moins{
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: 'Mulish';
+  font-size: large;
 }
 
 
-.user_custom{
-position: absolute;
-display: flex;
-  height: 100px;
-  width: 200px;
-  background-color: white;
-  border-radius: 10px;
-  color: aqua;
-  justify-content: space-between;
-  height: 10%;
-  margin-left: 20%;
+#bag_quantity{
+  color: black;
+  font-family: "Mulish";
+  font-size: large;
+  border: 1px solid black ;
+  width: 100px;
+  padding: 7px;
+  background-color: rgb(242, 253, 253);
 }
 
-#pocket_color{
-margin-top: 30%;
-
+#file {
+  font-size: medium;
+  font-family: 'Mulish';
+  text-align: center;
+  align-items: center;
+  padding-left: 40px;
 }
 
-#bag_color{
-margin-top: 50%;
-}
-
-#cart_button{
-margin-top: 105%
-}
-
-#quantity{
-margin-top: 70%;
-}
-
-
-#bag_size{
-margin-top: 10%;
-display: flex;
-}
-
-#small_model{
-height: 100%;
-width: 100%;
-font-family: 'Anton';
-background-color: #FFFFFF;
-border-radius: 10px;
-border: none
-
-}
-
-#large_model {
-border: none;
-font-family: 'Anton';
-background-color: #FFFFFF;
-height: 100%;
-width: 100%;
-border-radius: 10px;
-}
-
-#custom_form{
-position: absolute;
-background-color: rgba(230, 230, 230, 0.35);
-margin-left: 3%;
-width: 400px;
-height: 500px;
-display: flex;
-text-align: center;
-justify-content: space-between;
-border-radius: 10px;
-margin-top: 5%;
-}
-
-#titre_1{
-font-family: 'Anton';
-text-align: center;
-font-size: 50px;
-
+#cart_button {
+  background :none;
+  box-shadow: none;
+  align-items: center;
 }
 
 #add_to_cart{
-
-  font-family: 'Anton';
-  height: 100%;
-  width: 100%;
+  height: 100px;
+  width: 200px;
+  font-family: 'Mulish';
+  font-size: x-large;
   border-radius: 10px;
-  background-color: white;
-  border: none
-  ;
-
+  background-color: rgb(73, 132, 73);;
 }
 
-
-#pocket_color{
-  font-family: "Aldrich";
-  position: absolute;
-  margin-top: 25%;
-  margin-right: 28%;
-  width: 80%;
-  height: 5%;
-}
-
-
-#myLabel {
+#label_adding {
   display: none;
-  font-family: "Aldrich";
-  margin-top: 120%;
-  margin-right: 25%;
-  align-items: center;
-  justify-content: center;
+  font-family: "Mulish";
+  font-size: large;
+  color: red;
 }
 
-#white {
-  background-color: black;
+@media only screen and (max-width: 900px) {
+  .customization_page {
+    width: 900px;
+  }
+  .custom_form {
+    width: 100%;
+  }
 }
-
-#monElement{
-  color: black;
-  font-family: "Aldrich";
-  font-size: 20px;
-  margin-top: 5%;
-}
-
-#button_plus{
-  border-radius: 5px;
-  border: none;
-  background-color: black;
-  color: white;
-
-  text-align: center;
-}
-#button_moins{
-  border-radius: 5px;
-  border: none;
-  background-color: black;
-  color: white;
-
-  text-align: center;
-}
-
-
-#select_file{
-  margin-top: 88%;
-}
-
-#monFormulaire{
-  font-family: "Aldrich";
-  color: black;
-}
-
-
-#quantity{
-  font-family: "Aldrich";
-
-  margin-top: 65%;
-  margin-left: 20%;
-}
-
-.price{
-position: absolute;
-margin-top: 42%;
-margin-left: 51%;
-font-size: 50px;
-}
-
-#price{
-  font-family: "Aldrich";
-}
-
-
-#chf{
-  font-family: "Aldrich";
-} */
