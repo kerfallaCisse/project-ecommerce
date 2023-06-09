@@ -336,7 +336,7 @@ mvn-build-auth:
     -  mvn clean package -DskipTests
   artifacts:
     paths:
-      - statistic_service/target
+      - auth_service/target
     expire_in: 2 hours
   only:
     - main
@@ -372,7 +372,7 @@ container-image-auth:
       --build-arg AUTH_DOMAIN=${AUTH_DOMAIN}
       --build-arg API_TOKEN=${API_TOKEN}
       --context "${CI_PROJECT_DIR}/auth_service"
-      --dockerfile "${CI_PROJECT_DIR}/auth_service /src/main/docker/Dockerfile.jvm"
+      --dockerfile "${CI_PROJECT_DIR}/auth_service/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/auth:${VERSION}"
   only:
     variables:
