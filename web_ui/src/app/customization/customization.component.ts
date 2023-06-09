@@ -1,7 +1,6 @@
 import * as THREE from 'three';
-import {ElementRef, Injectable, NgZone, OnDestroy} from '@angular/core';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import {Component,OnInit, HostListener , AfterViewInit} from '@angular/core';
+import {Component,OnInit, OnDestroy, HostListener , AfterViewInit} from '@angular/core';
 import {CustomizationService} from '../services/customization/customization.service';
 import { Color, MeshStandardMaterial } from 'three';
 
@@ -9,13 +8,6 @@ let number = 0;
 let variable: boolean = false
 let changer_sac = false
 
-export interface Iteme {
-  modelType: string;
-  color_pocket_name: string;
-  color_bag_name: string;
-  quantity: number;
-  file: File | null;
-}
 
 @Component({
   selector: 'app-customization',
@@ -167,6 +159,11 @@ export class CustomizationComponent implements OnInit {
 
   fileInput = document.getElementById("fileInput");
 
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.onWindowResize);
+  }
+
+
   ngOnInit(){
 
 
@@ -181,8 +178,38 @@ export class CustomizationComponent implements OnInit {
       this.cleanScene()
       this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
     }
+
+    //Stacy
+
+    this.changeBackgroundColor('#d2d7d2');
+    const width = window.innerWidth * 2.5;
+    const height = window.innerHeight * 4;
+    this.resizeScene(width, height);
+
+    window.addEventListener('resize', () => this.onWindowResize());
   }
+
+  //STACY
+
+
+  changeBackgroundColor(color: string): void {
+    this.my3DScene?.changeBackgroundColor(color);
+  }
+
+  resizeScene(width: number, height: number): void {
+    this.my3DScene?.updateCameraAspect(width, height);
+  }
+
+  onWindowResize(): void {
+    const newWidth = window.innerWidth * 2.5;
+    const newHeight = window.innerHeight * 4;
+    this.resizeScene(newWidth, newHeight);
+  }
+
 }
+
+
+
 
 
 export class My3DScene {
@@ -208,10 +235,10 @@ export class My3DScene {
 
   private createScene(): void {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xFFFFFF);
+    this.scene.background = new THREE.Color(0xF3F3F3);
   }
 
-  private init(){
+  public init(width: number = window.innerWidth, height: number = window.innerHeight) {
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
     // this.renderer = new THREE.WebGLRenderer({ antialias: true }); //stacy
@@ -219,19 +246,19 @@ export class My3DScene {
     this.gltfLoader = new GLTFLoader();
     this.pointlight = new THREE.PointLight(0xFFFFF,5,3);
 
-    this.directionallight = new THREE.DirectionalLight(0xFFFFFF, 2.5);
-    this.directionallight.position.set(0, 0, 5).normalize(); // au middle mettre 10
+    this.directionallight = new THREE.DirectionalLight(0xFFFFFF,3);
+    this.directionallight.position.set(2, 5, 5).normalize(); // au middle mettre 10
     this.scene.add(this.directionallight);
 
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    // document.body.appendChild(this.renderer.domElement); //stacy
+    this.renderer.setSize(width, height);
+
     const container = document.getElementById('my3DContainer'); //szacy pr le html
     container?.appendChild(this.renderer.domElement);
 
     this.camera.position.x = -5;
     this.camera.position.y = 10;
-    this.camera.position.z = 30;
+    this.camera.position.z = 31;
 
     this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb')
 
@@ -276,13 +303,14 @@ export class My3DScene {
       (gltf) => {
 
         this.centerModel(gltf.scene); // Centre le modèle //Stacy
-        gltf.scene.position.set(1, 1, 1);
+        gltf.scene.position.set(-5, 3, 10);
 
         this.scene.add(gltf.scene);
         this.model = gltf.scene;
 
         this.model.children[0].material = new MeshStandardMaterial({color:new Color(0x0F0F0F)});
         this.model.children[1].material = new MeshStandardMaterial({color:new Color(0x000060)});
+        this.model.children[2].material = new MeshStandardMaterial({color:new Color(0x444444)});
 
         this.isModelLoaded = true;
 
@@ -325,6 +353,17 @@ export class My3DScene {
     const center = box.getCenter(new THREE.Vector3());
     model.position.sub(center); // Centre le modèle sur l'origine
   }
+
+  public changeBackgroundColor(color: string): void {
+    this.scene.background = new THREE.Color(color);
+  }
+
+  public updateCameraAspect(width: number, height: number): void {
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+  }
+
 
 }
 

@@ -51,7 +51,7 @@
 
       <div id="select_file" class="user_custom">
         <form id="monFormulaire">
-          <label>Download your own logo (+30CHF)</label>
+          <label>Download your own logo (+30CHF) </label>
           <div class="button_container">
             <input type="file" id="file" (change)="handleFileInput($event)">
           </div>
@@ -59,25 +59,17 @@
       </div>
 
       <div id="cart_button" class="user_custom">
-        <button id="add_to_cart" (click)="finish_()">Add to Cart</button>
+        <button id="add_to_cart" (click)="finish_()">Add to Cart <p> ({{ pricee }} CHF)</p></button>
       </div>
       <label id="label_adding">The bag has been added to your cart!</label>
 
     </div>
 
-
     <div class="scene3d">
       <div id="my3DContainer" class="my3d-container">
         <canvas id="myCanvas"></canvas>
       </div>
-
-      <div class="price">
-        <p id="price" style="display: inline-block;">{{ pricee }}</p>
-        <div id="chf" style="display: inline-block;">CHF</div>
-      </div>
     </div>
-
-
 
 
     </div>

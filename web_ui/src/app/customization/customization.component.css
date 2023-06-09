@@ -5,9 +5,15 @@
 
 .customization_page {
   width: 100%;
-  min-height: 90vh;
-  background-color:  rgb(243, 243, 243);
+  min-height: 93vh;
+  background-color:  #d2d7d2;
   display: flex;
+}
+
+
+.customization_container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .custom_form, .scene3d {
@@ -18,14 +24,18 @@
 }
 
 .custom_form {
-  width: 35%;
-  min-height: 90vh;
-  background-color:rgba(190, 205, 190, 0.377);
+  width: 40%;
+  min-height: 93vh;
+  /* background-color:rgba(170, 197, 170, 0.479); */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   z-index: 10;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3)), url("/assets/home-background/forest-2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .user_custom {
@@ -34,7 +44,7 @@
   justify-content: center;
   background-color: white;
   padding: 10px;
-  width: 400px;
+  width: 350px;
   height: 100px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
@@ -54,12 +64,16 @@ label {
 }
 
 .scene3d {
-  width: 65%;
-  background-color: aquamarine;
+  width: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+}
+
+#myCanvas {
+  width: 100%!important;
+  height: auto!important;
 }
 
 #small_model, #large_model {
@@ -126,7 +140,7 @@ label {
   font-family: 'Mulish';
   text-align: center;
   align-items: center;
-  padding-left: 40px;
+  padding-left: 20px;
 }
 
 #cart_button {
@@ -141,7 +155,7 @@ label {
   font-family: 'Mulish';
   font-size: x-large;
   border-radius: 10px;
-  background-color: rgb(73, 132, 73);;
+  background-color: rgb(90, 169, 90);
 }
 
 #label_adding {
@@ -151,11 +165,19 @@ label {
   color: red;
 }
 
+p {
+  font-size: large;
+  font-family: 'Mulish';
+}
+
 @media only screen and (max-width: 900px) {
   .customization_page {
     width: 900px;
   }
   .custom_form {
+    width: 100%;
+  }
+  .scene3d {
     width: 100%;
   }
 }
