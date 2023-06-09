@@ -109,78 +109,160 @@ public class StatisticRessourceTest {
     void testAddOrder() {
 
         String requestBody = "{"
-        + "\"pocket\": \"black\","
-        + "\"bag\": \"black\","
-        + "\"quantity\": 10"
-        + "}";
-
+                + "\"pocket\": \"black\","
+                + "\"bag\": \"black\","
+                + "\"quantity\": 10"
+                + "}";
 
         given()
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(ContentType.JSON)
-            .body(requestBody)
-            .when()
-            .post("colors")
-            .then()
-            .statusCode(Response.Status.CREATED.getStatusCode());
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(ContentType.JSON)
+                .body(requestBody)
+                .when()
+                .post("colors")
+                .then()
+                .statusCode(Response.Status.CREATED.getStatusCode());
     }
 
     @Test
     void testAddOrderWrong() {
 
         String requestBody = "{"
-        + "\"pocket\": \"xxx\","
-        + "\"bag\": \"xxx\","
-        + "\"quantity\": 10"
-        + "}";
+                + "\"pocket\": \"xxx\","
+                + "\"bag\": \"xxx\","
+                + "\"quantity\": 10"
+                + "}";
 
         given()
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(requestBody)
-            .when()
-            .post("colors")
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(requestBody)
+                .when()
+                .post("colors")
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     // Test to add abandoned basket in the db
-    @Test 
+    @Test
     void testAbandonedBasket() {
 
         String requestBody = "{"
-        + "\"modelType\": \"largeModel\""
-        + "}";
+                + "\"modelType\": \"largeModel\""
+                + "}";
 
         given()
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(requestBody)
-            .when()
-            .post("abandoned_basket")
-            .then()
-            .statusCode(Response.Status.CREATED.getStatusCode());
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(requestBody)
+                .when()
+                .post("abandoned_basket")
+                .then()
+                .statusCode(Response.Status.CREATED.getStatusCode());
 
     }
 
-    @Test 
+    @Test
     void testAbandonedBasketWrong() {
 
         String requestBody = "{"
-        + "\"modelType\": \"xxxx\""
-        + "}";
+                + "\"modelType\": \"xxxx\""
+                + "}";
 
         given()
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(requestBody)
-            .when()
-            .post("abandoned_basket")
-            .then()
-            .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(requestBody)
+                .when()
+                .post("abandoned_basket")
+                .then()
+                .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
+    // Cart testing
 
+    @Test
+    void testAddToCart() {
 
+        String requestBody = "{"
+                + "\"email\": \"kerfciss@gmail.com\","
+                + "\"modelType\": \"smallModel\","
+                + "\"bagColor\": \"black\","
+                + "\"pocketColor\": \"black\","
+                + "\"image\": \"http://res.cloudinary.com/dqvvvce88/image/upload/wz1dbmyo22ohwuug3nbi\","
+                + "\"logo\": \"0\","
+                + "\"quantity\": 3"
+                + "}";
+
+        given()
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(requestBody)
+                .when()
+                .post("cart/add")
+                .then()
+                .statusCode(Response.Status.CREATED.getStatusCode());
+
+    }
+
+    @Test
+    void testAddToCartWrong() {
+        String requestBody = "{"
+                + "\"email\": \"kerfciss@gmail.com\","
+                + "\"modelType\": \"juuju\","
+                + "\"bagColor\": \"black\","
+                + "\"pocketColor\": \"ppp\","
+                + "\"image\": \"http://res.cloudinary.com/dqvvvce88/image/upload/wz1dbmyo22ohwuug3nbi\","
+                + "\"logo\": \"0\","
+                + "\"quantity\": 3"
+                + "}";
+
+        given()
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(requestBody)
+                .when()
+                .post("cart/add")
+                .then()
+                .statusCode(Response.Status.CREATED.getStatusCode());
+    }
+
+    @Test
+    void testGetUserCart() {
+        given()
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .queryParam("email", "john@gmail.com")
+                .when()
+                .get("cart")
+                .then()
+                .body("[0].modelType", equalTo("smallModel"))
+                .statusCode(Response.Status.OK.getStatusCode());
+
+    }
+
+    @Test
+    void testDeliveryConfirmation() {
+        String requestBody = "{"
+                + "\"email\": \"kerfciss@gmail.com\","
+                + "\"firstName\": \"Cissé\","
+                + "\"lastName\": \"Kerfalla\","
+                + "\"address\": \"Belle vue\","
+                + "\"zipCode\": \"1213\","
+                + "\"town\": \"Geneva\","
+                + "\"country\": \"Switzerland\","
+                + "\"phoneNumber\": \"+41 80 800 80 80\""
+                + "}";
+
+        given()
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(requestBody)
+                .when()
+                .post("cart/confirmation")
+                .then()
+                .statusCode(Response.Status.OK.getStatusCode());
+
+    }
 
 }
