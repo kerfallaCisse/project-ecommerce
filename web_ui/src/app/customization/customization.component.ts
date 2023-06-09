@@ -123,21 +123,21 @@ export class CustomizationComponent implements OnInit {
 
     if(endroit){
       if (color == "#0F0F0F"){
-        this.userChoice[1] = "black"
-      } else if (color == "#500000"){
-        this.userChoice[1] = "red"
-      } else if (color == "#000060"){
-        this.userChoice[1] = "blue"
-      }
-    this.my3DScene?.changeBagColorsOn3D(endroit, color)
-
-    } else if(!endroit) {
-      if (color == "#0F0F0F"){
         this.userChoice[2] = "black"
       } else if (color == "#500000"){
         this.userChoice[2] = "red"
       } else if (color == "#000060"){
         this.userChoice[2] = "blue"
+      }
+    this.my3DScene?.changeBagColorsOn3D(endroit, color)
+
+    } else if(!endroit) {
+      if (color == "#0F0F0F"){
+        this.userChoice[1] = "black"
+      } else if (color == "#500000"){
+        this.userChoice[1] = "red"
+      } else if (color == "#000060"){
+        this.userChoice[1] = "blue"
       }
     this.my3DScene?.changeBagColorsOn3D(endroit, color)
     }
@@ -147,7 +147,7 @@ export class CustomizationComponent implements OnInit {
   addingToCartOperation(){
     this.customizationService.getQuantityOfUrl(this.userChoice[0],this.userChoice[1],this.userChoice[2]).subscribe((stock: any) => {
 
-      this.stockQuantity = stock[0].quantity;
+      this.stockQuantity = stock[0].quantity
 
       if(this.stockQuantity >= this.bagQuantity){
         window.location.reload();
@@ -166,7 +166,6 @@ export class CustomizationComponent implements OnInit {
   // ajoute des quantités
   plusButton(){
     this.bagQuantity += 1;
-    console.log(this.price,this.bagQuantity)
     if(this.userChoice[0] == undefined || this.userChoice[0] == "smallModel"){
       this.price = (130 + 30*this.loadedFile)*this.bagQuantity;
     }else {
