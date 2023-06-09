@@ -1,92 +1,78 @@
-<header>
-  <app-header></app-header>
-  <link href="https://fr.allfont.net/allfont.css?fonts=gentium-book-basic" rel="stylesheet" type="text/css" />
-  <link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
-  <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet'>
-  <style>
-    /* Style du body avec l'image de fond */
-    body {
-      background-image: url("src/assets/home-background/home-background-1.jpg");
-      background-size: cover;
-      background-position: center;
-    }
-  </style>
-</header>
-
-
-
-<div id="titre_1"> Personalize your bag!</div>
-
-
-
-<div class="price">
-  <p id="price" style="display: inline-block;">{{ pricee }}</p>
-  <div id="chf" style="display: inline-block;">CHF</div>
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
 </div>
 
 
+<main class="customization_page">
 
 
-<div id="grand_formu">
-  <div id="bag_size">Choose your bag size</div>
-  <div id="size" class="okok">
-    <button id ="quaL" (click)="change_size(70)">70L</button>
-    <button id ="soiL"  (click)="change_size(40)">40L</button>
-  </div>
+  <div class="customization_container">
 
- 
-  <div id="pocket_color">Choose your pocket color</div>
-  <div id ="lautre" class="okok">
-    <button id ="blue" class= "round-button" (click)="change_colors(true,'#000060')"></button>
-    <button id ="white" class= "round-button" (click)="change_colors(true,'#0F0F0F')"></button>
-    <button id ="red" class= "round-button" (click)="change_colors(true,'#500000')"></button>
-  </div>
+  <!-- <div id="titre_1"> Personalize your bag!</div> -->
 
-  <div id="bag_color">Choose your bag color</div>
-  <div id="lautre2" class="okok">
-    
-    <button id ="blue" class= "round-button" (click)="change_colors(false,'#000060')" ></button>
-    <button id ="white" class= "round-button" (click)="change_colors(false,'#0F0F0F')"></button>
-    <button id ="red" class= "round-button" (click)="change_colors(false,'#500000')"></button>
-  </div>
-  <div id="quantity">Quantity</div>
-  <div id="lautre3" class="okok">
-    
-    <button id="button_moins" (click)="button_moins()"> -</button>
-    <p id="monElement">{{maValeur}}</p>
-    <button id="button_plus" (click)="button_plus()"> +</button>
+    <div class="custom_form">
 
+      <div id="bag_size" class="user_custom">
+        <label>Choose your bag size</label>
+        <div class="button_container">
+          <button id="small_model" [class.selected]="selectedSize === 40" (click)="change_size(40)">40L</button>
+          <button id="large_model" [class.selected]="selectedSize === 70" (click)="change_size(70)">70L</button>
+        </div>
+      </div>
 
-  </div>
+      <div id=bag_color class="user_custom">
+        <label>Select your bag color</label>
+        <div class="button_container">
+          <button id="blue" class="round-button" [class.selected]="selectedBagColor === '#000060'" (click)="change_colors(false, '#000060')"></button>
+          <button id="black" class="round-button" [class.selected]="selectedBagColor === '#0F0F0F'" (click)="change_colors(false, '#0F0F0F')"></button>
+          <button id="red" class="round-button" [class.selected]="selectedBagColor === '#500000'" (click)="change_colors(false, '#500000')"></button>
+        </div>
+      </div>
 
-  <div id="lautre4" class="okok">
-    
-    <form id="monFormulaire">
-      <div class="form-group">
-        <div>Choose File</div>
-<input type="file" id="file" (change)="handleFileInput($event)">
+      <div id ="pocket_color" class="user_custom">
+        <label>Select your pocket color</label>
+        <div class="button_container">
+          <button id="blue" class="round-button" [class.selected]="selectedPocketColor === '#000060'" (click)="change_colors(true, '#000060')"></button>
+          <button id="black" class="round-button" [class.selected]="selectedPocketColor === '#0F0F0F'" (click)="change_colors(true, '#0F0F0F')"></button>
+          <button id="red" class="round-button" [class.selected]="selectedPocketColor === '#500000'" (click)="change_colors(true, '#500000')"></button>
+        </div>
+      </div>
+
+      <div id="quantity" class="user_custom">
+        <label>Add desired quantity</label>
+        <div class="button_container">
+          <button id="button_moins" (click)="button_moins()"> - </button>
+          <p id="bag_quantity">{{maValeur}}</p>
+          <button id="button_plus" (click)="button_plus()"> + </button>
+        </div>
+      </div>
+
+      <div id="select_file" class="user_custom">
+        <form id="monFormulaire">
+          <label>Download your own logo (+30CHF) </label>
+          <div class="button_container">
+            <input type="file" id="file" (change)="handleFileInput($event)">
+          </div>
+        </form>
+      </div>
+
+      <div id="cart_button" class="user_custom">
+        <button id="add_to_cart" (click)="finish_()">Add to Cart <p> ({{ pricee }} CHF)</p></button>
+      </div>
+      <label id="label_adding">The bag has been added to your cart!</label>
+
     </div>
-    </form>
 
-       
-
-
-
-
-
-  </div>
-
-  <div id="cart_button" class="okok">
-    <button id="add_to_cart" (click)="finish_()">Add to Cart</button>
-  </div>
-  <label id="myLabel">The bag has been added to your cart!</label>
-
-</div>
+    <div class="scene3d">
+      <div id="my3DContainer" class="my3d-container">
+        <canvas id="myCanvas"></canvas>
+      </div>
+    </div>
 
 
+    </div>
 
-
-
-
-
+</main>
 

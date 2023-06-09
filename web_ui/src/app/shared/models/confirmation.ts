@@ -16,3 +16,7 @@ export interface ProductJson {
   products: Product[];
 }
 
+export interface PaymentResponse {
+  amount: number;
+  url: string;
+}

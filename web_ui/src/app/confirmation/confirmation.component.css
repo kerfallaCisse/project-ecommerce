@@ -35,6 +35,14 @@ h2 {
   padding-bottom: 50px;
 }
 
+h3 {
+  padding-bottom: 50px;
+  font-family: "Mulish";
+  text-align: center;
+  color: black;
+  text-decoration: underline;
+}
+
 p {
   font-size: medium;
 }
