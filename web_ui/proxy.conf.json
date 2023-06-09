@@ -53,7 +53,14 @@
       "secure": true,
       "logLevel": "debug",
       "changeOrigin": true
-    }
+    },
+
+    "/api/statistics/cart": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+      }
 
 }
 
