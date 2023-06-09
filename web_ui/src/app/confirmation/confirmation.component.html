@@ -7,6 +7,8 @@
 
 <main class="confirmation_page">
 
+  <h3> Please check your personal details and purchases before proceeding to payment. </h3>
+
   <div class="container-sup">
 
     <div class = "form_confirmation" *ngIf="formData$ | async as formData">
@@ -27,10 +29,6 @@
 
     <div class="cart_confirmation">
       <h2>Cart Confirmation : </h2>
-      <!-- <p> Backpack Red x Red </p>
-      <p> Size M</p>
-      <p> With logo </p>
-      <p> 130$</p> -->
 
       <div class="cart_confirmation2" *ngFor="let item of cart_info">
         <p>Type:&nbsp;{{ getModelTypeDisplayName(item.modelType) }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bag Color:&nbsp;{{ item.bagColor }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pocket Color:&nbsp;{{ item.pocketColor }}</p>

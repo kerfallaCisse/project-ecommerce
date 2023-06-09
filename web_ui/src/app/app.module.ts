@@ -41,7 +41,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     FormComponent,
     SuccessComponent,
     FailComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -54,7 +55,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
       echarts: () => import('echarts')
     })
   ],
-  providers: [],
+  providers: [CartComponent],
   bootstrap: [AppComponent]
 
 })

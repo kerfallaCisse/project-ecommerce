@@ -327,6 +327,60 @@ container-image-statistics:
       - $CI_COMMIT_REF_NAME == "main"
 
 
+
+  
+mvn-build-auth:
+  stage:  build
+  script: 
+    - cd auth_service 
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - auth_service/target
+    expire_in: 2 hours
+  only:
+    - main
+    - schedules
+
+
+test-auth:
+  stage: test
+  dependencies:
+    - mvn-build-auth
+  script:
+    - cd auth_service 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - schedules
+
+
+container-image-auth:
+  stage: image-push
+  dependencies:
+    - mvn-build-auth
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --build-arg CLIENT_SECRET=${CLIENT_SECRET}
+      --build-arg CLIENT_ID=${CLIENT_ID}
+      --build-arg AUTH_DOMAIN=${AUTH_DOMAIN}
+      --build-arg API_TOKEN=${API_TOKEN}
+      --context "${CI_PROJECT_DIR}/auth_service"
+      --dockerfile "${CI_PROJECT_DIR}/auth_service/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/auth:${VERSION}"
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
+
+
 npm-build-ui:
   stage: build
   image: node:16.14.2-alpine3.14
