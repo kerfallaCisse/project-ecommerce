@@ -26,6 +26,7 @@ import { FailComponent } from './fail/fail.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '@auth0/auth0-angular';
+import { environment } from './environnement';
 
 @NgModule({
   declarations: [
@@ -47,8 +48,11 @@ import { AuthModule } from '@auth0/auth0-angular';
   ],
   imports: [
     AuthModule.forRoot({
+      // ancien 
       domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
       clientId: 'ulU0Nnga1ilqIpGjcjXLkHSvNkplcYW6',
+      // domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
+      // clientId: '9WMd9HGMRo6Hkx700leDW5wmPMa4U1Gg',
       authorizationParams: {
         redirect_uri: window.location.origin
       }
