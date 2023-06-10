@@ -29,6 +29,18 @@
   </dependencyManagement>
   <dependencies>
   <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-resteasy-jsonb</artifactId>
+</dependency>
+  <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-resteasy-jackson</artifactId>
+</dependency>
+  <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-resteasy</artifactId>
+</dependency>
+  <dependency>
     <groupId>net.coobird</groupId>
     <artifactId>thumbnailator</artifactId>
     <version>0.4.11</version>
@@ -47,10 +59,6 @@
     <artifactId>cloudinary-http44</artifactId>
     <version>1.31.0</version>
   </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-reactive</artifactId>
-    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>

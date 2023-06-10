@@ -1,7 +1,12 @@
 package api.model;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.HashMap;
 import java.awt.Graphics2D;
@@ -29,6 +34,7 @@ import com.cloudinary.utils.ObjectUtils;
 @Path("/customization")
 public class CustomizationResource {
 
+     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor,
@@ -67,7 +73,7 @@ public class CustomizationResource {
             }
         }
         */
-
+        
         else {
             return jsonObjectBuilder.add("error", "bag not found").build();
         }
@@ -110,6 +116,7 @@ public class CustomizationResource {
             return "Error: " + exception.getMessage();
         }
     }
+    
 
     // Upload logo and put on a bag, upload image on cloudinary
     /*@Path("/add_logo")
@@ -134,28 +141,42 @@ public class CustomizationResource {
     @Path("/add_logo")
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public String mergeImages(CustomizationFormData imageData) throws IOException {
-        // Read the bagImage from the input stream
-        BufferedImage bagImage = ImageIO.read(imageData.getBagImage());
+    public String mergeImages(@MultipartForm CustomizationFormData imageData) throws IOException {
+        byte[] formData = Files.readAllBytes(imageData.file.toPath());
+        ByteArrayInputStream bInputStream = new ByteArrayInputStream(formData);
+        BufferedImage logo = ImageIO.read(bInputStream); // Uploaded logo 150x150 px
 
-        // Read the newLogo from the input stream
-        BufferedImage newLogo = ImageIO.read(imageData.getNewLogo());
+        URL url = new URL("http://res.cloudinary.com/dqvvvce88/image/upload/wz1dbmyo22ohwuug3nbi");
+        InputStream inputStream = url.openStream();
+        File file = File.createTempFile("temp", null);
+        FileOutputStream outputStream = new FileOutputStream(file);
+
+        byte[] buffer = new byte[8192];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+
+        inputStream.close();
+        outputStream.close();
+
+        File cloudinaryData = file;
+        BufferedImage bagImage = ImageIO.read(cloudinaryData);
 
         // Create a Graphics object to perform the overlay
         Graphics2D g2d = bagImage.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw the newLogo onto the bagImage
-        g2d.drawImage(newLogo, 0, 0, null);
+        g2d.drawImage(logo, (bagImage.getWidth() - logo.getWidth()) / 2, (bagImage.getHeight() / 2) , null);
 
         // Cleanup
         g2d.dispose();
 
         // Save the merged image to a file (optional)
-        String mergedImagePath = "/customization";
-        ImageIO.write(bagImage, "png", new File(mergedImagePath));
+        ImageIO.write(bagImage, "png", new File("logo2.png"));
 
-        return mergedImagePath;
+        return "ok";
     }
     
 }
