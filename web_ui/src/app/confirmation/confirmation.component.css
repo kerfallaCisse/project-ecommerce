@@ -5,11 +5,11 @@
 
 .confirmation_page {
   width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
   background-color:  rgb(243, 243, 243);;
-  padding: 3% 1% 1% 1%;
+  padding: 6% 1% 1% 1%;
 }
-
+/*
 .form_confirmation, .cart_confirmation {
   background-color: white;
   width: 40%;
@@ -18,7 +18,19 @@
   display: flex;
   flex-direction: column;
   text-align: left;
+} */
+
+.form_confirmation {
+  background-color: white;
+  width: 40%;
+  padding: 3% 3% 3% 3%;
+  margin: 0 1% 5% 5%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
+
+
 
 .container-sup {
   display: flex;
@@ -35,7 +47,7 @@ h2 {
   padding-bottom: 50px;
 }
 
-h3 {
+.payment h2 {
   padding-bottom: 50px;
   font-family: "Mulish";
   text-align: center;
@@ -44,7 +56,7 @@ h3 {
 }
 
 p {
-  font-size: medium;
+  font-size: large;
 }
 
 .back-form, .back-cart {
@@ -58,7 +70,29 @@ p {
   margin-top: auto;
 }
 
-.payment{
+.payment {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+/* .payment {
+  background-color: black;
+  width: 30%;
+  height: 100px;
+  padding: 3% 3% 3% 3%;
+  margin: 0 5% 5% 5%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: center;
+  border: 2px black solid;
+  border-radius: 0.5em;
+
+  margin: auto;
+} */
+/* .payment{
   display: flex;
   justify-content: center;
   margin-left: auto;
@@ -68,11 +102,23 @@ p {
   padding: 1% 1% 1% 1%;
   border: 1px black solid;
   background-color: black;
-  width: 20%;
-}
+} */
+
 
 .payment a {
+  background-color: black;
+  width: 400px;
+  height: 100px;
+  padding: 3% 3% 3% 3%;
   color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: x-large;
+  border: 2px black solid;
+  border-radius: 0.5em;
+  margin: auto;
 }
 
 .back-form:hover {
@@ -83,7 +129,7 @@ p {
   background-color: rgb(168, 166, 166);
 }
 
-.payment:hover{
+.payment a:hover{
   background-color: rgb(15, 148, 50);
 
 }
@@ -92,7 +138,7 @@ p {
   .confirmation_page {
     width: 900px;
   }
-  .form_confirmation, .cart_confirmation {
+  .form_confirmation, .payment {
     width: 100%;
   }
 }
