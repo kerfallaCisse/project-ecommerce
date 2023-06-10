@@ -1,21 +1,81 @@
-
-body{
-    background-color: rgb(240, 240, 240);
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
 }
 
-/* --------------- SUMMARY ----------- */
+
+
+.cart_page{
+  background-color: white;
+  padding: 2%;
+  width: 100%;
+  min-height: 90vh;
+}
+
+.cart_container {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 40px;
+}
+
+
+
+.basket{
+  background-color: rgb(205, 247, 247);
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  row-gap: 40px;
+  justify-content: space-around;
+}
+
 .checkout{
-    position: absolute;
-    background-color: white;
-    margin-left: 70%;
-    height: 250px;
-    width: 250px;
-    border-radius: 10px;
-   
-    justify-content: center;
-    text-align: center;
-    margin-top: 10%;
+  background-color: beige;
+  width: 20%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  text-align: center;
 }
+
+
+
+.each_article{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.image_article img{
+  width: 22em;
+  height: auto;
+}
+
+.article{
+  margin-left: 0;
+  background-color: brown;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 30%;
+}
+
+.price {
+  background-color: blue;
+  width: 20%;
+}
+
+
+
+
+
+
+
+
 
 #interieur_chekout{
     font-size: 20px;
@@ -42,54 +102,19 @@ body{
     font-family: 'Mulish';
 }
 
-/*    ------ LES TITRES   --------  */
 
-#titre_1{
-    font-family: 'Mulish';
-    font-size: 30px;
+h1, h5, p {
+  font-family: 'Mulish';
 }
 
-#titre_2{
-    font-family: 'Mulish';
-    font-size: 15px;
+p {
+  font-size: medium;
 }
 
 /*   ----- LE PANIER --------- */
 
 
-#carte_panier{
-    
-    background-color: white;
-    width: 60%;
-    margin-top: 1%;
-    border-radius: 10px;
-}
-
-.container{
-    display: flex; 
-}
-
-#image{
-    font-family: 'Mulish';
-    height: 200px;
-    margin-top: 2%;
-    margin-bottom: 2%;
-}
-
-.article{
-    
-    flex-direction: column;
-    margin: 50px 10px 10px 10px;
-    
-}
-
-.article img {
-    width: 100px; /* Ajustez la taille de l'image selon vos besoins */
-    height: auto;
-    margin-right: 10px;
-    font-family: 'Mulish';
-}
-
+/*
 div {
     font-family: 'Mulish';
 }
@@ -102,8 +127,8 @@ p {
     margin-left: 10%;
     font-size: 30px;
     margin-top: 13%;
-    
-}
+
+} */
 
 #button_supprimer{
     height: 20px;

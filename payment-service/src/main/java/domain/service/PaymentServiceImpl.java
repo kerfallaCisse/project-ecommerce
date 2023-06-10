@@ -19,9 +19,6 @@ import javax.json.JsonObjectBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 
-
-
-
 @ApplicationScoped
 public class PaymentServiceImpl implements PaymentService{
 
@@ -33,6 +30,9 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public  JsonObject createCheckoutSession(Basket basket) throws StripeException{
         Stripe.apiKey = apiKey;
+
+        // String url = uriInfo.getRequestUri().toString();
+        // System.out.println(url);
 
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
         for (ProductBasket product : basket.getProducts()) {
@@ -61,17 +61,15 @@ public class PaymentServiceImpl implements PaymentService{
             SessionCreateParams params = SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.PAYMENT)
             .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-            // .setSuccessUrl("http://localhost:8080/success.html")
-            // .setCancelUrl("http://localhost:8080/cancel.html")
-            .setSuccessUrl("https://pinfo3.unige.ch/success.html")
-            .setCancelUrl("https://pinfo3.unige.ch/cancel.html")
+            // .setSuccessUrl("https://pinfo3.unige.ch/success")
+            // .setCancelUrl("https://pinfo3.unige.ch/fail")
+            .setSuccessUrl("http://localhost:4200/success")
+            .setCancelUrl("http://localhost:4200/fail")
             .setCurrency("chf")
             .addAllLineItem(lineItems)
             .build();
 
             Session session = Session.create(params);
-
-            System.out.print(session);
             Double total_amount = (double) session.getAmountTotal()/100;
             JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
             jsonObjectBuilder.add("amount",total_amount);

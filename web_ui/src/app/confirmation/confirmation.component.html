@@ -7,8 +7,6 @@
 
 <main class="confirmation_page">
 
-  <h3> Please check your personal details and purchases before proceeding to payment. </h3>
-
   <div class="container-sup">
 
     <div class = "form_confirmation" *ngIf="formData$ | async as formData">
@@ -27,7 +25,7 @@
       </div>
     </div>
 
-    <div class="cart_confirmation">
+    <!-- <div class="cart_confirmation">
       <h2>Cart Confirmation : </h2>
 
       <div class="cart_confirmation2" *ngFor="let item of cart_info">
@@ -39,13 +37,16 @@
       <div class="back-cart">
         <a href="# " routerLink="/cart">Back to the cart</a>
       </div>
+    </div> -->
+
+    <div class="payment">
+      <h2> Please check your personal details and purchases before proceeding to payment. </h2>
+      <a (click)="onPaymentClick()">Proceed to payment</a>
     </div>
 
   </div>
 
-  <div class="payment">
-    <a href="# " routerLink="/payment" (click)="onPaymentClick()">Proceed to payment</a>
-  </div>
+
 
 </main>
 
