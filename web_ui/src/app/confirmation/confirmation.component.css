@@ -119,6 +119,16 @@ p {
   border: 2px black solid;
   border-radius: 0.5em;
   margin: auto;
+  margin-bottom: 40px;
+}
+
+.payment p {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-family: 'Mulish';
+  font-size: large;
+  color: rgb(28, 133, 32);
 }
 
 .back-form:hover {

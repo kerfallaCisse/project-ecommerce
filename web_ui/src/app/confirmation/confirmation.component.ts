@@ -30,6 +30,8 @@ export class ConfirmationComponent {
   large_models: number = 0;
   logos: number = 0;
 
+  showRedirectMessage = false;
+
 
   ngOnInit() {
     const formDataFromLocalStorage = this.confirmationService.getFormDataFromLocalStorage();
@@ -87,6 +89,8 @@ export class ConfirmationComponent {
   }
 
   onPaymentClick() {
+    this.showRedirectMessage = true;
+
     const formDataFromLocalStorage = this.confirmationService.getFormDataFromLocalStorage();
     if (formDataFromLocalStorage) {
       this.confirmationService.postForm(formDataFromLocalStorage);

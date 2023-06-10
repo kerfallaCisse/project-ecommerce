@@ -12,6 +12,7 @@ import { SuccessComponent } from './success/success.component';
 import { FailComponent } from './fail/fail.component';
 import { FormComponent } from './form/form.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { HelpPageComponent } from './help-page/help-page.component';
 
 
 
@@ -30,7 +31,9 @@ const routes: Routes = [
 {path:'success', component: SuccessComponent},
 {path:'fail', component: FailComponent},
 {path: 'form', component: FormComponent},
-{path: 'confirmation', component: ConfirmationComponent}
+{path: 'confirmation', component: ConfirmationComponent},
+{path: 'help-page', component: HelpPageComponent}
+
 ];
 
 @NgModule({
