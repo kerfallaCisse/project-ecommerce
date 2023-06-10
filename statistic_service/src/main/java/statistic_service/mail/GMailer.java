@@ -49,6 +49,19 @@ public class GMailer {
 
     public GMailer() throws IOException, GeneralSecurityException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        // Credential credential = getCredentials(httpTransport);
+        
+
+        // Send request to get AccessToken
+
+        // Send request to get RefreshToken
+        // credential.setAccessToken();
+        // Set credential acess token
+        // credential.setRefreshToken();
+        //System.out.println(credential.refreshToken());
+
+        // Passe the credential to gmail builder
+        
         service = new Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
