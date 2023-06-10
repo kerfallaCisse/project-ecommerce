@@ -31,6 +31,9 @@ public class PaymentServiceImpl implements PaymentService{
     public  JsonObject createCheckoutSession(Basket basket) throws StripeException{
         Stripe.apiKey = apiKey;
 
+        // String url = uriInfo.getRequestUri().toString();
+        // System.out.println(url);
+
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
         for (ProductBasket product : basket.getProducts()) {
             int quantity = product.getQuantity();
@@ -58,8 +61,10 @@ public class PaymentServiceImpl implements PaymentService{
             SessionCreateParams params = SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.PAYMENT)
             .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-            .setSuccessUrl("https://pinfo3.unige.ch/success")
-            .setCancelUrl("https://pinfo3.unige.ch/fail")
+            // .setSuccessUrl("https://pinfo3.unige.ch/success")
+            // .setCancelUrl("https://pinfo3.unige.ch/fail")
+            .setSuccessUrl("http://localhost:4200/success")
+            .setCancelUrl("http://localhost:4200/fail")
             .setCurrency("chf")
             .addAllLineItem(lineItems)
             .build();
