@@ -48,8 +48,11 @@ import { environment } from './environnement';
   ],
   imports: [
     AuthModule.forRoot({
+      // ancien 
       domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
       clientId: 'ulU0Nnga1ilqIpGjcjXLkHSvNkplcYW6',
+      // domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
+      // clientId: '9WMd9HGMRo6Hkx700leDW5wmPMa4U1Gg',
       authorizationParams: {
         redirect_uri: window.location.origin
       }
