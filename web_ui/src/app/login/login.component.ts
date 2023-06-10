@@ -1,35 +1,28 @@
-import { Component, Inject,OnInit} from '@angular/core';
-
-// Import the AuthService type from the SDK
+import { Component,OnInit} from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { DOCUMENT } from '@angular/common';
+import { Auth0Client } from '@auth0/auth0-spa-js';
 
 
 @Component({
-  selector: 'app-auth-button',
-  template: `
-    <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-      <button (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
-        Log out
-      </button>
-    </ng-container>
+     selector: 'app-login',
+     templateUrl: './login.component.html',
+     styleUrls: ['./login.component.css']
+   })
 
-    <ng-template #loggedOut>
-      <button (click)="auth.loginWithRedirect()">Log in</button>
-    </ng-template>
-  `,
-  styles: [],
-})
 export class LoginComponent implements OnInit{
 
-  ngOnInit(): void {
-    console.log(this.auth.isAuthenticated$)
-  }
+  isAuthenticated: boolean | undefined = undefined;
   
-  // Inject the authentication service into your component through the constructor
-  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {}
-}
+    constructor( public auth: AuthService) {}
+    
+  ngOnInit(): void {
+    this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated;
+      console.log('Authentifié :', isAuthenticated);
+  })
 
+  }
+}
 
 // import { Component, OnInit } from '@angular/core';
 // import { Router } from '@angular/router';
