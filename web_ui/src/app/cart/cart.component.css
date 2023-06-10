@@ -3,10 +3,8 @@
   z-index: 1000;
 }
 
-
-
 .cart_page{
-  background-color: white;
+  background-color:  rgb(243, 243, 243);;
   padding: 2%;
   width: 100%;
   min-height: 90vh;
@@ -16,36 +14,37 @@
   display: flex;
   flex-wrap: wrap;
   column-gap: 40px;
+  padding-top: 20px;
 }
-
 
 
 .basket{
-  background-color: rgb(205, 247, 247);
+  background-color: white;
   width: 70%;
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
   row-gap: 40px;
   justify-content: space-around;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .checkout{
-  background-color: beige;
-  width: 20%;
-  height: 50%;
+  background-color: white;
+  width: 27%;
+  height: 10%;
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
-  text-align: center;
+  text-align: left;
+  padding: 30px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-
 
 
 .each_article{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  border-bottom: 0.5px solid gray;
 }
 
 .image_article img{
@@ -55,7 +54,7 @@
 
 .article{
   margin-left: 0;
-  background-color: brown;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -65,81 +64,97 @@
 }
 
 .price {
-  background-color: blue;
+  background-color: white;
   width: 20%;
+  margin: auto;
+}
+
+.price p {
+  font-family: 'Mulish';
+  font-size: xx-large;
+  font-weight: 1000;
 }
 
 
-
-
-
-
-
-
-
-#interieur_chekout{
-    font-size: 20px;
-}
-
-#affichage_subtotal{
-    margin-top: 30%;
-}
-
-#green_button {
-    background-color: greenyellow;
-    width: 60%;
-    border-radius: 5px;
-    margin-left: 20%;
-}
-
-#vers_formulaire{
-    font-family: 'Mulish';;
-    color: black;
-    font-size: 20px;
-}
-
-#subtotal{
-    font-family: 'Mulish';
-}
-
-
-h1, h5, p {
+h1, h3, h5, p {
   font-family: 'Mulish';
 }
 
 p {
+  font-size: large;
+}
+
+.delete {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+
+#article_quantity{
+  color: black;
+  font-family: "Mulish";
   font-size: medium;
+  text-align: center;
 }
 
-/*   ----- LE PANIER --------- */
-
-
-/*
-div {
-    font-family: 'Mulish';
-}
-p {
-    font-family: 'Mulish';
+#delete_button{
+  align-items: center;
+  background-color: black;
+  color: white;
+  font-size: medium;
+  font-family: 'Mulish';
 }
 
-
-#prix{
-    margin-left: 10%;
-    font-size: 30px;
-    margin-top: 13%;
-
-} */
-
-#button_supprimer{
-    height: 20px;
-    width: 100px;
-    margin-top: 3%;
-    background-color: red;
-    color: white;
-    border: none;
+#delete_button:hover{
+  background-color: red;
 }
 
-#button_supprimer:hover{
-    opacity: 50%;
+.checkout h3 {
+  font-family: 'Mulish';
+  font-weight: 1000;
+  padding-bottom: 20px;
 }
 
+#total {
+  font-family: 'Mulish';
+  font-weight: 1000;
+}
+
+
+.checkout_button {
+  margin-top: 30px;
+  background-color: rgb(63, 168, 63);
+  color: white;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+
+.checkout_button:hover {
+  background-color: rgba(63, 168, 63, 0.623);
+
+}
+
+#vers_formulaire{
+  font-family: 'Mulish';;
+  color: black;
+  font-size: large;
+}
+
+@media only screen and (max-width: 900px) {
+  .cart_page {
+    width: 900px;
+
+  }
+  .basket, .checkout {
+    width: 100%;
+  }
+
+  .cart_container {
+    row-gap: 40px;
+  }
+
+}

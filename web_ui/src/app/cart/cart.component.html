@@ -10,7 +10,7 @@
 
   <!-- Les titres  -->
   <h1> My shopping cart</h1>
-  <h5> You have <span id="number_article"></span> item(s) in your cart</h5>
+  <h5> You have <span id="number_article"></span> item(s) in your cart.</h5>
 
   <div class="cart_container">
 
@@ -24,8 +24,7 @@
         </div>
 
         <div class="article">
-          <h4>Invia Backpack</h4>
-          <p>Quantity: {{ article.quantity }}</p>
+          <h3>Invia Backpack</h3>
           <p>Size: {{ article.modelType }}</p>
           <p>Bag color: {{ article.bagColor }}</p>
           <p>Pocket color: {{ article.pocketColor }}</p>
@@ -33,11 +32,12 @@
         </div>
 
         <div class="price">
-          <p>Price : {{ article.price }}CHF</p>
+          <p> {{ article.price }}CHF</p>
         </div>
 
-        <div class="button">
-          <button id="button_supprimer" (click)="removeBag(article.image)">Supprimer</button>
+        <div class="delete">
+          <p id="article_quantity"> Quantity : {{article.quantity}}</p>
+          <button id="delete_button" (click)="removeBag(article.image)">Delete</button>
         </div>
 
       </div>
@@ -46,14 +46,15 @@
 
       <!-- Summary avec le total du prix  -->
       <div class="checkout">
-        <div id="interieur_chekout">
-          <div>Summary</div>
-            <div id="affichage_subtotal">
-              <div>Subtotal : <span id="subtotal">150</span> CHF</div>
-                  <div id="green_button">
-                    <a href="/form" id="vers_formulaire">Checkout</a>
-                  </div>
-              </div>
+        <h3>Summary</h3>
+        <div id="ticket">
+          <p>Subtotal : <span id="subtotal">150</span> CHF</p>
+          <p>Shipping : 5 CHF</p>
+          <hr>
+          <p id="total"> Total(with TVA) : 155 CHF</p>
+          <div class="checkout_button">
+            <a href="/form" id="vers_formulaire">Checkout</a>
+          </div>
         </div>
       </div>
 
