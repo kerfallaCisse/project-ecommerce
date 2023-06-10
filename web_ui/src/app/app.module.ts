@@ -26,6 +26,7 @@ import { FailComponent } from './fail/fail.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '@auth0/auth0-angular';
+import { environment } from './environnement';
 
 @NgModule({
   declarations: [
