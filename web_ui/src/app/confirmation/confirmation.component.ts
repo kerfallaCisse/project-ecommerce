@@ -33,6 +33,7 @@ export class ConfirmationComponent {
 
   ngOnInit() {
     const formDataFromLocalStorage = this.confirmationService.getFormDataFromLocalStorage();
+    console.log(formDataFromLocalStorage)
     if (formDataFromLocalStorage) {
       this.confirmationService.setFormData(formDataFromLocalStorage);
     }
