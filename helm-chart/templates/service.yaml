@@ -80,6 +80,22 @@ spec:
       protocol: TCP
   selector:
     app: {{ .Values.statsjwt.name }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.auth.name }}-service
+  namespace: {{ .Values.auth.namespace}}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.auth.port }}
+      targetPort: {{ .Values.auth.targetPort }}
+      protocol: TCP
+  selector:
+    app: {{ .Values.auth.name }}
+
   
 ---
 apiVersion: v1

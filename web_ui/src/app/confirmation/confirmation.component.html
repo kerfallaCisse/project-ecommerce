@@ -25,30 +25,28 @@
       </div>
     </div>
 
-    <div class="cart_confirmation">
+    <!-- <div class="cart_confirmation">
       <h2>Cart Confirmation : </h2>
-      <!-- <p> Backpack Red x Red </p>
-      <p> Size M</p>
-      <p> With logo </p>
-      <p> 130$</p> -->
 
       <div class="cart_confirmation2" *ngFor="let item of cart_info">
-        <p>Model Type: {{ getModelTypeDisplayName(item.modelType) }}</p>
-        <p>Bag Color: {{ item.bagColor }} // Pocket Color: {{ item.pocketColor }}</p>
-        <p>Logo: {{ getLogoDisplayName(item.logo)  }}</p>
+        <p>Type:&nbsp;{{ getModelTypeDisplayName(item.modelType) }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bag Color:&nbsp;{{ item.bagColor }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pocket Color:&nbsp;{{ item.pocketColor }}</p>
+        <p>Logo:&nbsp;{{ getLogoDisplayName(item.logo)}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Quantity:&nbsp;{{ item.quantity }}</p>
         <hr>
       </div>
 
       <div class="back-cart">
         <a href="# " routerLink="/cart">Back to the cart</a>
       </div>
+    </div> -->
+
+    <div class="payment">
+      <h2> Please check your personal details and purchases before proceeding to payment. </h2>
+      <a href="# " (click)="onPaymentClick()">Proceed to payment</a>
     </div>
 
   </div>
 
-  <div class="payment">
-    <a href="# " routerLink="/payment" (click)="onPaymentClick()">Proceed to payment</a>
-  </div>
+
 
 </main>
 

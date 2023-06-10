@@ -1,6 +1,12 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+<script>
+function func_reload_header_2() {
+  console.log("je suis la")
+  window.location.reload();
+}
+</script>
+<!-- Header section of the page -->
 <header>
 
   <div class="container1">
@@ -23,8 +29,11 @@
       <ul>
         <li><a href="/statistic" onclick="loadHeader()"  data-tooltip="Stat"><i class="bx bx-line-chart-down my-icon" ></i></a></li>
         <li><a href="/stock" onclick="loadHeader()"  data-tooltip="Stock"><i class='bx bxs-package' ></i></a></li>
-        <li><a href="/cart" onclick="loadHeader()"  data-tooltip="Cart"><i class="bx bx-cart my-icon" ></i></a></li>
-        <li><a href="/login" onclick="loadHeader()"  data-tooltip="Login"><i class="bx bx-user my-icon"></i></a></li>
+        
+        <li><a href="/cart" onclick="loadHeader()"  data-tooltip="Cart" id="cartoon"><i class="bx bx-cart my-icon" ><div id="border_red"><span id="numbre_in_cart"></span></div></i></a></li>
+        <li><a href="/login" data-tooltip="Login"><i class="bx bx-user my-icon"></i></a></li>
+        <!-- <li><a (click) = "auth.loginWithRedirect()" data-tooltip="Login"><i class="bx bx-user my-icon"></i></a></li> -->
+
       </ul>
     </nav>
 

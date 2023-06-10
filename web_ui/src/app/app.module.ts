@@ -25,6 +25,7 @@ import { SuccessComponent } from './success/success.component';
 import { FailComponent } from './fail/fail.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -41,9 +42,17 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     FormComponent,
     SuccessComponent,
     FailComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    
   ],
   imports: [
+    AuthModule.forRoot({
+      domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
+      clientId: 'ulU0Nnga1ilqIpGjcjXLkHSvNkplcYW6',
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
+    }),
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -54,7 +63,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
       echarts: () => import('echarts')
     })
   ],
-  providers: [],
+  providers: [CartComponent],
   bootstrap: [AppComponent]
 
 })

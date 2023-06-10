@@ -55,6 +55,19 @@ public class CartRessource {
             Optional<User> user = User.find("email", email).firstResultOptional();
             if (user.isPresent()) {
                 Long user_id = user.get().getId();
+
+                Optional<CustomBag> csbag = CustomBag
+                        .find("bagColor = ?1 AND pocketColor = ?2 AND user_id = ?3", bagColor, pocketColor, user_id)
+                        .firstResultOptional();
+                // We update the user custom bag
+                if (csbag.isPresent()) {
+                    // We only update the quantity
+                    CustomBag bagToUpdate = csbag.get();
+                    int initial_quantity = bagToUpdate.getQuantity();
+                    bagToUpdate.update("quantity = ?1", initial_quantity + quantity);
+                    return true;
+                }
+
                 // We create a new instance in the data base
                 CustomBag customBag = new CustomBag();
                 customBag.setBagColor(bagColor);

@@ -61,6 +61,14 @@ statistics:
     imagename: statistics
     replicas: 1
 
+auth:
+    name: auth
+    namespace: auth
+    targetPort: 8080
+    port: 80
+    imagename: auth
+    replicas: 1
+
 webui:
     name: web-ui
     namespace: web-ui
