@@ -39,17 +39,20 @@ public class AuthenticationService {
     SecurityIdentity securityIdentity;
 
     String api_token = ConfigProvider.getConfig().getValue("auth.api.token", String.class);
+    String client_id = ConfigProvider.getConfig().getValue("quarkus.oidc.client-id", String.class);
+    String client_secret = ConfigProvider.getConfig().getValue("quarkus.oidc.credentials.secret", String.class);
+    String audience = ConfigProvider.getConfig().getValue("auth_api.mng.aud", String.class);
 
-    // @GET
-    // @Produces(MediaType.TEXT_HTML)
-    // public String get() {
-    //     return "<html>\n" +
-    //             " <body>\n" +
-    //             " <h1>Hello " + securityIdentity.getPrincipal().getName() + "</h1>\n" +
-    //             "<h1>Admin: " + verifPrivileges() + "</h1>\n" +
-    //             " </body>\n" +
-    //             "</html>\n";
-    // }
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public String get() {
+        return "<html>\n" +
+                " <body>\n" +
+                " <h1>Hello " + securityIdentity.getPrincipal().getName() + "</h1>\n" +
+                "<h1>Admin: " + verifPrivileges() + "</h1>\n" +
+                " </body>\n" +
+                "</html>\n";
+    }
 
     @GET
     @Path("stats")
@@ -79,12 +82,23 @@ public class AuthenticationService {
             String email = correspondingUser.getEmail();
             // We get user information with auth0 management api
             try {
+                System.out.println(audience);
+                HttpResponse<JsonNode> resp_api_token = Unirest
+                        .post("https://dev-xuzmuq3g0kbtxrc4.us.auth0.com/oauth/token")
+                        .header("content-type", "application/x-www-form-urlencoded")
+                        .body("grant_type=client_credentials" + "&client_id=" + client_id + "&client_secret="
+                                + client_secret + "&audience=" + audience)
+                        // .body("grant_type=client_credentials&client_id=1cbIX93JuCK3wPDNsqOUY8ZGDzjP9zk3&client_secret=%7ByourClientSecret%7D&audience=https%3A%2F%2Fdev-xuzmuq3g0kbtxrc4.us.auth0.com%2Fapi%2Fv2%2F")
+                        .asJson();
+                
+                String mng_api_token = resp_api_token.getBody().getObject().getString("access_token"); // To get acces token for short periode                
+
                 HttpResponse<JsonNode> response = Unirest
                         .get("https://dev-xuzmuq3g0kbtxrc4.us.auth0.com/api/v2/users?q=" + email + "&search_engine=v3")
-                        .header("authorization", "Bearer " + api_token)
+                        .header("authorization", "Bearer " + mng_api_token)
                         .asJson();
                 JSONArray jsonArray = response.getBody().getArray();
-                //if ()
+
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 JSONArray groups = jsonObject.getJSONObject("app_metadata").getJSONObject("authorization")
                         .getJSONArray("groups");
