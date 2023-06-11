@@ -12,7 +12,7 @@
         <module>customization</module>
         <module>payment-service</module>
         <!-- <module>statistic_service</module> -->
-       <!--<module>stats-jwt</module> -->
+        <module>stats-jwt</module> 
         <module>stock-management</module>
     </modules>
     <properties>
