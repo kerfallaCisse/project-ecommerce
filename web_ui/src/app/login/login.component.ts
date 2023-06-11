@@ -1,9 +1,12 @@
 import { Component,OnInit,Inject} from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { Auth0Client } from '@auth0/auth0-spa-js';
 import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import {Auth} from 'src/app/auth.service'
+import {createAuth0Client,  Auth0Client } from '@auth0/auth0-spa-js';
+import { environment } from '../environnement';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @Component({
      selector: 'app-login',
@@ -11,38 +14,29 @@ import { Injectable } from '@angular/core';
      styleUrls: ['./login.component.css']
    })
 
-export class LoginComponent implements OnInit {
-  
-  isAuthenticated: boolean | undefined = undefined;
-  
-  constructor(
-    public auth: AuthService,
-    @Inject(DOCUMENT) private doc: Document
-  ) {}  
+export class LoginComponent {
+  private auth0Client: Auth0Client | undefined;
+  isAuthenticated = false;
 
-    loginWithRedirect(): void {
-      this.auth.loginWithRedirect();
-      console.log("onestla")
-    }
-
-    
-  ngOnInit(): void {
-    
-    function logout(this: any): void {
-      this.auth.logout({ returnTo: this.doc.location.origin });
-    }
-
-  
-
-    this.auth.isAuthenticated$.subscribe(isAuthenticated => {
-      this.isAuthenticated = isAuthenticated;
-      //console.log('Authentifié :', isAuthenticated);
-  })
-  console.log(this.auth.isAuthenticated$)
-
+  constructor() {
+    this.initializeAuth0();
   }
 
+  private async initializeAuth0() {
+    this.auth0Client = await createAuth0Client({
+      domain:'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
+      clientId: 'ulU0Nnga1ilqIpGjcjXLkHSvNkplcYW6',
+    });
+    this.isAuthenticated = await this.auth0Client.isAuthenticated();
+  }
+
+  async login() {
+    await this.auth0Client?.loginWithRedirect();
+  }
 }
+
+
+
 
 
 

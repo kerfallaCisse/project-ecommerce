@@ -1,4 +1,4 @@
 export const environment = {
-        domain: 'votre-domaine.auth0.com',
-        clientId: 'votre-client-id',
+        domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
+        clientId: 'ulU0Nnga1ilqIpGjcjXLkHSvNkplcYW6',
 }

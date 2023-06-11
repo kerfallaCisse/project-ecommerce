@@ -42,13 +42,13 @@ public class AuthenticationService {
 
     // @GET
     // @Produces(MediaType.TEXT_HTML)
-    // public String stock() {
-    // return "<html>\n" +
-    // " <body>\n" +
-    // " <h1>Hello " + securityIdentity.getPrincipal().getName() + "</h1>\n" +
-    // "<h1>Admin: " + verifPrivileges() + "</h1>\n" +
-    // " </body>\n" +
-    // "</html>\n";
+    // public String get() {
+    //     return "<html>\n" +
+    //             " <body>\n" +
+    //             " <h1>Hello " + securityIdentity.getPrincipal().getName() + "</h1>\n" +
+    //             "<h1>Admin: " + verifPrivileges() + "</h1>\n" +
+    //             " </body>\n" +
+    //             "</html>\n";
     // }
 
     @GET
@@ -84,6 +84,7 @@ public class AuthenticationService {
                         .header("authorization", "Bearer " + api_token)
                         .asJson();
                 JSONArray jsonArray = response.getBody().getArray();
+                //if ()
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 JSONArray groups = jsonObject.getJSONObject("app_metadata").getJSONObject("authorization")
                         .getJSONArray("groups");
@@ -138,7 +139,8 @@ public class AuthenticationService {
             userToInsert.setAdmin(0);
             userToInsert.setCreated_at(created_at);
             userToInsert.persist();
-            if (userToInsert.isPersistent()) return Response.status(Response.Status.CREATED).build();
+            if (userToInsert.isPersistent())
+                return Response.status(Response.Status.CREATED).build();
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 

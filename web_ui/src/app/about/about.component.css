@@ -14,16 +14,11 @@ span {
   font-family: 'Mulish';
 }
 
-/* ------------------------ Second section : Invia's story -----------------------------*/
-
-
-
-.invia_story_section {
-  padding: 5% 8% 5% 5%;
-  display: flex;
-  opacity: 0; /* Par défaut, la section est invisible */
-  animation: fade-in 2s ease-in-out forwards; /* Animation d'apparition */
+.about_page_container {
+  opacity: 0;
+  animation: fade-in 2s ease-in-out forwards;
 }
+
 
 @keyframes fade-in {
   0% {
@@ -34,6 +29,16 @@ span {
     opacity: 1; /* Opacité complète à la fin de l'animation */
     transform: translateY(0); /* Pas de décalage vertical à la fin de l'animation */
   }
+}
+
+/* ------------------------ Invia's story -----------------------------*/
+
+
+
+.invia_story_section {
+  padding: 5% 8% 5% 5%;
+  display: flex;
+
 }
 
 .invia {
@@ -67,7 +72,7 @@ span {
 }
 
 
-/* ------------------------ Third section : Owner's story -----------------------------*/
+/* ------------------------ Owner's story -----------------------------*/
 
 .image_section_2 {
   background-image: url("/assets/home-background/athlete.jpeg");
