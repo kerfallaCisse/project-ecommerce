@@ -31,6 +31,7 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Message;
 import com.google.common.io.CharSource;
+import java.lang.Long;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 
@@ -49,20 +50,14 @@ public class GMailer {
 
     public GMailer() throws IOException, GeneralSecurityException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        // Credential credential = getCredentials(httpTransport);
+        Credential credential = getCredentials(httpTransport);
+        Long access_token_duration = credential.getExpiresInSeconds();
+
         
-
-        // Send request to get AccessToken
-
-        // Send request to get RefreshToken
-        // credential.setAccessToken();
-        // Set credential acess token
-        // credential.setRefreshToken();
-        //System.out.println(credential.refreshToken());
-
-        // Passe the credential to gmail builder
+        // We extended token duration for one month.
+        credential.setExpiresInSeconds(access_token_duration*4380);
         
-        service = new Gmail.Builder(httpTransport, JSON_FACTORY, getCredentials(httpTransport))
+        service = new Gmail.Builder(httpTransport, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
