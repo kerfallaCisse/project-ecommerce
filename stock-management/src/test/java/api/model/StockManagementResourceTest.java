@@ -30,7 +30,8 @@ public class StockManagementResourceTest {
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("[0].result", equalTo("ok"));
+                .body("[0].result", equalTo("ok"))
+                .log().body();
     }
 
     // Test if some of body data is missing
