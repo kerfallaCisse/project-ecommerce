@@ -199,10 +199,12 @@ public class CartRessource {
                 return false;
             }
             // We update the quantity and the stats for abandonned basket
-            basket.update("image = ?1 AND quantity = ?2", image, initial_quantity - 1);
+            CustomBag.update("quantity = ?1 WHERE image = '" + image + "'", initial_quantity - 1);
+            return true;
+
         }
 
-        return true;
+        return false;
     }
 
     // Delete user basket after payment
