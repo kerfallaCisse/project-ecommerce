@@ -20,7 +20,6 @@ import statistic_service.model.entity.Color;
 import statistic_service.model.entity.Profit;
 import statistic_service.model.entity.User;
 import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.PUT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -329,28 +328,8 @@ public class StatisticRessource {
 
     @Path("cart")
     @DELETE
-    public Response deleteSpecificUserBasket(@QueryParam("image") String image) {
+    public Response deleteUserBasket(@QueryParam("image") String image) {
         if(cartRessource.deleteBasket(image)) {
-            return Response.status(Response.Status.OK).build();
-        }
-
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
-
-    @Path("cart")
-    @PUT
-    public Response UpdateUserBasketQuantity(@QueryParam("image") String image) {
-        if(cartRessource.updateBasketQty(image)) {
-            return Response.status(Response.Status.OK).build();
-        }
-
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }   
-
-    @Path("cart")
-    @DELETE
-    public Response deleteUserBasketPayment(@QueryParam("email") String email) {
-        if(cartRessource.deletUserBaskets(email)) {
             return Response.status(Response.Status.OK).build();
         }
 
