@@ -13,6 +13,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import statistic_service.model.ProfitStats;
 import statistic_service.model.StatsImpl;
 import statistic_service.model.entity.AbandonedBasket;
