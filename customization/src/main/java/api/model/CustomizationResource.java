@@ -52,9 +52,14 @@ public class CustomizationResource {
             if (largeModel == null) {
                 return jsonObjectBuilder.add("error", "bag not found").build();
             } else {
+                String bagImage = null; // Set to null before testing
                 try {
-                    File bagWithLogo = mergeImages(largeModel.cloudinary_url, bagModel.file);
-                    String cloudinary_bagWithLogo = upload_image(bagWithLogo);
+                    if (ImageIO.read(new ByteArrayInputStream(Files.readAllBytes(bagModel.file.toPath()))) != null) {
+                        File bagWithLogo = mergeImages(largeModel.cloudinary_url, bagModel.file);
+                        bagImage = upload_image(bagWithLogo);
+                    } else {
+                        bagImage = largeModel.cloudinary_url;
+                    }                    
                     
                     jsonObjectBuilder
                     .add("email", bagModel.email)
@@ -62,7 +67,7 @@ public class CustomizationResource {
                     .add("bagColor", bagModel.bagColor)
                     .add("pocketColor", bagModel.pocketColor)
                     .add("quantity", bagModel.quantity)
-                    .add("cloudinary_url", cloudinary_bagWithLogo);
+                    .add("cloudinary_url", bagImage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -99,16 +104,10 @@ public class CustomizationResource {
 
         try {
             // Upload
-            Map<String, Object> uploadResult = cloudinary.uploader().upload(bagWithLogo, ObjectUtils.emptyMap()); // Change URL
+            Map<String, Object> uploadResult = cloudinary.uploader().upload(bagWithLogo, ObjectUtils.emptyMap()); 
             // Get the public URL
             String publicUrl = cloudinary.url().generate(uploadResult.get("public_id").toString());
 
-            /* Add URL to database
-            LargeModel model = new LargeModel();
-            model.bag_name = ""; // Set the bag name here. Ex BlackBlack
-            model.cloudinary_url = publicUrl;
-            model.persist(); // Save the entity to the database
-            */
             return publicUrl;
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
@@ -119,7 +118,7 @@ public class CustomizationResource {
     public File mergeImages(String imageUrl, File logoFile) throws IOException {
         byte[] formData = Files.readAllBytes(logoFile.toPath());
         ByteArrayInputStream bInputStream = new ByteArrayInputStream(formData);
-        BufferedImage logo = ImageIO.read(bInputStream); // Uploaded logo 150x150 px
+        BufferedImage logo = ImageIO.read(bInputStream); // Uploaded logo 150x150 px ImageIO.read(new ByteArrayInputStream(Files.readAllBytes(bagModel.file.toPath())))
 
         URL url = new URL(imageUrl);
         InputStream inputStream = url.openStream();
