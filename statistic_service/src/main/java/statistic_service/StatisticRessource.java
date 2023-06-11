@@ -336,4 +336,27 @@ public class StatisticRessource {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
+    @Path("cart/basket_quantity")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response UpdateUserBasketQuantity(JsonObject jsonObject) {
+        String image = jsonObject.getString("image");
+        if (image == null) return Response.status(Response.Status.BAD_REQUEST).build();
+        if(cartRessource.updateBasketQty(image)) {
+            return Response.status(Response.Status.OK).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }   
+
+    @Path("cart/payment")
+    @DELETE
+    public Response deleteUserBasketPayment(@QueryParam("email") String email) {
+        if(cartRessource.deletUserBaskets(email)) {
+            return Response.status(Response.Status.OK).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
 }
