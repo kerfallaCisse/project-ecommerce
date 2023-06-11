@@ -88,7 +88,6 @@ public class AuthenticationService {
                         .header("content-type", "application/x-www-form-urlencoded")
                         .body("grant_type=client_credentials" + "&client_id=" + client_id + "&client_secret="
                                 + client_secret + "&audience=" + audience)
-                        // .body("grant_type=client_credentials&client_id=1cbIX93JuCK3wPDNsqOUY8ZGDzjP9zk3&client_secret=%7ByourClientSecret%7D&audience=https%3A%2F%2Fdev-xuzmuq3g0kbtxrc4.us.auth0.com%2Fapi%2Fv2%2F")
                         .asJson();
                 
                 String mng_api_token = resp_api_token.getBody().getObject().getString("access_token"); // To get acces token for short periode                
@@ -119,12 +118,6 @@ public class AuthenticationService {
         return false;
 
     }
-
-    /***
-     * 
-     * THE API MUST BE IN TYPE SERVICE, SO WE CAN USE THE jsonwebToken -> usefull to
-     * insert user in the database
-     */
 
     // This endpoint must be called after the user has created an account with auth0
     @POST
