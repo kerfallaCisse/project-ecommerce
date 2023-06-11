@@ -33,7 +33,7 @@ public class PaymentRestService {
         return Response.ok(session).build();
     }
     
-    @PUT
+    @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/update_amount")
@@ -41,13 +41,12 @@ public class PaymentRestService {
 
         Double amount = Double.parseDouble(jsonObject.getJsonNumber("amount").toString());
         LocalDate currentDate = LocalDate.now();
-        Profit profit = Profit.findById(1L);
-        Double initial_amount = profit.getAmount();
 
         if (amount <= 0)
             return Response.status(Response.Status.BAD_REQUEST).build();
         
-        profit.setAmount(amount + initial_amount);
+        Profit profit = new Profit();    
+        profit.setAmount(amount);
         profit.setCreated_at(currentDate);
         profit.persist();
 
