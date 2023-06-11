@@ -24,9 +24,9 @@ export type StockResponse = StockItem[];
 @Injectable()
 export class StockService {
 
-  
 
-  
+
+
   configUrl_2 = '/api/stock'
   configUrl_3 = '/api/customization'
   configUrl_4 = '/api/stock/update'
@@ -58,20 +58,20 @@ export class StockService {
       modelType:  model,
       color_pocket_name: color_pocket_name,
       color_bag_name: color_bag_name,
-      
+
       quantity: y,
-      
+
     };
     console.log(data)
     this.http.post<Item>(this.configUrl_2,data).subscribe(response => {
-      console.log(response)
+      console.log("yo",response)
     })
-    
+
     ;
 }
 
 
-  
+
 
 
 
