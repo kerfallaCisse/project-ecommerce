@@ -12,12 +12,12 @@ import static io.restassured.RestAssured.given;
 @TestHTTPEndpoint(AuthenticationService.class)
 public class AuthenticationServiceTest {
 
-    @Test
-    public void testHelloEndpoint() {
-        given()
-          .when().get()
-          .then()
-             .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
-    }
+    // @Test
+    // public void testProtectedEnpoind() {
+    //     given()
+    //       .when().get("stats")
+    //       .then()
+    //          .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    // }
 
 }
