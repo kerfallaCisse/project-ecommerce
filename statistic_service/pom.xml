@@ -7,8 +7,9 @@
   <parent>
     <groupId>org.gs</groupId>
     <artifactId>ecommerce</artifactId>
-    <version>1.0-SNAPSHOT</version> 
+    <version>1.0-SNAPSHOT</version>
   </parent>
+
   <groupId>statistic_service</groupId>
   <artifactId>statistic_service</artifactId>
   <version>1.0.0-SNAPSHOT</version>

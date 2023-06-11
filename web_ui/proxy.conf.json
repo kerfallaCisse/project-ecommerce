@@ -60,8 +60,14 @@
         "secure": true,
         "logLevel": "debug",
         "changeOrigin": true
-      }
+      },
 
+    "/api/payment/update_amount": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+      }
 }
 
 

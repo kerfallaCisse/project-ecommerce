@@ -46,23 +46,59 @@ public class CustomizationResource {
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getBag(@MultipartForm CustomizationFormData bagModel) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        
+        String modelType = null;
+        String pocketColor = null;
+        String bagColor = null;
+        String email = null;
+        int quantity = 0;
+
+        if (bagModel.modelType != null && bagModel.modelType instanceof String) {
+            modelType = bagModel.modelType;
+        } else {
+            return jsonObjectBuilder.add("error", "type error").build();
+        }
+        if (bagModel.pocketColor != null && bagModel.pocketColor instanceof String) {
+            pocketColor = bagModel.pocketColor;
+        } else {
+            return jsonObjectBuilder.add("error", "type error").build();
+        }
+        if (bagModel.bagColor != null && bagModel.bagColor instanceof String) {
+            bagColor = bagModel.bagColor;
+        } else {
+            return jsonObjectBuilder.add("error", "type error").build();
+        }
+        if (bagModel.email != null && bagModel.email instanceof String) {
+            email = bagModel.email;
+        } else {
+            return jsonObjectBuilder.add("error", "type error").build();
+        }
+        // if (bagModel.quantity instanceof int && bagModel.quantity > 0) {
+        //     quantity = bagModel.quantity;
+        // } else {
+        //     return jsonObjectBuilder.add("error", "type error").build();
+        // }
+
         if ("largeModel".equals(bagModel.modelType) || "smallModel".equals(bagModel.modelType)) {
             LargeModel largeModel = LargeModel.find("bag_name", bagModel.bagColor + bagModel.pocketColor).firstResult();
             if (largeModel == null) {
                 return jsonObjectBuilder.add("error", "bag not found").build();
             } else {
+                String bagImage = null; // Set to null before testing
                 try {
-                    File bagWithLogo = mergeImages(largeModel.cloudinary_url, bagModel.file);
-                    String cloudinary_bagWithLogo = upload_image(bagWithLogo);
-                    
+                    if (ImageIO.read(new ByteArrayInputStream(Files.readAllBytes(bagModel.file.toPath()))) != null) {
+                        File bagWithLogo = mergeImages(largeModel.cloudinary_url, bagModel.file);
+                        bagImage = upload_image(bagWithLogo);
+                    } else {
+                        bagImage = largeModel.cloudinary_url;
+                    }
+
                     jsonObjectBuilder
-                    .add("email", bagModel.email)
-                    .add("modelType", bagModel.modelType)
-                    .add("bagColor", bagModel.bagColor)
-                    .add("pocketColor", bagModel.pocketColor)
-                    .add("quantity", bagModel.quantity)
-                    .add("cloudinary_url", cloudinary_bagWithLogo);
+                            .add("email", email)
+                            .add("modelType", modelType)
+                            .add("bagColor", bagColor)
+                            .add("pocketColor", pocketColor)
+                            .add("quantity", quantity)
+                            .add("cloudinary_url", bagImage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -70,18 +106,20 @@ public class CustomizationResource {
         }
 
         // Change it in case when real images are available
-        /*else if ("smallModel".equals(modelType)) {
-            SmallModel smallModel = SmallModel.find("bag_name", bagColor + pocketColor).firstResult();
-            if (smallModel == null) {
-                return jsonObjectBuilder.add("error", "bag not found").build();
-            } else {
-                jsonObjectBuilder
-                    .add("id", largeModel.id)
-                    .add("cloudinary_url", largeModel.cloudinary_url);
-            }
-        }
-        */
-        
+        /*
+         * else if ("smallModel".equals(modelType)) {
+         * SmallModel smallModel = SmallModel.find("bag_name", bagColor +
+         * pocketColor).firstResult();
+         * if (smallModel == null) {
+         * return jsonObjectBuilder.add("error", "bag not found").build();
+         * } else {
+         * jsonObjectBuilder
+         * .add("id", largeModel.id)
+         * .add("cloudinary_url", largeModel.cloudinary_url);
+         * }
+         * }
+         */
+
         else {
             return jsonObjectBuilder.add("error", "bag not found").build();
         }
@@ -99,16 +137,10 @@ public class CustomizationResource {
 
         try {
             // Upload
-            Map<String, Object> uploadResult = cloudinary.uploader().upload(bagWithLogo, ObjectUtils.emptyMap()); // Change URL
+            Map<String, Object> uploadResult = cloudinary.uploader().upload(bagWithLogo, ObjectUtils.emptyMap());
             // Get the public URL
             String publicUrl = cloudinary.url().generate(uploadResult.get("public_id").toString());
 
-            /* Add URL to database
-            LargeModel model = new LargeModel();
-            model.bag_name = ""; // Set the bag name here. Ex BlackBlack
-            model.cloudinary_url = publicUrl;
-            model.persist(); // Save the entity to the database
-            */
             return publicUrl;
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
@@ -119,7 +151,7 @@ public class CustomizationResource {
     public File mergeImages(String imageUrl, File logoFile) throws IOException {
         byte[] formData = Files.readAllBytes(logoFile.toPath());
         ByteArrayInputStream bInputStream = new ByteArrayInputStream(formData);
-        BufferedImage logo = ImageIO.read(bInputStream); // Uploaded logo 150x150 px
+        BufferedImage logo = ImageIO.read(bInputStream); // Uploaded logo 150x150 px 
 
         URL url = new URL(imageUrl);
         InputStream inputStream = url.openStream();
@@ -143,7 +175,7 @@ public class CustomizationResource {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw the newLogo onto the bagImage
-        g2d.drawImage(logo, (bagImage.getWidth() - logo.getWidth()) / 2, (bagImage.getHeight() / 2) , null);
+        g2d.drawImage(logo, (bagImage.getWidth() - logo.getWidth()) / 2, (bagImage.getHeight() / 2), null);
 
         // Cleanup
         g2d.dispose();
@@ -154,5 +186,5 @@ public class CustomizationResource {
 
         return outputFile;
     }
-    
+
 }
