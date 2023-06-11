@@ -1,0 +1,35 @@
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.help-container {
+  background-color: rgb(243, 243, 243);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  min-height: 90vh;
+}
+
+.text {
+  padding: 10% 10% 10% 10%;
+  background-color: white;
+}
+
+h2 {
+  text-align: center;
+  font-family: 'Mulish';
+}
+
+#mail {
+  color:rgb(73, 132, 73);
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
+  }
+}

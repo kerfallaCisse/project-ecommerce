@@ -1,5 +1,5 @@
 variables:
-  VERSION : "0.1.0-SNAPSHOT"
+  VERSION : "0.1.6-SNAPSHOT"
 
 
 image: maven:3.6.3-openjdk-17-slim
@@ -9,11 +9,12 @@ stages:
   - build
   - image-push
   - test
+  - image-push
   - deploy
 
 sonarcloud-check-branch:
   stage: sonarcloud-integration
-  image: maven:3.6.3-jdk-11
+  image: maven:3.6.3-openjdk-17-slim
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
@@ -23,7 +24,6 @@ sonarcloud-check-branch:
       - .sonar/cache
   script: 
     - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
-
 
 mvn-build-stock-management:
   stage:  build
@@ -49,7 +49,7 @@ test-stock-management:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
     - denis
 
 
@@ -69,7 +69,12 @@ container-image-stock-management:
       --dockerfile "${CI_PROJECT_DIR}/stock-management/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stock-management:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
+
+
 
 
 mvn-build-customization:
@@ -95,7 +100,7 @@ test-customization:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
 container-image-customization:
@@ -114,7 +119,11 @@ container-image-customization:
       --dockerfile "${CI_PROJECT_DIR}/customization/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/customization:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
+
 
 
 mvn-build-payment :
@@ -140,7 +149,7 @@ test-payment:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
 
@@ -153,6 +162,7 @@ container-image-payment:
     entrypoint: [""]
   script:
     - /kaniko/executor
+      --build-arg STRIPE_SECRET=${STRIPE_SECRET}
       --build-arg MYSQL_USER=${MYSQL_USER}
       --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
       --build-arg MYSQL_URL=${MYSQL_URL}
@@ -160,38 +170,95 @@ container-image-payment:
       --dockerfile "${CI_PROJECT_DIR}/payment-service/src/main/docker/Dockerfile.jvm"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/payment-service:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
+
+
+
+mvn-build-statistics:
+  stage:  build
+  script: 
+    - cd statistic_service
+    -  mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - statistic_service/target
+    expire_in: 2 hours
+  only:
+    - main
+    - schedules
+
+
+test-statistics:
+  stage: test
+  dependencies:
+    - mvn-build-statistics 
+  script:
+    - cd statistic_service 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
+    - mvn test
+  only:
+    - schedules
+
+
+container-image-statistics:
+  stage: image-push
+  dependencies:
+    - mvn-build-statistics 
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --build-arg MYSQL_USER=${MYSQL_USER}
+      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      --build-arg MYSQL_URL=${MYSQL_URL}
+      --build-arg INVIA_EMAIL=${INVIA_EMAIL}
+      --build-arg GMAIL_API_SECRET=${GMAIL_API_SECRET}
+      --context "${CI_PROJECT_DIR}/statistic_service"
+      --dockerfile "${CI_PROJECT_DIR}/statistic_service/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/statistics:${VERSION}"
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
+
+
 
   
-mvn-build-backoffice-service:
+mvn-build-auth:
   stage:  build
   script: 
-    - cd backoffice_service/stats
+    - cd auth_service 
     -  mvn clean package -DskipTests
   artifacts:
     paths:
-      - backoffice_service/stats/target
+      - auth_service/target
     expire_in: 2 hours
   only:
     - main
     - schedules
 
 
-test-backoffice-service:
+test-auth:
   stage: test
   dependencies:
-    - mvn-build-backoffice-service
+    - mvn-build-auth
   script:
-    - cd backoffice_service/stats
+    - cd auth_service 
+    - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
-    - main
+    - schedules
 
 
-container-image-backoffice-service:
+container-image-auth:
   stage: image-push
   dependencies:
-    - mvn-build-backoffice-service
+    - mvn-build-auth
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
@@ -200,58 +267,19 @@ container-image-backoffice-service:
       --build-arg MYSQL_USER=${MYSQL_USER}
       --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
       --build-arg MYSQL_URL=${MYSQL_URL}
-      --context "${CI_PROJECT_DIR}/backoffice_service/stats"
-      --dockerfile "${CI_PROJECT_DIR}/backoffice_service/stats/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/back-office:${VERSION}"
+      --build-arg CLIENT_SECRET=${CLIENT_SECRET}
+      --build-arg CLIENT_ID=${CLIENT_ID}
+      --build-arg AUTH_DOMAIN=${AUTH_DOMAIN}
+      --build-arg API_TOKEN=${API_TOKEN}
+      --context "${CI_PROJECT_DIR}/auth_service"
+      --dockerfile "${CI_PROJECT_DIR}/auth_service/src/main/docker/Dockerfile.jvm"
+      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/auth:${VERSION}"
   only:
-     - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
-
-
-
-mvn-build-stats-jwt:
-  stage:  build
-  script: 
-    - cd stats-jwt
-    -  mvn clean package -DskipTests
-  artifacts:
-    paths:
-      - stats-jwt/target
-    expire_in: 2 hours
-  only:
-    - main
-    - schedules
-
-
-test-stats-jwt:
-  stage: test
-  dependencies:
-    - mvn-build-stats-jwt
-  script:
-    - cd stats-jwt
-    - mvn test
-  only:
-    - main
-
-
-
-container-image-stats-jwt:
-  stage: image-push
-  dependencies:
-    - mvn-build-stats-jwt
-  image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
-    entrypoint: [""]
-  script:
-    - /kaniko/executor
-      --build-arg MYSQL_USER=${MYSQL_USER}
-      --build-arg MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      --build-arg MYSQL_URL=${MYSQL_URL}
-      --context "${CI_PROJECT_DIR}/stats-jwt"
-      --dockerfile "${CI_PROJECT_DIR}/stats-jwt/src/main/docker/Dockerfile.jvm"
-      --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/stats-jwt:${VERSION}"
-  only:
-     - schedules
 
 npm-build-ui:
   stage: build
@@ -288,9 +316,12 @@ container-image-web-ui:
       --dockerfile "${CI_PROJECT_DIR}/web_ui/Dockerfile"
       --destination "registry.gitlab.unige.ch/pinfo-2023/pinfo-2/project-ecommerce/web-ui:${VERSION}"
   only:
-     - schedules
- 
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
+ 
 deploy:
   stage: deploy
   image: alpine/helm:3.2.1
@@ -299,7 +330,14 @@ deploy:
     - helm uninstall invia --namespace default
     - helm upgrade --install invia ./helm-chart --namespace default
   only:
-    - schedules
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
+      - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_MESSAGE =~ /.*\[helm\].*/
+      - $CI_COMMIT_REF_NAME == "main"
+
+
+
 
 
 

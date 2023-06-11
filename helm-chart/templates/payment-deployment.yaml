@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.payment.name }}-deployment
+  namespace: {{ .Values.payment.namespace}}
+spec:
+  replicas: {{ .Values.payment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.payment.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.payment.name }}
+    spec:
+      containers:
+        - name: {{ .Values.payment.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.payment.imagename }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy}}
+          ports:
+            - containerPort: {{ .Values.payment.targetPort }}
+          env:
+            - name: STRIPE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_SECRET
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: password
+            - name: MYSQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: url
+          securityContext:
+            runAsUser: 0  # Change the user ID if needed
+      imagePullSecrets:
+        - name: my-registry-secret

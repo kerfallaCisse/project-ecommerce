@@ -1,0 +1,75 @@
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
+</div>
+
+
+<main class="customization_page">
+
+
+  <div class="customization_container">
+
+    <div class="custom_form">
+
+      <div id="bag_size" class="user_custom">
+        <label>Choose your bag size</label>
+        <div class="button_container">
+          <button id="small_model" [class.selected]="selectedSize === 40" (click)="changeBagSize(40)">40L</button>
+          <button id="large_model" [class.selected]="selectedSize === 70" (click)="changeBagSize(70)">70L</button>
+        </div>
+      </div>
+
+      <div id=bag_color class="user_custom">
+        <label>Select your bag color</label>
+        <div class="button_container">
+          <button id="blue" class="round-button" [class.selected]="selectedBagColor === '#000060'" (click)="changeBagColors(false, '#000060')"></button>
+          <button id="black" class="round-button" [class.selected]="selectedBagColor === '#0F0F0F'" (click)="changeBagColors(false, '#0F0F0F')"></button>
+          <button id="red" class="round-button" [class.selected]="selectedBagColor === '#500000'" (click)="changeBagColors(false, '#500000')"></button>
+        </div>
+      </div>
+
+      <div id ="pocket_color" class="user_custom">
+        <label>Select your pocket color</label>
+        <div class="button_container">
+          <button id="blue" class="round-button" [class.selected]="selectedPocketColor === '#000060'" (click)="changeBagColors(true, '#000060')"></button>
+          <button id="black" class="round-button" [class.selected]="selectedPocketColor === '#0F0F0F'" (click)="changeBagColors(true, '#0F0F0F')"></button>
+          <button id="red" class="round-button" [class.selected]="selectedPocketColor === '#500000'" (click)="changeBagColors(true, '#500000')"></button>
+        </div>
+      </div>
+
+      <div id="quantity" class="user_custom">
+        <label>Add desired quantity</label>
+        <div class="button_container">
+          <button id="minusButton" (click)="minusButton()"> - </button>
+          <p id="bagQuantity">{{bagQuantity}}</p>
+          <button id="plusButton" (click)="plusButton()"> + </button>
+        </div>
+      </div>
+
+      <div id="select_file" class="user_custom">
+        <form id="monFormulaire">
+          <label>Download your own logo (+30CHF) </label>
+          <div class="button_container">
+            <input type="file" id="file" (change)="handleFileInput($event)">
+          </div>
+        </form>
+      </div>
+
+      <div id="cart_button" class="user_custom">
+        <button id="add_to_cart" (click)="addingToCartOperation()">Add to Cart <p> (Total : {{ price }}.00 CHF)</p></button>
+      </div>
+
+    </div>
+
+    <div class="scene3d">
+      <div id="my3DContainer" class="my3d-container">
+        <canvas id="myCanvas"></canvas>
+      </div>
+    </div>
+
+
+    </div>
+
+</main>
+

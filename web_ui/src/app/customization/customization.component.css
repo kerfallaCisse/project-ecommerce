@@ -1,0 +1,186 @@
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.customization_page {
+  width: 100%;
+  min-height: 90vh;
+  background-color:  #d2d7d2;
+  display: flex;
+}
+
+
+.customization_container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.custom_form, .scene3d {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-around;
+}
+
+.custom_form {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3)), url("/assets/home-background/forest-2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.user_custom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  padding: 10px;
+  width: 350px;
+  height: 100px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.button_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+label {
+  font-family: 'Mulish';
+  font-size: large;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.scene3d {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#myCanvas {
+  width: 100%!important;
+  height: auto!important;
+}
+
+#small_model, #large_model {
+  height: 50px;
+  width: 100px;
+  font-family: 'Mulish';
+  font-size: medium;
+  border-radius: 10px;
+  opacity: 0.5;
+  border: none;
+}
+
+
+.round-button {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+  opacity: 0.5;
+}
+
+#red {
+  background-color: #FF0000;
+}
+
+#blue {
+  background-color: #0000FF;
+}
+
+#black {
+  background-color: #0F0F0F;
+}
+
+.selected {
+  border: 2px solid black !important;
+  opacity: 1 !important;
+}
+
+#button_plus, #button_moins{
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: 'Mulish';
+  font-size: large;
+}
+
+
+#bag_quantity{
+  color: black;
+  font-family: "Mulish";
+  font-size: large;
+  border: 1px solid black ;
+  width: 100px;
+  padding: 7px;
+  background-color: rgb(242, 253, 253);
+}
+
+#file {
+  font-size: medium;
+  font-family: 'Mulish';
+  text-align: center;
+  align-items: center;
+  padding-left: 20px;
+}
+
+#cart_button {
+  background :none;
+  box-shadow: none;
+  align-items: center;
+}
+
+#add_to_cart{
+  height: 100px;
+  width: 250px;
+  font-family: 'Mulish';
+  font-size: x-large;
+  border-radius: 10px;
+  background-color: rgb(90, 181, 90);
+  font-weight: 1000;
+}
+
+#add_to_cart:hover{
+  background-color: black;
+  color: white;
+}
+
+
+p {
+  font-size: medium;
+  font-family: 'Mulish';
+}
+
+@media only screen and (max-width: 900px) {
+  .customization_page {
+    width: 900px;
+  }
+  .custom_form {
+    width: 100%;
+    height: 60%;
+  }
+  .scene3d {
+    margin-left: 275px;
+    width: 40%;
+    display: flex;
+    height: auto;
+  }
+}
