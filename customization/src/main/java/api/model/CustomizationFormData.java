@@ -22,6 +22,6 @@ public class CustomizationFormData {
     public String email;
     
     @FormParam("quantity")
-    public String quantity;
+    public int quantity;
 
 }
