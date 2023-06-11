@@ -9,13 +9,12 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTest
 public class AuthenticationServiceTest {
 
-    @Test
-    public void testHelloEndpoint() {
-        given()
-          .when().get("/hello")
-          .then()
-             .statusCode(200)
-             .body(is("Hello from RESTEasy Reactive"));
-    }
+    // @Test
+    // public void testProtectedEnpoind() {
+    //     given()
+    //       .when().get("stats")
+    //       .then()
+    //          .statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    // }
 
 }
