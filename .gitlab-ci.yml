@@ -188,6 +188,7 @@ mvn-build-statistics:
     expire_in: 2 hours
   only:
     - main
+    - kerfalla
     - schedules
 
 
@@ -200,6 +201,7 @@ test-statistics:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
+    - kerfalla
     - schedules
 
 
@@ -240,6 +242,7 @@ mvn-build-auth:
     expire_in: 2 hours
   only:
     - main
+    - kerfalla
     - schedules
 
 
@@ -252,6 +255,7 @@ test-auth:
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
     - mvn test
   only:
+    - kerfalla
     - schedules
 
 
