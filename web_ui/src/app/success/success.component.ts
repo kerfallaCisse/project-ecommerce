@@ -18,42 +18,65 @@ export class SuccessComponent {
   cart_info: Cart[] = [];
   amount: number = 0;
 
+  model!:string;
+
   ngOnInit() {
-    this.successService.getCart(this.email).subscribe(data => {
-      console.log('Cart data:', data);
-      this.cart_info = Array.isArray(data) ? data : [data];
 
-      for (const item of this.cart_info) {
+    const paymentAccepted = localStorage.getItem('paymentAccepted') === 'true';
 
 
-        const colorData: Colors = {
-          pocket: item.pocketColor,
-          bag: item.bagColor,
-          quantity: item.quantity
-        };
-        this.successService.postColors(colorData)
+    if (paymentAccepted) {
 
+      localStorage.setItem('paymentAccepted', 'false');
 
-        const stockData: StockInformations = {
-          modelType:  item.modelType,
-          color_pocket_name: item.pocketColor,
-          color_bag_name: item.bagColor,
-          quantity: - item.quantity,
-        }
-        this.successService.postStock(stockData)
-
-
-        if(item.modelType== "smallModel"){
-          this.amount += item.quantity*(130 + 30 * item.logo)
-        }else if(item.modelType== "largeModel"){
-          this.amount += item.quantity*(150 + 30 * item.logo)
-        }
+      const formDataFromLocalStorage = this.successService.getFormDataFromLocalStorage();
+      if (formDataFromLocalStorage) {
+        this.successService.postForm(formDataFromLocalStorage);
       }
-      console.log(this.amount)
-      this.successService.putAmount(this.amount)
 
 
+      this.successService.getCart(this.email).subscribe(data => {
+        this.cart_info = Array.isArray(data) ? data : [data];
 
-    });
+        for (const item of this.cart_info) {
+
+          //for colors and orders update
+          const colorData: Colors = {
+            pocket: item.pocketColor,
+            bag: item.bagColor,
+            quantity: item.quantity
+          };
+          this.successService.postColors(colorData)
+
+          //for total profit update
+          if(item.modelType== "smallModel"){
+            this.amount += item.quantity*(130 + 30 * item.logo)
+            this.model = "small";
+          }else if(item.modelType== "largeModel"){
+            this.amount += item.quantity*(150 + 30 * item.logo)
+            this.model = "large";
+          }
+
+          //for stock update
+          const stockData: StockInformations = {
+            modelType:  this.model,
+            color_pocket_name: item.pocketColor,
+            color_bag_name: item.bagColor,
+            quantity: item.quantity,
+          };
+          this.successService.postStock(stockData)
+
+        }
+
+        this.successService.postAmount(this.amount)
+
+        //for basket update
+        this.successService.deleteCart(this.email)
+
+      });
+    } else {
+      console.log("pas payer")
+    }
   }
+
 }

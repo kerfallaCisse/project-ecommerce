@@ -30,7 +30,9 @@ export class ConfirmationComponent {
   large_models: number = 0;
   logos: number = 0;
 
-  showRedirectMessage = false;
+  showRedirectMessage:boolean = false;
+  paymentAccepted:boolean = false;
+
 
 
   ngOnInit() {
@@ -90,11 +92,9 @@ export class ConfirmationComponent {
 
   onPaymentClick() {
     this.showRedirectMessage = true;
+    this.paymentAccepted = true;
+    localStorage.setItem('paymentAccepted', 'true');
 
-    const formDataFromLocalStorage = this.confirmationService.getFormDataFromLocalStorage();
-    if (formDataFromLocalStorage) {
-      this.confirmationService.postForm(formDataFromLocalStorage);
-    }
 
     this.confirmationService.postCart(this.productJson).pipe(
       tap((response: PaymentResponse) => {

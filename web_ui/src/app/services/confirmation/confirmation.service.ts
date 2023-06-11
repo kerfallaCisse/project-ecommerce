@@ -18,6 +18,7 @@ export class ConfirmationService {
   private formDataSubject = new BehaviorSubject<FormInformations | null>(this.getFormDataFromLocalStorage());
   formData$ = this.formDataSubject.asObservable();
 
+
   setFormData(data: FormInformations) {
     localStorage.setItem('formData', JSON.stringify(data));
     this.formDataSubject.next(data);

@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class FailComponent {
 
+  paymentAccepted:boolean = false;
+
+  ngOnInit() {
+    localStorage.setItem('paymentAccepted', 'false');
+  }
+
 }
