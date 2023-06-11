@@ -1,0 +1,94 @@
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.form_page {
+  display: flex;
+  justify-content: center;
+  min-height: 90vh;
+  background-color:  rgb(243, 243, 243);;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  padding: 2% 2% 2% 2%;
+}
+
+form {
+  background-color: white;
+  padding: 4% 10% 4% 10%;
+}
+
+h2 {
+  font-family: "Mulish";
+  padding-bottom: 40px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  font-family: "Mulish";
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+
+
+.form-group label {
+  text-align: left;
+  margin-right: 50px;
+  font-family: "Mulish";
+  font-size: medium;
+}
+
+.submit-button {
+  font-size: large;
+  margin-top: 10px;
+  border: 1px black solid;
+  background-color: black;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+p{
+  font-family: "Mulish";
+  margin-left: auto;
+  margin-right: auto;
+  font-size: medium;
+  color: red;
+}
+
+.submit-button:hover{
+  background-color: rgb(73, 132, 73);
+  border: 1px white solid;
+}
+
+input, select {
+  padding: 1.5% 1% 1.5% 1% ;
+  border: 1px black solid;
+  border-radius: 0.3em;
+  width: 300px;
+}
+
+select {
+  text-align: center;
+}
+
+div .ng-valid {
+  border-left: 5px solid green;
+}
+
+div .ng-invalid {
+  border-left: 5px solid red;
+}
+
+.form-group select.ng-untouched {
+  border: 1px black solid!important;
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
+  }
+}
+

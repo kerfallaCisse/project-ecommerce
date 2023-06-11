@@ -1,33 +1,33 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: web-ui-ingress
-  namespace: web-ui
+  name: {{ .Values.webui.name }}-ingress
+  namespace: {{ .Values.webui.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/(.*)(/|$)"
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
-            name: web-ui-service
+            name: {{ .Values.webui.name }}-service
             port:
               name: http
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: stock-management-ingress
-  namespace: stock-management
+  name: {{ .Values.stockmanagement.name }}-ingress
+  namespace: {{ .Values.stockmanagement.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -38,27 +38,27 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
       - path: "/api/(stock)(/|$)(.*)"
         pathType: ImplementationSpecific
         backend:
           service:
-            name: stock-management-service
+            name: {{ .Values.stockmanagement.name }}-service
             port:
-              number: 80
+              number: {{ .Values.stockmanagement.port }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: back-office-ingress
-  namespace: back-office
+  name: {{ .Values.payment.name }}-ingress
+  namespace: {{ .Values.payment.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -69,27 +69,27 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
-      - path: "/api/(stats)(/|$)(.*)"
+      - path: "/api/(payment)(/|$)(.*)"
         pathType: ImplementationSpecific
         backend:
           service:
-            name: back-office-service
+            name: {{ .Values.payment.name }}-service
             port:
-              number: 80
+              number: {{ .Values.payment.port }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: stats-jwt-ingress
-  namespace: stats-jwt
+  name: {{ .Values.customization.name }}-ingress
+  namespace: {{ .Values.customization.namespace}}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
     kubernetes.io/ingress.class: public
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
@@ -100,16 +100,82 @@ metadata:
 spec:
   tls:
   - hosts:
-    - pinfo3.unige.ch
-    secretName: letsencrypt-prod
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
   rules:
-  - host: pinfo3.unige.ch
+  - host: {{ .Values.general.hostname}}
     http:
       paths:
-      - path: "/api/(jwt)(/|$)(.*)"
+      - path: "/api/(customization)(/|$)(.*)"
         pathType: ImplementationSpecific
         backend:
           service:
-            name: stats-jwt-service
+            name: {{ .Values.customization.name }}-service
             port:
-              number: 80
+              number: {{ .Values.customization.port }}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.statistics.name }}-ingress
+  namespace: {{ .Values.statistics.namespace}}
+  annotations:
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
+  rules:
+  - host: {{ .Values.general.hostname}}
+    http:
+      paths:
+      - path: "/api/(statistics)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Values.statistics.name }}-service
+            port:
+              number: {{ .Values.statistics.port }}
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.auth.name }}-ingress
+  namespace: {{ .Values.auth.namespace}}
+  annotations:
+    cert-manager.io/cluster-issuer: "{{ .Values.clusterissuer.name }}"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1/$3"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 5m
+    nginx.ingress.kubernetes.io/proxy-body-size: 15m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.org/client-max-body-size: 15m
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.general.hostname}}
+    secretName: {{ .Values.clusterissuer.name }}
+  rules:
+  - host: {{ .Values.general.hostname}}
+    http:
+      paths:
+      - path: "/api/(auth)(/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Values.auth.name }}-service
+            port:
+              number: {{ .Values.auth.port }}
+

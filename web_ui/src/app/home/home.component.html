@@ -1,93 +1,29 @@
 <!-- Link to the boxicons stylesheet from unpkg.com -->
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-<header>
-  <app-header></app-header>
-</header>
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
+</div>
 
 <main class="home_page_container">
 
-  <section id = "introduction_section">
-    <h3 id = "introduction_title"> One Bag, <span style="color: rgb(66, 200, 66);">Two Lives</span> </h3>
-    <p id = "introduction_text"> Our functional sports bag made from <br/> recycled truck tarpaulins is designed <br/> to allow you to easily carry your work <br/> and sports gear in one bag. </p>
+  <div class = "introduction_section">
 
-    <div class="button_read_more_container">
-      <a href="#invia_story_section" id = "button_read_more"> Read more <i class='bx bx-book-reader'></i> </a>
+    <div class = "intro">
+      <h3 id = "introduction_title"> One Bag, <span style="color: rgb(73, 132, 73);">Two Lives</span> </h3>
+      <p id = "introduction_text"> Our functional sports bag made from recycled truck tarpaulins is designed to allow you to easily carry your work and sports gear in one bag. </p>
     </div>
 
-    <div class= "button_shop_now_container">
-      <a href="#" routerLink="/personalisation" id = "button_shop_now"> Shop now <i class='bx bxs-cart-download'></i></a>
+    <div class="button_shop_now_container">
+      <a href="#" routerLink="/customization" class="button_shop_now">Shop now <i class='bx bxs-cart-download'></i></a>
     </div>
-  </section>
 
-  <section id = "invia_story_section">
-    <h3 id = "invia_story_title"> The story of in<span style="color: rgb(66, 200, 66);">V</span>ia’s bag </h3>
-    <p id = "invia_story_text"> Are you in search of a versatile bag that can hold everything you <br/> need  for your work and workout day? Look no further! <br/><br/>
-                                Our bags are made from <span style="color: rgb(66, 198, 66);">recycled</span> truck tarps, offering superior <br/> durability and toughness.
-                                But that's not all - each bag is equipped <br/> with multiple pockets with specific features to help you organize <br/> your gear, whether it's
-                                for work or sport. No more carrying multiple <br/> bags to meet your needs, our all-in-one bag is designed to fit your active lifestyle. <br/><br/>
-                                Plus, by purchasing our  <span style="color: rgb(66, 198, 66);">recycled</span> bags, you are contributing to protecting the environment by <br/>
-                                reducing truck tarp waste in landfills. So why wait? Try our <span style="color: rgb(66, 198, 66);">recycled</span> bags and discover the <br/>
-                                convenience, durability, and positive impact you can have by choosing an eco-friendly product.</p>
-  </section>
+  </div>
 
-
-  <section id = "owner_story_section">
-    <h3 id = "owner_story_title"> A bag designed by an athlete </h3>
-    <p id = "owner_story_text" >  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vestibulum orci a sapien imperdiet maximus. <br/>
-                                  Suspendisse vel ex eget mauris efficitur finibus eu a enim. Aenean tellus neque, consectetur sit amet lacus a, <br/>
-                                  hendrerit ornare urna. Fusce venenatis lorem vitae augue suscipit, eu tempor massa vulputate. Praesent iaculis <br/>
-                                  velit libero, vel faucibus sem pulvinar vel. Curabitur viverra nisl dui, a venenatis felis pellentesque id. <br/>
-                                  Donec non lacus diam.</p>
-
-    <div class="button_start_personalisation_container">
-      <a href="#" routerLink="/personalisation" id = "button_start_personalisation"> Start personalisation now </a>
-    </div>
-  </section>
+  <div class="button_read_more_container">
+    <a href="#" routerLink="/about" id="button_read_more" class="button_read_more"> Read more </a>
+  </div>
 
 </main>
-
-
-<!-- <head>
-    <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
-    <link href="https://fr.allfont.net/allfont.css?fonts=gentium-book-basic" rel="stylesheet" type="text/css" />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-
-    <style>
-        body {
-            font-family: 'Aclonica';font-size: 10px;
-        }
-    </style>
-</head>
-
-<div class="background-container">
-
-    <body id="premier_back">
-        <section>
-        <ul>
-            <label id="titre">One Bag, <span style="color: rgb(66, 198, 66);">Two Lives</span></label>
-            <label> Our functional sports bag made from recycled truck tarpaulins is designed to allow you to easily carry your work and sports gear in one bag.</label>
-            <a href="#ma-section"id="button_read">Read more <i class='bx bx-book-open'></i></a>
-            <button id="button_shop">Shop now <i class='bx bxs-cart-download'></i></button>
-        </ul>
-        </section>
-
-    </body>
-
-    <body id="deuxieme_back">
-            <div id="ma-section"></div>
-            <label id="titre_deux">The story of in <span style="color: rgb(66, 198, 66);">V</span>iv’s bag </label>
-            <label id="premier_para">Are you in search of a versatile bag that can hold everything you need for your work and workout day? Look no further! <br> <br>
-
-                Our bags are made from <span style="color: rgb(66, 198, 66);">recycled</span> truck tarps, offering superior durability and toughness. But that's not all - each bag is equipped with multiple pockets with specific features to help you organize your gear, whether it's for work or sport. No more carrying multiple bags to meet your needs, our all-in-one bag is designed to fit your active lifestyle</label>
-            <label id="deuxi_para">Plus, by purchasing our  <span style="color: rgb(66, 198, 66);">recycled</span> bags, you are contributing to protecting the environment by reducing truck tarp waste in landfills. So why wait? Try our <span style="color: rgb(66, 198, 66);">recycled</span> bags and discover the convenience, durability, and positive impact you can have by choosing an eco-friendly product.</label>
-
-
-        </body>
-    <body id="troisieme_back">
-    <label id="troisieme_titre">A bag designed by an athlete</label>
-    <button id="button_3">Start personalisation now</button>
-    </body>
-
-</div> -->

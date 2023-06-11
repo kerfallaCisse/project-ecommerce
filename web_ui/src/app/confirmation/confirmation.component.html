@@ -1,0 +1,53 @@
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
+</div>
+
+
+<main class="confirmation_page">
+
+  <div class="container-sup">
+
+    <div class = "form_confirmation" *ngIf="formData$ | async as formData">
+      <h2>Form Confirmation : </h2>
+      <p>First Name : {{ formData.firstName }}</p>
+      <p>Last Name : {{ formData.lastName }}</p>
+      <p>Address : {{ formData.address }}</p>
+      <p>Zip Code : {{ formData.zipCode }}</p>
+      <p>Town : {{ formData.town }}</p>
+      <p>Country : {{ formData.country }}</p>
+      <p>Mail : {{ formData.email }}</p>
+      <p>Phone number : {{ formData.phoneNumber }}</p>
+
+      <div class="back-form">
+        <a href="# " routerLink="/form">Back to the form</a>
+      </div>
+    </div>
+
+    <div class="payment">
+      <h2> Please check your personal details and purchases before proceeding to payment. </h2>
+      <a (click)="onPaymentClick()">Proceed to payment</a>
+      <p *ngIf="showRedirectMessage">You will be redirected in a few seconds.</p>
+    </div>
+
+  </div>
+
+
+
+</main>
+
+
+    <!-- <div class="cart_confirmation">
+      <h2>Cart Confirmation : </h2>
+
+      <div class="cart_confirmation2" *ngFor="let item of cart_info">
+        <p>Type:&nbsp;{{ getModelTypeDisplayName(item.modelType) }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bag Color:&nbsp;{{ item.bagColor }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pocket Color:&nbsp;{{ item.pocketColor }}</p>
+        <p>Logo:&nbsp;{{ getLogoDisplayName(item.logo)}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Quantity:&nbsp;{{ item.quantity }}</p>
+        <hr>
+      </div>
+
+      <div class="back-cart">
+        <a href="# " routerLink="/cart">Back to the cart</a>
+      </div>
+    </div> -->

@@ -8,5 +8,8 @@ RUN cd /app && npm run build --prod
 ### STAGE 2: Run ###
 FROM nginx:alpine
 RUN ls
+COPY nginx.default.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist/first_test /usr/share/nginx/html
+
+
 EXPOSE 80

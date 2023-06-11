@@ -1,0 +1,126 @@
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+main {
+  background-color: white;
+  position: sticky ;
+  min-width: 60%;
+}
+
+
+span {
+  font-family: 'Mulish';
+}
+
+.about_page_container {
+  opacity: 0;
+  animation: fade-in 2s ease-in-out forwards;
+}
+
+
+@keyframes fade-in {
+  0% {
+    opacity: 0; /* Commence avec une opacité de 0 */
+    transform: translateY(50px); /* Décalage vers le bas pour l'effet de glissement */
+  }
+  100% {
+    opacity: 1; /* Opacité complète à la fin de l'animation */
+    transform: translateY(0); /* Pas de décalage vertical à la fin de l'animation */
+  }
+}
+
+/* ------------------------ Invia's story -----------------------------*/
+
+
+
+.invia_story_section {
+  padding: 5% 8% 5% 5%;
+  display: flex;
+
+}
+
+.invia {
+  width: 60%;
+  padding: 3% 3% 3% 3%;
+  background-color: white;
+}
+
+#invia_story_title {
+  font-family: 'Mulish';
+  margin-top: 2%;
+  font-size: 400%;
+  color: black;
+  text-align: center;
+}
+
+#invia_story_text {
+  font-family: 'Mulish';
+  margin-top: 5%;
+  font-size: 200%;
+  color: black;
+}
+
+.image_section {
+  border-radius: 1em;
+  display: flex;
+  flex: 1;
+  background-image: url("/assets/home-background/home-background-2.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+
+/* ------------------------ Owner's story -----------------------------*/
+
+.image_section_2 {
+  background-image: url("/assets/home-background/athlete.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.owner_story_section {
+  padding: 8% 10% 8% 10%;
+  background-color: rgb(238, 239, 239);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#owner_story_title {
+  font-family: 'Mulish';
+  margin-bottom: 7%;
+  font-size: 400%;
+  color: black;
+  text-align: center;
+}
+
+#owner_story_text {
+  font-family: 'Mulish';
+  margin-bottom: 5%;
+  font-size: 200%;
+  color: black;
+}
+
+#button_start_customization {
+  font-family: 'Mulish';
+  font-size: 200%;
+  background-color: transparent;
+  border: 2px solid black;
+  color: black;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+#button_start_customization:hover {
+  background-color: rgba(73, 132, 73, 0.8);
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
+  }
+}

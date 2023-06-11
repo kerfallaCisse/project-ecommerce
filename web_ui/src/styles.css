@@ -1,7 +1,15 @@
 /*You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css?family=Aclonica");
+@import url("https://fonts.googleapis.com/css?family=Aldrich");
+@import url("https://fonts.googleapis.com/css?family=Mulish");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
+
+
+
+
 *{
-    font-family: "Alconica";
+    font-family: "Mulish";
     box-sizing: border-box;
 }
 html{
@@ -9,7 +17,7 @@ html{
 }
 body{
     margin: 0;
-    font-family: "Alconica";
+    font-family: "Mulish";
     font-size: 0.85rem;
 }
 
