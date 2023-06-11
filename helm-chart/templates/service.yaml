@@ -52,34 +52,6 @@ spec:
       protocol: TCP
   selector:
     app: {{ .Values.stockmanagement.name }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.backoffice.name }}-service
-  namespace: {{ .Values.backoffice.namespace}}
-spec:
-  type: ClusterIP
-  ports:
-    - port: {{ .Values.backoffice.port }}
-      targetPort: {{ .Values.backoffice.targetPort }}
-      protocol: TCP
-  selector:
-    app: {{ .Values.backoffice.name }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.statsjwt.name }}-service
-  namespace: {{ .Values.statsjwt.namespace}}
-spec:
-  type: ClusterIP
-  ports:
-    - port: {{ .Values.statsjwt.port }}
-      targetPort: {{ .Values.statsjwt.targetPort }}
-      protocol: TCP
-  selector:
-    app: {{ .Values.statsjwt.name }}
 
 ---
 apiVersion: v1
