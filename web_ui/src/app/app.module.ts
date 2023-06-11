@@ -27,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from './environnement';
+import { HelpPageComponent } from './help-page/help-page.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { environment } from './environnement';
     SuccessComponent,
     FailComponent,
     ConfirmationComponent,
+    HelpPageComponent,
     
   ],
   imports: [

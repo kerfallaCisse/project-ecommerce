@@ -35,5 +35,20 @@ spec:
                 secretKeyRef:
                   name: my-database-secret
                   key: url
+            - name: CLOUDINARY_CLOUDNAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: cloudname
+            - name: CLOUDINARY_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: key
+            - name: CLOUDINARY_APISECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: apisecret
       imagePullSecrets:
         - name: my-registry-secret

@@ -1,57 +1,67 @@
-<header>
-  <app-header></app-header>
-  <link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus&display=swap" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
-</header>
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
+</div>
 
 
-<body>
-    <!-- Summary avec le total du prix  -->
-  <div class="checkout">
-    <div id="interieur_chekout">
-      <div>Summary</div>
-         <div id="affichage_subtotal">
-           <div>Subtotal : <span id="subtotal">150</span> CHF</div>
-              <div id="green_button">
-                <a href="/form" id="vers_formulaire">Checkout</a>
-              </div>
-          </div> 
-    </div>
-  </div>
+
+<main class="cart_page">
+
+  <!-- Les titres  -->
+  <h1> My shopping cart</h1>
+  <h5 *ngIf="full_cart_client_modifier.length > 0"> You have <span id="number_article">{{ nbr_total_bag_in_cart }}</span> item(s) in your cart.</h5>
+  <p id="empty_basket" *ngIf="full_cart_client_modifier.length === 0">Your basket is empty, let's do some shopping.
+    <a href="#" routerLink="/customization" *ngIf="full_cart_client_modifier.length === 0" class="button_shop_now"><i class='bx bxs-cart-download'></i></a>
+  </p>
 
 
-  <!-- Les titres   -->
-  <div id="titre_1">My shopping cart</div>
-  <div id="titre_2"> You have <span id="number_article"></span> item(s) in your cart</div>
-  
+  <div class="cart_container" *ngIf="full_cart_client_modifier.length > 0">
 
-   <!-- Le panier -->
-  <div id="carte_panier" *ngFor="let article of full_cart_client_modifier">
 
-    <div class="container">
+    <!-- Le panier -->
+    <div class="basket">
 
-      <img [src]="article.image" alt="Article Image" id="image">
+      <div class="each_article" *ngFor="let article of full_cart_client_modifier">
 
-      <div class="article">
+        <div class="image_article">
+          <img [src]="article.image" alt="Article Image" id="image">
+        </div>
 
-          <div id="backpack_invia">Backpack inVia</div>
-          <p>Quantity: {{ article.quantity }}</p>
-          <p>Size: {{ article.modelType }}</p>
-          <p>Bag color: {{ article.bagColor }}</p>
-          <p>Bag color: {{ article.pocketColor }}</p>
-          <p>Logo: {{ getLogoDisplayName(article.logo) }}</p>
+        <div class="article">
+          <h3>Invia Backpack</h3>
+          <p>Size : {{ article.modelType }}</p>
+          <p>Bag color : {{ article.bagColor }}</p>
+          <p>Pocket color : {{ article.pocketColor }}</p>
+          <p>Logo : {{ getLogoDisplayName(article.logo) }}</p>
+        </div>
+
+        <div class="price">
+          <p> {{ article.price }}.00 CHF</p>
+        </div>
+
+        <div class="delete">
+          <p id="article_quantity"> Quantity : {{article.quantity}}</p>
+          <button id="delete_button" (click)="removeBag(article.image)">Delete</button>
+        </div>
 
       </div>
 
-      <p id="prix">Price : {{ article.price }}CHF</p>
-
-      <button id="button_supprimer" (click)="removeBag(article.image)">Supprimer</button>
     </div>
 
-    
+    <!-- Summary avec le total du prix  -->
+    <div class="checkout">
+      <h2>Summary</h2>
+      <div id="ticket">
+        <p>Subtotal : <span id="subtotal">{{ price_final }}.00</span> CHF</p>
+        <p>Shipping : {{ shipping }}.00 CHF</p>
+        <hr>
+        <h4 id="total"> Total (with TVA) : {{ price_final + shipping }} CHF</h4>
+        <a href="/form" id="vers_formulaire">Checkout</a>
+      </div>
+    </div>
 
-   
+
   </div>
 
-  
-</body>
+</main>

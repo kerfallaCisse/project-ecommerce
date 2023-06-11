@@ -25,6 +25,19 @@
       </div>
     </div>
 
+    <div class="payment">
+      <h2> Please check your personal details and purchases before proceeding to payment. </h2>
+      <a (click)="onPaymentClick()">Proceed to payment</a>
+      <p *ngIf="showRedirectMessage">You will be redirected in a few seconds.</p>
+    </div>
+
+  </div>
+
+
+
+</main>
+
+
     <!-- <div class="cart_confirmation">
       <h2>Cart Confirmation : </h2>
 
@@ -38,15 +51,3 @@
         <a href="# " routerLink="/cart">Back to the cart</a>
       </div>
     </div> -->
-
-    <div class="payment">
-      <h2> Please check your personal details and purchases before proceeding to payment. </h2>
-      <a href="# " (click)="onPaymentClick()">Proceed to payment</a>
-    </div>
-
-  </div>
-
-
-
-</main>
-

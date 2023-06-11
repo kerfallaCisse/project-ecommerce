@@ -1,17 +1,30 @@
 package api.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.HashMap;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.transaction.Transactional;
-import javax.ws.rs.GET;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -19,71 +32,83 @@ import com.cloudinary.utils.ObjectUtils;
 @Path("/customization")
 public class CustomizationResource {
 
-    @GET
+    @ConfigProperty(name = "cloudinary.cloud_name")
+    String cloud_name;
+
+    @ConfigProperty(name = "cloudinary.api_key")
+    String api_key;
+
+    @ConfigProperty(name = "cloudinary.api_secret")
+    String api_secret;
+
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor,
-            @QueryParam("pocketColor") String pocketColor) {
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-
-        if (modelType == null) {
-            modelType = "largeModel";
-        }
-        if (bagColor == null) {
-            bagColor = "Black";
-        }
-        if (pocketColor == null) {
-            pocketColor = "Black";
-        }
-        if ("largeModel".equals(modelType)) {
-            LargeModel largeModel = LargeModel.find("bag_name", bagColor + pocketColor).firstResult();
+    public JsonObject getBag(@MultipartForm CustomizationFormData bagModel) {
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        
+        if ("largeModel".equals(bagModel.modelType) || "smallModel".equals(bagModel.modelType)) {
+            LargeModel largeModel = LargeModel.find("bag_name", bagModel.bagColor + bagModel.pocketColor).firstResult();
             if (largeModel == null) {
-                jsonArrayBuilder.add(Json.createObjectBuilder()
-                        .add("Error", "Bag not found"));
+                return jsonObjectBuilder.add("error", "bag not found").build();
+            } else {
+                try {
+                    File bagWithLogo = mergeImages(largeModel.cloudinary_url, bagModel.file);
+                    String cloudinary_bagWithLogo = upload_image(bagWithLogo);
+                    
+                    jsonObjectBuilder
+                    .add("email", bagModel.email)
+                    .add("modelType", bagModel.modelType)
+                    .add("bagColor", bagModel.bagColor)
+                    .add("pocketColor", bagModel.pocketColor)
+                    .add("quantity", bagModel.quantity)
+                    .add("cloudinary_url", cloudinary_bagWithLogo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }
 
-            jsonArrayBuilder.add(Json.createObjectBuilder()
+        // Change it in case when real images are available
+        /*else if ("smallModel".equals(modelType)) {
+            SmallModel smallModel = SmallModel.find("bag_name", bagColor + pocketColor).firstResult();
+            if (smallModel == null) {
+                return jsonObjectBuilder.add("error", "bag not found").build();
+            } else {
+                jsonObjectBuilder
                     .add("id", largeModel.id)
-                    .add("cloudinary_url", largeModel.cloudinary_url));
-
+                    .add("cloudinary_url", largeModel.cloudinary_url);
+            }
+        }
+        */
+        
+        else {
+            return jsonObjectBuilder.add("error", "bag not found").build();
         }
 
-        else if ("smallModel".equals(modelType)) {
-            jsonArrayBuilder.add(Json.createObjectBuilder()
-                    .add("Error", "Databse empty"));
-        }
-
-        return jsonArrayBuilder.build().toString();
+        return jsonObjectBuilder.build();
 
     }
 
-    // IMPORTANT change manually image path and model.bag_name
-    @Path("/upload")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    @Transactional
-    public String upload_image() {
+    public String upload_image(File bagWithLogo) {
         Map<String, String> config = new HashMap<String, String>();
-        // Ask Denis for credits
-        config.put("cloud_name", "");
-        config.put("api_key", "");
-        config.put("api_secret", "");
+        config.put("cloud_name", cloud_name);
+        config.put("api_key", api_key);
+        config.put("api_secret", api_secret);
         Cloudinary cloudinary = new Cloudinary(config);
 
         try {
             // Upload
-            Map<String, Object> uploadResult = cloudinary.uploader().upload("BlackBlack.jpeg", ObjectUtils.emptyMap()); // Change
-                                                                                                                        // URL
-
+            Map<String, Object> uploadResult = cloudinary.uploader().upload(bagWithLogo, ObjectUtils.emptyMap()); // Change URL
             // Get the public URL
             String publicUrl = cloudinary.url().generate(uploadResult.get("public_id").toString());
-            System.out.println(publicUrl);
 
-            // Add URL to database
+            /* Add URL to database
             LargeModel model = new LargeModel();
             model.bag_name = ""; // Set the bag name here. Ex BlackBlack
             model.cloudinary_url = publicUrl;
             model.persist(); // Save the entity to the database
-
+            */
             return publicUrl;
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
@@ -91,4 +116,43 @@ public class CustomizationResource {
         }
     }
 
+    public File mergeImages(String imageUrl, File logoFile) throws IOException {
+        byte[] formData = Files.readAllBytes(logoFile.toPath());
+        ByteArrayInputStream bInputStream = new ByteArrayInputStream(formData);
+        BufferedImage logo = ImageIO.read(bInputStream); // Uploaded logo 150x150 px
+
+        URL url = new URL(imageUrl);
+        InputStream inputStream = url.openStream();
+        File file = File.createTempFile("temp", null);
+        FileOutputStream outputStream = new FileOutputStream(file);
+
+        byte[] buffer = new byte[8192];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+
+        inputStream.close();
+        outputStream.close();
+
+        File cloudinaryData = file;
+        BufferedImage bagImage = ImageIO.read(cloudinaryData);
+
+        // Create a Graphics object to perform the overlay
+        Graphics2D g2d = bagImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Draw the newLogo onto the bagImage
+        g2d.drawImage(logo, (bagImage.getWidth() - logo.getWidth()) / 2, (bagImage.getHeight() / 2) , null);
+
+        // Cleanup
+        g2d.dispose();
+
+        // Save the merged image to a file (optional)
+        File outputFile = new File("logo2.png");
+        ImageIO.write(bagImage, "png", outputFile);
+
+        return outputFile;
+    }
+    
 }
