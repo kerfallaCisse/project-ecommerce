@@ -205,4 +205,15 @@ public class CartRessource {
         return true;
     }
 
+    // Delete user basket after payment
+    public Boolean deletUserBaskets(String user_email) {
+        Optional<User> user = User.find("email", user_email).firstResultOptional();
+        if (user.isPresent()) {
+            Long user_id = user.get().getId();
+            // We delete all the basket of this user
+            CustomBag.delete("user_id", user_id);
+            return true;
+        }
+        return false;
+    }
 }

@@ -347,4 +347,14 @@ public class StatisticRessource {
         return Response.status(Response.Status.NOT_FOUND).build();
     }   
 
+    @Path("cart")
+    @DELETE
+    public Response deleteUserBasketPayment(@QueryParam("email") String email) {
+        if(cartRessource.deletUserBaskets(email)) {
+            return Response.status(Response.Status.OK).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
 }
