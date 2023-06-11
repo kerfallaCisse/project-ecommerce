@@ -84,8 +84,8 @@ public class CartRessource {
                     return false;
             }
         } catch (NullPointerException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
+            // System.err.println(e.getMessage());
+            // System.err.println(e.getStackTrace());
             return false;
         }
 
@@ -145,8 +145,8 @@ public class CartRessource {
             email = jsonObject.getString("email");
             phoneNumber = jsonObject.getString("phoneNumber");
         } catch (NullPointerException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
+            // System.err.println(e.getMessage());
+            // System.err.println(e.getStackTrace());
             return false;
         }
 
@@ -170,8 +170,8 @@ public class CartRessource {
             gMailer.sendEmail(CUSTOMER_SUBJECT, MESSAGE_TO_CUSTOMER, email);
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
+            // System.err.println(e.getMessage());
+            // System.err.println(e.getStackTrace());
             return false;
         }
 
@@ -187,6 +187,22 @@ public class CartRessource {
             return true;
         }
         return false;
+    }
+
+    public Boolean updateBasketQty(String image) {
+        // We get the quantity of the bag in the db
+        Optional<CustomBag> basketToUpdate = CustomBag.find("image", image).firstResultOptional();
+        if (basketToUpdate.isPresent()) {
+            CustomBag basket = basketToUpdate.get();
+            int initial_quantity = basket.getQuantity();
+            if (initial_quantity <= 0) {
+                return false;
+            }
+            // We update the quantity and the stats for abandonned basket
+            basket.update("image = ?1 AND quantity = ?2", image, initial_quantity - 1);
+        }
+
+        return true;
     }
 
 }
