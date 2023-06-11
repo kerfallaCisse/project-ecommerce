@@ -1,0 +1,65 @@
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
+</div>
+
+
+<main class = form_page >
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <h2>Delivery informations</h2>
+
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" formControlName="firstName" name="firstName" [class.ng-valid]="form.get('firstName')?.valid" [class.ng-invalid]="form.get('firstName')?.invalid && (form.get('firstName')?.dirty || form.get('firstName')?.touched)" />
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" formControlName="lastName" name="lastName" [class.ng-valid]="form.get('lastName')?.valid" [class.ng-invalid]="form.get('lastName')?.invalid && (form.get('lastName')?.dirty || form.get('lastName')?.touched)"/>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <input type="text" formControlName="address" name="address" [class.ng-valid]="form.get('address')?.valid" [class.ng-invalid]="form.get('address')?.invalid && (form.get('address')?.dirty || form.get('address')?.touched)"/>
+    </div>
+
+    <div class="form-group">
+      <label for="zipCode">Zip Code:</label>
+      <input type="text" formControlName="zipCode" name="zipCode" [class.ng-valid]="form.get('zipCode')?.valid" [class.ng-invalid]="form.get('zipCode')?.invalid && (form.get('zipCode')?.dirty || form.get('zipCode')?.touched)"/>
+    </div>
+
+    <div class="form-group">
+      <label for="town">Town:</label>
+      <input type="text" formControlName="town" name="town" [class.ng-valid]="form.get('town')?.valid" [class.ng-invalid]="form.get('town')?.invalid && (form.get('town')?.dirty || form.get('town')?.touched)"/>
+    </div>
+
+    <div class="form-group">
+      <label for="country">Country:</label>
+      <select class="form-control" formControlName="country" [class.ng-untouched]="true">
+        <option *ngFor="let c of country" [value]="c" >{{c}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="email">email:</label>
+      <input type="email" formControlName="email" name="email" [class.ng-valid]="form.get('email')?.valid" [class.ng-invalid]="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"/>
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="tel" formControlName="phoneNumber" name="phoneNumber" [class.ng-valid]="form.get('phoneNumber')?.valid" [class.ng-invalid]="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty || form.get('phoneNumber')?.touched)"/>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn submit-button">Submit</button>
+    </div>
+
+    <div class="form-group submit-error" *ngIf="showError">
+      <p>Incorrect or incomplete form.</p>
+    </div>
+
+  </form>
+</main>

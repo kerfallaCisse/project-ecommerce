@@ -1,5 +1,114 @@
-<header>
-  <app-header></app-header>
-</header>
+<div class="tooltip-container">
+  <header>
+    <app-header></app-header>
+  </header>
+</div>
 
-<p>stock works!</p>
+
+
+<main class="stock_page_container">
+
+
+
+ <div class="tab_container">
+
+    <!-- Indication à gauche du tableau -->
+    <div class= "indication_tableau" >
+      <label id="titre_indication">Resume :</label>
+      <div id="lowmessage"></div>
+      <div id="outmessage"></div>
+    </div>
+
+    <!-- Tableau -->
+    <div class = "tableau" >
+        <table class="table table-trapped">
+
+          <thead>
+            <tr>
+                <th> Model</th>
+                <th> Bag Color </th>
+                <th> Pocket Color</th>
+                <th> Quantity</th>
+            </tr>
+          </thead>
+
+
+          <tbody>
+            <tr *ngFor="let data of tab_real" [ngClass]="getStockStatus(data)">
+              <td> {{getModelTypeDisplayName(data.modelType)}}</td>
+              <td> {{data.color_bag_name}}</td>
+              <td> {{data.color_pocket_name}}</td>
+              <td> {{data.quantity}}</td>
+            </tr>
+          </tbody>
+
+
+        </table>
+    </div>
+
+  </div>
+
+  <!-- Add / Remove bags -->
+  <div class = "adding-removing-container">
+
+    <div class="adding-stock">
+
+      <select [(ngModel)]="model_bag" required>
+        <option value="" disabled selected>Model</option>
+        <option *ngFor="let option of modeltype" [value]="option">{{ option }}</option>
+      </select>
+
+
+      <select [(ngModel)]="selectedColor_bag " required>
+        <option value="" disabled selected>Bag Color</option>
+         <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+      </select>
+
+      <select [(ngModel)]="selectedColor_pocket" required>
+        <option value="" disabled selected>Pocket Color</option>
+         <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+      </select>
+
+      <input type="number" (input)="onInputChange($event)">
+
+      <button id="add_button" (click)="onSubmitAdd()" [ngStyle]="{'background-color': button_clicked === 'add_button' ? 'rgb(0, 128, 0)' : 'rgb(22, 173, 22)'}">
+        Add
+      </button>
+    </div>
+
+
+    <div class="removing-stock">
+
+      <select id="model_bag_2" [(ngModel)]="model_bag_2" required>
+        <option value="" disabled selected>Model</option>
+          <option *ngFor="let option of modeltype" [value]="option">{{ option }}</option>
+       </select>
+
+      <select [(ngModel)]="selectedColor_bag_2" required>
+        <option value="" disabled selected>Bag Color</option>
+        <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+      </select>
+
+      <select [(ngModel)]="selectedColor_pocket_2" required>
+        <option value="" disabled selected>Pocket Color</option>
+        <option *ngFor="let option of color" [value]="option">{{ option }}</option>
+      </select>
+
+      <input type="number" (input)="onInputChange($event)">
+
+      <button id="remove_button" (click)="onSubmitRemove()" [ngStyle]="{'background-color': button_clicked === 'remove_button' ? 'rgb(128, 0, 0)' : 'rgb(225, 42, 42)'}">
+        Remove
+      </button>
+    </div>
+
+  </div>
+
+</main>
+
+
+
+
+
+
+
+

@@ -1,4 +1,36 @@
-<!DOCTYPE html>
+<header>
+
+    <h3>Auth0 Angular</h3>
+  
+    <div *ngIf="auth.isAuthenticated$ ; else loggedOut">
+        <button>JE SUIS AUTHRNTIFIER MEC</button>
+        <button class="btn btn-warning" (click)="auth.logout()">Log out</button>
+        
+    </div>
+    <div>
+        <p style="background-color: black;"> Value: {{auth.isAuthenticated$}}</p>
+    </div>
+
+
+    <ng-template #loggedOut>
+        <button ></button>
+        <button id="login" (click)="loginWithRedirect()">log in</button> 
+        <button class="btn btn-danger btn-block" (click)="auth.logout()"></button>
+        <!-- <button id="login">Click to Login</button> -->
+        <button class="btn btn-danger btn-block" (click)="auth.logout()">
+            Log out
+          </button>
+    </ng-template>
+
+    
+</header>
+<label>salut</label>
+<div *ngIf="auth.user$ | async as user">
+   
+    <p style="background-color: black;">{{user.email}}</p>
+</div>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -52,4 +84,4 @@
 
 
 
-
+ -->

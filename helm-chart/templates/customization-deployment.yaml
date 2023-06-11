@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.customization.name }}-deployment
+  namespace: {{ .Values.customization.namespace}}
+spec:
+  replicas: {{ .Values.customization.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.customization.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.customization.name }}
+    spec:
+      containers:
+        - name: {{ .Values.customization.name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.group }}/{{ .Values.customization.imagename }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy}}
+          ports:
+            - containerPort: {{ .Values.customization.targetPort }}
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: password
+            - name: MYSQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: my-database-secret
+                  key: url
+            - name: CLOUDINARY_CLOUDNAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: cloudname
+            - name: CLOUDINARY_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: key
+            - name: CLOUDINARY_APISECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: apisecret
+      imagePullSecrets:
+        - name: my-registry-secret

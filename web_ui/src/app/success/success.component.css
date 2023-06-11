@@ -1,0 +1,50 @@
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.success_container {
+  background-color: rgb(243, 243, 243);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  min-height: 90vh;
+}
+
+.text {
+  padding: 5% 20% 5% 20%;
+  background-color: white;
+}
+
+h1, h3, a, span {
+  text-align: center;
+  font-family: 'Mulish';
+}
+
+h3, a {
+  color: black;
+  font-size: x-large;
+}
+
+h3 {
+  margin-top: 20%;
+}
+
+a span {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 10%;
+  transition: text-decoration-color 0.3s ease-in-out;
+}
+
+a span:hover {
+  text-decoration-color: rgb(50, 170, 50);
+}
+
+@media only screen and (max-width: 900px) {
+  main {
+    width: 900px;
+  }
+}

@@ -1,0 +1,198 @@
+.tooltip-container {
+  position: relative;
+  z-index: 1000;
+}
+
+.cart_page{
+  background-color:  rgb(243, 243, 243);;
+  padding: 2%;
+  width: 100%;
+  min-height: 90vh;
+}
+
+
+
+.cart_container {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 40px;
+  padding-top: 20px;
+}
+
+
+.basket{
+  padding-top: 30px;
+  background-color: white;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  justify-content: space-around;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.checkout{
+  background-color: white;
+  width: 27%;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 30px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+.each_article{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-bottom: 0.5px solid gray;
+}
+
+.image_article img{
+  width: 22em;
+  height: auto;
+}
+
+.article{
+  margin-left: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 30%;
+}
+
+.price {
+  background-color: white;
+  width: 20%;
+  margin: auto;
+}
+
+.price p {
+  font-family: 'Mulish';
+  font-size: xx-large;
+  font-weight: 1000;
+}
+
+
+h1, h2, h3, h4, h5, p {
+  font-family: 'Mulish';
+}
+
+p {
+  font-size: large;
+}
+
+.delete {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+
+#article_quantity{
+  color: black;
+  font-family: "Mulish";
+  font-size: large;
+  text-align: center;
+}
+
+#delete_button{
+  align-items: center;
+  background-color: black;
+  color: white;
+  font-size: medium;
+  font-family: 'Mulish';
+}
+
+#delete_button:hover{
+  background-color: red;
+}
+
+.checkout h2 {
+  font-family: 'Mulish';
+  font-weight: 1000;
+  padding-bottom: 20px;
+}
+
+#total {
+  font-family: 'Mulish';
+  font-weight: 1000;
+}
+
+
+
+#vers_formulaire{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  font-family: 'Mulish';;
+  color: black;
+  font-size: large;
+  margin-top: 30px;
+  background-color: rgb(63, 168, 63);
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+
+
+#vers_formulaire:hover {
+  background-color: rgba(63, 168, 63, 0.623);
+  color: white;
+}
+
+#empty_basket {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  font-family: 'Mulish';
+  font-size: x-large;
+  background-color: white;
+  padding: 100px;
+  width: 800px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.button_shop_now {
+  width: 100px;
+  text-align: center;
+  font-family: 'Mulish';
+  font-size: x-large;
+  margin: auto;
+  margin-top: 40px;
+  background-color: rgb(63, 168, 63);
+  border: 2px solid black;
+  color: black;
+  cursor: pointer;
+  padding: 10px
+}
+
+.button_shop_now:hover {
+  background-color: rgb(36, 96, 36);
+  color: white;
+}
+
+
+@media only screen and (max-width: 900px) {
+  .cart_page {
+    width: 900px;
+
+  }
+  .basket, .checkout {
+    width: 100%;
+  }
+
+  .cart_container {
+    row-gap: 40px;
+  }
+
+}

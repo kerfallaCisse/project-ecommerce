@@ -1,17 +1,14 @@
-/* Sets the background color of the header to white, removes any padding, and adds a green border at the bottom. */
 header {
   background: white;
   padding: 0;
-  border-bottom: 0.1em solid rgb(66, 200, 66);;
+  border-bottom: 0.1em solid rgb(73, 132, 73);;
   position: sticky ;
 }
 
-/* Sets the default color of links to black. */
 a {
   color: black;
 }
 
-/* Centers the container horizontally, sets it to display as a flexbox with items evenly spaced between each other and vertically centered. */
 .container1 {
   margin: 0 auto;
   display: flex;
@@ -19,16 +16,20 @@ a {
   align-items: center;
 }
 
-/* Styles the logo text with a specific font, weight, and size. Also adds a margin to the left of the logo and a padding right to center the central-menu. */
 a.logo {
-  font-family: 'Aclonica';
+  font-family: 'Orbitron';
   font-weight: bold;
   font-size: 280%;
   margin-left: 2%;
   padding-right: 5%;
 }
 
-/* Styles the central menu navigation by setting it to display as a flexbox, with items centered horizontally and text centered. */
+span {
+  font-family: 'Orbitron';
+  font-weight: bold;
+  font-size: 100%;
+}
+
 nav.central.menu {
   display: flex;
   flex-grow: 1;
@@ -36,20 +37,17 @@ nav.central.menu {
   text-align: center;
 }
 
-/* Styles the links in the central menu by setting text-decoration properties and adding a transition effect. */
 nav.central.menu ul li a {
   text-decoration: underline;
   text-decoration-color: transparent;
-  text-decoration-thickness: 250%;
+  text-decoration-thickness: 10%;
   transition: text-decoration-color 0.3s ease-in-out;
 }
 
-/* Styles the links in the central menu on hover by changing the text-decoration-color property. */
 nav.central.menu ul li a:hover {
   text-decoration-color: black;
 }
 
-/* Removes any bullet points from the unordered list, and sets the margin and padding to 0. Also displays the list items as flex items. */
 nav ul {
   list-style-type: none;
   margin: 0;
@@ -58,25 +56,75 @@ nav ul {
   font-size: 180%;
 }
 
-/* Styles the links in the central menu by setting a specific font family, padding, and display property. */
 nav ul li a {
-  font-family: 'Gentium Book Basic';
+  font-family: 'Mulish';
   padding: 1em;
   display: inline-block;
 }
 
-/* Styles the features and logos navigation by setting it to display as a flexbox, and aligning items to the right. */
 nav.features.logos {
   display: flex;
   justify-content: flex-end;
 }
 
-/* Displays the list items in the features and logos navigation as flex items. */
 nav.features.logos ul {
   display: flex;
 }
 
-/* Styles the links in the features and logos navigation on hover by adding a background-color property. */
 nav.features.logos ul li a:hover {
   background-color: rgb(235, 235, 235);
+}
+
+.features.logos a {
+  position: relative;
+}
+
+.features.logos a::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  display: none;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 3px;
+  white-space: nowrap;
+  z-index: 100000;
+}
+
+.features.logos a:hover::after {
+  display: block;
+}
+
+
+@media only screen and (max-width: 900px) {
+  header {
+      width : 900px
+  }
+}
+
+#numbre_in_cart{
+  text-align: center;
+  
+  color: white;
+  font-family: 'Mulish';
+  font-size: 10px;
+  margin-bottom: 10%;
+}
+
+
+
+#border_red{
+  
+  margin-left: 10%;
+  border-radius: 50%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 20px;
+  background-color: red;
 }

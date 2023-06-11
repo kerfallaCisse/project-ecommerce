@@ -1,0 +1,67 @@
+{
+
+    "/api/customization": {
+    "target": "https://pinfo3.unige.ch",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
+    },
+
+    "/api/stock": {
+    "target": "https://pinfo3.unige.ch",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
+    },
+
+    "/api/stock/update": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+
+    "/api/statistics": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+
+    "/api/quantity": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/api/statistics/cart/add": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+
+    "/api/statistics/cart/confirmation": {
+      "target": "https://pinfo3.unige.ch",
+      "secure": true,
+      "logLevel": "debug",
+      "changeOrigin": true
+    },
+
+    "/api/payment": {
+      "target": "https://pinfo3.unige.ch",
+      "secure": true,
+      "logLevel": "debug",
+      "changeOrigin": true
+    },
+
+    "/api/statistics/cart": {
+        "target": "https://pinfo3.unige.ch",
+        "secure": true,
+        "logLevel": "debug",
+        "changeOrigin": true
+      }
+
+}
+
+

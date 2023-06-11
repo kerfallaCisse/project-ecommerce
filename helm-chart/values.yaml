@@ -1,0 +1,86 @@
+
+general:
+    hostname: pinfo3.unige.ch
+
+clusterissuer:
+    name: letsencrypt-prod
+    email: "keertika.yogendra@etu.unige.ch"
+    server: https://acme-v02.api.letsencrypt.org/directory
+
+image:
+    repository: registry.gitlab.unige.ch
+    group: pinfo-2023/pinfo-2/project-ecommerce
+    tag: 0.1.3-SNAPSHOT
+    pullPolicy: Always
+
+backoffice:
+    name: back-office
+    namespace: back-office
+    targetPort: 8080
+    port: 80
+    imagename: back-office
+    replicas: 1
+
+statsjwt:
+    name: stats-jwt
+    namespace: stats-jwt
+    targetPort: 8080
+    port: 80
+    imagename: stats-jwt
+    replicas: 1
+
+customization:
+    name: customization
+    namespace: customization
+    targetPort: 8080
+    port: 80
+    imagename: customization
+    replicas: 1
+
+payment:
+    name: payment
+    namespace: payment
+    targetPort: 8080
+    port: 80
+    imagename: payment-service
+    replicas: 1
+
+stockmanagement:
+    name: stock-management
+    namespace: stock-management
+    targetPort: 8080
+    port: 80
+    imagename: stock-management
+    replicas: 1
+
+statistics:
+    name: statistics
+    namespace: statistics
+    targetPort: 8080
+    port: 80
+    imagename: statistics
+    replicas: 1
+
+auth:
+    name: auth
+    namespace: auth
+    targetPort: 8080
+    port: 80
+    imagename: auth
+    replicas: 1
+
+webui:
+    name: web-ui
+    namespace: web-ui
+    targetPort: 80
+    port: 80
+    imagename: web-ui
+    replicas: 1
+
+
+authkeys:
+    publicloc: /src/main/resources/publickey.pem
+    privateloc: /src/main/resources/privatekey.pem
+    mountloc: /src/main/resources
+
+
