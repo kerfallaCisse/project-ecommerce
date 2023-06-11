@@ -9,7 +9,7 @@ export interface Cart {
   bagColor: string
   pocketColor: string
   image: string
-  logo: string 
+  logo: string
   quantity:number
 }
 
@@ -21,8 +21,8 @@ export type cart_array = [];
 
 
 export class CartService {
-  
-  
+
+
   constructor(private http: HttpClient) { }
 
 
@@ -33,7 +33,8 @@ export class CartService {
   });
     console.log("salut")
   }
-  get_panier_john(){
+
+  getBasket(){
     return this.http.get<cart_array>('/api/statistics/cart?email=john@gmail.com')
   }
 }

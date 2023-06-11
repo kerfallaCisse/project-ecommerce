@@ -3,7 +3,7 @@
   z-index: 1000;
 }
 
-.success_container {
+.help-container {
   background-color: rgb(243, 243, 243);
   display: flex;
   justify-content: center;
@@ -14,33 +14,18 @@
 }
 
 .text {
-  padding: 5% 20% 5% 20%;
+  padding: 10% 10% 10% 10%;
   background-color: white;
 }
 
-h1, h3, a, span {
+h2 {
   text-align: center;
   font-family: 'Mulish';
 }
 
-h3, a {
-  font-size: x-large;
-  color: black;
-}
-
-h3 {
-  margin-top: 20%;
-}
-
-a span {
+#mail {
+  color:rgb(73, 132, 73);
   text-decoration: underline;
-  text-decoration-color: transparent;
-  text-decoration-thickness: 10%;
-  transition: text-decoration-color 0.3s ease-in-out;
-}
-
-a span:hover {
-  text-decoration-color: rgb(207, 44, 44);
 }
 
 @media only screen and (max-width: 900px) {

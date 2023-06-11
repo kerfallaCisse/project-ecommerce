@@ -22,9 +22,8 @@ export class CartComponent implements OnInit{
   quantity: number[] = []
   nbr_total_bag_in_cart = 0
   cartQuantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  shipping: number = 0;
 
-  
-  
 
   constructor(private cartService: CartService) {}
 
@@ -37,93 +36,68 @@ export class CartComponent implements OnInit{
     return logo.toString()
   }
 
-
-
   removeBag(url:String){
     this.cartService.deleteBagFromCart(url)
+    window.location.reload();
   }
-  
+
   getCartQuantity() {
     return this.cartQuantity.asObservable();
   }
 
 
-  compute_price_article(){
+  computePriceArticle() {
+    let sum: number = 0;
 
-  
-    let sum:number = 0
-  
     const tableauItem3: Item3[] = this.full_cart_client.map((item2) => {
-    const quantity = item2.quantity;
-    let modelType = item2.modelType 
-    const logo = item2.logo
-    const image = item2.image
-    const pocketColor = item2.pocketColor
-    const bagColor = item2.bagColor
-    this.quantity.push(quantity)
-    let price: number;
+      const quantity = item2.quantity;
+      let modelType = item2.modelType;
+      const logo = item2.logo;
+      const image = item2.image;
+      const pocketColor = item2.pocketColor;
+      const bagColor = item2.bagColor;
+      this.quantity.push(quantity);
+      let price: number;
 
-    if (item2.modelType == "smallModel") {
-       modelType = "40L"
-       price = quantity * 130;
-       sum += price
-    
-    } else {
+      if (item2.modelType == "smallModel") {
+        modelType = "40L";
+        price = quantity * 130;
+      } else {
+        modelType = "70L";
+        price = quantity * 150;
+      }
 
-      modelType = "60L"
-      price = quantity * 150;
-      sum += price
+      if (logo === 1) {
+        price += 30 * quantity;
+      }
 
-    }
-  return {modelType,bagColor,pocketColor,logo,image, quantity, price };
+      sum += price;
+      return { modelType, bagColor, pocketColor, logo, image, quantity, price };
+    });
 
-});
-
-  this.price_final = sum
-
-  return tableauItem3
+    this.price_final = sum;
+    return tableauItem3;
   }
 
   afficher(){
     alert("removed !")
   }
- 
-  ngOnInit(): void {
-    
-    this.cartService.get_panier_john().subscribe(data2 => { 
-      
-    this.full_cart_client = data2 // recupère le panier
-   
-    // modifie le panier avec ce qui doit être afficher
-    this.full_cart_client_modifier = this.compute_price_article()  
-     
-     
-    var subtotalElement = document.getElementById("subtotal");
-    
-    subtotalElement!.textContent = String(this.price_final);
-    
-    
-    
-    var subtotalElement = document.getElementById("number_article");
-    
 
-    for(let i=0;i<this.quantity.length;i++){
-      this.nbr_total_bag_in_cart += this.quantity[i]
+  updateTotalItemsInCart(): void {
+    this.nbr_total_bag_in_cart = 0;
+    for (let i = 0; i < this.quantity.length; i++) {
+      this.nbr_total_bag_in_cart += this.quantity[i];
     }
-
- 
-    subtotalElement!.textContent = String(this.nbr_total_bag_in_cart);
-
-  
-  
-    })
-
-      
- 
-  
-
-  
- 
-
   }
+
+  ngOnInit(): void {
+    this.cartService.getBasket().subscribe(data => {
+      this.full_cart_client = data;
+
+      this.full_cart_client_modifier = this.computePriceArticle();
+
+      this.updateTotalItemsInCart();
+    });
+  }
+
 }

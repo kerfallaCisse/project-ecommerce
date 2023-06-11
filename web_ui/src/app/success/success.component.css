@@ -18,17 +18,17 @@
   background-color: white;
 }
 
-h2, h5, a, span {
+h1, h3, a, span {
   text-align: center;
   font-family: 'Mulish';
 }
 
-h5, a {
-  font-size: large;
+h3, a {
   color: black;
+  font-size: x-large;
 }
 
-h5 {
+h3 {
   margin-top: 20%;
 }
 
