@@ -39,16 +39,16 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: cloudinary-secret
-                  key: cloudname
+                  key: CLOUDINARY_CLOUDNAME
             - name: CLOUDINARY_APIKEY
               valueFrom:
                 secretKeyRef:
                   name: cloudinary-secret
-                  key: key
+                  key: CLOUDINARY_APIKEY
             - name: CLOUDINARY_APISECRET
               valueFrom:
                 secretKeyRef:
                   name: cloudinary-secret
-                  key: apisecret
+                  key: CLOUDINARY_APISECRET
       imagePullSecrets:
         - name: my-registry-secret
