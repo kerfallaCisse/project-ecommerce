@@ -187,6 +187,7 @@ mvn-build-statistics:
       - statistic_service/target
     expire_in: 2 hours
   only:
+    - main
     - schedules
 
 
@@ -224,6 +225,7 @@ container-image-statistics:
     variables:
       - $CI_COMMIT_MESSAGE =~ /.*\[production\].*/
       - $CI_PIPELINE_SOURCE == "schedule"
+      - $CI_COMMIT_REF_NAME == "main"
 
 
 
