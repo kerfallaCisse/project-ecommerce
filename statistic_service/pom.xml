@@ -4,11 +4,11 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <!-- <parent>
+  <parent>
     <groupId>org.gs</groupId>
     <artifactId>ecommerce</artifactId>
     <version>1.0-SNAPSHOT</version>
-  </parent> -->
+  </parent>
   <groupId>statistic_service</groupId>
   <artifactId>statistic_service</artifactId>
   <version>1.0.0-SNAPSHOT</version>
@@ -76,22 +76,22 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- <dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-jsonb</artifactId>
-    </dependency> -->
-    <dependency>
+    </dependency>
+    <!-- <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jsonb</artifactId>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
