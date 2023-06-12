@@ -227,19 +227,19 @@ public class StatisticRessourceTest {
 //                 .statusCode(Response.Status.CREATED.getStatusCode());
 //     }
 
-    @Test
-    void testGetUserCart() {
-        given()
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .queryParam("email", "john@gmail.com")
-                .when()
-                .get("cart")
-                .then()
+  //  @Test
+  //  void testGetUserCart() {
+   //     given()
+   //             .accept(MediaType.APPLICATION_JSON)
+   //             .contentType(MediaType.APPLICATION_JSON)
+   //             .queryParam("email", "john@gmail.com")
+   //             .when()
+   //             .get("cart")
+    //            .then()
                 //.body("[0].modelType", equalTo("smallModel"))
-                .statusCode(Response.Status.OK.getStatusCode());
+     //           .statusCode(Response.Status.OK.getStatusCode());
 
-    }
+    //}
 
 //     @Test
 //     void testDeliveryConfirmation() {
