@@ -287,7 +287,7 @@ public class StatisticRessource {
             System.err.println(e.getStackTrace());
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-  
+
         return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
@@ -296,11 +296,11 @@ public class StatisticRessource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUserCart(JsonObject jsonObject) {
-        if(cartRessource.addToCart(jsonObject)) {
+        if (cartRessource.addToCart(jsonObject)) {
             return Response.status(Response.Status.OK).build();
         }
 
-         return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @Path("cart")
@@ -315,12 +315,11 @@ public class StatisticRessource {
         return Response.ok(jsonObject).build();
     }
 
-
     @Path("cart/confirmation")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getDeliveryInfosSendMail(JsonObject jsonObject) {
-        if(cartRessource.getDeliveryInfos(jsonObject)) {
+        if (cartRessource.getDeliveryInfos(jsonObject)) {
             return Response.status(Response.Status.OK).build();
         }
 
@@ -330,7 +329,7 @@ public class StatisticRessource {
     @Path("cart")
     @DELETE
     public Response deleteUserBasket(@QueryParam("image") String image) {
-        if(cartRessource.deleteBasket(image)) {
+        if (cartRessource.deleteBasket(image)) {
             return Response.status(Response.Status.OK).build();
         }
 
@@ -341,19 +340,26 @@ public class StatisticRessource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response UpdateUserBasketQuantity(JsonObject jsonObject) {
-        String image = jsonObject.getString("image");
-        if (image == null) return Response.status(Response.Status.BAD_REQUEST).build();
-        if(cartRessource.updateBasketQty(image)) {
-            return Response.status(Response.Status.OK).build();
+        try {
+            String image = jsonObject.getString("image");
+            if (image == null)
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            if (cartRessource.updateBasketQty(image)) {
+                return Response.status(Response.Status.OK).build();
+            }
+
+        } catch (NullPointerException e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();
-    }   
+
+    }
 
     @Path("cart/payment")
     @DELETE
     public Response deleteUserBasketPayment(@QueryParam("email") String email) {
-        if(cartRessource.deletUserBaskets(email)) {
+        if (cartRessource.deletUserBaskets(email)) {
             return Response.status(Response.Status.OK).build();
         }
 
