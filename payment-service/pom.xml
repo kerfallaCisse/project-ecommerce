@@ -39,6 +39,18 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jsonb</artifactId>
+    </dependency> 
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.github.cdimascio</groupId>
       <artifactId>java-dotenv</artifactId>
       <version>5.2.2</version>
