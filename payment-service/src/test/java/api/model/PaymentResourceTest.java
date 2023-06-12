@@ -60,25 +60,25 @@ public class PaymentResourceTest {
             .statusCode(Response.Status.NOT_FOUND.getStatusCode());
     }
 
-    // @Test
-    // public void testCheckoutWithoutQuantity() {
+    @Test
+    public void testCheckoutWithoutQuantity() {
 
-    //     JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-    //     jsonObjectBuilder.add("prodId","prod_NvFbGlQ0kp8mVU");
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("prodId","prod_NvFbGlQ0kp8mVU");
         
-    //     JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-    //     jsonArrayBuilder.add(jsonObjectBuilder);
-    //     jsonObjectBuilder.add("products",jsonArrayBuilder);
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        jsonArrayBuilder.add(jsonObjectBuilder);
+        jsonObjectBuilder.add("products",jsonArrayBuilder);
 
-    //     given()
-    //         .contentType(MediaType.APPLICATION_JSON)
-    //         .accept(MediaType.APPLICATION_JSON)
-    //         .body(jsonObjectBuilder.build())
-    //         .when()
-    //         .post("payment")
-    //         .then()
-    //         .statusCode(Response.Status.NOT_FOUND.getStatusCode());
-    // }
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(jsonObjectBuilder.build())
+            .when()
+            .post("payment")
+            .then()
+            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
+    }
 
     @Test
     public void testCheckoutQuantityZero() {
