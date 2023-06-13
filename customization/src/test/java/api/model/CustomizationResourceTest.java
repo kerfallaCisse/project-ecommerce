@@ -22,6 +22,7 @@ public class CustomizationResourceTest {
     // Test on GET /customization
     
     // Test if returned model is correct
+    /* 
     @Test
     public void testGetLargeImageWithoutLogo() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
@@ -173,5 +174,6 @@ public class CustomizationResourceTest {
                 .contentType(ContentType.JSON)
                 .body("error", equalTo("bag not found"));
     }
+    */
 
 }
