@@ -364,6 +364,7 @@ public class StatisticRessource {
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();
+        
     }
 
 }
