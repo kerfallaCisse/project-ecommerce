@@ -220,6 +220,8 @@ public class PaymentResourceTest {
                 .add("amount", -50)
                 .build();
 
+
+                
         PaymentRestService paymentRestService = new PaymentRestService();
 
         Response response = paymentRestService.updateAmount(requestJson);
