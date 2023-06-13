@@ -2,19 +2,30 @@ package statistic_service;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import io.restassured.http.ContentType;
 import jakarta.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import jakarta.ws.rs.core.Response;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.Json;
+
+
 
 @QuarkusTest
 @Tag("components")
 @TestHTTPEndpoint(StatisticRessource.class)
+@TestProfile(StatisticTestProfile.class)
+@TestMethodOrder(OrderAnnotation.class)
 public class StatisticRessourceTest {
 
     // Test for new user
@@ -108,16 +119,23 @@ public class StatisticRessourceTest {
     @Test
     void testAddOrder() {
 
-        String requestBody = "{"
-                + "\"pocket\": \"black\","
-                + "\"bag\": \"black\","
-                + "\"quantity\": 10"
-                + "}";
+        // String requestBody = "{"
+        //         + "\"pocket\": \"black\","
+        //         + "\"bag\": \"black\","
+        //         + "\"quantity\": 10"
+        //         + "}";
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        jsonObjectBuilder.add("pocket","black");
+        jsonObjectBuilder.add("bag","black");
+        jsonObjectBuilder.add("quantity",10);
+
+
 
         given()
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(ContentType.JSON)
-                .body(requestBody)
+                .body(jsonObjectBuilder.build())
                 .when()
                 .post("colors")
                 .then()
