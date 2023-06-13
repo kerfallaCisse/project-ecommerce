@@ -8,131 +8,99 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given; 
 import static org.hamcrest.Matchers.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
-import javax.imageio.ImageIO;
-
 @TestProfile(CustomizationTestProfile.class)
 @QuarkusTest
 public class CustomizationResourceTest {
 
     // Test on GET /customization
-    
+    /*
     // Test if returned model is correct
-    /* 
     @Test
-    public void testGetLargeImageWithoutLogo() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-        
+    public void testGetImageLarge() {
         given()
-                .multiPart("modelType", "largeModel")
-                .multiPart("bagColor", "Blue")
-                .multiPart("pocketColor", "Blue")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("modelType", "largeModel")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "Blue")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("modelType", equalTo("largeModel"))
-                .body("bagColor", equalTo("Blue"))
-                .body("pocketColor", equalTo("Blue"))
-                .body("email", equalTo("test@gmail.com"))
-                .body("quantity", equalTo(1))
+                .body("id", equalTo(6))
                 .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlue"));
     }
 
     @Test
-    public void testGetSmallImageWithoutLogo() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-        
+    public void testGetImageSmall() {
         given()
-                .multiPart("modelType", "smallModel")
-                .multiPart("bagColor", "Blue")
-                .multiPart("pocketColor", "Blue")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("modelType", "smallModel")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "Blue")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("modelType", equalTo("smallModel"))
-                .body("bagColor", equalTo("Blue"))
-                .body("pocketColor", equalTo("Blue"))
-                .body("email", equalTo("test@gmail.com"))
-                .body("quantity", equalTo(1))
+                .body("id", equalTo(6))
                 .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlue"));
     }
 
     @Test
-    public void testGetImageWithoutModel() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-
+    public void testGetImageWithoutModel() {
         given()
-                .multiPart("bagColor", "Blue")
-                .multiPart("pocketColor", "Blue")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "Blue")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("error", equalTo("type error"));
+                .body("id", equalTo(6))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlue"));
     }
 
     @Test
-    public void testGetImageWithoutBagColor() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-
+    public void testGetImageWithoutBagColor() {
         given()
-                .multiPart("modelType", "smallModel")
-                .multiPart("pocketColor", "Blue")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("modelType", "largeModel")
+                .queryParam("pocketColor", "Blue")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("error", equalTo("type error"));
+                .body("id", equalTo(7))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlackBlue"));
     }
 
     @Test
-    public void testGetImageWithoutPocketColor() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-
+    public void testGetImageWithoutPocketColor() {
         given()
-                .multiPart("modelType", "smallModel")
-                .multiPart("bagColor", "Blue")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("modelType", "largeModel")
+                .queryParam("bagColor", "Blue")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("error", equalTo("type error"));
+                .body("id", equalTo(2))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlack"));
+    }
+
+    @Test
+    public void testGetImageWithoutParams() {
+        given()
+                .when().get("/customization")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("id", equalTo(1))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlackBlack"));
     }
 
     // Test if model does not exist
     @Test
-    public void testGetImageWithWrongModel() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-
+    public void testGetImageWithWrongModel() {
         given()
-                .multiPart("modelType", "wrongModel")
-                .multiPart("bagColor", "Blue")
-                .multiPart("pocketColor", "Blue")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("modelType", "fakeModel")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "Blue")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
@@ -140,17 +108,12 @@ public class CustomizationResourceTest {
     }
 
     @Test
-    public void testGetImageWithWrongBagColor() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-
+    public void testGetImageWithWrongBagColor() {
         given()
-                .multiPart("modelType", "largeModel")
-                .multiPart("bagColor", "wrongColor")
-                .multiPart("pocketColor", "Blue")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("modelType", "largeModel")
+                .queryParam("bagColor", "fakeColor")
+                .queryParam("pocketColor", "Blue")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
@@ -158,17 +121,12 @@ public class CustomizationResourceTest {
     }
 
     @Test
-    public void testGetImageWithWrongPocketColor() throws IOException {
-        File tempFile = File.createTempFile("test", ".png"); // null
-
+    public void testGetImageWithWrongPocketColor() {
         given()
-                .multiPart("modelType", "largeModel")
-                .multiPart("bagColor", "Blue")
-                .multiPart("pocketColor", "wrongColor")
-                .multiPart("email", "test@gmail.com")
-                .multiPart("quantity", "1")
-                .multiPart("file", tempFile)
-                .when().post("/customization")
+                .queryParam("modelType", "largeModel")
+                .queryParam("bagColor", "Blue")
+                .queryParam("pocketColor", "fakeColor")
+                .when().get("/customization")
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
