@@ -23,6 +23,8 @@ sonarcloud-check-branch:
     paths:
       - .sonar/cache
   before_script:
+    - pwd
+    - ls
     - echo "$STOREDCRED" > statistic_service/src/main/resources/tokens/StoredCredential
   script: 
     - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
