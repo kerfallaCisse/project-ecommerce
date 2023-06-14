@@ -10,7 +10,6 @@
   <packaging>pom</packaging>
   <modules>
     <module>statistic_service</module>
-    <module>auth_service</module>
     <module>customization</module>
     <module>payment-service</module>
     <module>stock-management</module>
