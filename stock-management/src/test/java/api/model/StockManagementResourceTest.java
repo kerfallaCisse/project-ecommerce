@@ -34,9 +34,44 @@ class StockManagementResourceTest {
 	}
 
 	// Test if quantity can be negative
+	@Test
+	void testUpdateModelWithNegativeQuantity() {
+		String requestBody1 = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"dark\","
+				+ "\"color_bag_name\": \"dark\","
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody1)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].result", equalTo("ok"));
+
+		String requestBody2 = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"dark\","
+				+ "\"color_bag_name\": \"dark\","
+				+ "\"quantity\": -15"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody2)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("subtraction error"));
+	}
+
+	// Test set new model witth negative quantity
+	@Test
 	void testInsertModelWithNegativeQuantity() {
 		String requestBody = "{"
-				+ "\"modelType\": \"small\","
+				+ "\"modelType\": \"large\","
 				+ "\"color_pocket_name\": \"red\","
 				+ "\"color_bag_name\": \"blue\","
 				+ "\"quantity\": -10"
@@ -48,8 +83,7 @@ class StockManagementResourceTest {
 				.then()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
-				.body("[0].error", equalTo("subtraction error"))
-				.log().body();
+				.body("[0].error", equalTo("negativ quantity error"));
 	}
 
 	// Test if some of body data is missing
@@ -241,7 +275,7 @@ class StockManagementResourceTest {
 				.body("[0].color_bag_name", equalTo("blue"))
 				.body("[1].modelType", equalTo("LargeModel"))
 				.body("[1].quantity", equalTo(5))
-				.body("[1].color_pocket_name", equalTo("red"))
+				.body("[1].color_pocket_name", equalTo("black"))
 				.body("[1].color_bag_name", equalTo("blue"));
 	}
 
@@ -262,7 +296,7 @@ class StockManagementResourceTest {
 
 	// Test if returned quantity is correct
 	@Test
-	void testGetQuantity() {
+	void testGetQuantitySmallModel() {
 		String requestBody = "{"
 				+ "\"modelType\": \"small\","
 				+ "\"color_pocket_name\": \"red\","
@@ -286,9 +320,38 @@ class StockManagementResourceTest {
 				.then()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
-				.body("[0].quantity", equalTo(15));
+				.body("[0].quantity", equalTo(5));
 	}
 
+	@Test
+	void testGetQuantityLargeModel() {
+		String requestBody = "{"
+				+ "\"modelType\": \"large\","
+				+ "\"color_pocket_name\": \"black\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 5"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].result", equalTo("ok"));
+
+		given()
+				.queryParam("modelType", "largeModel")
+				.queryParam("bagColor", "blue")
+				.queryParam("pocketColor", "black")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].quantity", equalTo(5));
+	}
+
+	// Test with missing values
 	@Test
 	void testGetQuantityWithoutModel() {
 		given()
@@ -325,12 +388,39 @@ class StockManagementResourceTest {
 				.body("[0].error", equalTo("empty params error"));
 	}
 
+	// Test with inexisting values
 	@Test
 	void testGetQuantityOfInexistingModel() {
 		given()
 				.queryParam("modelType", "fakeModel")
 				.queryParam("bagColor", "blue")
 				.queryParam("pocketColor", "blue")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("invalid model"));
+	}
+
+	@Test
+	void testGetQuantityOfInexistingBagColor() {
+		given()
+				.queryParam("modelType", "smallModel")
+				.queryParam("bagColor", "fakeColor")
+				.queryParam("pocketColor", "blue")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("invalid model"));
+	}
+
+	@Test
+	void testGetQuantityOfInexistingPocketColor() {
+		given()
+				.queryParam("modelType", "largeModel")
+				.queryParam("bagColor", "fakeColor")
+				.queryParam("pocketColor", "fakeColor")
 				.when().get("/stock/quantity")
 				.then()
 				.statusCode(200)
