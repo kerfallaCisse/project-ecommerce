@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 
 import api.rest.PaymentRestService;
 import domain.model.Basket;
@@ -27,7 +26,8 @@ import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 
 @QuarkusTest
@@ -35,9 +35,9 @@ import org.junit.jupiter.api.Test;
 @Tag("integration")
 public class PaymentResourceTest {
 
-    /* Test for ProductBasket Model */
+/* Test for ProductBasket Model */
     @Test
-    public void testProductBasket() {
+    void testProductBasket() {
         ProductBasket productBasket = new ProductBasket();
         productBasket.setProdId("ABC123");
         productBasket.setQuantity(2);
@@ -47,7 +47,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testEqualsProductBasket() {
+    void testEqualsProductBasket() {
         // Create two ProductBasket objects with the same values
         ProductBasket basket1 = new ProductBasket();
         basket1.setProdId("ABC123");
@@ -62,7 +62,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testNotEqualsProductBasket() {
+    void testNotEqualsProductBasket() {
         // Create two ProductBasket objects with the same values
         ProductBasket basket1 = new ProductBasket();
         basket1.setProdId("ABC123");
@@ -76,7 +76,7 @@ public class PaymentResourceTest {
     }   
 
     @Test
-    public void testToStringProductBasket() {
+    void testToStringProductBasket() {
         ProductBasket basket = new ProductBasket();
         basket.setProdId("ABC123");
         basket.setQuantity(2);
@@ -87,7 +87,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testHashCodeProductBasket() {
+    void testHashCodeProductBasket() {
         ProductBasket basket1 = new ProductBasket();
         basket1.setProdId("ABC123");
         basket1.setQuantity(2);
@@ -99,9 +99,10 @@ public class PaymentResourceTest {
         assertEquals(basket1.hashCode(), basket2.hashCode());
     }
 
-    /* Test for Basket Model */
+
+/* Test for Basket Model */
     @Test
-    public void testBasket() {
+    void testBasket() {
 
         List<ProductBasket> productBaskets = new ArrayList<>();
 
@@ -122,7 +123,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEqualsBasket() {
         // Create two Basket objects with the same values
         Basket basket1 = new Basket();
         List<ProductBasket> products1 = new ArrayList<>();
@@ -145,7 +146,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testToString() {
+    void testToStringBasket() {
         // Create a Basket object
         Basket basket = new Basket();
         List<ProductBasket> products = new ArrayList<>();
@@ -163,7 +164,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCodeBasket() {
         // Create two Basket objects with the same values
         Basket basket1 = new Basket();
         List<ProductBasket> products1 = new ArrayList<>();
@@ -185,10 +186,112 @@ public class PaymentResourceTest {
         assertEquals(basket1.hashCode(), basket2.hashCode());
     }
 
-    /* Test  */
+
+/* Test for Profit Model */
+    @Test
+    void testEqualsProfit() {
+        Profit profit1 = new Profit();
+        profit1.setAmount(100.0);
+        profit1.setCreated_at(LocalDate.now());
+
+        Profit profit2 = new Profit();
+        profit2.setAmount(100.0);
+        profit2.setCreated_at(LocalDate.now());
+
+        assertTrue(profit1.equals(profit2));
+    }
+
+    @Test
+    void testNotEqualsProfit() {
+
+        Profit profit1 = new Profit();
+        profit1.setAmount(100.0);
+        profit1.setCreated_at(LocalDate.now());
+
+        Profit profit2 = new Profit();
+        profit2.setAmount(200.0);
+        profit2.setCreated_at(LocalDate.now());
+
+        assertFalse(profit1.equals(profit2));
+    }
+
+    @Test
+    void testToStringProfit() {
+        Profit profit = new Profit();
+        profit.setAmount(100.0);
+        profit.setCreated_at(LocalDate.now());
+
+        String expectedString = "Profit(amount=100.0, created_at=" + LocalDate.now() + ")";
+        
+        assertEquals(expectedString, profit.toString());
+    }
+
+    @Test
+    void testHashCodeProfit() {
+        Profit profit1 = new Profit();
+        profit1.setAmount(100.0);
+        profit1.setCreated_at(LocalDate.of(2023, 6, 14));
+
+        Profit profit2 = new Profit();
+        profit2.setAmount(100.0);
+        profit2.setCreated_at(LocalDate.of(2023, 6, 14));
+
+        assertEquals(profit1.hashCode(), profit2.hashCode());
+    }
+        
+    @Test
+    void testUpdateAmount_InvalidAmount() {
+        JsonObject requestJson = Json.createObjectBuilder()
+                .add("amount", -50)
+                .build();
+
+        PaymentRestService paymentRestService = new PaymentRestService();
+
+        Response response = paymentRestService.updateAmount(requestJson);
+
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+/* Test PaymentServiceImpl */
+
+/* Test PaymentRestService */
+    @Test
+    @Transactional
+    void testUpdateAmount_ValidAmount() {
+        JsonObject requestJson = Json.createObjectBuilder()
+                .add("amount", 100)
+                .build();
+
+        PaymentRestService paymentRestService = new PaymentRestService();
+
+        Response response = paymentRestService.updateAmount(requestJson);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    @Transactional
+    void testCreateProfit() {
+
+        Profit profit = new Profit();
+        profit.setAmount(100.0);
+        profit.setCreated_at(LocalDate.now());
+
+
+        profit.persist();
+        Profit persistedProfit = Profit.findById(profit.id);
+
+        assertTrue(profit.isPersistent());
+        assertNotNull(persistedProfit);
+        assertEquals(profit.getAmount(), persistedProfit.getAmount());
+        assertEquals(profit.getCreated_at(), persistedProfit.getCreated_at());
+    }
+
+    
+    /* Test path */
     
     @Test
-    public void testCheckoutWithoutProdId() {
+    void testCheckoutWithoutProdId() {
 
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         jsonObjectBuilder.add("prodId","");
@@ -209,7 +312,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testCheckoutBadProdId() {
+    void testCheckoutBadProdId() {
 
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         jsonObjectBuilder.add("prodId","chdgchmsgdfdhasfd");
@@ -230,7 +333,7 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testCheckoutQuantityZero() {
+    void testCheckoutQuantityZero() {
 
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         jsonObjectBuilder.add("prodId","prod_NvFbGlQ0kp8mVU");
@@ -250,9 +353,8 @@ public class PaymentResourceTest {
             .statusCode(Response.Status.NOT_FOUND.getStatusCode());
     }
 
-
     @Test
-    public void testCheckoutQuantityNeg() {
+    void testCheckoutQuantityNeg() {
 
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         jsonObjectBuilder.add("prodId","prod_NvFbGlQ0kp8mVU");
@@ -272,47 +374,26 @@ public class PaymentResourceTest {
             .statusCode(Response.Status.NOT_FOUND.getStatusCode());
     }
 
-    @Test
-    public void testCheckoutQunnantityNeg() {
+    // @Test
+    // void testCheckoutSession() throws StripeException {
 
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        jsonObjectBuilder.add("prodId","prod_NvFbGlQ0kp8mVU");
-        jsonObjectBuilder.add("quantity", -1);
+    //     PaymentService paymentServiceMock = Mockito.mock(PaymentService.class);
+
+    //     PaymentRestService paymentRestService = new PaymentRestService();
         
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        jsonArrayBuilder.add(jsonObjectBuilder);
-        jsonObjectBuilder.add("products",jsonArrayBuilder);
+    //     Basket basket = new Basket();
+    //     JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+    //     jsonObjectBuilder.add("amount",260.0);
+    //     jsonObjectBuilder.add("url", "https://checkout.stripe.com/c/pay/cs_test_b1AQ7alb3RtHZkq8A5aTkjOXbBeg2C7sMP71hPk5ALrUX832VBKujYi1Xe#fidkdWxOYHwnPyd1blpxYHZxWjA0S0NGXERBYm1JRFc8aklIX3VOQmMzalR2UVM2U2ZhN2JINkNASGREPHdJUjV0ajJxZ1VHcz0yUVRVSTA1S0tLN0F2VjJcQURwdXZHUHJpX3V0cVdmQTJTNTVrQ113YzA1MicpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPydocGlxbFpscWBoJyknYGtkZ2lgVWlkZmBtamlhYHd2Jz9xd3BgeCUl");
 
-        given()
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .body(jsonObjectBuilder.build())
-            .when()
-            .post("payment")
-            .then()
-            .statusCode(Response.Status.NOT_FOUND.getStatusCode());
-    }
+    //     JsonObject sessionJson = jsonObjectBuilder.build();
 
-//     @Test
-//     void testCheckoutSession() throws StripeException {
+    //     Mockito.when(paymentServiceMock.createCheckoutSession(any(Basket.class))).thenReturn(sessionJson);
 
-//         PaymentService paymentServiceMock = Mockito.mock(PaymentService.class);
+    //     Response response = paymentRestService.checkoutSession(basket);
 
-//         PaymentRestService paymentRestService = new PaymentRestService();
-        
-//         Basket basket = new Basket();
-//         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-//         jsonObjectBuilder.add("amount",260.0);
-//         jsonObjectBuilder.add("url", "https://checkout.stripe.com/c/pay/cs_test_b1AQ7alb3RtHZkq8A5aTkjOXbBeg2C7sMP71hPk5ALrUX832VBKujYi1Xe#fidkdWxOYHwnPyd1blpxYHZxWjA0S0NGXERBYm1JRFc8aklIX3VOQmMzalR2UVM2U2ZhN2JINkNASGREPHdJUjV0ajJxZ1VHcz0yUVRVSTA1S0tLN0F2VjJcQURwdXZHUHJpX3V0cVdmQTJTNTVrQ113YzA1MicpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPydocGlxbFpscWBoJyknYGtkZ2lgVWlkZmBtamlhYHd2Jz9xd3BgeCUl");
-
-//         JsonObject sessionJson = jsonObjectBuilder.build();
-
-//         Mockito.when(paymentServiceMock.createCheckoutSession(any(Basket.class))).thenReturn(sessionJson);
-
-//         Response response = paymentRestService.checkoutSession(basket);
-
-//         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-//     }
+    //     assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    // }
 
 //     @Test
 //     void testCheckoutSession_NullSession() throws StripeException {
@@ -340,104 +421,6 @@ public class PaymentResourceTest {
 
     //     assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     // }
-
-
-    /* Test for Profit Model */
-    @Test
-    public void testEqualsProfit() {
-        Profit profit1 = new Profit();
-        profit1.setAmount(100.0);
-        profit1.setCreated_at(LocalDate.now());
-
-        Profit profit2 = new Profit();
-        profit2.setAmount(100.0);
-        profit2.setCreated_at(LocalDate.now());
-
-        assertTrue(profit1.equals(profit2));
-    }
-
-    @Test
-    public void testNotEqualsProfit() {
-
-        Profit profit1 = new Profit();
-        profit1.setAmount(100.0);
-        profit1.setCreated_at(LocalDate.now());
-
-        Profit profit2 = new Profit();
-        profit2.setAmount(200.0);
-        profit2.setCreated_at(LocalDate.now());
-
-        assertFalse(profit1.equals(profit2));
-    }
-
-    @Test
-    public void testToStringProfit() {
-        Profit profit = new Profit();
-        profit.setAmount(100.0);
-        profit.setCreated_at(LocalDate.now());
-
-        String expectedString = "Profit(amount=100.0, created_at=" + LocalDate.now() + ")";
-        
-        assertEquals(expectedString, profit.toString());
-    }
-
-    @Test
-    public void testHashCodeProfit() {
-        Profit profit1 = new Profit();
-        profit1.setAmount(100.0);
-        profit1.setCreated_at(LocalDate.of(2023, 6, 14));
-
-        Profit profit2 = new Profit();
-        profit2.setAmount(100.0);
-        profit2.setCreated_at(LocalDate.of(2023, 6, 14));
-
-        assertEquals(profit1.hashCode(), profit2.hashCode());
-    }
-        
-    @Test
-    void testUpdateAmount_InvalidAmount() {
-        JsonObject requestJson = Json.createObjectBuilder()
-                .add("amount", -50)
-                .build();
-
-        PaymentRestService paymentRestService = new PaymentRestService();
-
-        Response response = paymentRestService.updateAmount(requestJson);
-
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    @Transactional
-    void testUpdateAmount_ValidAmount() {
-        JsonObject requestJson = Json.createObjectBuilder()
-                .add("amount", 100)
-                .build();
-
-        PaymentRestService paymentRestService = new PaymentRestService();
-
-        Response response = paymentRestService.updateAmount(requestJson);
-
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    @Transactional
-    public void testCreateProfit() {
-
-        Profit profit = new Profit();
-        profit.setAmount(100.0);
-        profit.setCreated_at(LocalDate.now());
-
-
-        profit.persist();
-        Profit persistedProfit = Profit.findById(profit.id);
-
-        assertTrue(profit.isPersistent());
-        assertNotNull(persistedProfit);
-        assertEquals(profit.getAmount(), persistedProfit.getAmount());
-        assertEquals(profit.getCreated_at(), persistedProfit.getCreated_at());
-    }
 
 
     // @Test
