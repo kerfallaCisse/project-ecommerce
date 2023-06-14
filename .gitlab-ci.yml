@@ -5,12 +5,23 @@ variables:
 image: maven:3.6.3-openjdk-17-slim
 
 stages:
+  - securefile
   - sonarcloud-integration
   - build
   - image-push
   - test
   - image-push
   - deploy
+
+
+alpine-latest:
+  image: alpine
+  stage: securefile
+  script:
+    - curl -s https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer | bash  
+    - ls -lah ~/.secure_files
+    - mkdir -p statistic_service/src/main/resources/tokens/
+
 
 sonarcloud-check-branch:
   stage: sonarcloud-integration
@@ -23,8 +34,6 @@ sonarcloud-check-branch:
     paths:
       - .sonar/cache
   script:
-    - curl -s https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer | bash
-    - ls -lah .secure_files
     - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
 
