@@ -10,206 +10,257 @@ import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
 @TestProfile(StockTestProfile.class)
-public class StockManagementResourceTest {
+class StockManagementResourceTest {
 
-    // Test on POST /stock
+	// Test on POST /stock
 
-    // Test if new model creation is correct
-    @Test
-    public void testInsertModel() {
-        String requestBody = "{"
-                + "\"modelType\": \"small\","
-                + "\"color_pocket_name\": \"red\","
-                + "\"color_bag_name\": \"blue\","
-                + "\"quantity\": 10"
-                + "}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when().post("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].result", equalTo("ok"))
-                .log().body();
-    }
+	// Test if new model creation is correct
+	@Test
+	void testInsertModel() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].result", equalTo("ok"));
+	}
 
-    // Test if some of body data is missing
-    @Test
-    public void testInsertModelWithoutModel() {
-        String requestBody = "{"
-                + "\"color_pocket_name\": \"red\","
-                + "\"color_bag_name\": \"blue\","
-                + "\"quantity\": 10"
-                + "}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when().post("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("type error"));
-    }
+	// Test if quantity can be negative
+	void testInsertModelWithNegativeQuantity() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": -10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("subtraction error"))
+				.log().body();
+	}
 
-    @Test
-    public void testInsertModelWithoutPocketName() {
-        String requestBody = "{"
-                + "\"modelType\": \"small\","
-                + "\"color_bag_name\": \"blue\","
-                + "\"quantity\": 10"
-                + "}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when().post("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("type error"));
-    }
+	// Test if some of body data is missing
+	@Test
+	void testInsertModelWithoutModel() {
+		String requestBody = "{"
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
 
-    @Test
-    public void testInsertModelWithoutBagName() {
-        String requestBody = "{"
-                + "\"modelType\": \"small\","
-                + "\"color_pocket_name\": \"red\","
-                + "\"quantity\": 10"
-                + "}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when().post("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("type error"));
-    }
+	@Test
+	void testInsertModelWithoutPocketName() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
 
-    @Test
-    public void testInsertModelWithoutQuantity() {
-        String requestBody = "{"
-                + "\"modelType\": \"small\","
-                + "\"color_pocket_name\": \"red\","
-                + "\"color_bag_name\": \"blue\""
-                + "}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when().post("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("type error"));
-    }
+	@Test
+	void testInsertModelWithoutBagName() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
 
-    // Test if quantity update is correct
-    @Test
-    public void testStockManagement() {
-        String requestBody = "{"
-                + "\"modelType\": \"small\","
-                + "\"color_pocket_name\": \"red\","
-                + "\"color_bag_name\": \"blue\","
-                + "\"quantity\": 5"
-                + "}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when().post("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].result", equalTo("ok"));
+	@Test
+	void testInsertModelWithoutQuantity() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\""
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
 
-        // Check the state of the stock
-        given()
-                .when().get("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].modelType", equalTo("SmallModel"))
-                .body("[0].quantity", equalTo(20))
-                .body("[0].color_pocket_name", equalTo("red"))
-                .body("[0].color_bag_name", equalTo("blue"));
-    }
+	// Test if some of body data has wrong types
+	@Test
+	void testInsertModelWithWrongModelType() {
+		String requestBody = "{"
+				+ "\"modelType\": 10,"
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
 
-    // Test on GET /stock
+	// Test if quantity update is correct
+	@Test
+	void testStockManagement() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 5"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].result", equalTo("ok"));
 
-    // Test if model is shown correctly
-    @Test
-    public void testGetStock() {
-        given()
-                .when().get("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].result", nullValue());
-    }
+		// Check the state of the stock
+		given()
+				.when().get("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].modelType", equalTo("SmallModel"))
+				.body("[0].quantity", equalTo(20))
+				.body("[0].color_pocket_name", equalTo("red"))
+				.body("[0].color_bag_name", equalTo("blue"));
+	}
 
-    // Test on GET /stock/quantity
+	// Test on GET /stock
 
-    // Test if returned quantity is correct
-    @Test
-    public void testGetQuantity() {
-        String requestBody = "{"
-                + "\"modelType\": \"small\","
-                + "\"color_pocket_name\": \"red\","
-                + "\"color_bag_name\": \"blue\","
-                + "\"quantity\": 5"
-                + "}";
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when().post("/stock")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].result", equalTo("ok"));
+	// Test if model is shown correctly
+	@Test
+	void testGetStock() {
+		given()
+				.when().get("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].result", nullValue());
+	}
 
-        given()
-                .queryParam("modelType", "smallModel")
-                .queryParam("bagColor", "blue")
-                .queryParam("pocketColor", "red")
-                .when().get("/stock/quantity")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].quantity", equalTo(15));
-    }
+	// Test on GET /stock/quantity
 
-    @Test
-    public void testGetQuantityWithoutModel() {
-        given()
-                .queryParam("bagColor", "blue")
-                .queryParam("pocketColor", "red")
-                .when().get("/stock/quantity")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("empty params error"));
-    }
+	// Test if returned quantity is correct
+	@Test
+	void testGetQuantity() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 5"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].result", equalTo("ok"));
 
-    @Test
-    public void testGetQuantityWithoutBagName() {
-        given()
-                .queryParam("modelType", "smallModel")
-                .queryParam("pocketColor", "red")
-                .when().get("/stock/quantity")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("empty params error"));
-    }
+		given()
+				.queryParam("modelType", "smallModel")
+				.queryParam("bagColor", "blue")
+				.queryParam("pocketColor", "red")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].quantity", equalTo(15));
+	}
 
-    @Test
-    public void testGetQuantityWithoutPocketName() {
-        given()
-                .queryParam("modelType", "smallModel")
-                .queryParam("bagColor", "blue")
-                .when().get("/stock/quantity")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("[0].error", equalTo("empty params error"));
-    }
+	@Test
+	void testGetQuantityWithoutModel() {
+		given()
+				.queryParam("bagColor", "blue")
+				.queryParam("pocketColor", "red")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("empty params error"));
+	}
+
+	@Test
+	void testGetQuantityWithoutBagName() {
+		given()
+				.queryParam("modelType", "smallModel")
+				.queryParam("pocketColor", "red")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("empty params error"));
+	}
+
+	@Test
+	void testGetQuantityWithoutPocketName() {
+		given()
+				.queryParam("modelType", "smallModel")
+				.queryParam("bagColor", "blue")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("empty params error"));
+	}
+
+	@Test
+	void testGetQuantityOfInexistingModel() {
+		given()
+				.queryParam("modelType", "fakeModel")
+				.queryParam("bagColor", "blue")
+				.queryParam("pocketColor", "blue")
+				.when().get("/stock/quantity")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("invalid model"));
+	}
+
 }

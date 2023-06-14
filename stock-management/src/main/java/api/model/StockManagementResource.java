@@ -63,36 +63,30 @@ public class StockManagementResource {
         String colorBag = null;
         int quantity = 0;
 
-        if (model.containsKey("modelType")) {
-            if (model.get("modelType").getValueType() == JsonValue.ValueType.STRING) {
-                modelType = model.getString("modelType");
-            }
+        if (model.containsKey("modelType") && model.get("modelType").getValueType() == JsonValue.ValueType.STRING) {
+            modelType = model.getString("modelType");
         } else {
-            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            JsonObject json = Json.createObjectBuilder().add("error", "missing param or type error").build();
             return jsonArrayBuilder.add(json).build();
         }
-        if (model.containsKey("color_pocket_name")) {
-            if (model.get("color_pocket_name").getValueType() == JsonValue.ValueType.STRING) {
-                colorPocket = model.getString("color_pocket_name");
-            }
+        if (model.containsKey("color_pocket_name")
+                && model.get("color_pocket_name").getValueType() == JsonValue.ValueType.STRING) {
+            colorPocket = model.getString("color_pocket_name");
         } else {
-            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            JsonObject json = Json.createObjectBuilder().add("error", "missing param or type error").build();
             return jsonArrayBuilder.add(json).build();
         }
-        if (model.containsKey("color_bag_name")) {
-            if (model.get("color_bag_name").getValueType() == JsonValue.ValueType.STRING) {
-                colorBag = model.getString("color_bag_name");
-            }
+        if (model.containsKey("color_bag_name")
+                && model.get("color_bag_name").getValueType() == JsonValue.ValueType.STRING) {
+            colorBag = model.getString("color_bag_name");
         } else {
-            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            JsonObject json = Json.createObjectBuilder().add("error", "missing param or type error").build();
             return jsonArrayBuilder.add(json).build();
         }
-        if (model.containsKey("quantity")) {
-            if (model.get("quantity").getValueType() == JsonValue.ValueType.NUMBER) {
-                quantity = model.getInt("quantity");
-            }
+        if (model.containsKey("quantity") && model.get("quantity").getValueType() == JsonValue.ValueType.NUMBER) {
+            quantity = model.getInt("quantity");
         } else {
-            JsonObject json = Json.createObjectBuilder().add("error", "type error").build();
+            JsonObject json = Json.createObjectBuilder().add("error", "missing param or type error").build();
             return jsonArrayBuilder.add(json).build();
         }
 
@@ -149,7 +143,6 @@ public class StockManagementResource {
                     return jsonArrayBuilder.add(json).build();
                 }
             }
-
         } else {
             // Invalid model type
             JsonObject json = Json.createObjectBuilder().add("error", "invalid model").build();
@@ -166,28 +159,33 @@ public class StockManagementResource {
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getBag(@QueryParam("modelType") String modelType, @QueryParam("bagColor") String bagColor, @QueryParam("pocketColor") String pocketColor) {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        if (modelType == null || bagColor == null || pocketColor == null){
+        if (modelType == null || bagColor == null || pocketColor == null) {
             JsonObject json = Json.createObjectBuilder().add("error", "empty params error").build();
             return jsonArrayBuilder.add(json).build();
         } else {
-            if ("smallModel".equals(modelType)){
-                SmallModel smallModel = SmallModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
+            if ("smallModel".equals(modelType)) {
+                SmallModel smallModel = SmallModel
+                        .find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
                 if (smallModel == null) {
-                    JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
+                    JsonObject json = Json.createObjectBuilder().add("error", "invalid model").build();
                     return jsonArrayBuilder.add(json).build();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("quantity", smallModel.quantity).build();
                     jsonArrayBuilder.add(json);
                 }
             } else if ("largeModel".equals(modelType)) {
-                LargeModel largeModel = LargeModel.find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
+                LargeModel largeModel = LargeModel
+                        .find("color_pocket_name = ?1 and color_bag_name = ?2", pocketColor, bagColor).firstResult();
                 if (largeModel == null) {
-                    JsonObject json = Json.createObjectBuilder().add("error", "inexisting model error").build();
+                    JsonObject json = Json.createObjectBuilder().add("error", "invalid model").build();
                     return jsonArrayBuilder.add(json).build();
                 } else {
                     JsonObject json = Json.createObjectBuilder().add("quantity", largeModel.quantity).build();
                     jsonArrayBuilder.add(json);
                 }
+            } else {
+                JsonObject json = Json.createObjectBuilder().add("error", "invalid model").build();
+                return jsonArrayBuilder.add(json).build();
             }
 
         }

@@ -10,7 +10,7 @@ public class StockTestProfile implements QuarkusTestProfile {
     @Override
     public Map<String, String> getConfigOverrides() {
         return Collections.singletonMap("quarkus.datasource.jdbc.url",
-                "jdbc:mysql://pinfo3.unige.ch:31607/test_StockManagement");
+                "${MYSQL_URL}/test_StockManagement");
     }
 
     @Override
