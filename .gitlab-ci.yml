@@ -12,6 +12,8 @@ stages:
   - image-push
   - deploy
 
+
+
 sonarcloud-check-branch:
   stage: sonarcloud-integration
   image: maven:3.6.3-openjdk-17-slim
@@ -22,8 +24,9 @@ sonarcloud-check-branch:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
-  script: 
+  script:
     - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
+
 
 mvn-build-stock-management:
   stage:  build
