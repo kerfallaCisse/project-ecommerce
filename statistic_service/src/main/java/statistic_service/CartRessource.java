@@ -84,8 +84,8 @@ public class CartRessource {
                     return false;
             }
         } catch (NullPointerException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
+            // System.err.println(e.getMessage());
+            // System.err.println(e.getStackTrace());
             return false;
         }
 
@@ -170,8 +170,8 @@ public class CartRessource {
             gMailer.sendEmail(CUSTOMER_SUBJECT, MESSAGE_TO_CUSTOMER, email);
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
+            // System.err.println(e.getMessage());
+            // System.err.println(e.getStackTrace());
             return false;
         }
 
