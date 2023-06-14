@@ -34,6 +34,7 @@ public class StatisticRessourceTest {
 
         String testEmail = ConfigProvider.getConfig().getValue("test.email.one", String.class);
         String cloudinary_image = "http://res.cloudinary.com/dqvvvce88/image/upload/wz1dbmyo22ohwuug3nbi";
+        
 
         @Test
         void testNewUsersStatsWeek() {
