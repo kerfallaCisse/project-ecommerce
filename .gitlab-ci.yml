@@ -5,7 +5,6 @@ variables:
 image: maven:3.6.3-openjdk-17-slim
 
 stages:
-  - securefile
   - sonarcloud-integration
   - build
   - image-push
@@ -13,15 +12,6 @@ stages:
   - image-push
   - deploy
 
-
-add-securefile:
-  image: ubuntu:18.04
-  stage: securefile
-  script:
-    - apt update && apt install -y curl
-    - curl -s https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer | bash  
-    - ls -lah ~/.secure_files
-    - mkdir -p statistic_service/src/main/resources/tokens/
 
 
 sonarcloud-check-branch:
@@ -208,14 +198,6 @@ test-statistics:
   stage: test
   dependencies:
     - mvn-build-statistics 
-  variables:
-    SECURE_FILES_DOWNLOAD_PATH: ''
-  before_script:
-    - ls
-    - mkdir -p statistic_service/src/main/resources/tokens/
-    - touch statistic_service/src/main/resources/tokens/StoredCredential
-    - echo "$STOREDCRED" > statistic_service/src/main/resources/tokens/StoredCredential
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
   script:
     - cd statistic_service 
     - mvn help:evaluate -Dexpression=project.version -q -DforceStdout
