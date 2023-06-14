@@ -15,7 +15,7 @@ stages:
 
 
 add-securefile:
-  image: alpine
+  image: debian
   stage: securefile
   script:
     - curl -s https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer | bash  
