@@ -15,9 +15,10 @@ stages:
 
 
 add-securefile:
-  image: debian
+  image: ubuntu:18.04
   stage: securefile
   script:
+    - apt update && apt install -y curl
     - curl -s https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer | bash  
     - ls -lah ~/.secure_files
     - mkdir -p statistic_service/src/main/resources/tokens/
