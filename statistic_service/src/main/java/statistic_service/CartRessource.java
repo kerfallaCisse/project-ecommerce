@@ -196,7 +196,9 @@ public class CartRessource {
             CustomBag basket = basketToUpdate.get();
             int initial_quantity = basket.getQuantity();
             if (initial_quantity <= 0) {
-                return false;
+                // We delete the basket
+                basket.delete();
+                return true;
             }
             // We update the quantity and the stats for abandonned basket
             CustomBag.update("quantity = ?1 WHERE image = '" + image + "'", initial_quantity - 1);
