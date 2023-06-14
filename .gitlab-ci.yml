@@ -27,6 +27,7 @@ sonarcloud-check-branch:
     - pwd
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - ls
+    - pwd
   script:
     - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
