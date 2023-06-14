@@ -72,11 +72,11 @@ public class CustomizationResource {
         } else {
             return jsonObjectBuilder.add("error", "type error").build();
         }
-        // if (bagModel.quantity instanceof int && bagModel.quantity > 0) {
-        //     quantity = bagModel.quantity;
-        // } else {
-        //     return jsonObjectBuilder.add("error", "type error").build();
-        // }
+        if (bagModel.quantity != null && bagModel.quantity instanceof String) {
+            quantity = Integer.parseInt(bagModel.quantity);
+        } else {
+            return jsonObjectBuilder.add("error", "type error").build();
+        }
 
         if ("largeModel".equals(bagModel.modelType) || "smallModel".equals(bagModel.modelType)) {
             LargeModel largeModel = LargeModel.find("bag_name", bagModel.bagColor + bagModel.pocketColor).firstResult();
@@ -181,10 +181,10 @@ public class CustomizationResource {
         g2d.dispose();
 
         // Save the merged image to a file (optional)
-        File outputFile = new File("logo2.png");
-        ImageIO.write(bagImage, "png", outputFile);
+        File tempFile = File.createTempFile("logo", ".png");
+        ImageIO.write(bagImage, "png", tempFile);
 
-        return outputFile;
+        return tempFile;
     }
 
 }
