@@ -140,10 +140,65 @@ class StockManagementResourceTest {
 				.body("[0].error", equalTo("missing param or type error"));
 	}
 
+	@Test
+	void testInsertModelWithWrongPocketType() {
+		String requestBody = "{"
+				+ "\"modelType\": \"smallModel\","
+				+ "\"color_pocket_name\": 10,"
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
+
+	@Test
+	void testInsertModelWithWrongBagType() {
+		String requestBody = "{"
+				+ "\"modelType\": \"small\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": 10,"
+				+ "\"quantity\": 10"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
+
+	@Test
+	void testInsertModelWithWrongQuantityType() {
+		String requestBody = "{"
+				+ "\"modelType\": \"smallModel\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"red\","
+				+ "\"quantity\": \"red\""
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBody)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].error", equalTo("missing param or type error"));
+	}
+
 	// Test if quantity update is correct
 	@Test
 	void testStockManagement() {
-		String requestBody = "{"
+		// Insert small model
+		String requestBodySmall = "{"
 				+ "\"modelType\": \"small\","
 				+ "\"color_pocket_name\": \"red\","
 				+ "\"color_bag_name\": \"blue\","
@@ -151,7 +206,23 @@ class StockManagementResourceTest {
 				+ "}";
 		given()
 				.contentType(ContentType.JSON)
-				.body(requestBody)
+				.body(requestBodySmall)
+				.when().post("/stock")
+				.then()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("[0].result", equalTo("ok"));
+
+		// Insert large model
+		String requestBodyLarge = "{"
+				+ "\"modelType\": \"large\","
+				+ "\"color_pocket_name\": \"red\","
+				+ "\"color_bag_name\": \"blue\","
+				+ "\"quantity\": 5"
+				+ "}";
+		given()
+				.contentType(ContentType.JSON)
+				.body(requestBodyLarge)
 				.when().post("/stock")
 				.then()
 				.statusCode(200)
@@ -167,7 +238,11 @@ class StockManagementResourceTest {
 				.body("[0].modelType", equalTo("SmallModel"))
 				.body("[0].quantity", equalTo(20))
 				.body("[0].color_pocket_name", equalTo("red"))
-				.body("[0].color_bag_name", equalTo("blue"));
+				.body("[0].color_bag_name", equalTo("blue"))
+				.body("[1].modelType", equalTo("LargeModel"))
+				.body("[1].quantity", equalTo(5))
+				.body("[1].color_pocket_name", equalTo("red"))
+				.body("[1].color_bag_name", equalTo("blue"));
 	}
 
 	// Test on GET /stock
