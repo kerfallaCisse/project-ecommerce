@@ -18,7 +18,7 @@ sonarcloud-check-branch:
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-    SECURE_FILES_DOWNLOAD_PATH: ''
+    SECURE_FILES_DOWNLOAD_PATH: '/builds/pinfo-2023/pinfo-2/project-ecommerce'
   cache:
     key: "${CI_JOB_NAME}"
     paths:
