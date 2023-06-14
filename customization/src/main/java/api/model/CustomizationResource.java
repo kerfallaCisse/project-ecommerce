@@ -44,22 +44,14 @@ public class CustomizationResource {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getBag(JsonObject bagModel) throws IOException {
+    public JsonObject getBag(@MultipartForm CustomizationFormData bagModel) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-         
-        var modelType = bagModel.get("modelType").toString();
-        var pocketColor = bagModel.get("pocketColor").toString();
-        var bagColor = bagModel.get("bagColor").toString();
-        var email = bagModel.get("email").toString();
-        var quantity = bagModel.get("quantity").toString();
-        var file = bagModel.get("file").toString();
-        // Create a temporary file
-        File tempFile = File.createTempFile("temp", ".json");
+        String modelType = null;
+        String pocketColor = null;
+        String bagColor = null;
+        String email = null;
+        int quantity = 0;
 
-            // Write the JSON string to the temporary file
-        Files.write(tempFile.toPath(), file.getBytes());
-
-        /* 
         if (bagModel.modelType != null && bagModel.modelType instanceof String) {
             modelType = bagModel.modelType;
         } else {
@@ -85,17 +77,16 @@ public class CustomizationResource {
         } else {
             return jsonObjectBuilder.add("error", "type error").build();
         }
-        */
 
-        if ("largeModel".equals(modelType) || "smallModel".equals(modelType)) {
-            LargeModel largeModel = LargeModel.find("bag_name", bagColor + pocketColor).firstResult();
+        if ("largeModel".equals(bagModel.modelType) || "smallModel".equals(bagModel.modelType)) {
+            LargeModel largeModel = LargeModel.find("bag_name", bagModel.bagColor + bagModel.pocketColor).firstResult();
             if (largeModel == null) {
                 return jsonObjectBuilder.add("error", "bag not found").build();
             } else {
                 String bagImage = null; // Set to null before testing
                 try {
-                    if (ImageIO.read(new ByteArrayInputStream(Files.readAllBytes(tempFile.toPath()))) != null) {
-                        File bagWithLogo = mergeImages(largeModel.cloudinary_url, tempFile);
+                    if (ImageIO.read(new ByteArrayInputStream(Files.readAllBytes(bagModel.file.toPath()))) != null) {
+                        File bagWithLogo = mergeImages(largeModel.cloudinary_url, bagModel.file);
                         bagImage = upload_image(bagWithLogo);
                     } else {
                         bagImage = largeModel.cloudinary_url;
@@ -190,10 +181,10 @@ public class CustomizationResource {
         g2d.dispose();
 
         // Save the merged image to a file (optional)
-        File outputFile = new File("logo2.png");
-        // ImageIO.write(bagImage, "png", outputFile);
+        File tempFile = File.createTempFile("logo", ".png");
+        ImageIO.write(bagImage, "png", tempFile);
 
-        return outputFile;
+        return tempFile;
     }
 
 }
