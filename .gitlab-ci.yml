@@ -24,9 +24,7 @@ sonarcloud-check-branch:
   script:
     - gitlab-runner download "StoredCredential" --output statistic_service/src/main/resources/tokens/StoredCredential
     - mvn verify sonar:sonar -Dsonar.projectKey=invia -Dsonar.organization=$ORG -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
-  rules:
-    - changes:
-        - statistic_service/src/main/resources/tokens/*
+
 
 mvn-build-stock-management:
   stage:  build
