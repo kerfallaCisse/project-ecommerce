@@ -5,12 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import api.rest.PaymentRestService;
 import domain.model.Basket;
 import domain.model.ProductBasket;
 import domain.model.Profit;
+import domain.service.PaymentServiceImpl;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import java.time.LocalDate;
@@ -26,8 +28,11 @@ import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 
 @QuarkusTest
@@ -198,7 +203,7 @@ public class PaymentResourceTest {
         profit2.setAmount(100.0);
         profit2.setCreated_at(LocalDate.now());
 
-        assertTrue(profit1.equals(profit2));
+        assertEquals(profit1,profit2);
     }
 
     @Test
@@ -212,7 +217,7 @@ public class PaymentResourceTest {
         profit2.setAmount(200.0);
         profit2.setCreated_at(LocalDate.now());
 
-        assertFalse(profit1.equals(profit2));
+        assertNotEquals(profit1,profit2);
     }
 
     @Test
@@ -254,6 +259,36 @@ public class PaymentResourceTest {
 
 /* Test PaymentServiceImpl */
 
+
+    @Test
+    void testPaymentServiceImpl(){
+        PaymentServiceImpl paymentService = new PaymentServiceImpl();        
+        assertNotNull(paymentService);
+    }
+
+    // @ConfigProperty(name = "stripe.api.key") 
+    // String apiKey;
+    
+    // @Test
+    // void testCreateCheckoutSession() throws StripeException {
+
+    //     PaymentServiceImpl paymentService = new PaymentServiceImpl();
+
+    //     ProductBasket product = new ProductBasket();
+    //     product.setProdId("prod_O1FSw1MDp2WNIT");
+    //     product.setQuantity(2);
+
+    //     List<ProductBasket> productList = new ArrayList<>();
+    //     productList.add(product);
+        
+    //     Basket basket = new Basket();
+    //     basket.setProducts(productList);
+
+    //     JsonObject result = paymentService.createCheckoutSession(basket);
+        
+    //     assertNotNull(result);
+    // }
+
 /* Test PaymentRestService */
     @Test
     @Transactional
@@ -267,6 +302,19 @@ public class PaymentResourceTest {
         Response response = paymentRestService.updateAmount(requestJson);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    @Transactional
+    void testUpdateAmount_UnvalidAmount() {
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("amount", -150)
+                .build();
+        
+        PaymentRestService paymentRestService = new PaymentRestService();
+
+        Response response = paymentRestService.updateAmount(jsonObject);
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -286,10 +334,8 @@ public class PaymentResourceTest {
         assertEquals(profit.getAmount(), persistedProfit.getAmount());
         assertEquals(profit.getCreated_at(), persistedProfit.getCreated_at());
     }
-
     
-    /* Test path */
-    
+/* Test path */
     @Test
     void testCheckoutWithoutProdId() {
 
@@ -424,7 +470,7 @@ public class PaymentResourceTest {
 
 
     // @Test
-    // public void testPersistenceAndRetrieval() {
+    // void testPersistenceAndRetrieval() {
     //     // Create a new Profit object
     //     Profit profit = new Profit();
     //     profit.setAmount(100.0);
