@@ -283,8 +283,8 @@ public class StatisticRessource {
                     return Response.status(Response.Status.NOT_FOUND).build();
             }
         } catch (NullPointerException e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getStackTrace());
+            // System.err.println(e.getMessage());
+            // System.err.println(e.getStackTrace());
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -339,7 +339,7 @@ public class StatisticRessource {
     @Path("cart/basket_quantity")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response UpdateUserBasketQuantity(JsonObject jsonObject) {
+    public Response updateUserBasketQuantity(JsonObject jsonObject) {
         try {
             String image = jsonObject.getString("image");
             if (image == null)
