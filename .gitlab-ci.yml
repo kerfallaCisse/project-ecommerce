@@ -14,7 +14,7 @@ stages:
   - deploy
 
 
-alpine-latest:
+add-securefile:
   image: alpine
   stage: securefile
   script:
