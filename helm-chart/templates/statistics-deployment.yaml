@@ -45,6 +45,11 @@ spec:
                 secretKeyRef:
                   name: client-google-secret
                   key: key
+            - name: TEST_EMAIL1
+              valueFrom:
+                secretKeyRef:
+                  name: test-google-secret 
+                  key: TEST_EMAIL1
           volumeMounts:
             - name: tokens-volume
               mountPath: /deployments/src/main/resources/tokens
