@@ -181,10 +181,10 @@ public class CustomizationResource {
         g2d.dispose();
 
         // Save the merged image to a file (optional)
-        File outputFile = new File("logo2.png");
-        ImageIO.write(bagImage, "png", outputFile);
+        File tempFile = File.createTempFile("logo", ".png");
+        ImageIO.write(bagImage, "png", tempFile);
 
-        return outputFile;
+        return tempFile;
     }
 
 }
