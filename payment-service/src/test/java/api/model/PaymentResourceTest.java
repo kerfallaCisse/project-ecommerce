@@ -2,6 +2,8 @@ package api.model;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,14 +11,17 @@ import static org.mockito.ArgumentMatchers.any;
 import api.rest.PaymentRestService;
 import domain.model.Basket;
 import domain.model.ProductBasket;
+import domain.model.Profit;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.transaction.Transactional;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
@@ -24,11 +29,77 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 
+
 @QuarkusTest
 @TestHTTPEndpoint(PaymentRestService.class)
 @Tag("integration")
 public class PaymentResourceTest {
 
+    /* Test for ProductBasket Model */
+    @Test
+    public void testProductBasket() {
+        ProductBasket productBasket = new ProductBasket();
+        productBasket.setProdId("ABC123");
+        productBasket.setQuantity(2);
+
+        Assertions.assertEquals("ABC123", productBasket.getProdId());
+        Assertions.assertEquals(2, productBasket.getQuantity());
+    }
+
+    @Test
+    public void testEqualsProductBasket() {
+        // Create two ProductBasket objects with the same values
+        ProductBasket basket1 = new ProductBasket();
+        basket1.setProdId("ABC123");
+        basket1.setQuantity(2);
+
+        ProductBasket basket2 = new ProductBasket();
+        basket2.setProdId("ABC123");
+        basket2.setQuantity(2);
+
+        // Assert that the two objects are equal
+        assertEquals(basket1, basket2);
+    }
+
+    @Test
+    public void testNotEqualsProductBasket() {
+        // Create two ProductBasket objects with the same values
+        ProductBasket basket1 = new ProductBasket();
+        basket1.setProdId("ABC123");
+        basket1.setQuantity(2);
+
+        ProductBasket basket2 = new ProductBasket();
+        basket2.setProdId("ABC123");
+        basket2.setQuantity(3);
+
+        assertNotEquals(basket1, basket2);
+    }   
+
+    @Test
+    public void testToStringProductBasket() {
+        ProductBasket basket = new ProductBasket();
+        basket.setProdId("ABC123");
+        basket.setQuantity(2);
+
+        String expectedToString = "ProductBasket(prodId=ABC123, quantity=2)";
+
+        assertEquals(expectedToString, basket.toString());
+    }
+
+    @Test
+    public void testHashCodeProductBasket() {
+        ProductBasket basket1 = new ProductBasket();
+        basket1.setProdId("ABC123");
+        basket1.setQuantity(2);
+
+        ProductBasket basket2 = new ProductBasket();
+        basket2.setProdId("ABC123");
+        basket2.setQuantity(2);
+
+        assertEquals(basket1.hashCode(), basket2.hashCode());
+    }
+
+    /* Test for Basket Model */
     @Test
     public void testBasket() {
 
@@ -51,14 +122,70 @@ public class PaymentResourceTest {
     }
 
     @Test
-    public void testProductBasket() {
-        ProductBasket productBasket = new ProductBasket();
-        productBasket.setProdId("ABC123");
-        productBasket.setQuantity(2);
+    public void testEquals() {
+        // Create two Basket objects with the same values
+        Basket basket1 = new Basket();
+        List<ProductBasket> products1 = new ArrayList<>();
+        ProductBasket product1 = new ProductBasket();
+        product1.setProdId("ABC123");
+        product1.setQuantity(2);
+        products1.add(product1);
+        basket1.setProducts(products1);
 
-        Assertions.assertEquals("ABC123", productBasket.getProdId());
-        Assertions.assertEquals(2, productBasket.getQuantity());
+        Basket basket2 = new Basket();
+        List<ProductBasket> products2 = new ArrayList<>();
+        ProductBasket product2 = new ProductBasket();
+        product2.setProdId("ABC123");
+        product2.setQuantity(2);
+        products2.add(product2);
+        basket2.setProducts(products2);
+
+        // Assert that the two objects are equal
+        assertEquals(basket1, basket2);
     }
+
+    @Test
+    public void testToString() {
+        // Create a Basket object
+        Basket basket = new Basket();
+        List<ProductBasket> products = new ArrayList<>();
+        ProductBasket product = new ProductBasket();
+        product.setProdId("ABC123");
+        product.setQuantity(2);
+        products.add(product);
+        basket.setProducts(products);
+
+        // Get the string representation of the object
+        String expectedToString = "Basket(products=[ProductBasket(prodId=ABC123, quantity=2)])";
+
+        // Assert that the toString() method returns the expected string
+        assertEquals(expectedToString, basket.toString());
+    }
+
+    @Test
+    public void testHashCode() {
+        // Create two Basket objects with the same values
+        Basket basket1 = new Basket();
+        List<ProductBasket> products1 = new ArrayList<>();
+        ProductBasket product1 = new ProductBasket();
+        product1.setProdId("ABC123");
+        product1.setQuantity(2);
+        products1.add(product1);
+        basket1.setProducts(products1);
+
+        Basket basket2 = new Basket();
+        List<ProductBasket> products2 = new ArrayList<>();
+        ProductBasket product2 = new ProductBasket();
+        product2.setProdId("ABC123");
+        product2.setQuantity(2);
+        products2.add(product2);
+        basket2.setProducts(products2);
+
+        // Assert that the hash codes are equal
+        assertEquals(basket1.hashCode(), basket2.hashCode());
+    }
+
+    /* Test  */
     
     @Test
     public void testCheckoutWithoutProdId() {
@@ -213,6 +340,59 @@ public class PaymentResourceTest {
 
     //     assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     // }
+
+
+    /* Test for Profit Model */
+    @Test
+    public void testEqualsProfit() {
+        Profit profit1 = new Profit();
+        profit1.setAmount(100.0);
+        profit1.setCreated_at(LocalDate.now());
+
+        Profit profit2 = new Profit();
+        profit2.setAmount(100.0);
+        profit2.setCreated_at(LocalDate.now());
+
+        assertTrue(profit1.equals(profit2));
+    }
+
+    @Test
+    public void testNotEqualsProfit() {
+
+        Profit profit1 = new Profit();
+        profit1.setAmount(100.0);
+        profit1.setCreated_at(LocalDate.now());
+
+        Profit profit2 = new Profit();
+        profit2.setAmount(200.0);
+        profit2.setCreated_at(LocalDate.now());
+
+        assertFalse(profit1.equals(profit2));
+    }
+
+    @Test
+    public void testToStringProfit() {
+        Profit profit = new Profit();
+        profit.setAmount(100.0);
+        profit.setCreated_at(LocalDate.now());
+
+        String expectedString = "Profit(amount=100.0, created_at=" + LocalDate.now() + ")";
+        
+        assertEquals(expectedString, profit.toString());
+    }
+
+    @Test
+    public void testHashCodeProfit() {
+        Profit profit1 = new Profit();
+        profit1.setAmount(100.0);
+        profit1.setCreated_at(LocalDate.of(2023, 6, 14));
+
+        Profit profit2 = new Profit();
+        profit2.setAmount(100.0);
+        profit2.setCreated_at(LocalDate.of(2023, 6, 14));
+
+        assertEquals(profit1.hashCode(), profit2.hashCode());
+    }
         
     @Test
     void testUpdateAmount_InvalidAmount() {
@@ -220,8 +400,6 @@ public class PaymentResourceTest {
                 .add("amount", -50)
                 .build();
 
-
-                
         PaymentRestService paymentRestService = new PaymentRestService();
 
         Response response = paymentRestService.updateAmount(requestJson);
@@ -229,23 +407,37 @@ public class PaymentResourceTest {
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
-    // @Test
-    // public void testCreateProfit() {
-    //     // Create a new Profit object
-    //     Profit profit = new Profit();
-    //     profit.setAmount(100.0);
-    //     profit.setCreated_at(LocalDate.now());
+    @Test
+    @Transactional
+    void testUpdateAmount_ValidAmount() {
+        JsonObject requestJson = Json.createObjectBuilder()
+                .add("amount", 100)
+                .build();
 
-    //     // Persist the Profit object to the database
-    //     profit.persist();
+        PaymentRestService paymentRestService = new PaymentRestService();
 
-    //     // Retrieve the persisted Profit object by its ID
-    //     Profit persistedProfit = Profit.findById(profit.getId());
+        Response response = paymentRestService.updateAmount(requestJson);
 
-    //     // Assert that the retrieved Profit object matches the original one
-    //     assertEquals(profit.getAmount(), persistedProfit.getAmount());
-    //     assertEquals(profit.getCreated_at(), persistedProfit.getCreated_at());
-    // }
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    @Transactional
+    public void testCreateProfit() {
+
+        Profit profit = new Profit();
+        profit.setAmount(100.0);
+        profit.setCreated_at(LocalDate.now());
+
+
+        profit.persist();
+        Profit persistedProfit = Profit.findById(profit.id);
+
+        assertTrue(profit.isPersistent());
+        assertNotNull(persistedProfit);
+        assertEquals(profit.getAmount(), persistedProfit.getAmount());
+        assertEquals(profit.getCreated_at(), persistedProfit.getCreated_at());
+    }
 
 
     // @Test
@@ -269,6 +461,6 @@ public class PaymentResourceTest {
     //     assertEquals(profit.getCreated_at(), retrievedProfit.getCreated_at());
 
     //     // Assert that the profit object is persistent
-    //     assertTrue(profit.isPersistent());
+    //     
     //}
 }
