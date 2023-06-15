@@ -20,3 +20,6 @@ export interface Item3 {
   quantity: number;
   price: number
 }
+export interface AbandBag {
+  modelType: string;
+}

@@ -77,6 +77,9 @@ export class SuccessComponent {
     } else {
       // console.log("not payed")
     }
+
+    window.location.reload()
+
   }
 
 }
