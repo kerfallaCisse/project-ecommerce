@@ -23,7 +23,7 @@ export class CustomizationService {
   }
 
   // POST PRÊT POUR KERFALLA
-  postForCart(email: string,modelType: string,pocketColor: string,bagColor: string,image: string,logo: number, quantity: number ){
+  postForCart(email: string,modelType: string,bagColor: string,pocketColor: string,image: string,logo: number, quantity: number ){
 
     const data_cart: Cart = {
       email: email,
