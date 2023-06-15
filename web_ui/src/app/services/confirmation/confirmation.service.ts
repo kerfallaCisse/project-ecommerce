@@ -46,7 +46,6 @@ export class ConfirmationService {
 
   postCart(cart: ProductJson) {
     const confirmationCartFormEndpointURL = '/api/payment';
-    console.log("ici", cart);
     return this.http.post<PaymentResponse>(confirmationCartFormEndpointURL, cart);
   }
 }

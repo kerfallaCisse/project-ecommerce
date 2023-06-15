@@ -138,11 +138,6 @@ export class StatisticComponent implements OnInit{
       error => {
         console.log("Erreur lors de la réception des données");
       },
-      () => {
-        console.log("Stat info:", this.sum_users);
-        console.log("Orders info:", this.sum_orders);
-
-      }
     );
   }
 

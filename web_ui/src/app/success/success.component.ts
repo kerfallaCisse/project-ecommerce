@@ -62,7 +62,7 @@ export class SuccessComponent {
             modelType:  this.model,
             color_pocket_name: item.pocketColor,
             color_bag_name: item.bagColor,
-            quantity: item.quantity,
+            quantity: -item.quantity,
           };
           this.successService.postStock(stockData)
 
@@ -75,7 +75,7 @@ export class SuccessComponent {
 
       });
     } else {
-      console.log("pas payer")
+      // console.log("not payed")
     }
   }
 

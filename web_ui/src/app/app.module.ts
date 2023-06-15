@@ -9,8 +9,6 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { LoginComponent } from './login/login.component';
-import { PrecisionComponent } from './login/precision/precision.component';
 import { CustomizationComponent } from './customization/customization.component';
 import { StockComponent } from './stock/stock.component';
 import { StatisticComponent } from './statistic/statistic.component';
@@ -26,7 +24,6 @@ import { FailComponent } from './fail/fail.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '@auth0/auth0-angular';
-import { environment } from './environnement';
 import { HelpPageComponent } from './help-page/help-page.component';
 
 @NgModule({
@@ -34,8 +31,6 @@ import { HelpPageComponent } from './help-page/help-page.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    LoginComponent,
-    PrecisionComponent,
     CustomizationComponent,
     StockComponent,
     StatisticComponent,
@@ -46,11 +41,11 @@ import { HelpPageComponent } from './help-page/help-page.component';
     FailComponent,
     ConfirmationComponent,
     HelpPageComponent,
-    
+
   ],
   imports: [
     AuthModule.forRoot({
-      // ancien 
+      // ancien
       domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',
       clientId: 'ulU0Nnga1ilqIpGjcjXLkHSvNkplcYW6',
       // domain: 'dev-xuzmuq3g0kbtxrc4.us.auth0.com',

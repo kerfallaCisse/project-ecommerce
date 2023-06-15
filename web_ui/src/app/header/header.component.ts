@@ -3,6 +3,8 @@ import { CartComponent } from '../cart/cart.component';
 import { HeaderService } from '../services/header/header.service';
 import {Item2} from '../shared/models/header';
 import { Item } from '../services/stock/stock.service';
+import { AuthService } from '@auth0/auth0-angular';
+
 
 
 let variable: boolean = false
@@ -16,6 +18,9 @@ let variable: boolean = false
 
 export class HeaderComponent implements AfterViewInit{
 
+  constructor(private headerService: HeaderService, public auth: AuthService) {}
+
+
   full_cart_client: Item2[] = [];
   theQuantity = 0
 
@@ -28,14 +33,12 @@ export class HeaderComponent implements AfterViewInit{
   }
 
 
-  constructor(private headerService: HeaderService) {}
-
   ngAfterViewInit(): void {
-    this.headerService.get_panier_john().subscribe(data2 => { 
+    this.headerService.get_panier_john().subscribe(data2 => {
 
       this.full_cart_client = data2
-      
-      
+
+
       this.theQuantity = this.computeQuantity(this.full_cart_client)
 
       var subtotalElement = document.getElementById("numbre_in_cart");
@@ -43,31 +46,16 @@ export class HeaderComponent implements AfterViewInit{
       subtotalElement!.textContent = String(this.computeQuantity(this.full_cart_client));
       document.getElementById("border_red")!.style.display = "flex";
       }
-      
+
     })
-  
+
   }
-  
-  
+
+
 
   loadHeader() {
-    console.log("je suis la");
     window.location.reload();
   }
-
-  
-
- 
-  //   await this.delay(1000)
-
-   
-  //  console.log(this.cartQuantity)
-
-   
-  // 
-    
-
-   
 
 
 }

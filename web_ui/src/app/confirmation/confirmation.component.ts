@@ -37,13 +37,11 @@ export class ConfirmationComponent {
 
   ngOnInit() {
     const formDataFromLocalStorage = this.confirmationService.getFormDataFromLocalStorage();
-    console.log(formDataFromLocalStorage)
     if (formDataFromLocalStorage) {
       this.confirmationService.setFormData(formDataFromLocalStorage);
     }
 
     this.confirmationService.getCart(this.email).subscribe(data => {
-      console.log('Cart data:', data);
       this.cart_info = Array.isArray(data) ? data : [data];
 
       for (const item of this.cart_info) {
@@ -85,7 +83,6 @@ export class ConfirmationComponent {
         products: products
       };
 
-      console.log('Product JSON:', this.productJson);
     });
 
   }
@@ -98,7 +95,6 @@ export class ConfirmationComponent {
 
     this.confirmationService.postCart(this.productJson).pipe(
       tap((response: PaymentResponse) => {
-        console.log(response, "postCart");
         window.location.href = response.url;
       })
     ).subscribe();

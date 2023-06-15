@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { DeleteBag } from 'src/app/shared/models/cart';
 
 
 export interface Cart {
@@ -25,13 +26,11 @@ export class CartService {
 
   constructor(private http: HttpClient) { }
 
-
-  deleteBagFromCart(url:String){
-    console.log(url)
-    this.http.delete('/api/statistics/cart?image=' + url).subscribe(data => {
+  deleteBagFromCart(url:string){
+    const data: DeleteBag = {image: url};
+    this.http.put('/api/statistics/cart/basket_quantity',data).subscribe(data => {
       console.log(data);
-  });
-    console.log("salut")
+    });
   }
 
   getBasket(){

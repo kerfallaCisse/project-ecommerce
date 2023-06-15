@@ -23,7 +23,7 @@
 .basket{
   padding-top: 30px;
   background-color: white;
-  width: 70%;
+  width: 65%;
   display: flex;
   flex-direction: column;
   row-gap: 30px;
@@ -33,7 +33,7 @@
 
 .checkout{
   background-color: white;
-  width: 27%;
+  width: 30%;
   height: 10%;
   display: flex;
   flex-direction: column;

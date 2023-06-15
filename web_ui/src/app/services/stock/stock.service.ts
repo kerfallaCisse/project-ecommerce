@@ -62,18 +62,9 @@ export class StockService {
       quantity: y,
 
     };
-    console.log(data)
     this.http.post<Item>(this.configUrl_2,data).subscribe(response => {
-      console.log("yo",response)
-    })
-
-    ;
-}
-
-
-
-
-
-
+      console.log(response)
+    });
+  }
 
 }

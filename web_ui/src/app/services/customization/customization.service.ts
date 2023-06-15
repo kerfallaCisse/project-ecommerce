@@ -35,8 +35,6 @@ export class CustomizationService {
       quantity: quantity,
     }
 
-    console.log("a envoyer")
-    console.log(data_cart)
     this.http.post<Cart>("api/statistics/cart/add",data_cart).subscribe(response => {
       console.log(response)
     })

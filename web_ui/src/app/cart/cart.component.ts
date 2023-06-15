@@ -6,8 +6,6 @@ import { Item2, Item3} from '../shared/models/cart';
 import { BehaviorSubject } from 'rxjs';
 
 
-
-
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -36,7 +34,7 @@ export class CartComponent implements OnInit{
     return logo.toString()
   }
 
-  removeBag(url:String){
+  removeBag(url:string){
     this.cartService.deleteBagFromCart(url)
     window.location.reload();
   }
