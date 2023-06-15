@@ -3,6 +3,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, OnDestroy, HostListener , AfterViewInit} from '@angular/core';
 import {CustomizationService} from '../services/customization/customization.service';
 import { Color, MeshStandardMaterial } from 'three';
+import { HttpClient } from '@angular/common/http';
+
+
+
 
 let number = 0;
 let variable: boolean = false
@@ -22,7 +26,7 @@ let changer_sac = false
 
 export class CustomizationComponent implements OnInit {
 
-  constructor(private customizationService: CustomizationService) {}
+  constructor(private customizationService: CustomizationService, private http: HttpClient) {}
 
   userChoice: string[] = [];
 
@@ -41,6 +45,8 @@ export class CustomizationComponent implements OnInit {
   fileToUpload: File | null = null;
   fileInput = document.getElementById("fileInput");
 
+  email: string = "john@gmail.com";
+
 
 
 
@@ -55,9 +61,8 @@ export class CustomizationComponent implements OnInit {
       number += 1
     }else{
       window.location.reload()
-      console.log("salut")
       this.cleanScene()
-      this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb', this.selectedBagColor, this.selectedPocketColor);
+      this.my3DScene?.loadGLTFModel('assets/assets_3d/smallModel.glb', this.selectedBagColor, this.selectedPocketColor);
     }
 
     this.changeBackgroundColor('#d2d7d2');
@@ -72,6 +77,7 @@ export class CustomizationComponent implements OnInit {
   ngOnDestroy() {
     window.removeEventListener('resize', this.onWindowResize);
   }
+
 
 
   //pour gérer les fichiers pour le logo
@@ -97,7 +103,7 @@ export class CustomizationComponent implements OnInit {
       this.price = (130 + 30*this.loadedFile) * this.bagQuantity;
 
       this.cleanScene();
-      this.my3DScene?.loadGLTFModel('assets/assets_3d/petit_finallo2.glb', this.selectedBagColor, this.selectedPocketColor);
+      this.my3DScene?.loadGLTFModel('assets/assets_3d/smallModel.glb', this.selectedBagColor, this.selectedPocketColor);
 
 
     } else if(taille===70) {
@@ -106,7 +112,7 @@ export class CustomizationComponent implements OnInit {
       this.price = (150 + 30*this.loadedFile) * this.bagQuantity;
 
       this.cleanScene();
-      this.my3DScene?.loadGLTFModel('assets/assets_3d/grand_finallo2.glb',this.selectedBagColor, this.selectedPocketColor);
+      this.my3DScene?.loadGLTFModel('assets/assets_3d/largeModel.glb',this.selectedBagColor, this.selectedPocketColor);
 
     }
   }
@@ -143,15 +149,18 @@ export class CustomizationComponent implements OnInit {
     }
   }
 
-
-  addingToCartOperation(){
-    this.customizationService.getQuantityOfUrl(this.userChoice[0],this.userChoice[1],this.userChoice[2]).subscribe((stock: any) => {
+  async addingToCartOperation(){
+    this.customizationService.getQuantityOfUrl(this.userChoice[0],this.userChoice[1],this.userChoice[2]).subscribe(async (stock: any) => {
 
       this.stockQuantity = stock[0].quantity
 
       if(this.stockQuantity >= this.bagQuantity){
-        window.location.reload();
-        this.postBagCustomization()
+        try {
+          await this.postBagCustomization();
+          window.location.reload();
+        } catch (error) {
+          console.error("La requête POST a échoué", error);
+        }
       }else{
         if(this.stockQuantity == 0 || this.stockQuantity==undefined){
           alert("We're sorry, this model is no longer available.")
@@ -186,9 +195,59 @@ export class CustomizationComponent implements OnInit {
   }
 
   postBagCustomization(){
-    const image = "http://res.cloudinary.com/dqvvvce88/image/upload/wz1dbmyo22ohwuug3nbi"
-    const email = "john@gmail.com"
-    this.customizationService.postForCart(email,this.userChoice[0],this.userChoice[1],this.userChoice[2],image,this.loadedFile,this.bagQuantity)
+    return new Promise<void>((resolve, reject) => {
+
+      const xhr = new XMLHttpRequest();
+      const url = 'api/customization';
+
+      const formData = new FormData();
+
+      if (this.fileToUpload !== null) {
+        formData.append('file', this.fileToUpload);
+      } else {
+        formData.append('file', "null");
+      }
+
+      formData.append('modelType', this.userChoice[0]);
+      formData.append('bagColor', this.userChoice[1]);
+      formData.append('pocketColor', this.userChoice[2]);
+      formData.append('email', this.email);
+      formData.append('quantity', String(this.bagQuantity));
+      xhr.open('POST', url);
+
+      let urll = ""
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          console.log("response", response);
+          urll = response.cloudinary_url;
+          handle(urll);
+          resolve();
+        } else {
+          reject();
+        }
+      };
+
+      const handle = (urll: string) => {
+        this.customizationService.postForCart(
+        this.email,
+        this.userChoice[0],
+        this.userChoice[1],
+        this.userChoice[2],
+        urll,
+        this.loadedFile,
+        this.bagQuantity
+        );
+      }
+
+      xhr.onerror = function () {
+        console.error('Erreur lors de la requête:', xhr.status);
+      };
+
+      xhr.send(formData);
+    });
+
   }
 
   // permet de nettoyer la scene
@@ -235,6 +294,7 @@ export class My3DScene {
   private isModelLoaded: boolean = false;
   public currentColor: string = 'white';
 
+
   constructor() {
     this.createScene();
     this.init();
@@ -268,7 +328,7 @@ export class My3DScene {
     this.camera.position.y = 10;
     this.camera.position.z = 31;
 
-    this.loadGLTFModel('assets/assets_3d/petit_finallo2.glb', '#0F0F0F','#000060');
+    this.loadGLTFModel('assets/assets_3d/smallModel.glb', '#0F0F0F','#000060');
 
     // enft c'est un "écouteur" qui observe quand l'utilisateur clique sur la souris
     this.renderer.domElement.addEventListener('mouseup', () => {

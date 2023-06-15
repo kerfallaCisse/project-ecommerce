@@ -38,20 +38,19 @@ export class StockComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.stockService.getConfig_real().subscribe(data2 => { // la vrai de vrai
+    this.stockService.getConfig_real().subscribe(data2 => {
       this.tab_real = data2
+      console.log(data2)
       this.sortTable();
-      console.log(this.tab_real)
       this.resumeStock()
     })
 
-    this.stockService.getQuantityOfUrl().subscribe(dataa => {
-      console.log(dataa)
+    this.stockService.getQuantityOfUrl().subscribe(response => {
+      console.log(response)
     })
 
-    this.stockService.getQuantityOfUrl_custom().subscribe(dataa => {
-      console.log("return custom")
-      console.log(dataa)
+    this.stockService.getQuantityOfUrl_custom().subscribe(response => {
+      console.log(response)
     })
 
   }
@@ -69,7 +68,6 @@ export class StockComponent implements OnInit {
       }
     }
 
-    console.log(compteur_low,compteur_out)
     const low_message  = document.getElementById("lowmessage");
     const out_message = document.getElementById("outmessage");
 
@@ -118,12 +116,10 @@ export class StockComponent implements OnInit {
       this.stockService.getConfig_real().subscribe(data2 => {
         this.tab_real = data2
         this.sortTable();
-        console.log(this.tab_real)
         this.resumeStock()
       })
 
       window.location.reload();
-      console.log(typeof this.model_bag, this.selectedColor_bag, this.selectedColor_pocket, typeof this.numberr)
     }
   }
 
@@ -134,12 +130,10 @@ export class StockComponent implements OnInit {
       this.stockService.getConfig_real().subscribe(data2 => {
         this.tab_real = data2
         this.sortTable();
-        console.log(this.tab_real)
         this.resumeStock()
       })
 
       window.location.reload();
-      console.log(typeof this.model_bag, this.selectedColor_bag, this.selectedColor_pocket, typeof this.numberr)
     }
   }
 

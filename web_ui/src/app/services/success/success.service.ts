@@ -36,7 +36,7 @@ export class SuccessService {
   postColors(color: Colors) {
     const popularColorsEndpointURL = '/api/statistics/colors';
     this.http.post<Colors>(popularColorsEndpointURL, color).subscribe(response => {
-      console.log(response,"bien post")
+      console.log(response,"postColors")
     })
   }
 
@@ -44,22 +44,22 @@ export class SuccessService {
     const updateAmountEndpointURL = 'api/payment/update_amount';
     const body = { amount: amount };
     this.http.post(updateAmountEndpointURL, body).subscribe(response => {
-      console.log(response,"bien put")
+      console.log(response,"postAmount")
     })
   }
 
   postStock(stock: StockInformations){
     const updateStockEndpointURL = '/api/stock';
     this.http.post<StockInformations>(updateStockEndpointURL, stock).subscribe(response => {
-      console.log(response,"bien post2")
+      console.log(response,"postStock")
     })
   }
 
   deleteCart(email:String){
     console.log(email)
     const updateStockEndpointURL = '/api/statistics/cart/payment?email='+email;
-    this.http.delete(updateStockEndpointURL).subscribe(data => {
-      console.log(data);
+    this.http.delete(updateStockEndpointURL).subscribe(response => {
+      console.log(response, "deleteCart");
     });
   }
 }

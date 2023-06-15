@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component'
-import { PrecisionComponent } from './login/precision/precision.component'
 import { CustomizationComponent } from './customization/customization.component';
 import { StockComponent } from './stock/stock.component';
 import { StatisticComponent } from './statistic/statistic.component';
@@ -18,11 +16,6 @@ import { HelpPageComponent } from './help-page/help-page.component';
 
 const routes: Routes = [
 {path:'',component:HomeComponent},
-{path: 'login', component: LoginComponent },
-{path: 'precision', component: PrecisionComponent},
-{path: 'login', component: LoginComponent, children: [
-  {path: 'precision', component: PrecisionComponent }
-]},
 {path:'customization', component: CustomizationComponent},
 {path:'stock', component: StockComponent},
 {path:'statistic', component: StatisticComponent},
@@ -33,7 +26,6 @@ const routes: Routes = [
 {path: 'form', component: FormComponent},
 {path: 'confirmation', component: ConfirmationComponent},
 {path: 'help-page', component: HelpPageComponent}
-
 ];
 
 @NgModule({

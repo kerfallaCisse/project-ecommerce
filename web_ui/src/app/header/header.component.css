@@ -46,6 +46,7 @@ nav.central.menu ul li a {
 
 nav.central.menu ul li a:hover {
   text-decoration-color: black;
+  cursor: pointer;
 }
 
 nav ul {
@@ -108,7 +109,7 @@ nav.features.logos ul li a:hover {
 
 #numbre_in_cart{
   text-align: center;
-  
+
   color: white;
   font-family: 'Mulish';
   font-size: 10px;
@@ -118,7 +119,7 @@ nav.features.logos ul li a:hover {
 
 
 #border_red{
-  
+
   margin-left: 10%;
   border-radius: 50%;
   display: none;
