@@ -3,8 +3,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {Component,OnInit, OnDestroy, HostListener , AfterViewInit} from '@angular/core';
 import {CustomizationService} from '../services/customization/customization.service';
 import { Color, MeshStandardMaterial } from 'three';
-import { Router } from '@angular/router';
-import { ChangeDetectorRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 
 
 
@@ -26,7 +26,7 @@ let changer_sac = false
 
 export class CustomizationComponent implements OnInit {
 
-  constructor(private customizationService: CustomizationService, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private customizationService: CustomizationService, private http: HttpClient) {}
 
   userChoice: string[] = [];
 
@@ -76,13 +76,6 @@ export class CustomizationComponent implements OnInit {
 
   ngOnDestroy() {
     window.removeEventListener('resize', this.onWindowResize);
-  }
-
-  refreshComponent() {
-    this.router.navigateByUrl('/customization', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/customization']);
-      this.cdr.detectChanges(); // Détection des modifications
-    });
   }
 
 
@@ -156,16 +149,18 @@ export class CustomizationComponent implements OnInit {
     }
   }
 
-
-  addingToCartOperation(){
-    this.customizationService.getQuantityOfUrl(this.userChoice[0],this.userChoice[1],this.userChoice[2]).subscribe((stock: any) => {
+  async addingToCartOperation(){
+    this.customizationService.getQuantityOfUrl(this.userChoice[0],this.userChoice[1],this.userChoice[2]).subscribe(async (stock: any) => {
 
       this.stockQuantity = stock[0].quantity
 
       if(this.stockQuantity >= this.bagQuantity){
-        this.postBagCustomization()
-        console.log("fdp")
-        this.refreshComponent(); // Appelle la fonction pour recharger le composant
+        try {
+          await this.postBagCustomization();
+          window.location.reload();
+        } catch (error) {
+          console.error("La requête POST a échoué", error);
+        }
       }else{
         if(this.stockQuantity == 0 || this.stockQuantity==undefined){
           alert("We're sorry, this model is no longer available.")
@@ -200,53 +195,58 @@ export class CustomizationComponent implements OnInit {
   }
 
   postBagCustomization(){
+    return new Promise<void>((resolve, reject) => {
 
-    const xhr = new XMLHttpRequest();
-    const url = 'api/customization';
+      const xhr = new XMLHttpRequest();
+      const url = 'api/customization';
 
-    const formData = new FormData();
+      const formData = new FormData();
 
-    if (this.fileToUpload !== null) {
-      formData.append('file', this.fileToUpload);
-    } else {
-      formData.append('file', "null");
-    }
+      if (this.fileToUpload !== null) {
+        formData.append('file', this.fileToUpload);
+      } else {
+        formData.append('file', "null");
+      }
 
-    formData.append('modelType', this.userChoice[0]);
-    formData.append('bagColor', this.userChoice[1]);
-    formData.append('pocketColor', this.userChoice[2]);
-    formData.append('email', this.email);
-    formData.append('quantity', String(this.bagQuantity));
-    xhr.open('POST', url);
+      formData.append('modelType', this.userChoice[0]);
+      formData.append('bagColor', this.userChoice[1]);
+      formData.append('pocketColor', this.userChoice[2]);
+      formData.append('email', this.email);
+      formData.append('quantity', String(this.bagQuantity));
+      xhr.open('POST', url);
 
-    let urll = ""
+      let urll = ""
 
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText); // Parse la réponse JSON
-        console.log("reponse",response);
-        urll = response.cloudinary_url
-      handle(urll)
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          console.log("response", response);
+          urll = response.cloudinary_url;
+          handle(urll);
+          resolve();
+        } else {
+          reject();
+        }
       };
-    }
 
-    const handle = (urll: string) => {
-      this.customizationService.postForCart(
-      this.email,
-      this.userChoice[0],
-      this.userChoice[1],
-      this.userChoice[2],
-      urll,
-      this.loadedFile,
-      this.bagQuantity
-      );
-    }
+      const handle = (urll: string) => {
+        this.customizationService.postForCart(
+        this.email,
+        this.userChoice[0],
+        this.userChoice[1],
+        this.userChoice[2],
+        urll,
+        this.loadedFile,
+        this.bagQuantity
+        );
+      }
 
-    xhr.onerror = function () {
-      console.error('Erreur lors de la requête:', xhr.status);  // Gérez les erreurs de requête ici
-    };
+      xhr.onerror = function () {
+        console.error('Erreur lors de la requête:', xhr.status);
+      };
 
-    xhr.send(formData);
+      xhr.send(formData);
+    });
 
   }
 
@@ -293,6 +293,7 @@ export class My3DScene {
   private isMouseDown: boolean = false;
   private isModelLoaded: boolean = false;
   public currentColor: string = 'white';
+
 
   constructor() {
     this.createScene();
