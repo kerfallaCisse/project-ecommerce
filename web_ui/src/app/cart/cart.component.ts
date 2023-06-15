@@ -4,6 +4,7 @@ import { Item } from '../services/stock/stock.service';
 import { Item2, Item3} from '../shared/models/cart';
 //import {HeaderComponent} from 'src/app/header/header.component'
 import { BehaviorSubject } from 'rxjs';
+import { toHalfFloat } from 'three/src/extras/DataUtils';
 
 
 @Component({
@@ -34,8 +35,9 @@ export class CartComponent implements OnInit{
     return logo.toString()
   }
 
-  removeBag(url:string){
+  removeBag(url:string, modelType:string){
     this.cartService.deleteBagFromCart(url)
+    this.cartService.postAbandonnedBags(modelType)
     window.location.reload();
   }
 

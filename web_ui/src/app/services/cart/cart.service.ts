@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { DeleteBag } from 'src/app/shared/models/cart';
+import { AbandBag, DeleteBag } from 'src/app/shared/models/cart';
 
 
 export interface Cart {
@@ -29,6 +29,13 @@ export class CartService {
   deleteBagFromCart(url:string){
     const data: DeleteBag = {image: url};
     this.http.put('/api/statistics/cart/basket_quantity',data).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  postAbandonnedBags(modelType:string){
+    const data: AbandBag = {modelType: modelType};
+    this.http.post('/api/statistics/abandoned_basket',data).subscribe(data => {
       console.log(data);
     });
   }
