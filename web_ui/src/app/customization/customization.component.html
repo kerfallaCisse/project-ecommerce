@@ -53,11 +53,12 @@
           <div class="button_container">
             <input type="file" id="file" (change)="handleFileInput($event)">
           </div>
+          <p> (size: 150x150px / format: .png, .jpeg, .jpg)</p>
         </form>
       </div>
 
       <div id="cart_button" class="user_custom">
-        <button id="add_to_cart" (click)="addingToCartOperation()">Add to Cart <p> (Total : {{ price }}.00 CHF)</p></button>
+        <button id="add_to_cart" (click)="addingToCartOperation()">Add to Cart <p id="prix"> (Total : {{ price }}.00 CHF)</p></button>
       </div>
 
     </div>
