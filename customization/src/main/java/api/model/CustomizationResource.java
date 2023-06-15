@@ -46,36 +46,30 @@ public class CustomizationResource {
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getBag(@MultipartForm CustomizationFormData bagModel) {
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-        String modelType = null;
-        String pocketColor = null;
-        String bagColor = null;
-        String email = null;
-        int quantity = 0;
-
-        if (bagModel.modelType != null && bagModel.modelType instanceof String) {
-            modelType = bagModel.modelType;
-        } else {
-            return jsonObjectBuilder.add("error", "type error").build();
+    
+        String modelType = getValueAsString(bagModel.modelType, jsonObjectBuilder);
+        if (modelType == null) {
+            return jsonObjectBuilder.build();
         }
-        if (bagModel.pocketColor != null && bagModel.pocketColor instanceof String) {
-            pocketColor = bagModel.pocketColor;
-        } else {
-            return jsonObjectBuilder.add("error", "type error").build();
+        
+        String pocketColor = getValueAsString(bagModel.pocketColor, jsonObjectBuilder);
+        if (pocketColor == null) {
+            return jsonObjectBuilder.build();
         }
-        if (bagModel.bagColor != null && bagModel.bagColor instanceof String) {
-            bagColor = bagModel.bagColor;
-        } else {
-            return jsonObjectBuilder.add("error", "type error").build();
+        
+        String bagColor = getValueAsString(bagModel.bagColor, jsonObjectBuilder);
+        if (bagColor == null) {
+            return jsonObjectBuilder.build();
         }
-        if (bagModel.email != null && bagModel.email instanceof String) {
-            email = bagModel.email;
-        } else {
-            return jsonObjectBuilder.add("error", "type error").build();
+        
+        String email = getValueAsString(bagModel.email, jsonObjectBuilder);
+        if (email == null) {
+            return jsonObjectBuilder.build();
         }
-        if (bagModel.quantity != null && bagModel.quantity instanceof String) {
-            quantity = Integer.parseInt(bagModel.quantity);
-        } else {
-            return jsonObjectBuilder.add("error", "type error").build();
+        
+        int quantity = getValueAsInteger(bagModel.quantity, jsonObjectBuilder);
+        if (quantity < 0) {
+            return jsonObjectBuilder.build();
         }
 
         if ("largeModel".equals(bagModel.modelType) || "smallModel".equals(bagModel.modelType)) {
@@ -139,9 +133,7 @@ public class CustomizationResource {
             // Upload
             Map<String, Object> uploadResult = cloudinary.uploader().upload(bagWithLogo, ObjectUtils.emptyMap());
             // Get the public URL
-            String publicUrl = cloudinary.url().generate(uploadResult.get("public_id").toString());
-
-            return publicUrl;
+            return cloudinary.url().generate(uploadResult.get("public_id").toString());
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
             return "Error: " + exception.getMessage();
@@ -160,12 +152,14 @@ public class CustomizationResource {
 
         byte[] buffer = new byte[8192];
         int bytesRead;
+        try {
         while ((bytesRead = inputStream.read(buffer)) != -1) {
             outputStream.write(buffer, 0, bytesRead);
         }
-
+    } finally {
         inputStream.close();
         outputStream.close();
+    }
 
         File cloudinaryData = file;
         BufferedImage bagImage = ImageIO.read(cloudinaryData);
@@ -187,4 +181,23 @@ public class CustomizationResource {
         return tempFile;
     }
 
+    private String getValueAsString(Object value, JsonObjectBuilder jsonObjectBuilder) {
+    if (value instanceof String) {
+        return (String) value;
+    } else {
+        jsonObjectBuilder.add("error", "type error");
+        return null;
+    }
 }
+
+    private int getValueAsInteger(Object value, JsonObjectBuilder jsonObjectBuilder) {
+    if (value instanceof String) {
+        try {
+            return Integer.parseInt((String) value);
+        } catch (NumberFormatException e) {
+            jsonObjectBuilder.add("error", "type error");
+        }
+    }
+    return 0;
+
+}}
