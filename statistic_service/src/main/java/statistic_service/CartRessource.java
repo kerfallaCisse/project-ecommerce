@@ -57,31 +57,52 @@ public class CartRessource {
                 Long user_id = user.get().getId();
 
                 Optional<CustomBag> csbag = CustomBag
-                        .find("bagColor = ?1 AND pocketColor = ?2 AND user_id = ?3", bagColor, pocketColor, user_id)
+                        .find("bagColor = ?1 AND pocketColor = ?2 AND user_id = ?3 AND modelType = ?4", bagColor,
+                                pocketColor, user_id, modelType)
                         .firstResultOptional();
                 // We update the user custom bag
                 if (csbag.isPresent()) {
                     // We only update the quantity
                     CustomBag bagToUpdate = csbag.get();
-                    int initial_quantity = bagToUpdate.getQuantity();
-                    bagToUpdate.update("quantity = ?1", initial_quantity + quantity);
-                    return true;
+                    if (bagToUpdate.getLogo() == 0 && logo == 0) {
+                        int initial_quantity = bagToUpdate.getQuantity();
+                        bagToUpdate.update("quantity = ?1", initial_quantity + quantity);
+                        return true;
+                    } else {
+                        // We insert new custom bag in the db
+                        if (insertNewCustomBag(bagColor, pocketColor, image, logo, modelType, user_id, quantity))
+                            return true;
+                        else
+                            return false;
+
+                    }
                 }
 
-                // We create a new instance in the data base
-                CustomBag customBag = new CustomBag();
-                customBag.setBagColor(bagColor);
-                customBag.setImage(image);
-                customBag.setLogo(logo);
-                customBag.setPocketColor(pocketColor);
-                customBag.setModelType(modelType);
-                customBag.setUser_id(user_id);
-                customBag.setQuantity(quantity);
-                customBag.persist();
-                if (customBag.isPersistent())
+                // We insert new custom bag in the db
+                if (insertNewCustomBag(bagColor, pocketColor, image, logo, modelType, user_id, quantity))
                     return true;
                 else
                     return false;
+                // We create a new instance in the data base
+
+                // CustomBag customBag = new CustomBag();
+                // customBag.setBagColor(bagColor);
+                // customBag.setImage(image);
+                // customBag.setLogo(logo);
+                // customBag.setPocketColor(pocketColor);
+                // customBag.setModelType(modelType);
+                // customBag.setUser_id(user_id);
+                // customBag.setQuantity(quantity);
+                // customBag.persist();
+                // if (customBag.isPersistent())
+                // return true;
+                // else
+                // return false;
+                // if (insertNewCustomBag(bagColor, pocketColor, image, logo, modelType,
+                // user_id, quantity))
+                // return true;
+                // else
+                // return false;
             }
         } catch (NullPointerException e) {
             // System.err.println(e.getMessage());
@@ -90,6 +111,24 @@ public class CartRessource {
         }
 
         return false;
+    }
+
+    private Boolean insertNewCustomBag(String bagColor, String pocketColor, String image, int logo, String modelType,
+            Long user_id, int quantity) {
+        CustomBag customBag = new CustomBag();
+        customBag.setBagColor(bagColor);
+        customBag.setImage(image);
+        customBag.setLogo(logo);
+        customBag.setPocketColor(pocketColor);
+        customBag.setModelType(modelType);
+        customBag.setUser_id(user_id);
+        customBag.setQuantity(quantity);
+        customBag.persist();
+        if (customBag.isPersistent())
+            return true;
+        else
+            return false;
+
     }
 
     public JsonArray getUserCart(String email) {
