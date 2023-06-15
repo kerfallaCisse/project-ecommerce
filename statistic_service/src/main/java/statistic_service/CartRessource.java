@@ -195,7 +195,7 @@ public class CartRessource {
         if (basketToUpdate.isPresent()) {
             CustomBag basket = basketToUpdate.get();
             int initial_quantity = basket.getQuantity();
-            if (initial_quantity <= 0) {
+            if (initial_quantity <= 1) {
                 // We delete the basket
                 basket.delete();
                 return true;
