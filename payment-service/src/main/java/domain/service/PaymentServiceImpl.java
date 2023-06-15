@@ -31,6 +31,8 @@ public class PaymentServiceImpl implements PaymentService{
     public  JsonObject createCheckoutSession(Basket basket) throws StripeException{
         Stripe.apiKey = apiKey;
 
+        System.out.print(apiKey);
+
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
         for (ProductBasket product : basket.getProducts()) {
             int quantity = product.getQuantity();
