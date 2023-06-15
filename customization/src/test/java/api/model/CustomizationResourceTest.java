@@ -8,23 +8,19 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given; 
 import static org.hamcrest.Matchers.*;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-
-import javax.imageio.ImageIO;
 
 @TestProfile(CustomizationTestProfile.class)
 @QuarkusTest
-public class CustomizationResourceTest {
+class CustomizationResourceTest {
 
     // Test on GET /customization
     
     // Test if returned model is correct
-    /* 
+    
     @Test
-    public void testGetLargeImageWithoutLogo() throws IOException {
+    void testGetLargeImageWithoutLogo() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
         
         given()
@@ -47,7 +43,7 @@ public class CustomizationResourceTest {
     }
 
     @Test
-    public void testGetSmallImageWithoutLogo() throws IOException {
+    void testGetSmallImageWithoutLogo() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
         
         given()
@@ -70,7 +66,7 @@ public class CustomizationResourceTest {
     }
 
     @Test
-    public void testGetImageWithoutModel() throws IOException {
+    void testGetImageWithoutModel() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
 
         given()
@@ -87,7 +83,7 @@ public class CustomizationResourceTest {
     }
 
     @Test
-    public void testGetImageWithoutBagColor() throws IOException {
+    void testGetImageWithoutBagColor() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
 
         given()
@@ -122,7 +118,7 @@ public class CustomizationResourceTest {
 
     // Test if model does not exist
     @Test
-    public void testGetImageWithWrongModel() throws IOException {
+    void testGetImageWithWrongModel() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
 
         given()
@@ -140,7 +136,7 @@ public class CustomizationResourceTest {
     }
 
     @Test
-    public void testGetImageWithWrongBagColor() throws IOException {
+    void testGetImageWithWrongBagColor() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
 
         given()
@@ -158,7 +154,7 @@ public class CustomizationResourceTest {
     }
 
     @Test
-    public void testGetImageWithWrongPocketColor() throws IOException {
+    void testGetImageWithWrongPocketColor() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
 
         given()
@@ -174,6 +170,5 @@ public class CustomizationResourceTest {
                 .contentType(ContentType.JSON)
                 .body("error", equalTo("bag not found"));
     }
-    */
 
 }

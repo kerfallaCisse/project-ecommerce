@@ -9,7 +9,7 @@ public class CustomizationTestProfile implements QuarkusTestProfile {
     @Override
     public Map<String, String> getConfigOverrides() {
         return Collections.singletonMap("quarkus.datasource.jdbc.url",
-                "jdbc:mysql://pinfo3.unige.ch:31607/test_customization_service");
+                "${MYSQL_URL}/test_customization_service");
     }
 
     @Override
