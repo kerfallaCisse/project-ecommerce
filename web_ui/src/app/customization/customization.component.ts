@@ -294,6 +294,10 @@ export class My3DScene {
   private isModelLoaded: boolean = false;
   public currentColor: string = 'white';
 
+  private zoomSpeed: number = 0.001; // Vitesse de zoom
+  private currentZoom: number = 1; // Zoom actuel
+
+
 
   constructor() {
     this.createScene();
@@ -345,6 +349,19 @@ export class My3DScene {
       }
     });
 
+    this.renderer.domElement.addEventListener('wheel', (event) => {
+      event.preventDefault(); // Empêche le défilement de la page
+
+      // Mettre à jour le zoom en fonction de la direction du défilement de la molette de la souris
+      this.currentZoom += event.deltaY * this.zoomSpeed;
+      this.currentZoom = Math.max(0.5, this.currentZoom); // Limite le zoom minimum à 0.1
+      this.currentZoom = Math.min(1.5, this.currentZoom); // Limite le zoom maximum à 2
+
+      // Appliquer le zoom au modèle
+      this.model.scale.set(this.currentZoom, this.currentZoom, this.currentZoom);
+    });
+
+
     window.addEventListener('resize', () => {
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
@@ -355,15 +372,24 @@ export class My3DScene {
 
   private handleMouseMove(event: MouseEvent) {
     if (this.model) {
-
       const x = (event.clientX / window.innerWidth) * 2 - 1;
       const y = -(event.clientY / window.innerHeight) * 2 + 1;
 
       // Mettre à jour la rotation du modèle en fonction de la position de la souris
-      this.model.children[0].rotation.y += event.movementX / 100
-      this.model.children[1].rotation.y += event.movementX / 100
+      this.model.children[0].rotation.y += event.movementX / 100;
+      this.model.children[1].rotation.y += event.movementX / 100;
+      this.model.rotation.x += event.movementY / 100;
+
+      // Mettre à jour le zoom en fonction du déplacement vertical de la souris
+      this.currentZoom += event.movementY * this.zoomSpeed;
+      this.currentZoom = Math.max(0.1, this.currentZoom); // Limite le zoom minimum à 0.1
+      this.currentZoom = Math.min(2, this.currentZoom); // Limite le zoom maximum à 2
+
+      // Appliquer le zoom au modèle
+      this.model.scale.set(this.currentZoom, this.currentZoom, this.currentZoom);
     }
   }
+
 
 
   public loadGLTFModel(path: string, bagColor: string, pocketColor: string) {

@@ -22,12 +22,12 @@ span {
 
 @keyframes fade-in {
   0% {
-    opacity: 0; /* Commence avec une opacité de 0 */
-    transform: translateY(50px); /* Décalage vers le bas pour l'effet de glissement */
+    opacity: 0;
+    transform: translateY(50px);
   }
   100% {
-    opacity: 1; /* Opacité complète à la fin de l'animation */
-    transform: translateY(0); /* Pas de décalage vertical à la fin de l'animation */
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -73,13 +73,6 @@ span {
 
 
 /* ------------------------ Owner's story -----------------------------*/
-
-.image_section_2 {
-  background-image: url("/assets/home-background/athlete.jpeg");
-  background-size: cover;
-  background-position: center;
-}
-
 .owner_story_section {
   padding: 8% 10% 8% 10%;
   background-color: rgb(238, 239, 239);
