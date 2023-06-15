@@ -78,8 +78,6 @@ export class SuccessComponent {
       // console.log("not payed")
     }
 
-    window.location.reload()
-
   }
 
 }
