@@ -196,8 +196,11 @@ public class CustomizationResource {
             return Integer.parseInt((String) value);
         } catch (NumberFormatException e) {
             jsonObjectBuilder.add("error", "type error");
+            return -1;
         }
+    } else {
+        jsonObjectBuilder.add("error", "type error");
+        return -1;
     }
-    return 0;
 
 }}

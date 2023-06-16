@@ -10,6 +10,11 @@ import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 @TestProfile(CustomizationTestProfile.class)
 @QuarkusTest
@@ -18,7 +23,30 @@ class CustomizationResourceTest {
     // Test on GET /customization
     
     // Test if returned model is correct
-    
+    @Test
+    void testGetImageWithLogo() throws IOException {
+        File tempFile = File.createTempFile("test", ".png"); // null
+        
+        given()
+                .multiPart("modelType", "largeModel")
+                .multiPart("bagColor", "Blue")
+                .multiPart("pocketColor", "Blue")
+                .multiPart("email", "test@gmail.com")
+                .multiPart("quantity", "1")
+                .multiPart("file", tempFile)
+                .when().post("/customization")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("modelType", equalTo("largeModel"))
+                .body("bagColor", equalTo("Blue"))
+                .body("pocketColor", equalTo("Blue"))
+                .body("email", equalTo("test@gmail.com"))
+                .body("quantity", equalTo(1))
+                .body("cloudinary_url", equalTo("http://fake_url.com/BlueBlue"));
+    }
+
+    // Test without empty param
     @Test
     void testGetLargeImageWithoutLogo() throws IOException {
         File tempFile = File.createTempFile("test", ".png"); // null
@@ -34,6 +62,7 @@ class CustomizationResourceTest {
                 .then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
+                .log().body()
                 .body("modelType", equalTo("largeModel"))
                 .body("bagColor", equalTo("Blue"))
                 .body("pocketColor", equalTo("Blue"))
@@ -108,6 +137,40 @@ class CustomizationResourceTest {
                 .multiPart("bagColor", "Blue")
                 .multiPart("email", "test@gmail.com")
                 .multiPart("quantity", "1")
+                .multiPart("file", tempFile)
+                .when().post("/customization")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("error", equalTo("type error"));
+    }
+
+    @Test
+    public void testGetImageWithoutEmail() throws IOException {
+        File tempFile = File.createTempFile("test", ".png"); // null
+
+        given()
+                .multiPart("modelType", "smallModel")
+                .multiPart("bagColor", "Blue")
+                .multiPart("pocketColor", "Blue")
+                .multiPart("quantity", "1")
+                .multiPart("file", tempFile)
+                .when().post("/customization")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("error", equalTo("type error"));
+    }
+
+    @Test
+    public void testGetImageWithoutQuantity() throws IOException {
+        File tempFile = File.createTempFile("test", ".png"); // null
+
+        given()
+                .multiPart("modelType", "smallModel")
+                .multiPart("bagColor", "Blue")
+                .multiPart("pocketColor", "Blue")
+                .multiPart("email", "test@gmail.com")
                 .multiPart("file", tempFile)
                 .when().post("/customization")
                 .then()
